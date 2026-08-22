@@ -1,0 +1,51 @@
+# 公開用リポジトリを GitHub Pages へ反映する（monosashi #33）。
+#
+# **Pages の source は branch ではなく Actions である。** branch 配信にすると、
+# 配信されるものと配信の設定が別々の場所に住み、片方だけ動いたときに気づけない。
+#
+# ★このリポジトリは**生成物だけ**を持つ。ビルドはソース側（private の
+#   `yakumo-factory/monosashi`）の `scripts/ops/deploy.py` が行い、ここへは
+#   出来上がった HTML が複製されて push される。∴ ここに build の手順は無い。
+#
+# ★`.nojekyll` を必ず残すこと。無いと Jekyll が走り、`_` で始まる名前の資産が
+#   配信から落ちる。
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 公開は1本ずつ通す。走っているものを打ち切らない——途中で止めると、
+# 配信済みのものと push 済みのものが食い違ったまま残る。
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
