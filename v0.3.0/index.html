@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>松江市の統計を読む</title>
+<style>
+/* 版の入口の見た目（#55）。**見た目の正本は `docs/mocks/landing.html`** であり、
+   人間のレビューで確定させてから写した。作り直していない。
+
+   **`_style.css` を借りていない。** あちらは脇の目次を持つレポートの中の画面の
+   ためのもので、入口は2本の上に立つ画面である。**同じ変数（色・間隔）は写す**
+   ——値が割れると、入口とレポートで色が違って見える。 */
+
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); min-height:100%;
+  display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.ic{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; vertical-align:-.12em}
+
+.wrap{flex:1 1 auto; width:100%; max-width:860px; margin:0 auto; padding:var(--sp5) var(--sp3) var(--sp4)}
+
+.brand{display:flex; align-items:center; gap:8px; color:var(--accent); font-weight:700; letter-spacing:.04em; margin-bottom:var(--sp4)}
+.brand .ic{width:1.15em; height:1.15em}
+
+h1{font-size:28px; line-height:1.45; margin:0 0 var(--sp2); letter-spacing:.01em}
+.lede{color:var(--ink-2); margin:0 0 var(--sp5); font-size:16px}
+
+h2{font-size:16px; margin:0 0 var(--sp2); display:flex; align-items:center; gap:7px; color:var(--accent-deep)}
+.section{margin-top:var(--sp5)}
+.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.note{color:var(--ink-2); font-size:13.5px; margin:0 0 var(--sp2)}
+
+/* ---- レポートを選ぶカード ---- */
+/* **枚数を固定しない。** `1fr 1fr` と書くと「2本のときだけ正しい」レイアウトになり、
+   3分野目を足す日にこの行を直すことになる。幅が足りなければ**潰さずに段を折る**。 */
+.picks{display:grid; grid-template-columns:repeat(auto-fit, minmax(272px, 1fr)); gap:var(--sp3)}
+
+.pick{
+  display:flex; flex-direction:column; background:var(--panel); border:1px solid var(--line);
+  border-radius:10px; padding:var(--sp3); text-decoration:none; color:inherit;
+  transition:border-color .14s, box-shadow .14s, transform .14s;
+}
+.pick:hover{border-color:var(--accent-mid); box-shadow:0 3px 14px rgba(58,74,140,.10); transform:translateY(-1px)}
+.pick .top{display:flex; align-items:center; gap:9px; color:var(--accent); margin-bottom:var(--sp2)}
+.pick .top .ic{width:1.35em; height:1.35em}
+.pick h3{font-size:17px; margin:0; color:var(--ink); letter-spacing:.01em}
+.pick p{font-size:13.5px; color:var(--ink-2); margin:0 0 var(--sp3)}
+
+.facts{list-style:none; padding:0; margin:0 0 var(--sp3); border-top:1px solid var(--line-soft)}
+.facts li{display:flex; gap:var(--sp2); padding:7px 0; border-bottom:1px solid var(--line-soft); font-size:13px}
+.facts .k{flex:0 0 5.4em; color:var(--ink-3)}
+/* **`min-width:0` が要る。** flex の子は既定で `min-width:auto` なので、長い値が
+   縮まずに箱をはみ出す——**これが「見切れ」の作られ方である**（2026-08-24 のレビュー）。 */
+.facts .v{flex:1 1 auto; min-width:0; color:var(--ink-2); overflow-wrap:anywhere}
+.facts b{color:var(--ink); font-weight:600}
+
+.go{margin-top:auto; align-self:flex-start; background:var(--accent-soft); color:var(--accent-deep);
+    border-radius:999px; padding:5px 14px; font-size:13px; font-weight:600}
+
+footer{background:var(--panel); border-top:1px solid var(--line); padding:var(--sp3); color:var(--ink-3); font-size:12px}
+footer .in{max-width:860px; margin:0 auto}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+
+  <div class="brand"><svg class="ic"><use href="#ic-home"/></svg>物差し</div>
+
+  <h1>松江市の統計を読む</h1>
+  <p class="lede">公開されている統計を、市民が自分で読める形に並べたものです。<b>レポートが2つあります。</b>
+  どこから読んでもかまいません。</p>
+
+  <div class="picks">
+    <a class="pick" href="chocho/index.html">
+      <div class="top"><svg class="ic"><use href="#ic-home2"/></svg><h3>町丁別人口レポート</h3></div>
+      <p>自分の町の人口と世帯数が、どう動いてきたか。松江市のすべての町から選べます。</p>
+      <ul class="facts">
+        <li><span class="k">数える単位</span><span class="v"><b>町</b>（町丁）</span></li>
+        <li><span class="k">期間</span><span class="v">2007年4月から2026年7月</span></li>
+        <li><span class="k">見方</span><span class="v">6つ</span></li>
+        <li><span class="k">一次資料</span><span class="v"><b>松江市</b>（住民基本台帳）</span></li>
+        <li><span class="k">取得時点</span><span class="v">2026年8月20日</span></li>
+      </ul>
+      <span class="go">ひらく</span>
+    </a>
+    <a class="pick" href="kanko/index.html">
+      <div class="top"><svg class="ic"><use href="#ic-map"/></svg><h3>観光レポート</h3></div>
+      <p>松江市を訪れた人の数が、どう動いてきたか。行ったことのある場所ごとに見られます。</p>
+      <ul class="facts">
+        <li><span class="k">数える単位</span><span class="v"><b>場所</b>（観光施設）</span></li>
+        <li><span class="k">期間</span><span class="v">2001年から2024年</span></li>
+        <li><span class="k">見方</span><span class="v">5つ</span></li>
+        <li><span class="k">一次資料</span><span class="v"><b>島根県</b>（観光動態調査）</span></li>
+        <li><span class="k">取得時点</span><span class="v">2026年8月23日</span></li>
+      </ul>
+      <span class="go">ひらく</span>
+    </a>
+  </div>
+
+  <section class="section">
+    <h2><svg class="ic"><use href="#ic-info"/></svg>足し合わせられません</h2>
+    <p class="sub">同じ「松江市」を扱っていますが、数えているものが違います。</p>
+    <p class="note"><b>数える単位が違います。</b>
+町丁別人口レポートは<b>町</b>を、観光レポートは<b>場所</b>を数えています。
+    町ごとの観光客数はデータ元が公開していないため、これらを掛け合わせることはできません。</p>
+    <p class="note"><b>一次資料が違います。</b>読んでいるファイルはいずれも松江市のものですが、
+    数字を作った主体は<b>松江市（住民基本台帳）</b>と<b>島根県（観光動態調査）</b>    です。<b>数字の出どころは同じではありません。</b></p>
+    <p class="note"><b>取得した日が違います。</b>上のカードにそれぞれ書いてあります。
+    どのレポートも、その日にデータ元が公開していた内容を写したものです。</p>
+  </section>
+
+  <section class="section">
+    <h2><svg class="ic"><use href="#ic-book"/></svg>このサイトについて</h2>
+    <p class="sub">何を、どこから、どう作ったか。</p>
+    <p class="note">松江市が公開している統計ファイルを機械で読み、図と表に並べています。
+    <b>値の判断や意味づけはしていません</b>——増えたことが良いか悪いかは書いていません。
+    それぞれのレポートの「このレポートについて」に、作り方と気をつけることを書いています。</p>
+    <p class="note">数字そのものはデータ元が正本です。食い違いを見つけたときは、
+    <a href="https://ntoukei2.city.matsue.shimane.jp/">松江市統計情報データベース</a>を確かめてください。</p>
+  </section>
+
+</div>
+
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工
+  ／ 一次資料 松江市（住民基本台帳）・島根県（観光動態調査）  ／ 取得時点 町丁別人口レポート 2026年8月20日・観光レポート 2026年8月23日</div></footer>
+
+</body>
+</html>
