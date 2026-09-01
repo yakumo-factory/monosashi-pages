@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.4.0">
+<title>場所ごとの推移 — 松江市 観光レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="観光レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 観光レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 観光レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>まち全体を見る</h3>
+<a href="01-visits.html" title="観光客の推移"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">観光客の推移</span></a>
+<a href="02-stay.html" title="泊まるか、日帰りか"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">泊まるか、日帰りか</span></a>
+</div>
+<div class="grp">
+<h3>季節を見る</h3>
+<a href="03-season.html" title="月ごとの山と谷"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">月ごとの山と谷</span></a>
+</div>
+<div class="grp">
+<h3>場所を見る</h3>
+<a href="04-facility.html" aria-current="page" title="場所ごとの推移"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">場所ごとの推移</span></a>
+<a href="05-facility-change.html" title="場所どうしの増減"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">場所どうしの増減</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 観光レポート / 場所ごとの推移</p>
+  <h1>場所ごとの推移</h1>
+  <p class="lede">有料の観光施設を1つ選び、2003年から2024年までの利用者数を見ます。</p>
+<noscript><div class="ns">JavaScript が無効です。場所の切り替えは動きませんが、<b>下の表の数値は最初の場所ぶんが読めます</b>（月ごとの姿には表がありません）。</div></noscript>
+<section class="section" id="s-pick">
+  <h2><svg class="ic"><use href="#ic-map"/></svg>場所を選ぶ</h2>
+  <p class="sub">松江市が数えている有料の観光施設<b>23か所</b>のうち1つを選ぶと、その場所の利用者数が出ます。</p>
+  <div class="pick"><label for="fac">場所</label><select id="fac">
+<option value="ぐるっと松江レイクライン">ぐるっと松江レイクライン</option>
+<option value="ぐるっと松江堀川めぐり">ぐるっと松江堀川めぐり</option>
+<option value="ふるさと森林公園">ふるさと森林公園</option>
+<option value="ゆうあい熊野館">ゆうあい熊野館</option>
+<option value="カラコロ工房">カラコロ工房</option>
+<option value="マリンハウス加賀">マリンハウス加賀</option>
+<option value="メテオプラザ">メテオプラザ</option>
+<option value="出雲かんべの里">出雲かんべの里</option>
+<option value="大森の湯">大森の湯</option>
+<option value="宍道湖遊覧船">宍道湖遊覧船</option>
+<option value="小泉八雲記念館">小泉八雲記念館</option>
+<option value="島根原子力館">島根原子力館</option>
+<option value="松江イングリシュガーデン">松江イングリシュガーデン</option>
+<option value="松江ウォーターヴィレッジ">松江ウォーターヴィレッジ</option>
+<option value="松江フォーゲルパーク">松江フォーゲルパーク</option>
+<option value="松江城" selected>松江城</option>
+<option value="松江歴史館">松江歴史館</option>
+<option value="武家屋敷">武家屋敷</option>
+<option value="潜戸遊覧船">潜戸遊覧船</option>
+<option value="玉造温泉">玉造温泉</option>
+<option value="由志園">由志園</option>
+<option value="風土記の丘">風土記の丘</option>
+<option value="鹿島多久の湯">鹿島多久の湯</option>
+</select></div>
+  <p class="note">場所によって、記録の始まる年が違います。休んでいた年・数えられていない年は
+  横棒（—）で示し、<b>0人だった年と区別しています</b>。</p>
+  <div id="bundleNote"></div>
+</section>
+
+<section class="section" id="s-annual">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg><span id="facName">松江城</span>の利用者数（年ごと）</h2>
+  <p class="sub">単位は<b>人</b>です。正確な値は下の表にあります。</p>
+  <div class="chartbox tall"><canvas id="cFac"></canvas></div>
+  <div id="facTable"><div class="table-scroll"><table class="yr">
+    <thead><tr><th>年</th><th>松江城（人）</th></tr></thead>
+    <tbody>
+      <tr><th>2003</th><td>241,518</td></tr>
+      <tr><th>2004</th><td>224,527</td></tr>
+      <tr><th>2005</th><td>213,089</td></tr>
+      <tr><th>2006</th><td>209,586</td></tr>
+      <tr><th>2007</th><td>244,596</td></tr>
+      <tr><th>2008</th><td>273,751</td></tr>
+      <tr><th>2009</th><td>280,768</td></tr>
+      <tr><th>2010</th><td>281,769</td></tr>
+      <tr><th>2011</th><td>296,842</td></tr>
+      <tr><th>2012</th><td>276,818</td></tr>
+      <tr><th>2013</th><td>403,888</td></tr>
+      <tr><th>2014</th><td>376,825</td></tr>
+      <tr><th>2015</th><td>494,189</td></tr>
+      <tr><th>2016</th><td>521,778</td></tr>
+      <tr><th>2017</th><td>463,066</td></tr>
+      <tr><th>2018</th><td>418,010</td></tr>
+      <tr><th>2019</th><td>459,179</td></tr>
+      <tr><th>2020</th><td>209,962</td></tr>
+      <tr><th>2021</th><td>172,076</td></tr>
+      <tr><th>2022</th><td>275,198</td></tr>
+      <tr><th>2023</th><td>373,237</td></tr>
+      <tr><th>2024</th><td>402,049</td></tr>
+    </tbody></table></div></div>
+  <p class="unit">単位——人。横棒（—）は、その年に数えられていないことを示します。</p>
+</section>
+
+<section class="section" id="s-monthly">
+  <h2><svg class="ic"><use href="#ic-age"/></svg><span id="facName2">松江城</span>の月ごとの姿</h2>
+  <p class="sub">月別の数がある<b>15年ぶん</b>から、いちばん新しい年と、その平均を並べています。
+  単位は<b>人</b>です。</p>
+  <div class="chartbox tall"><canvas id="cFacMonth"></canvas></div>
+  <p class="note">月別の数は、<b>2003年・2004年・2005年・2006年・2011年・2013年・2019年にはありません</b>。
+  データ元が、1つのファイルにつき最後の年ぶんしか載せていないためです。<b>取り損ねたのではありません。</b></p>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 一次資料 島根県商工労働部観光振興課「島根県観光動態調査結果表」 ／ 取得時点 2026年8月23日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"axis": {"l": ["2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"], "t": "\u5e74", "x": [2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "members": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": ["\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3"], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": ["\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a"], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": ["\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712"], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": ["\u3086\u3046\u3042\u3044\u718a\u91ce\u9928"], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": ["\u30ab\u30e9\u30b3\u30ed\u5de5\u623f"], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": ["\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0"], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": ["\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6"], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": ["\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc"], "\u5927\u68ee\u306e\u6e6f": ["\u5927\u68ee\u306e\u6e6f"], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": ["\u5b8d\u9053\u6e56\u904a\u89a7\u8239"], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": ["\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928"], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": ["\u5cf6\u6839\u539f\u5b50\u529b\u9928"], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": ["\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3"], "\u677e\u6c5f\u30a6\u30a9\u30fc\u30bf\u30fc\u30f4\u30a3\u30ec\u30c3\u30b8": ["\u677e\u6c5f\u30a6\u30a9\u30fc\u30bf\u30fc\u30f4\u30a3\u30ec\u30c3\u30b8"], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": ["\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af"], "\u677e\u6c5f\u57ce": ["\u677e\u6c5f\u57ce"], "\u677e\u6c5f\u6b74\u53f2\u9928": ["\u677e\u6c5f\u6b74\u53f2\u9928"], "\u6b66\u5bb6\u5c4b\u6577": ["\u6b66\u5bb6\u5c4b\u6577"], "\u6f5c\u6238\u904a\u89a7\u8239": ["\u6f5c\u6238\u904a\u89a7\u8239"], "\u7389\u9020\u6e29\u6cc9": ["\u7389\u9020\u6e29\u6cc9", "\u7389\u9020\u6e29\u6cc9\u3086~\u3086"], "\u7531\u5fd7\u5712": ["\u7531\u5fd7\u5712"], "\u98a8\u571f\u8a18\u306e\u4e18": ["\u98a8\u571f\u8a18\u306e\u4e18"], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": ["\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f"]}, "monthYears": ["2007", "2008", "2009", "2010", "2012", "2014", "2015", "2016", "2017", "2018", "2020", "2021", "2022", "2023", "2024"], "monthly": {"2007": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [8619, 10146, 15476, 13545, 18028, 12439, 13211, 23703, 16241, 16052, 16229, 7015], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [11808, 15040, 23903, 30452, 34545, 25655, 22468, 40077, 36500, 41191, 41855, 12652], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [13333, 10239, 12963, 30439, 18915, 11934, 19666, 23170, 12395, 10261, 9925, 11341], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [27178, 18302, 19536, 16760, 17428, 16212, 16835, 16763, 15380, 15473, 17535, 18855], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [19571, 24384, 29905, 33241, 34598, 26408, 30081, 39776, 31468, 38807, 30786, 25694], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [28, 2, 11, 62, 110, 99, 264, 614, 184, 95, 83, 27], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1990, 2357, 3595, 2033, 2509, 2594, 3391, 4131, 3390, 3142, 2098, 2097], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1771, 2280, 4185, 2772, 10723, 2562, 5085, 4382, 4181, 5140, 4570, 2991], "\u5927\u68ee\u306e\u6e6f": [15026, 11438, 12478, 11698, 11811, 10707, 10900, 12007, 11805, 10956, 11259, 11080], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [568, 300, 609, 1353, 1581, 1621, 2100, 4921, 2221, 3548, 1662, 855], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [5863, 5752, 12408, 10181, 15589, 8901, 8661, 15025, 11958, 14721, 15057, 5782], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2522, 3790, 5443, 8379, 7312, 5360, 6161, 9411, 6535, 5903, 5862, 3966], "\u677e\u6c5f\u30a6\u30a9\u30fc\u30bf\u30fc\u30f4\u30a3\u30ec\u30c3\u30b8": [7290, 16743, 52559, 11301, 35275, 18908, 11475, 10022, 9577, 8384, 6644, 4068], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [12760, 9710, 14463, 17818, 28251, 12944, 12206, 18033, 11361, 14568, 17553, 8686], "\u677e\u6c5f\u57ce": [9911, 11477, 20951, 23050, 27625, 14955, 16177, 29633, 24006, 28080, 27459, 11272], "\u6b66\u5bb6\u5c4b\u6577": [4844, 4994, 10689, 9023, 14120, 7126, 7600, 12756, 10674, 12360, 12928, 4937], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 0, 314, 231, 372, 508, 2033, 546, 493, 0, 0], "\u7389\u9020\u6e29\u6cc9": [47995, 44626, 60635, 47222, 51698, 46430, 48326, 66676, 54871, 65591, 77701, 55213], "\u7531\u5fd7\u5712": [20723, 19318, 19060, 38974, 40622, 17501, 9674, 8010, 11429, 15328, 24825, 11614], "\u7dcf\u6570": [232726, 229703, 337916, 326043, 388468, 257974, 262871, 360816, 292740, 328198, 342213, 218108], "\u98a8\u571f\u8a18\u306e\u4e18": [0, 0, 0, 0, 0, 0, 1235, 2155, 1721, 1498, 1259, 757], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [20926, 18805, 19047, 17426, 17497, 15246, 16847, 17518, 16297, 16607, 16923, 19206]}, "2008": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [7284, 7997, 12110, 13030, 18819, 10926, 13872, 27519, 18072, 21069, 18354, 7443], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [11802, 11732, 23693, 31599, 40259, 27047, 26017, 44483, 34942, 42733, 41193, 13597], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [13818, 10699, 13468, 31503, 18528, 12447, 20521, 25361, 12313, 10604, 10563, 10418], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [26521, 17587, 19402, 16894, 16457, 13699, 13611, 15557, 14047, 15315, 17646, 17568], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [21376, 26211, 37514, 36466, 38584, 28448, 31329, 47366, 37997, 38033, 37232, 25556], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [37, 9, 24, 43, 184, 80, 322, 718, 174, 86, 137, 97], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1742, 1417, 2917, 1892, 2475, 2456, 3293, 4094, 2961, 1436, 2853, 1923], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2196, 1898, 4587, 2973, 9405, 2838, 5182, 4563, 2975, 4925, 4172, 3347], "\u5927\u68ee\u306e\u6e6f": [15198, 12615, 13276, 11093, 12153, 10078, 9124, 12237, 10427, 10409, 11292, 9957], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [274, 312, 1176, 2807, 2312, 1498, 2399, 6092, 4688, 6169, 4479, 801], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [4451, 4811, 9044, 10555, 16057, 9197, 8571, 20382, 12651, 14734, 15798, 5951], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2832, 3216, 6294, 8739, 8900, 6651, 6573, 8250, 6310, 7588, 6136, 4125], "\u677e\u6c5f\u30a6\u30a9\u30fc\u30bf\u30fc\u30f4\u30a3\u30ec\u30c3\u30b8": [2834, 4137, 8664, 12330, 22220, 31216, 9378, 10198, 16590, 15440, 14369, 10889], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [11976, 8040, 17546, 20609, 31643, 15171, 11816, 26007, 16458, 16830, 17198, 7351], "\u677e\u6c5f\u57ce": [9548, 9981, 20233, 25078, 31853, 16948, 17497, 38543, 25600, 31767, 32827, 13876], "\u6b66\u5bb6\u5c4b\u6577": [3825, 4178, 7865, 9819, 14886, 7092, 7477, 17654, 11594, 13896, 13964, 5487], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 0, 579, 660, 275, 742, 1602, 536, 375, 0, 0], "\u7389\u9020\u6e29\u6cc9": [41428, 41835, 58602, 54572, 61080, 54450, 47896, 75864, 55633, 63838, 74697, 51806], "\u7531\u5fd7\u5712": [16166, 16290, 18007, 36407, 42001, 15238, 14119, 13814, 14372, 16102, 26979, 10248], "\u7dcf\u6570": [216731, 203230, 295403, 344749, 407926, 282069, 265513, 421068, 314768, 348195, 369789, 220298], "\u98a8\u571f\u8a18\u306e\u4e18": [525, 553, 1086, 1378, 2120, 991, 1074, 2138, 1001, 1320, 1237, 479], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [22898, 19712, 19895, 16383, 17330, 15323, 14700, 18626, 15427, 15526, 18663, 19379]}, "2009": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [6716, 7754, 13476, 10791, 15603, 11202, 11871, 16724, 14812, 14549, 13505, 6174], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [11417, 15216, 26752, 27296, 40030, 25476, 20058, 36676, 38629, 38631, 35561, 11564], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [12240, 10068, 14470, 31553, 19606, 11510, 21372, 19455, 12914, 11890, 9036, 8187], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [21396, 16072, 17596, 16349, 18009, 13914, 14303, 16296, 14792, 16082, 18479, 18931], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [20749, 27636, 37957, 33796, 43996, 27937, 30081, 43026, 44358, 43449, 29570, 22304], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [59, 9, 65, 18, 184, 105, 255, 359, 232, 99, 62, 97], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1820, 1964, 2821, 1850, 2424, 2548, 3652, 3949, 2460, 2465, 2120, 1893], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1830, 2642, 5378, 2970, 10031, 2665, 5917, 4009, 3289, 5251, 3398, 3611], "\u5927\u68ee\u306e\u6e6f": [12845, 11747, 11573, 11002, 12675, 9406, 10356, 11695, 10864, 10456, 10533, 10018], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [415, 321, 1050, 1333, 3120, 1638, 1563, 4054, 3197, 2286, 1904, 366], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [4485, 4726, 9742, 8709, 15329, 8446, 8089, 14327, 14815, 12527, 12422, 4713], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [1646, 3556, 5294, 7410, 8003, 5962, 7854, 9292, 5915, 6206, 5625, 2960], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [7116, 14687, 11425, 20353, 39616, 32244, 14220, 20629, 18492, 16741, 14999, 8618], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [8832, 8120, 15120, 16847, 33437, 13564, 14236, 25058, 17537, 15660, 16092, 7156], "\u677e\u6c5f\u57ce": [10217, 11848, 25385, 23275, 35947, 17715, 18485, 34356, 33620, 29802, 28738, 11380], "\u6b66\u5bb6\u5c4b\u6577": [3927, 4305, 8951, 8101, 15009, 7459, 7310, 13101, 13899, 11335, 11656, 4341], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 0, 488, 926, 483, 689, 1877, 954, 399, 0, 0], "\u7389\u9020\u6e29\u6cc9": [39277, 37389, 56209, 46439, 54927, 43167, 41067, 58628, 50517, 59179, 67695, 46477], "\u7531\u5fd7\u5712": [16096, 14138, 17279, 33967, 37204, 16398, 11904, 9588, 15013, 15308, 29896, 11163], "\u7dcf\u6570": [203723, 211400, 301487, 320659, 427628, 268747, 260777, 364099, 334227, 330594, 330655, 200328], "\u98a8\u571f\u8a18\u306e\u4e18": [703, 624, 1241, 1448, 2360, 1389, 1262, 1627, 1365, 1724, 1198, 709], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [21937, 18578, 19703, 16664, 19192, 15519, 16233, 19373, 16553, 16555, 18166, 19666]}, "2010": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [5654, 6155, 9525, 10780, 15091, 9998, 11711, 17053, 14777, 14529, 13622, 6021], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [12477, 14800, 24398, 25526, 34714, 24775, 22282, 36534, 31092, 36154, 33906, 10886], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [14073, 8827, 15265, 30953, 20506, 11482, 22068, 20206, 12113, 12961, 9147, 6509], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [24459, 17444, 18512, 16808, 17390, 13714, 13826, 15570, 13010, 15383, 17063, 18524], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [21107, 24949, 33676, 27995, 40201, 25940, 33050, 36622, 33725, 39733, 30259, 21826], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [2, 0, 64, 0, 165, 23, 344, 620, 173, 89, 30, 42], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1828, 1959, 2921, 1863, 2465, 2473, 3343, 5235, 2641, 3125, 1987, 1886], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2206, 2008, 4336, 2550, 7102, 3266, 6370, 3548, 3046, 4734, 3697, 4798], "\u5927\u68ee\u306e\u6e6f": [14058, 11192, 11470, 10454, 11264, 8842, 10350, 11737, 10439, 10737, 10544, 11034], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [470, 399, 1100, 2561, 3363, 1781, 2700, 3605, 2498, 2752, 2200, 1101], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [3875, 4615, 9145, 8030, 13818, 7559, 7591, 12958, 11083, 12496, 12778, 4798], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2867, 4013, 5484, 6688, 7011, 4896, 5254, 6800, 4497, 5386, 5176, 3300], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [7706, 9867, 12379, 16128, 42062, 31867, 14397, 19736, 37029, 24287, 10098, 6703], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [9035, 8573, 13658, 15611, 29110, 12123, 11297, 20730, 12686, 15812, 13956, 4890], "\u677e\u6c5f\u57ce": [11073, 12139, 23408, 24492, 36091, 18749, 18897, 35989, 27217, 31528, 29896, 12290], "\u6b66\u5bb6\u5c4b\u6577": [4347, 4768, 8291, 8008, 13540, 6925, 6675, 11539, 10922, 11529, 11211, 3836], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 0, 429, 550, 487, 926, 2010, 807, 462, 0, 0], "\u7389\u9020\u6e29\u6cc9": [35845, 37993, 54342, 47199, 51581, 45679, 44533, 70634, 55395, 64903, 73185, 52520], "\u7531\u5fd7\u5712": [18868, 19768, 20899, 37883, 42068, 18426, 14236, 8084, 12067, 15062, 35464, 10723], "\u7dcf\u6570": [214237, 209130, 290362, 312784, 409003, 265446, 266621, 358418, 311304, 342362, 333382, 201365], "\u98a8\u571f\u8a18\u306e\u4e18": [1194, 709, 949, 1427, 2284, 1540, 1270, 1750, 1587, 1603, 1229, 601], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [23093, 18952, 20540, 17399, 18627, 14901, 15501, 17458, 14500, 19097, 17934, 19077]}, "2012": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [5328, 6125, 9771, 9301, 11559, 8153, 9816, 13909, 14465, 14722, 13870, 6803], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [10399, 9896, 15007, 22382, 30265, 19542, 19499, 32239, 25984, 30466, 28933, 11236], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [9019, 4735, 18728, 37516, 18681, 11489, 21772, 21686, 12057, 11525, 9053, 7412], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [22806, 16777, 16971, 15951, 17487, 10159, 10965, 12473, 11578, 13021, 15165, 16405], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [19299, 27335, 31522, 36174, 36310, 29065, 33901, 39747, 33166, 37489, 30432, 24160], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [0, 0, 0, 30, 90, 71, 299, 566, 180, 142, 78, 19], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1920, 1669, 2786, 2066, 2377, 2672, 3376, 4992, 2828, 3013, 4169, 2807], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2002, 2271, 6106, 3063, 6817, 2743, 3003, 7081, 3115, 4576, 3325, 4693], "\u5927\u68ee\u306e\u6e6f": [13547, 11154, 10971, 7696, 10222, 8309, 9154, 10611, 8948, 8178, 8874, 9091], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [250, 160, 312, 915, 1730, 1326, 2629, 5219, 2263, 3261, 1514, 284], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [2755, 2569, 5103, 6323, 9245, 6359, 5269, 9680, 7244, 9926, 10511, 3679], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2836, 2264, 4575, 4803, 6093, 5578, 6543, 6773, 5813, 5940, 5148, 3877], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [4700, 10849, 13453, 15116, 29198, 28190, 15191, 16575, 13378, 20155, 16910, 7342], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [7511, 4653, 9760, 16321, 23708, 9987, 10132, 16653, 9264, 12204, 11341, 8765], "\u677e\u6c5f\u57ce": [10782, 10219, 17645, 25224, 31966, 19288, 20166, 36591, 27469, 32089, 31080, 14239], "\u6b66\u5bb6\u5c4b\u6577": [2387, 2189, 4431, 6326, 9580, 6149, 4754, 8793, 9631, 12616, 8822, 3023], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 0, 431, 469, 579, 1179, 2815, 919, 814, 81, 0], "\u7389\u9020\u6e29\u6cc9": [34343, 36638, 49725, 47698, 49617, 40183, 39770, 62704, 52569, 60198, 66209, 46614], "\u7531\u5fd7\u5712": [13160, 12760, 14975, 23563, 38661, 13173, 7167, 6096, 8021, 11920, 24109, 10755], "\u7dcf\u6570": [186271, 181785, 252196, 299105, 354178, 238720, 240499, 332275, 264590, 308761, 307505, 200209], "\u98a8\u571f\u8a18\u306e\u4e18": [927, 724, 1370, 1378, 3013, 1296, 1468, 1421, 1840, 1552, 2386, 885], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [22300, 18798, 18985, 16828, 17090, 14409, 14446, 15651, 13858, 14954, 15495, 18120]}, "2014": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [8536, 9066, 13884, 11474, 14235, 10996, 11061, 15275, 13800, 14363, 16076, 8219], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [12526, 13457, 25058, 27430, 39457, 28093, 23648, 33610, 33088, 36616, 37015, 12894], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [10181, 7201, 34561, 31711, 21575, 14755, 22765, 20038, 13706, 12583, 9421, 4792], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [21343, 16137, 18552, 14484, 14974, 13522, 12085, 15122, 13248, 14391, 16439, 17866], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [22525, 26312, 36013, 31107, 38306, 28611, 34422, 41964, 34826, 39410, 34900, 25510], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [0, 11, 36, 4, 76, 24, 223, 296, 135, 41, 56, 35], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [2673, 1806, 2897, 1941, 2404, 3231, 3460, 3932, 2368, 3725, 3119, 2314], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1785, 2186, 5909, 3036, 8063, 2562, 6924, 4698, 2665, 5242, 3802, 4560], "\u5927\u68ee\u306e\u6e6f": [11560, 9554, 10237, 8150, 9610, 8552, 8897, 11128, 8447, 8364, 9639, 9238], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [190, 416, 875, 1271, 2265, 1552, 1838, 3738, 3026, 2910, 1982, 178], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [4006, 3619, 8007, 7978, 12700, 7560, 6929, 10911, 10204, 10777, 12561, 4967], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2180, 3497, 5657, 5721, 7203, 5274, 5897, 6847, 5844, 5211, 5628, 3556], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [6687, 10537, 9326, 16230, 38090, 26902, 14703, 23201, 13730, 17895, 20388, 8103], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [8374, 5794, 13709, 13142, 25630, 10920, 10014, 27122, 12818, 11971, 13410, 11111], "\u677e\u6c5f\u57ce": [17527, 15803, 32352, 33557, 43829, 26944, 26015, 45398, 38197, 38306, 40573, 18324], "\u6b66\u5bb6\u5c4b\u6577": [3608, 3403, 7685, 8305, 12073, 6870, 5938, 11161, 9991, 17165, 10849, 5163], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 66, 438, 679, 479, 956, 1218, 1115, 403, 152, 0], "\u7389\u9020\u6e29\u6cc9": [43507, 44858, 69216, 55470, 67464, 57291, 46748, 67306, 59353, 63617, 69961, 52483], "\u7531\u5fd7\u5712": [12075, 11772, 19251, 29988, 50909, 17447, 11788, 6989, 11792, 16941, 38155, 13766], "\u7dcf\u6570": [210251, 201565, 319759, 318314, 428863, 286071, 270003, 369983, 304210, 335852, 361712, 222753], "\u98a8\u571f\u8a18\u306e\u4e18": [1158, 930, 1251, 1421, 3914, 1256, 1293, 1502, 1605, 1520, 1335, 501], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [19810, 15206, 5217, 15456, 15407, 13230, 14399, 18527, 14252, 14401, 16251, 19173]}, "2015": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [6577, 6808, 14357, 11574, 15737, 12888, 13789, 19937, 21224, 19488, 16321, 10838], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [10762, 13840, 24633, 23516, 37773, 24439, 25202, 45407, 39374, 44996, 40116, 16913], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [7007, 7334, 34807, 35629, 20789, 16308, 26382, 19738, 14603, 9538, 9112, 5625], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [20405, 16430, 17335, 14583, 15548, 13585, 13292, 13873, 14443, 15880, 17126, 17150], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [20938, 26084, 47083, 36577, 48053, 42074, 33756, 48043, 43268, 48731, 35664, 24555], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [6, 0, 0, 22, 64, 64, 155, 198, 95, 38, 22, 26], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [2268, 2700, 3270, 2439, 3098, 3314, 3996, 4403, 2677, 3353, 2694, 2591], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2296, 1988, 5136, 2750, 8968, 3128, 7346, 3934, 5339, 3786, 3904, 4135], "\u5927\u68ee\u306e\u6e6f": [11130, 9588, 9448, 8807, 9489, 8041, 8719, 10721, 8617, 8971, 8861, 9225], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [169, 296, 883, 730, 2096, 1495, 1960, 3253, 2081, 3017, 2078, 364], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [2926, 3526, 6561, 6332, 11334, 6886, 6921, 11764, 11428, 11133, 11921, 5365], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2536, 3212, 4707, 5645, 6900, 5080, 6009, 6714, 4956, 5794, 5316, 3465], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [5223, 10380, 14153, 24001, 43737, 29806, 21559, 31822, 13929, 17867, 20659, 8822], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [6825, 6517, 12471, 13970, 27890, 10505, 10285, 22870, 16290, 14048, 15262, 14679], "\u677e\u6c5f\u57ce": [13296, 14599, 29374, 29621, 50787, 34673, 35194, 63422, 62379, 62370, 67865, 30609], "\u677e\u6c5f\u6b74\u53f2\u9928": [16252, 8102, 12845, 14377, 21506, 14687, 14705, 22965, 25952, 34981, 19291, 11756], "\u6b66\u5bb6\u5c4b\u6577": [2696, 3065, 7254, 6855, 11731, 7084, 7070, 11667, 12303, 19863, 11854, 6046], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 188, 383, 1074, 591, 1150, 2211, 1213, 345, 186, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [20647, 18081, 19235, 16844, 20007, 13511, 14688, 19008, 19436, 17495, 18910, 18639], "\u7531\u5fd7\u5712": [11612, 13755, 13917, 30597, 50248, 15032, 14787, 10482, 11869, 14158, 38304, 23757], "\u7dcf\u6570": [183837, 184493, 296714, 302033, 426728, 278007, 282955, 391644, 348872, 373349, 363441, 233500], "\u98a8\u571f\u8a18\u306e\u4e18": [689, 560, 990, 1518, 3272, 1025, 1299, 1320, 2451, 2396, 1407, 548], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [19577, 17628, 18067, 15263, 16627, 13791, 14691, 17892, 14945, 15101, 16568, 18392]}, "2016": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [8022, 8987, 14547, 12116, 15445, 12167, 14781, 20300, 19757, 18936, 14759, 11149], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [14792, 14739, 26885, 29470, 36263, 24195, 26200, 37196, 24417, 38059, 33156, 14403], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [8774, 5294, 36007, 31129, 27736, 17928, 25625, 21647, 11480, 10807, 7110, 7248], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [21162, 16969, 17349, 15117, 15596, 12810, 12975, 14467, 12812, 14584, 16678, 17167], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [20210, 23988, 34581, 30835, 39134, 28525, 38538, 36430, 30396, 42679, 29187, 23672], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [0, 8, 44, 21, 4, 0, 46, 60, 21, 39, 0, 0], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [2637, 2947, 3785, 2725, 3463, 3949, 4261, 4210, 2999, 4039, 3245, 2575], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1602, 2164, 5436, 2828, 6564, 2560, 6327, 3545, 4790, 3329, 3070, 4065], "\u5927\u68ee\u306e\u6e6f": [12375, 10125, 9326, 9127, 10185, 8465, 9416, 10243, 8870, 9016, 8817, 9186], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [220, 113, 856, 1042, 1656, 781, 3070, 5916, 1422, 2789, 1151, 392], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [745, 0, 0, 0, 0, 0, 4698, 11196, 8864, 10060, 10435, 4193], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2634, 3961, 4920, 6197, 6439, 4957, 6377, 7226, 5708, 5721, 4974, 4492], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [5807, 12677, 17633, 14023, 36698, 27546, 17651, 20290, 14994, 19364, 14426, 8181], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [9049, 6801, 13454, 15051, 28258, 11495, 11935, 23049, 12104, 14783, 12830, 14732], "\u677e\u6c5f\u57ce": [26513, 26122, 45937, 46554, 62561, 36737, 38185, 60324, 45641, 55322, 52723, 25159], "\u677e\u6c5f\u6b74\u53f2\u9928": [11519, 8540, 17106, 15223, 18717, 8754, 13406, 23440, 19610, 32589, 17210, 11314], "\u6b66\u5bb6\u5c4b\u6577": [3491, 4227, 7764, 8380, 12470, 5728, 6173, 8556, 7423, 0, 0, 0], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 202, 478, 685, 532, 1271, 2125, 584, 469, 97, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [22916, 18179, 19153, 17402, 19518, 13633, 15221, 18917, 16402, 15997, 18060, 18677], "\u7531\u5fd7\u5712": [11157, 13802, 14764, 35694, 55821, 14428, 11095, 9911, 10723, 19821, 43846, 23124], "\u7dcf\u6570": [206033, 198549, 307516, 311173, 417527, 249159, 284751, 358071, 274329, 335917, 309237, 218761], "\u98a8\u571f\u8a18\u306e\u4e18": [703, 683, 1208, 1708, 3791, 1035, 1815, 1418, 1329, 1932, 1473, 530], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [21705, 18223, 16559, 16053, 16523, 12934, 15685, 17605, 13983, 15582, 15990, 18502]}, "2017": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [6967, 7671, 14417, 14116, 18413, 14994, 16176, 21331, 19248, 19925, 20490, 7765], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [12445, 11041, 25314, 27841, 38478, 24069, 23261, 35943, 26604, 33713, 32905, 12759], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [5371, 5727, 40819, 38346, 27361, 18624, 26959, 20280, 12225, 9622, 8932, 5993], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [18572, 14965, 15112, 14677, 14091, 12157, 11086, 12558, 11049, 13022, 14664, 15247], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [17159, 19557, 32497, 29930, 35859, 25375, 30020, 43000, 31730, 43077, 31281, 24317], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [2487, 2391, 3704, 2826, 3486, 3910, 4486, 4876, 3005, 3434, 2822, 3109], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1693, 2009, 6693, 3326, 7012, 3608, 5293, 3516, 4807, 2747, 3887, 4033], "\u5927\u68ee\u306e\u6e6f": [10649, 9209, 9929, 8576, 9255, 7958, 7898, 8613, 7172, 7525, 8091, 8144], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [137, 120, 850, 1131, 2072, 1462, 1999, 3748, 2692, 1958, 2408, 272], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [2827, 2543, 6223, 6728, 10092, 5961, 5595, 9120, 7522, 9501, 9472, 3506], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2475, 2944, 5426, 6275, 6381, 5523, 7092, 7993, 4880, 6097, 5780, 4417], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [5478, 10326, 16955, 13873, 40171, 26308, 11098, 10541, 13094, 16059, 12726, 7159], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [7775, 5340, 12267, 15008, 25398, 11573, 12008, 24858, 11282, 14788, 13707, 14799], "\u677e\u6c5f\u57ce": [19327, 17559, 40529, 42357, 58009, 35811, 32758, 53943, 40064, 50987, 50789, 20933], "\u677e\u6c5f\u6b74\u53f2\u9928": [12156, 8841, 15655, 17653, 21445, 13678, 10979, 23157, 18473, 25683, 15799, 10402], "\u6b66\u5bb6\u5c4b\u6577": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 175, 370, 1037, 618, 1075, 1991, 876, 740, 87, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [21256, 17805, 20410, 17780, 19333, 13677, 14630, 18475, 15506, 16217, 18807, 18553], "\u7531\u5fd7\u5712": [13489, 10180, 15032, 29947, 58094, 18938, 12880, 16905, 12393, 13977, 40797, 28015], "\u7dcf\u6570": [180154, 166100, 301108, 308432, 416641, 258852, 252509, 339031, 257821, 305752, 309900, 208147], "\u98a8\u571f\u8a18\u306e\u4e18": [606, 514, 1038, 1761, 3751, 1057, 1079, 1106, 1255, 1604, 1338, 581], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [19285, 17358, 18063, 15911, 16903, 13551, 16137, 17077, 13944, 15076, 15118, 18143]}, "2018": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [6275, 7590, 14294, 13881, 17462, 13014, 11800, 18025, 16929, 17629, 18261, 8778], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [10117, 10237, 22799, 27114, 30771, 20058, 16225, 32466, 25699, 31270, 32728, 14804], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [8529, 6280, 34979, 39490, 23819, 16573, 26928, 19935, 12990, 9872, 9415, 6025], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [17472, 11876, 13607, 13208, 13003, 11475, 10525, 12372, 11736, 13382, 15181, 15831], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [17772, 17989, 34406, 31285, 30621, 25339, 22168, 32377, 24855, 37151, 26705, 19344], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [2521, 2491, 3830, 1918, 1688, 2135, 2534, 3084, 6837, 2128, 1979, 1517], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1823, 2080, 6149, 2569, 5987, 3276, 5809, 3516, 5803, 3086, 3526, 3776], "\u5927\u68ee\u306e\u6e6f": [9747, 7582, 8454, 8007, 8226, 6973, 8101, 9653, 7999, 7758, 8086, 8260], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [113, 20, 872, 1065, 1683, 1273, 2025, 3126, 1330, 1391, 1776, 276], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [2217, 2244, 5123, 5966, 8627, 5075, 3733, 8782, 7150, 8705, 9801, 4103], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2417, 2696, 5753, 6253, 6655, 6180, 6039, 8188, 6366, 5247, 5333, 4440], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [4566, 10126, 11081, 14731, 38769, 25640, 11218, 9381, 12877, 15375, 12169, 7695], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [7691, 5383, 12157, 16612, 23894, 11524, 10127, 23555, 13840, 14192, 13029, 17216], "\u677e\u6c5f\u57ce": [16846, 15532, 34917, 41873, 49878, 31290, 24602, 46669, 38760, 46447, 47438, 23758], "\u677e\u6c5f\u6b74\u53f2\u9928": [10174, 7759, 16242, 15200, 18917, 14030, 12890, 21897, 21567, 26349, 15267, 13243], "\u6b66\u5bb6\u5c4b\u6577": [0, 0, 0, 0, 0, 0, 0, 8946, 10032, 13811, 8055, 3466], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 120, 397, 616, 623, 1323, 1912, 608, 470, 276, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [20343, 15236, 17680, 15582, 16182, 12085, 11945, 16535, 14322, 13921, 16236, 16486], "\u7531\u5fd7\u5712": [20090, 11059, 16613, 42030, 51092, 22246, 11893, 20781, 14006, 16390, 43699, 35712], "\u7dcf\u6570": [179064, 151248, 275899, 313476, 367161, 243314, 215411, 317660, 269427, 300638, 304573, 223113], "\u98a8\u571f\u8a18\u306e\u4e18": [658, 648, 1305, 1573, 4066, 831, 1123, 970, 1335, 1531, 1164, 699], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [19693, 14420, 15518, 14722, 15205, 13674, 14403, 15490, 14386, 14533, 14449, 17684]}, "2020": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [9059, 9216, 9999, 1841, 0, 2124, 5214, 5435, 6926, 9511, 12007, 6581], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [9620, 9683, 9698, 1145, 0, 2469, 6306, 8334, 10190, 16114, 20110, 7895], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [3802, 3767, 9511, 2359, 0, 1998, 7336, 13672, 8671, 0, 0, 0], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [16052, 14914, 11865, 2714, 1900, 7450, 8334, 6819, 7863, 9503, 11020, 10979], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [16744, 20458, 19363, 9212, 8226, 10884, 17325, 17275, 18475, 18703, 21725, 14704], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [null, null, null, null, null, null, null, null, null, null, null, null], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1313, 1361, 1613, 375, 146, 1111, 1354, 1547, 1117, 1613, 1181, 1041], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2405, 2568, 2907, 755, 595, 1924, 2625, 2900, 2264, 6083, 3411, 3662], "\u5927\u68ee\u306e\u6e6f": [9688, 8260, 7496, 1877, 1210, 4189, 5245, 5741, 5435, 5505, 5024, 0], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [469, 185, 354, 35, 0, 74, 406, 847, 1323, 1772, 2015, 390], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [3279, 3479, 3777, 416, 0, 903, 2509, 2966, 3557, 5750, 7503, 3133], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [3343, 3734, 2781, 963, 3, 1062, 2150, 2241, 2472, 2049, 2508, 1174], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [null, null, null, null, null, null, null, null, null, null, null, null], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [11259, 7624, 7793, 866, 0, 5696, 9604, 9685, 11671, 12444, 14525, 9519], "\u677e\u6c5f\u57ce": [20448, 20531, 22499, 2763, 0, 5185, 13309, 15942, 19647, 29671, 41882, 18085], "\u677e\u6c5f\u6b74\u53f2\u9928": [11193, 9264, 10098, 2655, 0, 4951, 6811, 6021, 8848, 9388, 11033, 6831], "\u6b66\u5bb6\u5c4b\u6577": [3106, 3105, 3193, 342, 0, 741, 2179, 2344, 3400, 5144, 6330, 2720], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 83, 16, 0, 240, 272, 680, 430, 592, 225, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [18777, 15357, 14424, 3098, 996, 5852, 7865, 7122, 8519, 9460, 11236, 10187], "\u7531\u5fd7\u5712": [19281, 12546, 6984, 2297, 1312, 3177, 3698, 8052, 7318, 25045, 35761, 23886], "\u7dcf\u6570": [178288, 162447, 158895, 37358, 15967, 66642, 110859, 125981, 137474, 180240, 219297, 131695], "\u98a8\u571f\u8a18\u306e\u4e18": [803, 755, 849, 191, 0, 368, 651, 454, 639, 2815, 1247, 401], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [17647, 15640, 13608, 3438, 1579, 6244, 7666, 7904, 8709, 9078, 10554, 10507]}, "2021": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [3548, 3588, 4157, 5840, 5688, 5028, 6487, 6060, 5687, 6412, 9924, 8219], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [1240, 2776, 9566, 6845, 6758, 6853, 7506, 6775, 6867, 13137, 18172, 10472], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [null, null, null, 2084, 4551, 3168, 5486, 6121, 4749, 4969, 4620, 3369], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [11562, 10565, 11797, 9745, 10431, 9106, 9035, 8629, 8619, 10465, 12171, 12636], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [8823, 11661, 17181, 13737, 14069, 17153, 16163, 12820, 12596, 16855, 18221, 13606], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [931, 1173, 1788, 1180, 1275, 978, 1036, 1349, 1368, 1710, 3321, 914], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [1758, 2513, 3986, 2734, 6978, 3367, 3594, 3960, 3511, 1697, 7149, 5404], "\u5927\u68ee\u306e\u6e6f": [null, null, null, null, null, null, null, null, null, null, null, null], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [0, 0, 968, 522, 831, 254, 831, 777, 966, 1138, 1446, 525], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [558, 963, 2864, 1898, 2344, 1630, 1889, 2265, 2449, 3896, 5460, 2843], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [1029, 1740, 2799, 2264, 3273, 2084, 2810, 3344, 2080, 2542, 2809, 2743], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [3404, 5552, 12261, 10354, 12384, 9051, 10366, 14735, 8499, 15182, 15720, 19445], "\u677e\u6c5f\u57ce": [3539, 4525, 16836, 11949, 14614, 9282, 13338, 13664, 12727, 22038, 32095, 17469], "\u677e\u6c5f\u6b74\u53f2\u9928": [3767, 4502, 7678, 7463, 4831, 3535, 3648, 4678, 4857, 8015, 10358, 6834], "\u6b66\u5bb6\u5c4b\u6577": [424, 814, 2515, 1784, 2229, 1535, 1738, 2083, 2204, 3420, 5102, 2408], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 131, 224, 252, 408, 953, 522, 512, 802, 230, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [11445, 10481, 11849, 9480, 9806, 8581, 9219, 9220, 8745, 10291, 11892, 12412], "\u7531\u5fd7\u5712": [2927, 4895, 10759, 15759, 23394, 3921, 3225, 5266, 6343, 17646, 29811, 23375], "\u7dcf\u6570": [67138, 77280, 129850, 114529, 135614, 96160, 107977, 112925, 103649, 151614, 201038, 155466], "\u98a8\u571f\u8a18\u306e\u4e18": [404, 777, 872, 600, 1317, 831, 659, 596, 1606, 1321, 1090, 453], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [11779, 10755, 11843, 10067, 10589, 9395, 9994, 10061, 9264, 10078, 11447, 12339]}, "2022": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [5822, 2096, 3856, 7571, 8290, 8246, 7669, 8570, 9361, 14077, 11368, 7502], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [4634, 1138, 9764, 11919, 18865, 13974, 8683, 15559, 13382, 23305, 21495, 10577], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [2251, 1009, 4449, 4372, 5567, 3301, 4448, 6990, 4410, 4646, 4352, 2980], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [12267, 3525, 9910, 9578, 10049, 9079, 7762, 8160, 8306, 10748, 11118, 12364], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [9591, 8742, 16765, 14124, 17417, 21130, 14380, 20946, 21432, 21909, 19890, 14221], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [976, 265, 1143, 1336, 1933, 1508, 1698, 1713, 2062, 3046, 4851, 1494], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2600, 2352, 6976, 4256, 8813, 4204, 3611, 4146, 2938, 8842, 4064, 3902], "\u5927\u68ee\u306e\u6e6f": [null, null, null, null, null, null, null, null, null, null, null, null], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [111, 199, 517, 862, 1680, 657, 772, 898, 964, 1391, 1309, 346], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [1467, 492, 3086, 3369, 5263, 3216, 2986, 4680, 4148, 6687, 7141, 3432], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [1460, 1296, 2579, 2258, 2945, 2867, 2996, 3647, 2385, 2279, 3154, 2259], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [7262, 1923, 13884, 13440, 23487, 14322, 10377, 23679, 13596, 18958, 14852, 11214], "\u677e\u6c5f\u57ce": [8906, 2234, 19008, 20877, 32991, 19576, 17485, 29625, 24083, 38953, 39928, 21532], "\u677e\u6c5f\u6b74\u53f2\u9928": [4532, 832, 7679, 6234, 9441, 6044, 4580, 5606, 10694, 12929, 9549, 4472], "\u6b66\u5bb6\u5c4b\u6577": [1331, 434, 2879, 3260, 5080, 3036, 2545, 4125, 3875, 5969, 6203, 3116], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 97, 317, 468, 262, 447, 400, 415, 365, 221, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [10149, 2590, 11615, 10381, 11745, 8606, 8663, 11141, 10773, 12555, 13485, 13528], "\u7531\u5fd7\u5712": [11918, 3108, 6067, 20809, 39279, 9437, 6605, 8486, 9633, 18017, 35766, 22668], "\u7dcf\u6570": [96072, 35668, 131120, 145297, 219379, 139563, 116375, 169827, 153030, 217038, 220777, 148150], "\u98a8\u571f\u8a18\u306e\u4e18": [423, 361, 773, 650, 5159, 884, 1074, 1197, 1681, 1337, 1173, 400], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [10372, 3072, 10073, 9684, 10907, 9214, 9594, 10259, 8892, 11025, 10858, 12143]}, "2023": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [6903, 9161, 10580, 9927, 11196, 9558, 7328, 9179, 8474, 5976, 7029, 5180], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [7582, 9378, 21348, 17546, 24791, 16736, 12337, 19920, 16833, 22849, 20528, 11072], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [2048, 1836, 4626, 4673, 4828, 3723, 4760, 6346, 4260, 4778, 3385, 2898], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [12877, 11906, 12498, 11579, 11268, 9461, 8625, 9365, 8678, 10748, 10788, 11636], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [9952, 12741, 30384, null, null, null, null, null, null, null, null, null], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1223, 1481, 2031, 1511, 1568, 2197, 2687, 2418, 3729, 1874, 1202, 1254], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2234, 2799, 4811, 3681, 6026, 3570, 5074, 5235, 3426, 6579, 4249, 4860], "\u5927\u68ee\u306e\u6e6f": [null, null, null, null, null, null, null, null, null, null, null, null], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [272, 391, 1073, 827, 1692, 1107, 1253, 1899, 1322, 1574, 1167, 405], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [1948, 3125, 5975, 5064, 8309, 5272, 3749, 6165, 5636, 7777, 7499, 3821], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [1758, 2581, 3174, 3320, 3934, 2864, 3771, 4708, 3014, 3009, 3393, 2619], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [10718, 10212, 18034, 16243, 27752, 12686, 13818, 27149, 14622, 16803, 14633, 17424], "\u677e\u6c5f\u57ce": [12848, 18336, 37681, 31020, 45991, 28372, 22179, 37702, 32621, 41871, 41614, 23002], "\u677e\u6c5f\u6b74\u53f2\u9928": [4124, 4834, 8944, 8492, 11045, 6006, 5715, 10083, 11731, 15742, 7858, 5050], "\u6b66\u5bb6\u5c4b\u6577": [1812, 2819, 5747, 4970, 7853, 4715, 3180, 5803, 5064, 7134, 6685, 3540], "\u6f5c\u6238\u904a\u89a7\u8239": [0, 0, 187, 110, 694, 543, 648, 1199, 661, 199, 57, 0], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [14367, 13978, 15312, 13275, 15099, 11167, 11624, 14440, 12898, 12506, 14868, 14824], "\u7531\u5fd7\u5712": [10483, 9848, 17394, 29006, 45597, 17108, 11301, 11777, 14903, 27795, 34088, 24287], "\u7dcf\u6570": [103560, 115008, 182073, 173919, 242966, 146353, 130551, 186954, 159880, 200148, 191281, 145156], "\u98a8\u571f\u8a18\u306e\u4e18": [411, 551, 892, 827, 2514, 746, 1324, 1725, 1279, 2372, 1265, 455], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [11952, 11772, 11766, 11848, 12809, 10522, 11178, 11841, 10729, 10562, 10973, 12829]}, "2024": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [3532, 4215, 5083, 8614, 9862, 8184, 6677, 9204, 9213, 11339, 12350, 9048], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [7801, 9708, 16300, 18766, 21244, 14604, 12539, 19196, 16663, 21802, 19879, 11705], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [1823, 1872, 3611, 3654, 4902, 3568, 3631, 6319, 5084, 4434, 3838, 2518], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [12560, 11006, 11331, 9569, 10014, 8487, 7523, 8834, 8222, 9263, 10765, 11530], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [null, null, null, null, null, null, null, null, null, 49845, 34319, 28156], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [1109, 1406, 1869, 1423, 1551, 1385, 1456, 1652, 1491, 1394, 1266, 1205], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [2165, 2863, 7211, 7056, 12368, 9583, 11540, 9351, 8593, 16196, 8592, 8643], "\u5927\u68ee\u306e\u6e6f": [null, null, null, null, null, null, null, null, null, null, null, null], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [135, 184, 687, 888, 1757, 747, 879, 2445, 1789, 1580, 1222, 146], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [2424, 3287, 5949, 6994, 9314, 6348, 5843, 8161, 8968, 10734, 12337, 5909], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [2346, 3449, 3954, 2946, 3972, 3596, 3968, 5420, 4230, 3053, 3614, 3430], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [11758, 11412, 16515, 16289, 22887, 12503, 12889, 27103, 14959, 16379, 13801, 16627], "\u677e\u6c5f\u57ce": [15738, 19697, 35949, 37579, 47351, 27759, 25690, 42554, 35912, 44139, 45491, 24190], "\u677e\u6c5f\u6b74\u53f2\u9928": [5459, 6340, 10528, 10277, 14709, 9804, 8587, 13515, 13239, 24876, 15257, 6392], "\u6b66\u5bb6\u5c4b\u6577": [2742, 2973, 5803, 6439, 8532, 4788, 4234, 6659, 5752, 8036, 8571, 4151], "\u6f5c\u6238\u904a\u89a7\u8239": [null, null, null, 564, 770, 352, 373, 1863, 742, 560, 195, null], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [15708, 14924, 16617, 13608, 16383, 11858, 11371, 15869, 12786, 13230, 15698, 16228], "\u7531\u5fd7\u5712": [12445, 8820, 13873, 23053, 44583, 12770, 8162, 11598, 12687, 20894, 34092, 20208], "\u7dcf\u6570": [110201, 114742, 169323, 179202, 243857, 147126, 136545, 201722, 171376, 220050, 220126, 155961], "\u98a8\u571f\u8a18\u306e\u4e18": [416, 679, 1117, 1023, 2936, 1002, 1094, 1223, 1517, 1825, 1503, 613], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [12040, 11907, 12926, 10460, 10722, 9788, 10089, 10756, 9529, 10316, 11655, 13418]}}, "months": ["1\u6708", "2\u6708", "3\u6708", "4\u6708", "5\u6708", "6\u6708", "7\u6708", "8\u6708", "9\u6708", "10\u6708", "11\u6708", "12\u6708"], "notes": {"\u7389\u9020\u6e29\u6cc9": {"members": ["\u7389\u9020\u6e29\u6cc9", "\u7389\u9020\u6e29\u6cc9\u3086~\u3086"], "overlap": [2011, 2012, 2013, 2014]}}, "series": {"\u3050\u308b\u3063\u3068\u677e\u6c5f\u30ec\u30a4\u30af\u30e9\u30a4\u30f3": [124334, 136663, 141843, 151900, 170704, 176495, 143177, 134916, 123086, 123822, 178822, 146985, 169538, 170966, 181513, 163938, 177553, 77913, 70638, 94428, 100491, 97321], "\u3050\u308b\u3063\u3068\u677e\u6c5f\u5800\u5ddd\u3081\u3050\u308a": [328268, 325151, 314004, 315160, 336146, 349097, 327306, 307544, 285888, 255848, 353654, 322892, 346971, 319775, 304373, 274288, 264944, 101564, 96967, 153295, 200920, 190207], "\u3075\u308b\u3055\u3068\u68ee\u6797\u516c\u5712": [95324, 197027, 208166, 186314, 184581, 190243, 182301, 184110, 183732, 183673, 197066, 203289, 206872, 210785, 220259, 214835, 204365, 51116, 39117, 48775, 48161, 45254], "\u3086\u3046\u3042\u3044\u718a\u91ce\u9928": [222588, 213909, 213266, 213767, 216257, 204304, 202219, 201703, 191774, 179758, 177661, 188163, 189650, 189686, 167200, 159668, 168016, 109413, 124761, 112866, 129429, 119104], "\u30ab\u30e9\u30b3\u30ed\u5de5\u623f": [316211, 287835, 275838, 290465, 364719, 406112, 404859, 369083, 379847, 378600, 426620, 393906, 454826, 378175, 363802, 320012, 318534, 193094, 172885, 200547, 53077, 112320], "\u30de\u30ea\u30f3\u30cf\u30a6\u30b9\u52a0\u8cc0": [2664, 2384, 1259, 1206, 1579, 1911, 1544, 1552, 1472, 1475, 1402, 937, 690, 243, null, null, null, null, null, null, null, null], "\u30e1\u30c6\u30aa\u30d7\u30e9\u30b6": [33386, 35083, 29269, 28345, 33327, 29459, 29966, 31726, 31015, 34675, 35510, 33870, 36803, 40835, 40536, 32662, 26747, 13772, 17023, 22025, 23175, 17207], "\u51fa\u96f2\u304b\u3093\u3079\u306e\u91cc": [31013, 27010, 21739, 32163, 50642, 49061, 50991, 47661, 45158, 48795, 50198, 51432, 52710, 46280, 48624, 47400, 52946, 32099, 46651, 56704, 52544, 104161], "\u5927\u68ee\u306e\u6e6f": [162857, 158488, 146834, 144642, 141165, 137859, 133170, 132121, 133092, 116755, 112340, 113376, 111617, 115151, 103019, 98846, 114810, 59670, null, null, null, null], "\u5b8d\u9053\u6e56\u904a\u89a7\u8239": [22373, 21959, 25732, 23681, 21339, 33007, 21247, 24530, 19125, 19863, 26592, 20241, 18422, 19408, 18849, 14950, 16604, 7870, 8258, 9706, 12982, 12459], "\u5c0f\u6cc9\u516b\u96f2\u8a18\u5ff5\u9928": [151368, 143213, 136019, 129875, 129898, 132202, 118330, 108746, 88481, 78663, 110629, 100219, 96097, 50191, 79090, 71526, 82080, 37272, 29059, 45967, 64340, 86268], "\u5cf6\u6839\u539f\u5b50\u529b\u9928": [69816, 56006, 66991, 70544, 70644, 75614, 69723, 61192, 54787, 60243, 60174, 62515, 60334, 63606, 65283, 65567, 66258, 24480, 29517, 30125, 38145, 43978], "\u677e\u6c5f\u30a4\u30f3\u30b0\u30ea\u30b7\u30e5\u30ac\u30fc\u30c7\u30f3": [null, null, 151969, 126269, 192246, 158265, 219140, 232259, 226602, 191057, 211493, 205792, 241958, 209290, 183788, 173628, 54572, null, null, null, null, null], "\u677e\u6c5f\u30a6\u30a9\u30fc\u30bf\u30fc\u30f4\u30a3\u30ec\u30c3\u30b8": [187979, 154066, 151969, 126269, 192246, 158265, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "\u677e\u6c5f\u30d5\u30a9\u30fc\u30b2\u30eb\u30d1\u30fc\u30af": [215429, 190317, 249618, 204384, 178353, 200645, 191659, 167481, 146677, 140299, 162624, 164015, 171612, 173541, 168803, 169220, 186321, 100686, 136953, 166994, 200094, 193122], "\u677e\u6c5f\u57ce": [241518, 224527, 213089, 209586, 244596, 273751, 280768, 281769, 296842, 276818, 403888, 376825, 494189, 521778, 463066, 418010, 459179, 209962, 172076, 275198, 373237, 402049], "\u677e\u6c5f\u6b74\u53f2\u9928": [null, null, null, null, null, null, null, null, 93764, 168795, 225158, 205015, 217419, 197428, 193921, 193535, 193786, 87093, 70166, 82592, 99624, 138983], "\u6b66\u5bb6\u5c4b\u6577": [120338, 115474, 107036, 109545, 112051, 117737, 109394, 101591, 83732, 78701, 113422, 102211, 107488, 64212, 0, 44310, 76889, 32604, 26256, 41853, 59322, 68680], "\u6f5c\u6238\u904a\u89a7\u8239": [4896, 6392, 6359, 4862, 4497, 4769, 5816, 5671, 6597, 7287, 7327, 5506, 7341, 6443, 6969, 6345, 5897, 2538, 4034, 2992, 4298, 5419], "\u7389\u9020\u6e29\u6cc9": [725154, 697156, 635070, 624192, 666984, 681701, 600971, 633809, 618113, 586268, 753580, 697274, null, null, null, null, null, null, null, null, null, null], "\u7389\u9020\u6e29\u6cc9\u3086~\u3086": [null, null, null, null, null, null, null, null, 223677, 218642, 217422, 209290, 216501, 214075, 212449, 186553, 188013, 112893, 123421, 125231, 164358, 174280], "\u7531\u5fd7\u5712": [280824, 268792, 274957, 254714, 237078, 239743, 227954, 253548, 208621, 184360, 243190, 240873, 248518, 264186, 270647, 305611, 308960, 149357, 147321, 191793, 253587, 223185], "\u98a8\u571f\u8a18\u306e\u4e18": [13984, 11696, 12222, 10353, 8625, 13902, 15650, 16143, 15385, 18260, 20852, 17686, 17475, 17625, 15690, 15903, 15674, 9173, 10526, 15112, 14361, 14948], "\u9e7f\u5cf6\u591a\u4e45\u306e\u6e6f": [null, 186608, 195425, 208577, 212345, 213862, 218139, 217079, 213178, 200934, 190635, 181329, 198542, 199344, 196566, 184177, 180046, 112574, 127611, 116093, 138781, 133606]}}</script>
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent);
+  var sel=document.getElementById("fac");
+  var charts={};
+  function membersOf(name){ return D.members[name] || [name]; }
+  /* 束ねた場所の注記。**理由ではなく、両方が公表されている年だけを書く**（要件 8.5）。 */
+  function noteOf(name){
+    var n=D.notes[name];
+    if(!n){ return ""; }
+    var years=n.overlap.map(function(y){ return y+"年"; }).join("・");
+    var both=years ? years+"は<b>両方が公表されています</b>。" : "";
+    return '<p class="note"><b>読むときに気をつけること。</b>「'+n.members.join('」と「')
+      +'」は同じ枠の呼び名が替わったものです。'+both
+      +'数えているものが違うため、<b>1本の線に繋いでいません</b>。</p>';
+  }
+  function table(name){
+    var members=membersOf(name);
+    var head=members.map(function(m){ return "<th>"+m+"（人）</th>"; }).join("");
+    var body=D.axis.x.map(function(year,i){
+      return "<tr><th>"+year+"</th>"
+        + members.map(function(m){ return "<td>"+MS.nf(D.series[m][i])+"</td>"; }).join("")
+        + "</tr>";
+    }).join("");
+    return '<div class="table-scroll"><table class="yr"><thead><tr><th>年</th>'+head
+      + "</tr></thead><tbody>"+body+"</tbody></table></div>";
+  }
+  /* 月ごとは**新しい呼び名**を採る——束ねた場所で古い定義の月次を出すと、
+     年ごとの図（2本）と月ごとの図（1本）が別の枠を指す。 */
+  function monthlySets(name){
+    var members=membersOf(name);
+    var key=members[members.length-1];
+    var latest=D.monthYears[D.monthYears.length-1];
+    var recent=[],average=[];
+    for(var m=0;m<12;m++){
+      var box=(D.monthly[latest]||{})[key]||[];
+      recent.push(m<box.length?box[m]:null);
+      var seen=[];
+      D.monthYears.forEach(function(year){
+        var row=(D.monthly[year]||{})[key];
+        if(row&&row[m]!==null&&row[m]!==undefined){ seen.push(row[m]); }
+      });
+      average.push(seen.length?Math.round(seen.reduce(function(a,b){return a+b;},0)/seen.length):null);
+    }
+    return {latest:latest,recent:recent,average:average};
+  }
+  function draw(name){
+    MS.put("facName",name); MS.put("facName2",name);
+    document.getElementById("bundleNote").innerHTML=noteOf(name);
+    document.getElementById("facTable").innerHTML=table(name);
+    ["fac","month"].forEach(function(k){ if(charts[k]){ charts[k].destroy(); } });
+    charts.fac=MS.line("cFac",D.axis,membersOf(name).map(function(m){
+      return {label:m,values:D.series[m]};
+    }),"人",0);
+    var months=monthlySets(name);
+    charts.month=MS.categorical("cFacMonth","bar",D.months,[
+      {label:months.latest+"年",values:months.recent},
+      {label:D.monthYears.length+"年の平均",values:months.average,color:MS.SERIES[2]}],
+      "人",{digits:0});
+  }
+  sel.addEventListener("change",function(){
+    draw(sel.value);
+    history.replaceState(null,"","#"+encodeURIComponent(sel.value));
+  });
+  var hash=decodeURIComponent((location.hash||"").slice(1));
+  if(hash&&D.members[hash]){ sel.value=hash; }
+  draw(sel.value);
+});
+</script>
+</body>
+</html>

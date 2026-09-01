@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.4.0">
+<title>月ごとの山と谷 — 松江市 観光レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="観光レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 観光レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 観光レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>まち全体を見る</h3>
+<a href="01-visits.html" title="観光客の推移"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">観光客の推移</span></a>
+<a href="02-stay.html" title="泊まるか、日帰りか"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">泊まるか、日帰りか</span></a>
+</div>
+<div class="grp">
+<h3>季節を見る</h3>
+<a href="03-season.html" aria-current="page" title="月ごとの山と谷"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">月ごとの山と谷</span></a>
+</div>
+<div class="grp">
+<h3>場所を見る</h3>
+<a href="04-facility.html" title="場所ごとの推移"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">場所ごとの推移</span></a>
+<a href="05-facility-change.html" title="場所どうしの増減"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">場所どうしの増減</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 観光レポート / 月ごとの山と谷</p>
+  <h1>月ごとの山と谷</h1>
+  <p class="lede">1年のうち、どの月に人が来ているかを見ます。2001年から2024年までの288か月を持っています。</p>
+<noscript><div class="ns">JavaScript が無効です。図は出ません。<b>月ごとの表は読めます</b>が、<b>年をまたいだ288か月の図には、対応する表がありません</b>。</div></noscript>
+<section class="section" id="s-season">
+  <h2><svg class="ic"><use href="#ic-age"/></svg>1年のうち、どの月に来ているか</h2>
+  <p class="sub">2024年の月ごとの観光客数と、<b>月別の数がある24年の平均</b>を並べています。
+  単位は<b>千人</b>です。</p>
+  <div class="chartbox tall"><canvas id="cSeason"></canvas></div>
+  <div class="table-scroll"><table class="yr">
+    <thead><tr><th>月</th><th>2024年（千人）</th><th>24年の平均（千人）</th><th>差（千人）</th></tr></thead>
+    <tbody>
+      <tr><th>1月</th><td>965</td><td>869</td><td>+96</td></tr>
+      <tr><th>2月</th><td>409</td><td>424</td><td>-15</td></tr>
+      <tr><th>3月</th><td>602</td><td>577</td><td>+25</td></tr>
+      <tr><th>4月</th><td>819</td><td>748</td><td>+71</td></tr>
+      <tr><th>5月</th><td>682</td><td>748</td><td>-66</td></tr>
+      <tr><th>6月</th><td>481</td><td>494</td><td>-13</td></tr>
+      <tr><th>7月</th><td>607</td><td>666</td><td>-59</td></tr>
+      <tr><th>8月</th><td>1,363</td><td>1,083</td><td>+280</td></tr>
+      <tr><th>9月</th><td>573</td><td>586</td><td>-13</td></tr>
+      <tr><th>10月</th><td>867</td><td>784</td><td>+83</td></tr>
+      <tr><th>11月</th><td>887</td><td>736</td><td>+151</td></tr>
+      <tr><th>12月</th><td>480</td><td>424</td><td>+56</td></tr>
+    </tbody></table></div>
+  <p class="unit">単位——千人。差は、表に出ている値どうしの差です。横棒（—）は、その月の値が無いことを示します。</p>
+</section>
+
+<section class="section" id="s-all">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>年をまたいだ月の動き</h2>
+  <p class="sub">2001年から2024年までの<b>288か月</b>を、そのまま並べています。</p>
+  <div class="chartbox tall"><canvas id="cAll"></canvas></div>
+  <h3>読むときに気をつけること</h3>
+  <p class="note"><b>2004年</b>——前の年の1.67倍になっています。市域が広がった年です。</p>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col></colgroup>
+    <thead><tr><th>いつ</th><th>何が起きたか</th></tr></thead>
+    <tbody>
+      <tr><th>2004年</th><td><b>市町村合併</b>　市町村合併により、数える範囲が広がった。前の年までは旧松江市だけの数で、この年から合併後の市域の数になる。</td></tr>
+    </tbody></table></div>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 一次資料 島根県商工労働部観光振興課「島根県観光動態調査結果表」 ／ 取得時点 2026年8月23日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"average": [869, 424, 577, 748, 748, 494, 666, 1083, 586, 784, 736, 424], "axis": {"l": ["2001\u5e741\u6708", "2001\u5e742\u6708", "2001\u5e743\u6708", "2001\u5e744\u6708", "2001\u5e745\u6708", "2001\u5e746\u6708", "2001\u5e747\u6708", "2001\u5e748\u6708", "2001\u5e749\u6708", "2001\u5e7410\u6708", "2001\u5e7411\u6708", "2001\u5e7412\u6708", "2002\u5e741\u6708", "2002\u5e742\u6708", "2002\u5e743\u6708", "2002\u5e744\u6708", "2002\u5e745\u6708", "2002\u5e746\u6708", "2002\u5e747\u6708", "2002\u5e748\u6708", "2002\u5e749\u6708", "2002\u5e7410\u6708", "2002\u5e7411\u6708", "2002\u5e7412\u6708", "2003\u5e741\u6708", "2003\u5e742\u6708", "2003\u5e743\u6708", "2003\u5e744\u6708", "2003\u5e745\u6708", "2003\u5e746\u6708", "2003\u5e747\u6708", "2003\u5e748\u6708", "2003\u5e749\u6708", "2003\u5e7410\u6708", "2003\u5e7411\u6708", "2003\u5e7412\u6708", "2004\u5e741\u6708", "2004\u5e742\u6708", "2004\u5e743\u6708", "2004\u5e744\u6708", "2004\u5e745\u6708", "2004\u5e746\u6708", "2004\u5e747\u6708", "2004\u5e748\u6708", "2004\u5e749\u6708", "2004\u5e7410\u6708", "2004\u5e7411\u6708", "2004\u5e7412\u6708", "2005\u5e741\u6708", "2005\u5e742\u6708", "2005\u5e743\u6708", "2005\u5e744\u6708", "2005\u5e745\u6708", "2005\u5e746\u6708", "2005\u5e747\u6708", "2005\u5e748\u6708", "2005\u5e749\u6708", "2005\u5e7410\u6708", "2005\u5e7411\u6708", "2005\u5e7412\u6708", "2006\u5e741\u6708", "2006\u5e742\u6708", "2006\u5e743\u6708", "2006\u5e744\u6708", "2006\u5e745\u6708", "2006\u5e746\u6708", "2006\u5e747\u6708", "2006\u5e748\u6708", "2006\u5e749\u6708", "2006\u5e7410\u6708", "2006\u5e7411\u6708", "2006\u5e7412\u6708", "2007\u5e741\u6708", "2007\u5e742\u6708", "2007\u5e743\u6708", "2007\u5e744\u6708", "2007\u5e745\u6708", "2007\u5e746\u6708", "2007\u5e747\u6708", "2007\u5e748\u6708", "2007\u5e749\u6708", "2007\u5e7410\u6708", "2007\u5e7411\u6708", "2007\u5e7412\u6708", "2008\u5e741\u6708", "2008\u5e742\u6708", "2008\u5e743\u6708", "2008\u5e744\u6708", "2008\u5e745\u6708", "2008\u5e746\u6708", "2008\u5e747\u6708", "2008\u5e748\u6708", "2008\u5e749\u6708", "2008\u5e7410\u6708", "2008\u5e7411\u6708", "2008\u5e7412\u6708", "2009\u5e741\u6708", "2009\u5e742\u6708", "2009\u5e743\u6708", "2009\u5e744\u6708", "2009\u5e745\u6708", "2009\u5e746\u6708", "2009\u5e747\u6708", "2009\u5e748\u6708", "2009\u5e749\u6708", "2009\u5e7410\u6708", "2009\u5e7411\u6708", "2009\u5e7412\u6708", "2010\u5e741\u6708", "2010\u5e742\u6708", "2010\u5e743\u6708", "2010\u5e744\u6708", "2010\u5e745\u6708", "2010\u5e746\u6708", "2010\u5e747\u6708", "2010\u5e748\u6708", "2010\u5e749\u6708", "2010\u5e7410\u6708", "2010\u5e7411\u6708", "2010\u5e7412\u6708", "2011\u5e741\u6708", "2011\u5e742\u6708", "2011\u5e743\u6708", "2011\u5e744\u6708", "2011\u5e745\u6708", "2011\u5e746\u6708", "2011\u5e747\u6708", "2011\u5e748\u6708", "2011\u5e749\u6708", "2011\u5e7410\u6708", "2011\u5e7411\u6708", "2011\u5e7412\u6708", "2012\u5e741\u6708", "2012\u5e742\u6708", "2012\u5e743\u6708", "2012\u5e744\u6708", "2012\u5e745\u6708", "2012\u5e746\u6708", "2012\u5e747\u6708", "2012\u5e748\u6708", "2012\u5e749\u6708", "2012\u5e7410\u6708", "2012\u5e7411\u6708", "2012\u5e7412\u6708", "2013\u5e741\u6708", "2013\u5e742\u6708", "2013\u5e743\u6708", "2013\u5e744\u6708", "2013\u5e745\u6708", "2013\u5e746\u6708", "2013\u5e747\u6708", "2013\u5e748\u6708", "2013\u5e749\u6708", "2013\u5e7410\u6708", "2013\u5e7411\u6708", "2013\u5e7412\u6708", "2014\u5e741\u6708", "2014\u5e742\u6708", "2014\u5e743\u6708", "2014\u5e744\u6708", "2014\u5e745\u6708", "2014\u5e746\u6708", "2014\u5e747\u6708", "2014\u5e748\u6708", "2014\u5e749\u6708", "2014\u5e7410\u6708", "2014\u5e7411\u6708", "2014\u5e7412\u6708", "2015\u5e741\u6708", "2015\u5e742\u6708", "2015\u5e743\u6708", "2015\u5e744\u6708", "2015\u5e745\u6708", "2015\u5e746\u6708", "2015\u5e747\u6708", "2015\u5e748\u6708", "2015\u5e749\u6708", "2015\u5e7410\u6708", "2015\u5e7411\u6708", "2015\u5e7412\u6708", "2016\u5e741\u6708", "2016\u5e742\u6708", "2016\u5e743\u6708", "2016\u5e744\u6708", "2016\u5e745\u6708", "2016\u5e746\u6708", "2016\u5e747\u6708", "2016\u5e748\u6708", "2016\u5e749\u6708", "2016\u5e7410\u6708", "2016\u5e7411\u6708", "2016\u5e7412\u6708", "2017\u5e741\u6708", "2017\u5e742\u6708", "2017\u5e743\u6708", "2017\u5e744\u6708", "2017\u5e745\u6708", "2017\u5e746\u6708", "2017\u5e747\u6708", "2017\u5e748\u6708", "2017\u5e749\u6708", "2017\u5e7410\u6708", "2017\u5e7411\u6708", "2017\u5e7412\u6708", "2018\u5e741\u6708", "2018\u5e742\u6708", "2018\u5e743\u6708", "2018\u5e744\u6708", "2018\u5e745\u6708", "2018\u5e746\u6708", "2018\u5e747\u6708", "2018\u5e748\u6708", "2018\u5e749\u6708", "2018\u5e7410\u6708", "2018\u5e7411\u6708", "2018\u5e7412\u6708", "2019\u5e741\u6708", "2019\u5e742\u6708", "2019\u5e743\u6708", "2019\u5e744\u6708", "2019\u5e745\u6708", "2019\u5e746\u6708", "2019\u5e747\u6708", "2019\u5e748\u6708", "2019\u5e749\u6708", "2019\u5e7410\u6708", "2019\u5e7411\u6708", "2019\u5e7412\u6708", "2020\u5e741\u6708", "2020\u5e742\u6708", "2020\u5e743\u6708", "2020\u5e744\u6708", "2020\u5e745\u6708", "2020\u5e746\u6708", "2020\u5e747\u6708", "2020\u5e748\u6708", "2020\u5e749\u6708", "2020\u5e7410\u6708", "2020\u5e7411\u6708", "2020\u5e7412\u6708", "2021\u5e741\u6708", "2021\u5e742\u6708", "2021\u5e743\u6708", "2021\u5e744\u6708", "2021\u5e745\u6708", "2021\u5e746\u6708", "2021\u5e747\u6708", "2021\u5e748\u6708", "2021\u5e749\u6708", "2021\u5e7410\u6708", "2021\u5e7411\u6708", "2021\u5e7412\u6708", "2022\u5e741\u6708", "2022\u5e742\u6708", "2022\u5e743\u6708", "2022\u5e744\u6708", "2022\u5e745\u6708", "2022\u5e746\u6708", "2022\u5e747\u6708", "2022\u5e748\u6708", "2022\u5e749\u6708", "2022\u5e7410\u6708", "2022\u5e7411\u6708", "2022\u5e7412\u6708", "2023\u5e741\u6708", "2023\u5e742\u6708", "2023\u5e743\u6708", "2023\u5e744\u6708", "2023\u5e745\u6708", "2023\u5e746\u6708", "2023\u5e747\u6708", "2023\u5e748\u6708", "2023\u5e749\u6708", "2023\u5e7410\u6708", "2023\u5e7411\u6708", "2023\u5e7412\u6708", "2024\u5e741\u6708", "2024\u5e742\u6708", "2024\u5e743\u6708", "2024\u5e744\u6708", "2024\u5e745\u6708", "2024\u5e746\u6708", "2024\u5e747\u6708", "2024\u5e748\u6708", "2024\u5e749\u6708", "2024\u5e7410\u6708", "2024\u5e7411\u6708", "2024\u5e7412\u6708"], "t": "\u5e74\u6708", "x": [24012, 24013, 24014, 24015, 24016, 24017, 24018, 24019, 24020, 24021, 24022, 24023, 24024, 24025, 24026, 24027, 24028, 24029, 24030, 24031, 24032, 24033, 24034, 24035, 24036, 24037, 24038, 24039, 24040, 24041, 24042, 24043, 24044, 24045, 24046, 24047, 24048, 24049, 24050, 24051, 24052, 24053, 24054, 24055, 24056, 24057, 24058, 24059, 24060, 24061, 24062, 24063, 24064, 24065, 24066, 24067, 24068, 24069, 24070, 24071, 24072, 24073, 24074, 24075, 24076, 24077, 24078, 24079, 24080, 24081, 24082, 24083, 24084, 24085, 24086, 24087, 24088, 24089, 24090, 24091, 24092, 24093, 24094, 24095, 24096, 24097, 24098, 24099, 24100, 24101, 24102, 24103, 24104, 24105, 24106, 24107, 24108, 24109, 24110, 24111, 24112, 24113, 24114, 24115, 24116, 24117, 24118, 24119, 24120, 24121, 24122, 24123, 24124, 24125, 24126, 24127, 24128, 24129, 24130, 24131, 24132, 24133, 24134, 24135, 24136, 24137, 24138, 24139, 24140, 24141, 24142, 24143, 24144, 24145, 24146, 24147, 24148, 24149, 24150, 24151, 24152, 24153, 24154, 24155, 24156, 24157, 24158, 24159, 24160, 24161, 24162, 24163, 24164, 24165, 24166, 24167, 24168, 24169, 24170, 24171, 24172, 24173, 24174, 24175, 24176, 24177, 24178, 24179, 24180, 24181, 24182, 24183, 24184, 24185, 24186, 24187, 24188, 24189, 24190, 24191, 24192, 24193, 24194, 24195, 24196, 24197, 24198, 24199, 24200, 24201, 24202, 24203, 24204, 24205, 24206, 24207, 24208, 24209, 24210, 24211, 24212, 24213, 24214, 24215, 24216, 24217, 24218, 24219, 24220, 24221, 24222, 24223, 24224, 24225, 24226, 24227, 24228, 24229, 24230, 24231, 24232, 24233, 24234, 24235, 24236, 24237, 24238, 24239, 24240, 24241, 24242, 24243, 24244, 24245, 24246, 24247, 24248, 24249, 24250, 24251, 24252, 24253, 24254, 24255, 24256, 24257, 24258, 24259, 24260, 24261, 24262, 24263, 24264, 24265, 24266, 24267, 24268, 24269, 24270, 24271, 24272, 24273, 24274, 24275, 24276, 24277, 24278, 24279, 24280, 24281, 24282, 24283, 24284, 24285, 24286, 24287, 24288, 24289, 24290, 24291, 24292, 24293, 24294, 24295, 24296, 24297, 24298, 24299]}, "latest": [965, 409, 602, 819, 682, 481, 607, 1363, 573, 867, 887, 480], "months": ["1\u6708", "2\u6708", "3\u6708", "4\u6708", "5\u6708", "6\u6708", "7\u6708", "8\u6708", "9\u6708", "10\u6708", "11\u6708", "12\u6708"], "values": [398, 179, 278, 402, 518, 331, 454, 765, 453, 508, 527, 233, 396, 186, 301, 367, 477, 326, 421, 700, 358, 441, 440, 216, 413, 219, 294, 357, 400, 295, 433, 711, 357, 435, 492, 210, 941, 492, 543, 641, 690, 482, 661, 951, 535, 650, 727, 403, 871, 465, 491, 848, 816, 481, 643, 1091, 549, 757, 692, 376, 880, 433, 501, 868, 945, 483, 637, 1112, 571, 742, 672, 384, 983, 528, 567, 978, 730, 478, 670, 1214, 636, 727, 684, 404, 923, 481, 530, 992, 753, 526, 702, 1370, 670, 779, 716, 417, 892, 497, 560, 853, 1080, 525, 691, 1217, 741, 743, 685, 390, 915, 485, 548, 960, 815, 523, 668, 1238, 645, 850, 716, 401, 633, 477, 509, 615, 785, 546, 692, 1296, 626, 1030, 722, 455, 933, 444, 563, 756, 716, 504, 1053, 887, 603, 850, 710, 413, 926, 489, 672, 794, 924, 701, 834, 1411, 792, 1080, 949, 560, 1038, 513, 796, 985, 888, 617, 712, 1170, 672, 909, 808, 495, 916, 500, 752, 873, 900, 618, 756, 1404, 785, 1081, 931, 546, 1147, 571, 853, 1034, 917, 610, 1193, 954, 674, 984, 815, 510, 1086, 471, 835, 1036, 906, 617, 768, 1323, 682, 912, 835, 511, 1063, 446, 792, 969, 852, 604, 698, 1314, 696, 929, 851, 523, 1093, 523, 832, 1080, 1332, 577, 712, 1310, 660, 951, 874, 515, 1089, 437, 440, 148, 102, 293, 346, 453, 417, 538, 699, 414, 505, 287, 438, 359, 394, 302, 442, 363, 347, 470, 684, 432, 875, 219, 427, 460, 615, 459, 586, 1036, 483, 796, 779, 429, 976, 418, 728, 751, 707, 482, 616, 1333, 538, 799, 758, 464, 965, 409, 602, 819, 682, 481, 607, 1363, 573, 867, 887, 480]}</script>
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent);
+  MS.categorical("cSeason","bar",D.months,[
+    {label:"2024年",values:D.latest},
+    {label:"24年の平均",values:D.average,color:MS.SERIES[2]}],
+    "千人",{digits:0});
+  MS.line("cAll",D.axis,[{label:"観光客数",values:D.values,color:MS.P.mid}],"千人",0);
+});
+</script>
+</body>
+</html>
