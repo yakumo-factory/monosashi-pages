@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.5.0">
+<title>賃金と雇用の指数 — 松江市 福祉・労働レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="福祉・労働レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 福祉・労働レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 福祉・労働レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>支える仕組みを見る</h3>
+<a href="01-hogo.html" title="生活保護を受けている人と世帯"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">生活保護を受けている人と世帯</span></a>
+<a href="02-shikyu.html" title="生活保護の支給額"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">生活保護の支給額</span></a>
+<a href="03-shogai.html" title="障がい者手帳と手当"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">障がい者手帳と手当</span></a>
+</div>
+<div class="grp">
+<h3>働く場を見る</h3>
+<a href="04-kyujin.html" title="産業ごとの新規求人数"><svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">産業ごとの新規求人数</span></a>
+<a href="05-shisu.html" aria-current="page" title="賃金と雇用の指数"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">賃金と雇用の指数</span></a>
+</div>
+<div class="grp">
+<h3>地区で見る</h3>
+<a href="06-chiku.html" title="地区ごとの高齢化"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">地区ごとの高齢化</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 福祉・労働レポート / 賃金と雇用の指数</p>
+  <h1>賃金と雇用の指数</h1>
+  <p class="lede">毎月勤労統計から、賃金の動きと雇用の動きを指数で見ます。平成9年から令和4年までです。<b>これは島根県の数です。</b></p>
+<noscript><div class="ns">JavaScript が無効です。図は出ませんが、<b>下の表の数値はすべて読めます</b>。</div></noscript>
+<section class="section" id="s-notice" style="border-color:#e6cf94; background:#fff6e0">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>この画面の数は、松江市の数ではありません</h2>
+  <p>ここに出ている指数は島根県の数です。松江市の統計情報データベースに載っていますが、ファイルの中でデータ元自身がこう書いています。</p>
+  <p style="padding-left:1em; border-left:3px solid #e6cf94; color:#6b5518">注）島根県平均の数値である。</p>
+  <p><b>松江市だけの賃金・雇用の数は、この分野にはありません。市の数と取り違えないよう、ほかの画面と分けて置いています。</b></p>
+</section>
+
+<section class="section" id="s-1">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>賃金の動き</h2>
+  <p class="sub">現金給与総額の名目賃金指数です。</p>
+  <div class="chartbox"><canvas id="cChingin0"></canvas></div>
+  <p class="unit">単位——指数。100 と置いている年は列ごとに違います——「読むときに気をつけること」に書いています。</p>
+
+  <h3>正確な値</h3>
+  <div class="table-scroll"><table class="yr">
+    <thead><tr><th class="cnr">年</th><th class="n">平成9</th><th class="n">平成10</th><th class="n">平成11</th><th class="n">平成12</th><th class="n">平成13</th><th class="n">平成14</th><th class="n">平成15</th><th class="n">平成16</th><th class="n">平成17</th><th class="n">平成18</th><th class="n">平成19</th><th class="n">平成20</th><th class="n">平成21</th><th class="n">平成22</th><th class="n">平成23</th><th class="n">平成24</th><th class="n">平成25</th><th class="n">平成26</th><th class="n">平成27</th><th class="n">平成28</th><th class="n">平成29</th><th class="n">平成30</th><th class="n">令和元</th><th class="n">令和2</th><th class="n">令和3</th><th class="n">令和4</th></tr></thead>
+    <tbody>
+      <tr><th>医療,福祉指数（指数）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">100.0</td><td class="n">94.8</td><td class="n">94.8</td><td class="n">104.2</td><td class="n">104.2</td><td class="n">99.2</td><td class="n">100.1</td><td class="n">100.4</td><td class="n">98.9</td><td class="n">102.4</td><td class="n">101.5</td><td class="n">92.3</td><td class="n">99.2</td><td class="n">102.2</td><td class="n">97.3</td><td class="n">97.8</td></tr>
+      <tr><th>建設業指数（指数）</th><td class="n">100.0</td><td class="n">103.9</td><td class="n">108.6</td><td class="n">107.3</td><td class="n">106.0</td><td class="n">98.6</td><td class="n">102.0</td><td class="n">110.9</td><td class="n">105.6</td><td class="n">112.2</td><td class="n">113.2</td><td class="n">104.0</td><td class="n">106.4</td><td class="n">118.1</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><th>製造業指数（指数）</th><td class="n">100.0</td><td class="n">98.5</td><td class="n">98.4</td><td class="n">102.6</td><td class="n">101.0</td><td class="n">101.9</td><td class="n">103.7</td><td class="n">107.7</td><td class="n">108.2</td><td class="n">107.7</td><td class="n">111.9</td><td class="n">113.9</td><td class="n">105.6</td><td class="n">116.0</td><td class="n">115.8</td><td class="n">113.7</td><td class="n">117.6</td><td class="n">119.0</td><td class="n">123.1</td><td class="n">121.6</td><td class="n">124.6</td><td class="n">134.4</td><td class="n">125.6</td><td class="n">123.0</td><td class="n">135.3</td><td class="n">135.2</td></tr>
+      <tr><th>調査産業計指数（指数）</th><td class="n">100.0</td><td class="n">99.2</td><td class="n">100.7</td><td class="n">101.0</td><td class="n">98.8</td><td class="n">98.4</td><td class="n">100.6</td><td class="n">99.0</td><td class="n">95.3</td><td class="n">95.1</td><td class="n">95.0</td><td class="n">93.3</td><td class="n">92.4</td><td class="n">97.1</td><td class="n">95.4</td><td class="n">93.7</td><td class="n">95.2</td><td class="n">96.8</td><td class="n">96.3</td><td class="n">100.7</td><td class="n">99.0</td><td class="n">98.6</td><td class="n">97.7</td><td class="n">97.8</td><td class="n">98.9</td><td class="n">97.5</td></tr>
+    </tbody></table></div>
+  <p class="unit">単位——指数。<b>一次資料——島根県政策企画局統計調査課</b> ／ 元の統計——毎月勤労統計調査地方調査報告。横棒（—）は、その年の数がこの列に無いことを示します。</p>
+</section>
+<section class="section" id="s-2">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>雇用の動き</h2>
+  <p class="sub">常用労働者雇用指数です。 賃金の動きとは<b>数えているものが違う</b>ので、図を分けています。</p>
+  <div class="chartbox"><canvas id="cKoyo0"></canvas></div>
+  <p class="unit">単位——指数。100 と置いている年は列ごとに違います——「読むときに気をつけること」に書いています。</p>
+
+  <h3>正確な値</h3>
+  <div class="table-scroll"><table class="yr">
+    <thead><tr><th class="cnr">年</th><th class="n">平成9</th><th class="n">平成10</th><th class="n">平成11</th><th class="n">平成12</th><th class="n">平成13</th><th class="n">平成14</th><th class="n">平成15</th><th class="n">平成16</th><th class="n">平成17</th><th class="n">平成18</th><th class="n">平成19</th><th class="n">平成20</th><th class="n">平成21</th><th class="n">平成22</th><th class="n">平成23</th><th class="n">平成24</th><th class="n">平成25</th><th class="n">平成26</th><th class="n">平成27</th><th class="n">平成28</th><th class="n">平成29</th><th class="n">平成30</th><th class="n">令和元</th><th class="n">令和2</th><th class="n">令和3</th><th class="n">令和4</th></tr></thead>
+    <tbody>
+      <tr><th>医療,福祉指数（指数）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">100.0</td><td class="n">107.7</td><td class="n">114.8</td><td class="n">122.1</td><td class="n">129.5</td><td class="n">130.9</td><td class="n">134.6</td><td class="n">136.9</td><td class="n">141.5</td><td class="n">140.3</td><td class="n">143.0</td><td class="n">144.9</td><td class="n">149.6</td><td class="n">148.9</td><td class="n">149.6</td><td class="n">149.8</td></tr>
+      <tr><th>建設業指数（指数）</th><td class="n">100.0</td><td class="n">101.7</td><td class="n">105.9</td><td class="n">103.3</td><td class="n">96.7</td><td class="n">91.5</td><td class="n">87.6</td><td class="n">91.2</td><td class="n">83.3</td><td class="n">79.9</td><td class="n">81.1</td><td class="n">75.2</td><td class="n">74.8</td><td class="n">74.3</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><th>製造業指数（指数）</th><td class="n">100.0</td><td class="n">97.6</td><td class="n">90.9</td><td class="n">87.6</td><td class="n">83.7</td><td class="n">76.4</td><td class="n">73.4</td><td class="n">69.2</td><td class="n">69.8</td><td class="n">70.3</td><td class="n">74.5</td><td class="n">76.7</td><td class="n">72.3</td><td class="n">70.9</td><td class="n">71.2</td><td class="n">69.3</td><td class="n">65.4</td><td class="n">64.8</td><td class="n">65.7</td><td class="n">66.7</td><td class="n">70.2</td><td class="n">72.0</td><td class="n">73.5</td><td class="n">72.3</td><td class="n">72.7</td><td class="n">72.8</td></tr>
+      <tr><th>調査産業計指数（指数）</th><td class="n">100.0</td><td class="n">100.3</td><td class="n">98.8</td><td class="n">98.2</td><td class="n">96.6</td><td class="n">96.5</td><td class="n">97.7</td><td class="n">97.5</td><td class="n">97.0</td><td class="n">97.7</td><td class="n">98.4</td><td class="n">98.9</td><td class="n">98.1</td><td class="n">98.4</td><td class="n">99.3</td><td class="n">97.4</td><td class="n">96.6</td><td class="n">96.3</td><td class="n">97.9</td><td class="n">98.0</td><td class="n">99.7</td><td class="n">101.6</td><td class="n">102.6</td><td class="n">100.8</td><td class="n">101.7</td><td class="n">102.7</td></tr>
+    </tbody></table></div>
+  <p class="unit">単位——指数。<b>一次資料——島根県政策企画局統計調査課</b> ／ 元の統計——毎月勤労統計調査地方調査報告。横棒（—）は、その年の数がこの列に無いことを示します。</p>
+</section>
+
+<section class="section" id="s-cautions">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col></colgroup>
+    <thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead>
+    <tbody>
+      <tr><th>賃金の動きで100と置いている年<span class="pill">置き直した</span></th><td>列ごとに、値のあるいちばん古い年を100と置き直している（医療,福祉指数は平成19年／建設業指数は平成9年／製造業指数は平成9年／調査産業計指数は平成9年）。データ元のファイルが100と置いている年は版ごとに違っており、繋ぐために置き直している。</td></tr>
+      <tr><th>雇用の動きで100と置いている年<span class="pill">置き直した</span></th><td>列ごとに、値のあるいちばん古い年を100と置き直している（医療,福祉指数は平成19年／建設業指数は平成9年／製造業指数は平成9年／調査産業計指数は平成9年）。データ元のファイルが100と置いている年は版ごとに違っており、繋ぐために置き直している。</td></tr>
+      <tr><th>賃金の動きの繋ぎ目<span class="pill">公表値ではない</span></th><td>ファイルごとに100と置いている年が違う。そのままでは繋がらないので、重なる年（平成22年・平成26年・令和3年）で揃え直している。揃え直した数は、データ元が公表している数ではない。繋ぎ目で数が動いた場合、それが実際の変化なのか、置き方が変わったせいなのかは、これらのファイルからは分からない。</td></tr>
+      <tr><th>雇用の動きの繋ぎ目<span class="pill">公表値ではない</span></th><td>ファイルごとに100と置いている年が違う。そのままでは繋がらないので、重なる年（平成22年・平成26年・令和3年）で揃え直している。揃え直した数は、データ元が公表している数ではない。繋ぎ目で数が動いた場合、それが実際の変化なのか、置き方が変わったせいなのかは、これらのファイルからは分からない。</td></tr>
+      <tr><th>この画面が持っている年<span class="pill">未取得</span></th><td>平成9年から令和4年までである。この範囲の外は未取得であり、出せない。</td></tr>
+      <tr><th>医療,福祉指数（賃金の動き）<span class="pill">その列が始まる年</span></th><td>平成19年から値がある。この節は平成9年から始まるので、同じ図でも線の始まりがそろわない。</td></tr>
+      <tr><th>医療,福祉指数（雇用の動き）<span class="pill">その列が始まる年</span></th><td>平成19年から値がある。この節は平成9年から始まるので、同じ図でも線の始まりがそろわない。</td></tr>
+      <tr><th>横棒（—）の意味<span class="pill">数として得られなかった</span></th><td>その年の数がこの列に無いことを示す。0ではない。記録が無いのか、こちらが読めなかったのかは、この画面からは見分けられない——接続の計算へ入る前に、数として読めた升だけを採っているからである。</td></tr>
+      <tr><th>賃金の動き／雇用の動き<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)島根県平均の数値である。」</td></tr>
+      <tr><th>雇用の動き<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)平成30年1月に行われた遡及改正後の数値を掲載している。」</td></tr>
+      <tr><th>賃金の動き／雇用の動き<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「資料:島根県政策企画局統計調査課「毎月勤労統計調査地方調査報告」」</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="section" id="s-glossary">
+  <h2><svg class="ic"><use href="#ic-book"/></svg>専門用語</h2>
+  <p class="sub">この画面に出てくる言葉です。クリックすると開きます。</p>
+  <details class="dd"><summary>指数</summary><div class="ddc">ある年を100と置いて、ほかの年がそれと比べてどのくらいかを表した数です。金額でも人数でもありません。 上の「雇用の動き」の表で「医療,福祉指数」の令和4年が 149.8 になっているのは、100 と置いた平成19年より 49.8%大きい、という意味です。</div></details>
+  <details class="dd"><summary>調査産業計</summary><div class="ddc">この調査が対象としている産業を全部あわせた数です。特定の産業ではなく、全体にあたります。</div></details>
+  <details class="dd"><summary>製造業</summary><div class="ddc">ものを作る事業所をまとめた区分です。区分の決め方は調査の側が定めています。</div></details>
+  <details class="dd"><summary>医療,福祉</summary><div class="ddc">病院・診療所や、介護・保育などの事業所をまとめた区分です。区分の決め方は調査の側が定めています。表記の読点は、データ元の書き方のままです。</div></details>
+  <details class="dd"><summary>規模5人以上</summary><div class="ddc">働いている人が5人以上いる事業所だけを集計したもの、という意味です。4人以下の事業所は入っていません。</div></details>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年8月25日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"charts": [{"axis": {"l": ["\u5e73\u62109", "\u5e73\u621010", "\u5e73\u621011", "\u5e73\u621012", "\u5e73\u621013", "\u5e73\u621014", "\u5e73\u621015", "\u5e73\u621016", "\u5e73\u621017", "\u5e73\u621018", "\u5e73\u621019", "\u5e73\u621020", "\u5e73\u621021", "\u5e73\u621022", "\u5e73\u621023", "\u5e73\u621024", "\u5e73\u621025", "\u5e73\u621026", "\u5e73\u621027", "\u5e73\u621028", "\u5e73\u621029", "\u5e73\u621030", "\u4ee4\u548c\u5143", "\u4ee4\u548c2", "\u4ee4\u548c3", "\u4ee4\u548c4"], "t": "\u5e74", "x": [1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]}, "id": "cChingin0", "sets": [{"label": "\u533b\u7642,\u798f\u7949\u6307\u6570", "values": [null, null, null, null, null, null, null, null, null, null, 100.0, 94.79166666666666, 94.79166666666666, 104.16666666666667, 104.16666666666667, 99.16666666666667, 100.10416666666666, 100.41666666666667, 98.93267651888343, 102.39532019704434, 101.50492610837438, 92.30418719211823, 99.22947454844008, 102.19745484400657, 97.34975369458128, 97.75835706790588]}, {"label": "\u5efa\u8a2d\u696d\u6307\u6570", "values": [100.0, 103.90707497360086, 108.5533262935586, 107.28616684266103, 106.01900739176347, 98.6272439281943, 102.0063357972545, 110.87645195353748, 105.59662090813093, 112.24920802534317, 113.19957761351638, 104.01267159450897, 106.44139387539597, 118.0570221752904, null, null, null, null, null, null, null, null, null, null, null, null]}, {"label": "\u88fd\u9020\u696d\u6307\u6570", "values": [100.0, 98.48484848484847, 98.37662337662337, 102.59740259740259, 100.97402597402596, 101.94805194805194, 103.67965367965365, 107.68398268398268, 108.22510822510823, 107.68398268398268, 111.90476190476191, 113.85281385281385, 105.62770562770562, 116.01731601731602, 115.7852813852814, 113.6969696969697, 117.64155844155846, 119.03376623376623, 123.09593198941697, 121.61878080554396, 124.57308317328997, 134.42075773244335, 125.55785062920532, 122.97283605742757, 135.28242925636926, 135.15944522977256]}, {"label": "\u8abf\u67fb\u7523\u696d\u8a08\u6307\u6570", "values": [100.0, 99.2373689227836, 100.66730219256435, 101.04861773117253, 98.76072449952335, 98.37940896091516, 100.5719733079123, 99.0467111534795, 95.32888465204957, 95.13822688274547, 95.04289799809342, 93.32697807435653, 92.37368922783602, 97.14013346043852, 95.39161105815063, 93.74022878932318, 95.19733079122975, 96.75157292659675, 96.27022181750921, 100.69865202111463, 98.96578802839947, 98.58070714112944, 97.71427514477186, 97.81054536658937, 98.86951780658197, 97.5004048003583]}]}, {"axis": {"l": ["\u5e73\u62109", "\u5e73\u621010", "\u5e73\u621011", "\u5e73\u621012", "\u5e73\u621013", "\u5e73\u621014", "\u5e73\u621015", "\u5e73\u621016", "\u5e73\u621017", "\u5e73\u621018", "\u5e73\u621019", "\u5e73\u621020", "\u5e73\u621021", "\u5e73\u621022", "\u5e73\u621023", "\u5e73\u621024", "\u5e73\u621025", "\u5e73\u621026", "\u5e73\u621027", "\u5e73\u621028", "\u5e73\u621029", "\u5e73\u621030", "\u4ee4\u548c\u5143", "\u4ee4\u548c2", "\u4ee4\u548c3", "\u4ee4\u548c4"], "t": "\u5e74", "x": [1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]}, "id": "cKoyo0", "sets": [{"label": "\u533b\u7642,\u798f\u7949\u6307\u6570", "values": [null, null, null, null, null, null, null, null, null, null, 100.0, 107.6923076923077, 114.77411477411476, 122.10012210012209, 129.54822954822953, 130.89133089133088, 134.55433455433453, 136.87423687423686, 141.54522944595334, 140.27132238093972, 142.96068174041287, 144.9423149526562, 149.6133075243727, 148.90558137714288, 149.6133075243727, 149.76217648708345]}, {"label": "\u5efa\u8a2d\u696d\u6307\u6570", "values": [100.0, 101.66666666666666, 105.91666666666666, 103.33333333333334, 96.66666666666667, 91.49999999999999, 87.58333333333333, 91.25, 83.33333333333334, 79.91666666666667, 81.08333333333333, 75.16666666666667, 74.75, 74.33333333333334, null, null, null, null, null, null, null, null, null, null, null, null]}, {"label": "\u88fd\u9020\u696d\u6307\u6570", "values": [100.0, 97.55586592178771, 90.92178770949721, 87.63966480446929, 83.72905027932961, 76.39664804469275, 73.39385474860335, 69.20391061452514, 69.83240223463689, 70.32122905027933, 74.51117318435755, 76.67597765363129, 72.27653631284917, 70.94972067039106, 71.23351955307264, 69.31787709497208, 65.41564245810056, 64.84804469273743, 65.70217294097004, 66.6877055350846, 70.16992070095601, 72.00958154330317, 73.52073152094549, 72.33809240800802, 72.73230544565385, 72.80460396001335]}, {"label": "\u8abf\u67fb\u7523\u696d\u8a08\u6307\u6570", "values": [100.0, 100.29097963142581, 98.8360814742968, 98.15712900096995, 96.60523763336566, 96.5082444228904, 97.67216294859361, 97.47817652764307, 96.99321047526674, 97.67216294859361, 98.35111542192048, 98.93307468477207, 98.06013579049466, 98.44810863239573, 99.3341416100873, 97.36517943743938, 96.5775945683802, 96.28225024248302, 97.9473552822818, 98.04530263756408, 99.71040767736288, 101.57140742772623, 102.64882833583133, 100.78782858546798, 101.66935478300852, 102.67797933442723]}]}]}</script>
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent);
+  D.charts.forEach(function(chart){
+    MS.line(chart.id, chart.axis, chart.sets, "指数", 1);
+  });
+});
+</script>
+</body>
+</html>
