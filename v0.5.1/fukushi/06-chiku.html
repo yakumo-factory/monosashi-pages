@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.5.1">
+<title>地区ごとの高齢化 — 松江市 福祉・労働レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="福祉・労働レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 福祉・労働レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 福祉・労働レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>支える仕組みを見る</h3>
+<a href="01-hogo.html" title="生活保護を受けている人と世帯"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">生活保護を受けている人と世帯</span></a>
+<a href="02-shikyu.html" title="生活保護の支給額"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">生活保護の支給額</span></a>
+<a href="03-shogai.html" title="障がい者手帳と手当"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">障がい者手帳と手当</span></a>
+</div>
+<div class="grp">
+<h3>働く場を見る</h3>
+<a href="04-kyujin.html" title="産業ごとの新規求人数"><svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">産業ごとの新規求人数</span></a>
+<a href="05-shisu.html" title="賃金と雇用の指数"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">賃金と雇用の指数</span></a>
+</div>
+<div class="grp">
+<h3>地区で見る</h3>
+<a href="06-chiku.html" aria-current="page" title="地区ごとの高齢化"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">地区ごとの高齢化</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 福祉・労働レポート / 地区ごとの高齢化</p>
+  <h1>地区ごとの高齢化</h1>
+  <p class="lede">公民館区の地区ごとの高齢化率を、平成21年度から令和7年度まで見ます。<b>市全体だけは昭和58年度から取れます</b>——期間も粒度も違うので、段を分けています。</p>
+<noscript><div class="ns">JavaScript が無効です。図と地区の切り替えは動きませんが、<b>下の表の数値は大野ぶんと市全体ぶんが読めます</b>。</div></noscript>
+<section class="section" id="s-latest">
+  <h2><svg class="ic"><use href="#ic-map"/></svg>いまの高齢化率（令和7年度）</h2>
+  <p class="sub">令和7年度の、公民館区の地区ごとの高齢化率です。<b>高い順に並べています。</b>高齢化率がどの2つの数の割り算かは、<b>データ元が列の綴りの中で定義しています</b>——「読むときに気をつけること」に書いています。</p>
+  <div class="chartbox" style="height:640px"><canvas id="cChiku"></canvas></div>
+  <p class="unit">単位——%。この年度の市全体は 30.88% です（<b>下の「市全体の推移」の段</b>）。正確な値は下の表にあります。表示は地区が小数第1位、市全体が小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。</p>
+</section>
+
+<section class="section" id="s-trend">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>地区ごとの推移（平成21〜令和7年度）</h2>
+  <p class="sub">地区を1つ選ぶと、その地区の高齢化率の動きが出ます。市全体を破線で重ねています。<b>同時に全部を出すと読めない</b>ので、1つずつ見る形にしています。<b>重ねている市全体の線は、この段の年度だけに揃えてあります</b>——市全体はもっと長い期間を持っており、それは下の段に出ます。</p>
+  <div class="pick"><label for="area">地区</label><select id="area">
+<option value="大野" selected>大野</option>
+<option value="美保関">美保関</option>
+<option value="島根">島根</option>
+<option value="本庄">本庄</option>
+<option value="秋鹿">秋鹿</option>
+<option value="鹿島">鹿島</option>
+<option value="八束">八束</option>
+<option value="古江">古江</option>
+<option value="宍道">宍道</option>
+<option value="白潟">白潟</option>
+<option value="雑賀">雑賀</option>
+<option value="忌部">忌部</option>
+<option value="朝酌">朝酌</option>
+<option value="八雲">八雲</option>
+<option value="竹矢">竹矢</option>
+<option value="城北">城北</option>
+<option value="大庭">大庭</option>
+<option value="古志原">古志原</option>
+<option value="生馬">生馬</option>
+<option value="持田">持田</option>
+<option value="城西">城西</option>
+<option value="玉湯">玉湯</option>
+<option value="朝日">朝日</option>
+<option value="東出雲">東出雲</option>
+<option value="乃木">乃木</option>
+<option value="津田">津田</option>
+<option value="城東">城東</option>
+<option value="川津">川津</option>
+<option value="法吉">法吉</option>
+<option value="その他">その他</option>
+<option value="東出雲町">東出雲町</option>
+</select></div>
+  <div class="chartbox"><canvas id="cSuii"></canvas></div>
+  <p class="unit">単位——%。公民館区の地区ごとの値です。表示は地区が小数第1位、市全体が小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。</p>
+
+  <h3>正確な値</h3>
+  <div id="trendTable"><div class="table-scroll"><table class="yr">
+    <thead><tr><th class="cnr">年度</th><th class="n">平成21</th><th class="n">平成22</th><th class="n">平成23</th><th class="n">平成24</th><th class="n">平成25</th><th class="n">平成26</th><th class="n">平成27</th><th class="n">平成28</th><th class="n">平成29</th><th class="n">平成30</th><th class="n">令和元</th><th class="n">令和2</th><th class="n">令和3</th><th class="n">令和4</th><th class="n">令和5</th><th class="n">令和6</th><th class="n">令和7</th></tr></thead>
+    <tbody>
+      <tr><th>大野（%）</th><td class="n">32.8</td><td class="n">33.6</td><td class="n">33.4</td><td class="n">34.4</td><td class="n">36.1</td><td class="n">37.7</td><td class="n">39.2</td><td class="n">40.1</td><td class="n">41.3</td><td class="n">42.3</td><td class="n">43.7</td><td class="n">44.7</td><td class="n">46.5</td><td class="n">47.5</td><td class="n">48.1</td><td class="n">48.7</td><td class="n">50.2</td></tr>
+      <tr><th>市全体（%）</th><td class="n">24.17</td><td class="n">24.59</td><td class="n">24.57</td><td class="n">24.93</td><td class="n">25.75</td><td class="n">26.53</td><td class="n">27.35</td><td class="n">28.05</td><td class="n">28.52</td><td class="n">28.83</td><td class="n">29.20</td><td class="n">29.59</td><td class="n">29.86</td><td class="n">30.20</td><td class="n">30.39</td><td class="n">30.69</td><td class="n">30.88</td></tr>
+    </tbody></table></div></div>
+  <p class="unit">単位——%。<b>一次資料——松江市健康福祉総務課</b> ／ 元の統計——人口・世帯数（公民館別町別一覧表）。表示は地区が小数第1位、市全体が小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。横棒（—）は、その年度の数がこの行に無いことを示します。</p>
+</section>
+
+<section class="section" id="s-city">
+  <h2><svg class="ic"><use href="#ic-age"/></svg>市全体の推移（昭和58〜令和7年度）</h2>
+  <p class="sub">市全体の高齢化率です。<b>地区ごとの数はここまで遡れません</b>——上の段は平成21年度からです。<b>この段だけ、年度によって別のファイルから採っています</b>——どの年度をどちらから採ったかは、下の一次資料の行に書いています。</p>
+  <div class="chartbox tall"><canvas id="cCity"></canvas></div>
+  <p class="unit">単位——%。市全体の値です。表示は小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。</p>
+  <details class="dd"><summary>昭和58年度から令和7年度までの正確な値を開く</summary><div class="ddc">
+    <div class="table-scroll"><table class="yr">
+      <thead><tr><th class="cnr">年度</th><th class="n">昭和58</th><th class="n">昭和59</th><th class="n">昭和60</th><th class="n">昭和61</th><th class="n">昭和62</th><th class="n">昭和63</th><th class="n">平成元</th><th class="n">平成2</th><th class="n">平成3</th><th class="n">平成4</th><th class="n">平成5</th><th class="n">平成6</th><th class="n">平成7</th><th class="n">平成8</th><th class="n">平成9</th><th class="n">平成10</th><th class="n">平成11</th><th class="n">平成12</th><th class="n">平成13</th><th class="n">平成14</th><th class="n">平成15</th><th class="n">平成16</th><th class="n">平成17</th><th class="n">平成18</th><th class="n">平成19</th><th class="n">平成20</th><th class="n">平成21</th><th class="n">平成22</th><th class="n">平成23</th><th class="n">平成24</th><th class="n">平成25</th><th class="n">平成26</th><th class="n">平成27</th><th class="n">平成28</th><th class="n">平成29</th><th class="n">平成30</th><th class="n">令和元</th><th class="n">令和2</th><th class="n">令和3</th><th class="n">令和4</th><th class="n">令和5</th><th class="n">令和6</th><th class="n">令和7</th></tr></thead>
+      <tbody><tr><th>市全体（%）</th><td class="n">10.50</td><td class="n">10.70</td><td class="n">11.10</td><td class="n">11.40</td><td class="n">11.80</td><td class="n">12.20</td><td class="n">12.60</td><td class="n">13.03</td><td class="n">13.62</td><td class="n">14.13</td><td class="n">14.67</td><td class="n">15.28</td><td class="n">15.76</td><td class="n">16.25</td><td class="n">16.77</td><td class="n">17.28</td><td class="n">17.77</td><td class="n">18.24</td><td class="n">18.91</td><td class="n">19.47</td><td class="n">19.98</td><td class="n">20.28</td><td class="n">22.25</td><td class="n">22.70</td><td class="n">23.13</td><td class="n">23.66</td><td class="n">24.17</td><td class="n">24.59</td><td class="n">24.57</td><td class="n">24.93</td><td class="n">25.75</td><td class="n">26.53</td><td class="n">27.35</td><td class="n">28.05</td><td class="n">28.52</td><td class="n">28.83</td><td class="n">29.20</td><td class="n">29.59</td><td class="n">29.86</td><td class="n">30.20</td><td class="n">30.39</td><td class="n">30.69</td><td class="n">30.88</td></tr></tbody>
+    </table></div>
+  </div></details>
+  <p class="unit">単位——%。<b>一次資料——昭和58年度から平成25年度は松江市介護保険課 ／ 平成26年度から令和7年度は松江市健康福祉総務課</b> ／ 元の統計——人口・世帯数（公民館別町別一覧表）。表示は小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。</p>
+</section>
+
+<section class="section" id="s-cross">
+  <h2><svg class="ic"><use href="#ic-panel"/></svg>いまの正確な値（令和7年度）</h2>
+  <p class="sub">令和7年度の、地区ごとの人口・世帯数と、65歳以上の人数です。<b>いちばん下が市全体です。</b></p>
+  <div class="table-scroll"><table class="yr">
+    <thead><tr><th class="cnr">地区</th><th class="n">人口（人）</th><th class="n">世帯数（世帯）</th><th class="n">65歳以上（人）</th><th class="n">高齢化率（%）</th><th class="n">65歳以上のみ・独居（世帯）</th><th class="n">65歳以上のみ・2人以上（世帯）</th></tr></thead>
+    <tbody>
+      <tr><th>大野</th><td class="n">1,018</td><td class="n">479</td><td class="n">511</td><td class="n">50.2</td><td class="n">121</td><td class="n">91</td></tr>
+      <tr><th>美保関</th><td class="n">4,224</td><td class="n">2,042</td><td class="n">2,050</td><td class="n">48.5</td><td class="n">557</td><td class="n">390</td></tr>
+      <tr><th>島根</th><td class="n">2,833</td><td class="n">1,299</td><td class="n">1,358</td><td class="n">47.9</td><td class="n">293</td><td class="n">243</td></tr>
+      <tr><th>本庄</th><td class="n">2,091</td><td class="n">983</td><td class="n">956</td><td class="n">45.7</td><td class="n">209</td><td class="n">188</td></tr>
+      <tr><th>秋鹿</th><td class="n">1,593</td><td class="n">722</td><td class="n">700</td><td class="n">43.9</td><td class="n">180</td><td class="n">118</td></tr>
+      <tr><th>鹿島</th><td class="n">5,607</td><td class="n">2,595</td><td class="n">2,365</td><td class="n">42.2</td><td class="n">597</td><td class="n">432</td></tr>
+      <tr><th>八束</th><td class="n">3,656</td><td class="n">1,735</td><td class="n">1,416</td><td class="n">38.7</td><td class="n">412</td><td class="n">241</td></tr>
+      <tr><th>古江</th><td class="n">4,143</td><td class="n">1,934</td><td class="n">1,575</td><td class="n">38.0</td><td class="n">402</td><td class="n">312</td></tr>
+      <tr><th>宍道</th><td class="n">7,967</td><td class="n">3,277</td><td class="n">3,012</td><td class="n">37.8</td><td class="n">554</td><td class="n">516</td></tr>
+      <tr><th>白潟</th><td class="n">2,906</td><td class="n">1,705</td><td class="n">1,088</td><td class="n">37.4</td><td class="n">405</td><td class="n">181</td></tr>
+      <tr><th>雑賀</th><td class="n">4,660</td><td class="n">2,515</td><td class="n">1,720</td><td class="n">36.9</td><td class="n">627</td><td class="n">361</td></tr>
+      <tr><th>忌部</th><td class="n">1,997</td><td class="n">822</td><td class="n">733</td><td class="n">36.7</td><td class="n">162</td><td class="n">145</td></tr>
+      <tr><th>朝酌</th><td class="n">1,901</td><td class="n">837</td><td class="n">693</td><td class="n">36.5</td><td class="n">174</td><td class="n">134</td></tr>
+      <tr><th>八雲</th><td class="n">6,552</td><td class="n">2,725</td><td class="n">2,310</td><td class="n">35.3</td><td class="n">462</td><td class="n">506</td></tr>
+      <tr><th>竹矢</th><td class="n">5,805</td><td class="n">2,823</td><td class="n">2,021</td><td class="n">34.8</td><td class="n">529</td><td class="n">430</td></tr>
+      <tr><th>城北</th><td class="n">6,781</td><td class="n">3,289</td><td class="n">2,271</td><td class="n">33.5</td><td class="n">698</td><td class="n">490</td></tr>
+      <tr><th>大庭</th><td class="n">8,255</td><td class="n">4,018</td><td class="n">2,747</td><td class="n">33.3</td><td class="n">841</td><td class="n">514</td></tr>
+      <tr><th>古志原</th><td class="n">12,736</td><td class="n">6,380</td><td class="n">4,087</td><td class="n">32.1</td><td class="n">1,349</td><td class="n">804</td></tr>
+      <tr><th>生馬</th><td class="n">3,332</td><td class="n">1,551</td><td class="n">1,068</td><td class="n">32.1</td><td class="n">267</td><td class="n">238</td></tr>
+      <tr><th>持田</th><td class="n">4,290</td><td class="n">1,983</td><td class="n">1,220</td><td class="n">28.4</td><td class="n">334</td><td class="n">250</td></tr>
+      <tr><th>城西</th><td class="n">8,908</td><td class="n">4,212</td><td class="n">2,465</td><td class="n">27.7</td><td class="n">805</td><td class="n">530</td></tr>
+      <tr><th>玉湯</th><td class="n">7,398</td><td class="n">3,176</td><td class="n">2,004</td><td class="n">27.1</td><td class="n">485</td><td class="n">368</td></tr>
+      <tr><th>朝日</th><td class="n">4,459</td><td class="n">2,408</td><td class="n">1,202</td><td class="n">27.0</td><td class="n">487</td><td class="n">201</td></tr>
+      <tr><th>東出雲</th><td class="n">15,571</td><td class="n">6,437</td><td class="n">4,040</td><td class="n">25.9</td><td class="n">872</td><td class="n">741</td></tr>
+      <tr><th>乃木</th><td class="n">15,632</td><td class="n">7,489</td><td class="n">4,016</td><td class="n">25.7</td><td class="n">1,199</td><td class="n">819</td></tr>
+      <tr><th>津田</th><td class="n">13,420</td><td class="n">6,548</td><td class="n">3,403</td><td class="n">25.4</td><td class="n">1,003</td><td class="n">693</td></tr>
+      <tr><th>城東</th><td class="n">7,555</td><td class="n">4,080</td><td class="n">1,877</td><td class="n">24.8</td><td class="n">728</td><td class="n">350</td></tr>
+      <tr><th>川津</th><td class="n">15,627</td><td class="n">8,128</td><td class="n">3,845</td><td class="n">24.6</td><td class="n">986</td><td class="n">876</td></tr>
+      <tr><th>法吉</th><td class="n">12,207</td><td class="n">5,521</td><td class="n">2,880</td><td class="n">23.6</td><td class="n">792</td><td class="n">675</td></tr>
+      <tr><th>その他</th><td class="n">11</td><td class="n">11</td><td class="n">0</td><td class="n">0.0</td><td class="n">0</td><td class="n">0</td></tr>
+      <tr><th><b>市全体</b></th><td class="n"><b>193,135</b></td><td class="n"><b>91,724</b></td><td class="n"><b>59,633</b></td><td class="n"><b>30.9</b></td><td class="n"><b>16,530</b></td><td class="n"><b>11,837</b></td></tr>
+    </tbody></table></div>
+  <p class="unit"><b>一次資料——松江市健康福祉総務課</b> ／ 元の統計——人口・世帯数（公民館別町別一覧表）。表示は小数第1位までに丸めています（<b>丸めているのは表示だけ</b>です）。世帯を数える列と人を数える列は、<b>同じ人を数えていません</b>——データ元の注記が「読むときに気をつけること」に出ています。</p>
+</section>
+
+<section class="section" id="s-cautions">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col></colgroup>
+    <thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead>
+    <tbody>
+      <tr><th>高齢化率の数え方<span class="pill">データ元が決めている</span></th><td>この割り算はこちらが持ち込んだものではない——データ元が列の綴りの中で定義している（「高齢者(65歳以上)統計人口(65歳以上)高齢化率HH=G÷C」）。∴ こちらの言葉へ言い換えていない。ただし、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある。</td></tr>
+      <tr><th>この画面の「地区」（公民館区の地区ごと）<span class="pill">粒度が違う</span></th><td>公民館区の区切りである。物差しのほかのレポートが「地区」と呼んでいる区切りとは分け方が違うので、並べて比べられない。合併した町は名前まで同じものが在るが、同じ区切りではない。</td></tr>
+      <tr><th>地区ごとの推移が持っている年度<span class="pill">未取得</span></th><td>平成21年度から令和7年度までである（粒度は公民館区の地区ごと）。この範囲の外は未取得であり、出せない。</td></tr>
+      <tr><th>市全体の推移が持っている年度<span class="pill">未取得</span></th><td>昭和58年度から令和7年度までである（粒度は市全体）。この範囲の外は未取得であり、出せない。</td></tr>
+      <tr><th>「東出雲町」の線が始まる年度<span class="pill">その地区が始まる年</span></th><td>平成23年度から値がある。この段は平成21年度から始まるので、同じ図でも線の始まりがそろわない。地区の顔ぶれが替わった理由は、このファイルからは分からない。</td></tr>
+      <tr><th>「東出雲」の線が始まる年度<span class="pill">その地区が始まる年</span></th><td>平成24年度から値がある。この段は平成21年度から始まるので、同じ図でも線の始まりがそろわない。地区の顔ぶれが替わった理由は、このファイルからは分からない。</td></tr>
+      <tr><th>「その他」の線が始まる年度<span class="pill">その地区が始まる年</span></th><td>令和3年度から値がある。この段は平成21年度から始まるので、同じ図でも線の始まりがそろわない。地区の顔ぶれが替わった理由は、このファイルからは分からない。</td></tr>
+      <tr><th>市全体の推移の源泉<span class="pill">源泉が年で替わる</span></th><td>市全体の推移は、年度によって別のファイルから採っている（昭和58年度から平成25年度は松江市介護保険課／平成26年度から令和7年度は松江市健康福祉総務課）。範囲の違う源泉の値を1つの線へ黙って混ぜないためである。重なる年はどちらのファイルにも在るが、片方だけを採っている。</td></tr>
+      <tr><th>横棒（—）の意味<span class="pill">記録が無い</span></th><td>その年にその行の数がこのファイルに無いことを示す。0ではない。0と書かれている升は 0 のまま出している。</td></tr>
+      <tr><th>人口(全年齢)統計人口(全年齢)等女B(人)／人口(全年齢)統計人口(全年齢)等男A(人)／高齢者(65歳以上)統計65歳以上の者のみの世帯数(注)世帯数計KK=I+J／高齢者(65歳以上)統計人口(65歳以上)女F(人)／高齢者(65歳以上)統計人口(65歳以上)男E(人)<span class="pill">名前が付いていない</span></th><td>データ元の表に在るが、この画面がまだ名前と単位を決めていない列である。値は図にも表にも出していない。</td></tr>
+    </tbody></table></div>
+  <h3>データ元自身が書いている注記</h3>
+  <p class="sub">データ元のファイル自身が書いている断りです。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてあります。数が多いので既定では閉じていますが、こちらで選んでおらず、どれも落としていません。</p>
+  <details class="dd"><summary>データ元が書いている注記をすべて開く（101件）</summary><div class="ddc">
+    <div class="table-scroll"><table class="lst">
+      <colgroup><col class="c-name"><col></colgroup>
+      <thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead>
+      <tbody>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2017年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2017年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2018年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2018年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2019年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2019年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2020年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2020年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2021年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2021年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2022年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2022年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2023年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2023年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2024年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2024年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)(2025年3月)」及び「人口・世帯数(公民館別町別一覧表)65歳以上(2025年3月)」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)」及び「人口・世帯数(公民館別町別一覧表)65歳以上」より」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」については、松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)」及び「人口・世帯数(公民館別町別一覧表)65歳以上」を集計「65歳以上の者のみの世帯数」については、松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上」を基に、松江市介護保険課で集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「人口(全年齢)等」及び「人口(65歳以上)」は、松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)」及び「人」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(出典)「総人口」及び「人口(65歳以上)」については、住民基本台帳を集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(東出雲町について)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(東出雲町を含む)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(東出雲町以外について)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)(東出雲町以外について)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)「人口・世帯数(公民館別町別一覧表)」及び「人口・世帯数(公民館別町別一覧表)65歳以上」で、公民館名がその他のもの(統計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)「鹿島」、「東出雲」について、松江市統計情報データベースでは複数の公民館区にわかれていますが、1本にまとめています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)「鹿島」「東出雲」について、松江市統計情報データベースでは複数の公民館区にわかれていますが、1本にまとめています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)「鹿島」及び「東出雲」は、松江市統計情報データベース上は複数の公民館区に分かれていますが、ここでは各地区一つにまと」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)平成16年度までは、旧松江市の統計資料です。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)平成23年度までは、東出雲町を含んでいません。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)特別養護老人ホームなどに入所している方については、「総人口」及び「人口(65歳以上)」には含めてありますが、「独居」及び「高齢者のみの世帯(2人以上)」から外してあります。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)特別養護老人ホームなどに入所している方については、人口の統計上では数値に含めていますが、世帯数としては通常の高齢者世帯とは」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)特別養護老人ホームなどに入所している方については、人口の統計上では数値に含めていますが、世帯数としては通常の高齢者世帯とは異なるため、65歳以上の者のみの世帯数(独居・2人以上)から外してあります。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)特別養護老人ホーム等への入所者は、通常の高齢者世帯とは異なることから、世帯統計(65歳以上の者のみの世帯数。独居、」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「(注)特別養護老人ホーム等施設への入所者は、人口統計においては集計対象に含めていますが、通常の高齢者世帯とは異なることから、世帯統計(65歳以上の者のみの世帯数。独居、2人以上)の集計対象からは除いています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2016(平成28)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2017(平成29)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2018(平成30)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2019(平成31)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2020(令和2)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2021(令和3)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2022(令和4)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2023(令和5)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2024(令和6)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2025(令和7)年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「2人以上)の集計対象から除いています。ただし人口の統計においては集計対象に含めています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「《年次推移》」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2017年3月)」をもとに、松江市介護保険課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2018年3月)」をもとに、松江市健康政策課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2019年3月)」をもとに、松江市健康政策課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2020年3月)」をもとに、松江市健康政策課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2021年3月)」をもとに、松江市健康政策課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2022年3月)」をもとに、松江市健康政策課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2023年3月)」をもとに、松江市健康福祉総務課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2024年3月)」をもとに、松江市健康福祉総務課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上(2025年3月)」をもとに、松江市健康福祉総務課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」......松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上」をもとに、松江市介護保険課が集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」について、「2人以上」及び「計」は資料がないため、「*」で表記しています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」については、「松江市統計情報データベースの人口・世帯数(公民館別町別一覧表)65歳以上」を基に、」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」については、「松江市統計情報データベースの人口・世帯数(公民館別町別一覧表)65歳以上」を基に、松江市」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「65歳以上の者のみの世帯数」は、松江市統計情報データベース「人口・世帯数(公民館別町別一覧表)65歳以上」をもとに」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「人口(全年齢)等」及び「人口(65歳以上)」については、「松江市統計情報データベースの人口・世帯数(公民館別町別一覧表)」」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「人口・世帯数(公民館別町別一覧表)」及び「人口・世帯数(公民館別町別一覧表)65歳以上」で、公民館名がその他のもの(統計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「全年齢(人口、世帯数)」及び「高齢者(人口)」については、「松江市統計情報データベースの人口・世帯数(公民館別町別一覧表)」」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「独居」及び「高齢者のみの世帯」については、住民基本台帳を基に介護保険課で集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「高齢者のみの世帯数」については、「松江市統計情報データベースの人口・世帯数(公民館別町別一覧表)65歳以上」を基に、松江市」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「「鹿島」及び「東出雲」は、松江市統計情報データベース上は複数の公民館区に分かれていますが、本統計においては各地区一つにまとめています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「めています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「介護保険課で集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「住民基本台帳上での世帯数です。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(28区)高齢者人口等統計表(2009年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(28区)高齢者人口等統計表(2010年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2012年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2013年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2014年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2015年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2016年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2017年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2018年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2019年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2020年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2021年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2022年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2023年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2024年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「公民館区別(29地区)高齢者人口等統計表(2025年)」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「及び「人口・世帯数(公民館別町別一覧表)65才以上」を集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「口・世帯数(公民館別町別一覧表)65歳以上」を松江市介護保険課で集計したものです。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「地区名「東出雲」は、松江市統計情報データベース上は複数の地区に分かれていますが、本統計においては各地区1つにまとめています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「地区名「鹿島」及び「東出雲」は、松江市統計情報データベース上は複数の地区に分かれていますが、本統計においては各地区1つにまとめています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成21年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成22年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成23年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成24年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成25年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成26年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成27年3月31日現在」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「情報データベース作成時には、どの公民館区に属するか確認できなかったもの)については住所地で推定して分類しています。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「東出雲町保健福祉課で集計。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「松江市介護保険課で集計」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「松江市介護保険課で集計したものです。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「特別養護老人ホームなどに入所している方については、人口の統計上では数値に含めていますが、世帯数としては通常の高齢者世帯とは」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「異なるため、65歳以上の者のみの世帯数(独居・2人以上)からはずしてあります。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「異なるため、高齢者のみの世帯数(独居・2人以上)からはずしてあります。」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「高齢者人口等統計表」</td></tr>
+      <tr><th>地区ごとの高齢化<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「高齢者人口等統計表(2011年)」</td></tr>
+      </tbody></table></div>
+  </div></details>
+</section>
+
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年8月25日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"city": {"axis": {"l": ["\u662d\u548c58", "\u662d\u548c59", "\u662d\u548c60", "\u662d\u548c61", "\u662d\u548c62", "\u662d\u548c63", "\u5e73\u6210\u5143", "\u5e73\u62102", "\u5e73\u62103", "\u5e73\u62104", "\u5e73\u62105", "\u5e73\u62106", "\u5e73\u62107", "\u5e73\u62108", "\u5e73\u62109", "\u5e73\u621010", "\u5e73\u621011", "\u5e73\u621012", "\u5e73\u621013", "\u5e73\u621014", "\u5e73\u621015", "\u5e73\u621016", "\u5e73\u621017", "\u5e73\u621018", "\u5e73\u621019", "\u5e73\u621020", "\u5e73\u621021", "\u5e73\u621022", "\u5e73\u621023", "\u5e73\u621024", "\u5e73\u621025", "\u5e73\u621026", "\u5e73\u621027", "\u5e73\u621028", "\u5e73\u621029", "\u5e73\u621030", "\u4ee4\u548c\u5143", "\u4ee4\u548c2", "\u4ee4\u548c3", "\u4ee4\u548c4", "\u4ee4\u548c5", "\u4ee4\u548c6", "\u4ee4\u548c7"], "t": "\u5e74\u5ea6", "x": [1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]}, "id": "cCity", "values": [10.5, 10.7, 11.1, 11.4, 11.8, 12.2, 12.6, 13.03, 13.62, 14.13, 14.67, 15.28, 15.76, 16.25, 16.77, 17.28, 17.77, 18.24, 18.91, 19.47, 19.98, 20.28, 22.25, 22.7, 23.13, 23.66, 24.17, 24.59, 24.57, 24.93, 25.754600334569787, 26.534464640174367, 27.35014771589716, 28.046923577824888, 28.518623966698737, 28.827630379622104, 29.204951284629523, 29.58756932758466, 29.860572617802884, 30.203196692381383, 30.391668530302724, 30.68927284486741, 30.8763300282186]}, "latest": {"id": "cChiku", "labels": ["\u5927\u91ce", "\u7f8e\u4fdd\u95a2", "\u5cf6\u6839", "\u672c\u5e84", "\u79cb\u9e7f", "\u9e7f\u5cf6", "\u516b\u675f", "\u53e4\u6c5f", "\u5b8d\u9053", "\u767d\u6f5f", "\u96d1\u8cc0", "\u5fcc\u90e8", "\u671d\u914c", "\u516b\u96f2", "\u7af9\u77e2", "\u57ce\u5317", "\u5927\u5ead", "\u53e4\u5fd7\u539f", "\u751f\u99ac", "\u6301\u7530", "\u57ce\u897f", "\u7389\u6e6f", "\u671d\u65e5", "\u6771\u51fa\u96f2", "\u4e43\u6728", "\u6d25\u7530", "\u57ce\u6771", "\u5ddd\u6d25", "\u6cd5\u5409", "\u305d\u306e\u4ed6"], "values": [50.19646365422397, 48.53219696969697, 47.93505118249205, 45.71975131516021, 43.94224733207784, 42.17941858391296, 38.7308533916849, 38.015930485155685, 37.80594954186017, 37.43977976600137, 36.9098712446352, 36.70505758637957, 36.454497632824825, 35.256410256410255, 34.81481481481482, 33.4906355994691, 33.276801938219265, 32.090138190954775, 32.052821128451384, 28.438228438228435, 27.671755725190838, 27.08840227088402, 26.956716752635117, 25.94566822940081, 25.690890481064482, 25.35767511177347, 24.84447385837194, 24.604850579125873, 23.593020398132218, 0.0]}, "trend": {"areas": {"\u305d\u306e\u4ed6": [null, null, null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, 0.0, 0.0], "\u4e43\u6728": [18.586074595886533, 18.690528703762052, 18.533275228786653, 18.98168270723378, 19.9284304047384, 20.61810974854453, 21.452063295066708, 22.33606557377049, 22.691472868217055, 23.207382466641725, 23.496756487025948, 23.87052427669812, 24.125195618153363, 24.44220979196782, 24.727524727524727, 25.214735636571866, 25.690890481064482], "\u516b\u675f": [29.751495628163827, 30.32001868722261, 30.101919886228963, 30.86301697346402, 32.4853228962818, 32.874015748031496, 34.025717111770525, 35.17310587054692, 35.73573573573574, 36.44601057135666, 36.6658272475447, 37.912509593246355, 37.38656987295826, 38.30123977842258, 38.853503184713375, 38.766163793103445, 38.7308533916849], "\u516b\u96f2": [23.071528751753156, 23.537722520486014, 23.798659632111793, 24.86719310839914, 26.242258389745064, 27.33926521239954, 28.877624909485878, 30.33230859317816, 31.162722328384536, 31.788176617280328, 32.281374428550365, 32.92917344373799, 33.86377156454491, 34.47653429602888, 34.73937933112383, 35.270024271844655, 35.256410256410255], "\u53e4\u5fd7\u539f": [26.001842468908336, 26.470363872148905, 26.563812724356527, 27.16087357736081, 28.347005107568492, 29.285435376805935, 29.768312660893987, 29.82388382511973, 30.327552986512522, 30.96124031007752, 31.363388616366894, 31.435432643891858, 31.66782864668061, 31.68905357418558, 31.82240099009901, 32.05237468040598, 32.090138190954775], "\u53e4\u6c5f": [24.0833500300541, 24.852672221093275, 24.897792313982013, 25.668999588307944, 26.865671641791046, 27.994955863808325, 29.174664107485604, 30.310880829015545, 30.93790707772471, 31.85801928133217, 32.97754058261063, 33.817521561507036, 34.907173962869585, 35.91893780573026, 36.57733897508228, 37.338748208313426, 38.015930485155685], "\u57ce\u5317": [24.650864830237026, 25.18248175182482, 25.383800952885128, 25.719187120612297, 26.655236085465578, 27.136471206941888, 27.626202715170688, 28.426060525968015, 29.094076655052266, 28.971836679692764, 29.97932460372157, 30.576091505091362, 30.867850098619332, 31.539442005381673, 31.975996570938705, 32.54833551388283, 33.4906355994691], "\u57ce\u6771": [22.861507128309572, 23.14017730952075, 22.790816980890085, 23.100695338655676, 23.29255861365953, 23.418354588647162, 23.8510101010101, 24.22510162601626, 24.22622747047856, 23.712486105965173, 23.747061007301077, 24.178878221323902, 24.57659493187317, 24.882150592432158, 24.902419984387198, 24.736980536559706, 24.84447385837194], "\u57ce\u897f": [23.47546996790463, 23.423728813559322, 22.845114114779523, 23.23623878613357, 23.587894679340106, 23.857205050065303, 24.830230010952903, 25.390883065404097, 25.637116096710955, 25.55976203353164, 26.151333696243878, 26.019376131161504, 26.36971527178602, 26.694178974804515, 26.905437868530246, 27.369353410097432, 27.671755725190838], "\u5927\u5ead": [23.669512066603435, 24.930718396930292, 25.07183143556454, 25.824531148954517, 26.85254691689008, 27.44992461770407, 28.574542284219707, 29.23591625296784, 30.343094405594407, 30.807248764415156, 31.389687984067272, 31.969137873196914, 32.413249211356465, 32.98992938997569, 33.0936947554508, 33.33333333333333, 33.276801938219265], "\u5927\u91ce": [32.77674706246135, 33.631713554987215, 33.44327176781003, 34.43396226415094, 36.10157858613589, 37.65867418899859, 39.15881073241479, 40.117994100294986, 41.32730015082956, 42.29007633587786, 43.671875, 44.74959612277868, 46.50967199327166, 47.46503496503497, 48.09437386569873, 48.725212464589234, 50.19646365422397], "\u5b8d\u9053": [28.733439321674613, 29.274776690769883, 29.43197680661441, 30.21364277193363, 31.371904448827525, 32.61954953955398, 33.740695478280195, 34.45991466427128, 35.206461153452395, 35.53823225954373, 36.10629693818602, 36.72468169606354, 37.03049570234311, 37.47616777883699, 37.56536543840448, 37.84083898827884, 37.80594954186017], "\u5cf6\u6839": [35.53412462908012, 35.460277427490546, 35.15864892528147, 36.08570681996342, 36.79195341450503, 38.66702644360496, 39.47730398899587, 40.57272469520839, 42.11908931698774, 42.661913250148544, 44.18886198547216, 44.88091555830498, 45.422869813113714, 46.28664495114007, 46.833333333333336, 47.312564190345775, 47.93505118249205], "\u5ddd\u6d25": [15.993276876333312, 16.630055562734203, 16.760172825175726, 17.29265478784771, 17.849502957090728, 18.62388770522622, 19.40672132173478, 20.138147566718995, 20.357634112792297, 20.94303045463073, 21.2532865907099, 21.58736105907331, 21.966618741013942, 22.6040234911908, 23.050422799874724, 23.908761674820507, 24.604850579125873], "\u5fcc\u90e8": [24.730700179533212, 24.227496641289743, 24.467603081105572, 25.216203914428764, 26.768814781433075, 28.065395095367844, 29.575536284801462, 30.985915492957744, 32.21757322175732, 32.86843328684333, 33.70786516853933, 34.57723193197921, 34.85357657225156, 35.11303511303511, 35.386119257087, 36.30541871921182, 36.70505758637957], "\u6301\u7530": [19.623271340009538, 20.397890699904124, 21.015377105198926, 22.08015736415048, 23.404255319148938, 24.157723983029697, 25.1010101010101, 26.225366346639717, 27.024961793173713, 27.265803503427264, 27.56474103585657, 27.627035027133694, 27.666829030686802, 27.359389895138225, 27.64018691588785, 27.977580569827182, 28.438228438228435], "\u671d\u65e5": [22.61549069179499, 22.912801484230055, 22.837209302325583, 23.00114547537228, 23.38728060177798, 24.467353951890033, 25.143513203214695, 25.755130274383216, 26.10917537746806, 25.06625441696113, 25.349301397205586, 25.58242733525627, 25.807174887892376, 26.39077340569878, 26.656007309273637, 27.253765932792582, 26.956716752635117], "\u671d\u914c": [30.17362740497419, 30.660377358490564, 31.162566328991797, 32.146341463414636, 32.958984375, 33.87096774193548, 34.58128078817734, 35.75, 35.77564426478019, 36.30379746835443, 36.126442548921226, 36.79389312977099, 36.471193415637856, 37.21294363256785, 37.5, 36.96456901110523, 36.454497632824825], "\u672c\u5e84": [33.41753879465897, 34.61818181818182, 34.5547819714181, 34.84791588434097, 36.49468892261002, 37.605850654349496, 38.759689922480625, 39.79711275848615, 40.96337579617834, 40.86886564762671, 41.47446457990115, 42.71803556308213, 43.341815097540284, 44.55142231947484, 45.14959202175884, 45.33582089552239, 45.71975131516021], "\u6771\u51fa\u96f2": [null, null, null, 22.365678165557124, 22.925503711558854, 23.405366586146112, 24.04720448829561, 24.569269198744635, 24.969704700554882, 25.34571062740077, 25.531643957723166, 25.806451612903224, 26.03520324173737, 26.333290702135827, 26.230242528956293, 26.134324532171238, 25.94566822940081], "\u6771\u51fa\u96f2\u753a": [null, null, 21.78520480945588, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "\u6cd5\u5409": [17.117416992593824, 17.198552393485773, 17.203430975886068, 17.46507773656381, 18.24805955963884, 19.27835051546392, 19.923918212077986, 20.308825834770342, 20.5987837205676, 20.90916253052864, 21.434841592849732, 21.75581674262413, 22.00428809656158, 22.804040404040403, 23.07503276539974, 23.425568601691435, 23.593020398132218], "\u6d25\u7530": [19.66048459467544, 20.21755438859715, 20.27300682517063, 20.992395150967546, 21.518705463182897, 22.345165602257538, 22.812156719150494, 23.865819417762673, 24.1515038989974, 24.507398319577664, 24.56670845932591, 24.863428318322754, 24.811585636175558, 24.73363215519142, 24.65783664459161, 25.018493860038465, 25.35767511177347], "\u7389\u6e6f": [25.630788885340145, 26.95281679027931, 27.087608524072614, 27.52336448598131, 27.997537324919193, 28.909007211907316, 29.425147884119518, 29.728920173730717, 30.008839127872715, 29.541794759186065, 28.938628158844764, 29.160040479976868, 28.391255605381165, 28.124567474048444, 27.62190138926723, 27.591380250954717, 27.08840227088402], "\u751f\u99ac": [21.060802069857697, 20.897435897435898, 20.932028836251288, 21.699584199584198, 22.523920351693818, 23.40980187695516, 24.654255319148934, 25.006615506747814, 25.580154707922116, 26.216216216216214, 27.208287895310797, 27.70455793520044, 28.420467185761954, 28.922815945716707, 29.818925233644862, 31.277794248443524, 32.052821128451384], "\u767d\u6f5f": [34.18577307466196, 34.27812223206377, 33.96796615291629, 33.81730187537811, 34.62812405901837, 35.4598947042428, 36.50047036688618, 36.41838351822504, 36.70967741935484, 36.289798570500324, 36.34564643799472, 37.487196995561625, 37.75759692630108, 37.513098148794974, 37.39754098360656, 36.51438240270728, 37.43977976600137], "\u79cb\u9e7f": [33.30201972757163, 33.5523228531206, 33.4124347413384, 34.32692307692308, 35.44794188861985, 36.58777120315582, 37.69423558897243, 38.488843813387426, 39.195461578133056, 39.84375, 41.04477611940299, 41.789416257501365, 42.69788182831661, 43.24942791762014, 43.411764705882355, 43.75380865326021, 43.94224733207784], "\u7af9\u77e2": [24.18583114678191, 24.930619796484738, 25.104667390293066, 26.630007855459542, 27.892334330237684, 28.877599618987144, 29.86454183266932, 31.22302158273381, 32.06696716033483, 33.24013157894737, 33.355592654424036, 34.01715150496049, 34.26019548365352, 34.26549865229111, 34.45049336509017, 34.77665582748588, 34.81481481481482], "\u7f8e\u4fdd\u95a2": [36.55217109526895, 36.80567001813087, 36.81825809699614, 37.64505119453925, 38.89470013947001, 39.89295272078501, 41.11619396157365, 42.02087994034302, 43.351063829787236, 44.06017975771786, 44.74940334128878, 45.53971486761711, 46.610703043022035, 47.07926167209555, 47.94551138901295, 48.24742268041237, 48.53219696969697], "\u96d1\u8cc0": [32.57934420480449, 32.602210914195474, 33.1662788616431, 33.297413793103445, 34.10196361016033, 35.3038980232773, 36.5761689291101, 37.06173780487805, 37.00019131432944, 36.957779063042224, 37.15569447157648, 37.02970297029703, 37.18724778046812, 37.24123795859807, 37.31281198003328, 36.74234534471985, 36.9098712446352], "\u9e7f\u5cf6": [30.14534129249935, 30.497571222265986, 30.43536503683858, 31.241454744325953, 32.24683103496309, 33.093626621545404, 34.2040698513494, 35.21147373042587, 35.92609149158098, 36.44144144144144, 37.343629343629345, 38.25535289452815, 39.33526944175541, 40.08278145695364, 40.973871733966746, 41.56542867060048, 42.17941858391296]}, "axis": {"l": ["\u5e73\u621021", "\u5e73\u621022", "\u5e73\u621023", "\u5e73\u621024", "\u5e73\u621025", "\u5e73\u621026", "\u5e73\u621027", "\u5e73\u621028", "\u5e73\u621029", "\u5e73\u621030", "\u4ee4\u548c\u5143", "\u4ee4\u548c2", "\u4ee4\u548c3", "\u4ee4\u548c4", "\u4ee4\u548c5", "\u4ee4\u548c6", "\u4ee4\u548c7"], "t": "\u5e74\u5ea6", "x": [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]}, "city": [24.17, 24.59, 24.57, 24.93, 25.754600334569787, 26.534464640174367, 27.35014771589716, 28.046923577824888, 28.518623966698737, 28.827630379622104, 29.204951284629523, 29.58756932758466, 29.860572617802884, 30.203196692381383, 30.391668530302724, 30.68927284486741, 30.8763300282186], "id": "cSuii"}}</script>
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent);
+  /* **桁は段ごと・行ごとに別である**——`CDIG` は市全体の率の桁（`DIGITS` より
+     1桁多い。理由は `render.CITY_AGING_DECIMALS` の `#:`）。 */
+  var UNIT="%", DIGITS=1, CDIG=2, CITY="市全体";
+  /* 断面。**棒の並びが数表の並びと同じ**になるよう、材料の順をそのまま使う。 */
+  MS.categorical(D.latest.id,"bar",D.latest.labels,
+    [{label:"高齢化率",values:D.latest.values}],UNIT,{horizontal:true,digits:DIGITS});
+  /* **市全体の線は破線で重ねる**（モックの正本）。**この段の年に揃えた値**である
+     ——市全体の全期間は下の段の図が持つ。 */
+  var sel=document.getElementById("area"), chart=null;
+  function table(name){
+    var head=D.trend.axis.l.map(function(label){return "<th class=\"n\">"+label+"</th>";}).join("");
+    /* **行ごとの桁で書く**——**サーバが描いた同じ表と桁がずれてはならない**
+       （`render` は `ValueRow.digits` で書いている）。 */
+    function line(label,values,d){
+      return "<tr><th>"+label+"（"+UNIT+"）</th>"
+        + values.map(function(v){return "<td class=\"n\">"+MS.dc(v,d)+"</td>";}).join("")
+        + "</tr>";
+    }
+    return '<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">'
+      + D.trend.axis.t + "</th>" + head + "</tr></thead><tbody>"
+      + line(name,D.trend.areas[name],DIGITS) + line(CITY,D.trend.city,CDIG)
+      + "</tbody></table></div>";
+  }
+  function draw(name){
+    document.getElementById("trendTable").innerHTML=table(name);
+    if(chart){ chart.destroy(); }
+    /* **図の吹き出しの桁は段の桁**（`DIGITS`）である——**共有の `MS.line` は
+       図ごとに1つの桁しか受けない**（契約は触らない）。**正確な値は真下の表**
+       にあり、そちらは行ごとの桁で書いている。 */
+    chart=MS.line(D.trend.id,D.trend.axis,[
+      {label:name,values:D.trend.areas[name]},
+      {label:CITY,values:D.trend.city,color:MS.P.dn,dash:[5,3]}],UNIT,DIGITS);
+  }
+  sel.addEventListener("change",function(){
+    draw(sel.value);
+    history.replaceState(null,"","#"+encodeURIComponent(sel.value));
+  });
+  var hash=decodeURIComponent((location.hash||"").slice(1));
+  if(hash&&D.trend.areas[hash]){ sel.value=hash; }
+  draw(sel.value);
+  /* **市全体の段**。**別の横軸である**（要件 9.3）。**桁も別**（`CDIG`）。 */
+  MS.line(D.city.id,D.city.axis,[{label:CITY,values:D.city.values}],UNIT,CDIG);
+});
+</script>
+</body>
+</html>

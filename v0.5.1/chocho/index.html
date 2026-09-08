@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.5.1">
+<title>このレポートについて — 松江市 町丁別人口レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="町丁別人口レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 町丁別人口レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 町丁別人口レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" aria-current="page" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>町を見る</h3>
+<a href="01-town-trend.html" title="町ごとの推移"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">町ごとの推移</span></a>
+<a href="02-town-change.html" title="町どうしの増減"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">町どうしの増減</span></a>
+</div>
+<div class="grp">
+<h3>地区を見る</h3>
+<a href="03-district.html" title="地区の比較"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">地区の比較</span></a>
+</div>
+<div class="grp">
+<h3>人口の中身を見る</h3>
+<a href="04-age.html" title="年齢構成の推移"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">年齢構成の推移</span></a>
+<a href="05-household.html" title="1世帯あたりの人数"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">1世帯あたりの人数</span></a>
+<a href="06-foreign.html" title="外国人住民"><svg class="ic"><use href="#ic-globe"/></svg><span class="lbl">外国人住民</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 町丁別人口レポート</p>
+  <h1>松江市 町丁別人口レポート</h1>
+  <p class="lede">町ごとの人口が、公開されている統計でどう記録されてきたか。そのまま並べたものです。</p>
+<section class="section" id="s-about">
+  <h2><svg class="ic"><use href="#ic-info"/></svg>このレポートは何か</h2>
+  <p class="sub">松江市の町ごとの人口を、公開されている統計から読める形にしたものです。</p>
+  <p class="note">松江市は町ごとの人口を毎月公開していますが、<b>公開されるファイルは月ごとに別々</b>です。
+  自分の町が増えているのか減っているのかを知るには、何十枚もの表を開いて手で並べるしかありません。
+  このレポートは、その並べる作業を済ませたものです。</p>
+</section>
+
+<section class="section" id="s-what">
+  <h2><svg class="ic"><use href="#ic-book"/></svg>確認できること</h2>
+  <p class="sub">どこから読んでもかまいません。</p>
+  <div class="cards">
+    <a class="card" href="01-town-trend.html"><svg class="ic"><use href="#ic-trend"/></svg><h3>町ごとの推移</h3><p>町をひとつ選ぶと、その町の人口と世帯数がどう動いたかを読めます。松江市のすべての町から選べます。</p><span class="go">ひらく</span></a>
+    <a class="card" href="02-town-change.html"><svg class="ic"><use href="#ic-list"/></svg><h3>町どうしの増減</h3><p>松江市全体の動きを見たうえで、町を増えた順・減った順に並べて見比べられます。</p><span class="go">ひらく</span></a>
+    <a class="card" href="03-district.html"><svg class="ic"><use href="#ic-map"/></svg><h3>地区の比較</h3><p>橋北・橋南から東出雲町まで、統計表の地区の単位で全体像をつかめます。</p><span class="go">ひらく</span></a>
+    <a class="card" href="04-age.html"><svg class="ic"><use href="#ic-age"/></svg><h3>年齢構成の推移</h3><p>年齢の区分ごとの割合と人数が、どう移ってきたかを読めます。5歳ごとの内訳も並べています。</p><span class="go">ひらく</span></a>
+    <a class="card" href="05-household.html"><svg class="ic"><use href="#ic-home2"/></svg><h3>1世帯あたりの人数</h3><p>ひとつの世帯に何人住んでいるか。人口と世帯数を併せて置いています。</p><span class="go">ひらく</span></a>
+    <a class="card" href="06-foreign.html"><svg class="ic"><use href="#ic-globe"/></svg><h3>外国人住民</h3><p>住民基本台帳に記録されている外国人住民の人数と割合です。松江市全体の数だけを載せています。</p><span class="go">ひらく</span></a>
+  </div>
+</section>
+
+<section class="section" id="s-source">
+  <h2><svg class="ic"><use href="#ic-map"/></svg>出典とデータの作り方</h2>
+  <p class="sub">何を、どこから、どう作ったか。</p>
+
+  <h3 class="first">出典</h3>
+  <p class="note"><b>出典：松江市統計情報データベース</b>
+  （<a href="https://ntoukei2.city.matsue.shimane.jp/">https://ntoukei2.city.matsue.shimane.jp/</a>）を<b>編集・加工</b>して作成しています。
+  ライセンスはクリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP）。もとの資料は<b>住民基本台帳</b>です。</p>
+
+  <h3>作り方</h3>
+  <p class="note">2件の統計表——<b>町丁別世帯数・人口調表</b>と<b>町丁別・年齢別人口集計表（５歳刻み）</b>  ——をそれぞれ読み、<b>同じ月・同じ町の人口が両方で一致すること</b>を確かめてから使っています。
+  一致しない月があれば、それは読み方が間違っている合図です。
+  地区ごとの小計行と、表の末尾にある注記行は、町として数えていません。</p>
+  <p class="note">年齢の区分は総務省統計局の<b>年齢3区分</b>（年少人口・生産年齢人口・老年人口）に従っています。</p>
+
+  <h3>扱っている期間</h3>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col><col></colgroup>
+    <thead><tr><th>統計表</th><th>期間</th><th>取得の時点</th></tr></thead>
+    <tbody>
+      <tr><th>町丁別世帯数・人口調表</th><td>2007年4月から2026年7月まで</td><td>2026年8月20日</td></tr>
+      <tr><th>町丁別・年齢別人口集計表（５歳刻み）</th><td>2007年4月から2026年7月まで</td><td>2026年8月20日</td></tr>
+    </tbody></table></div>
+
+  <h3>出せない粒度と、その理由</h3>
+  <p class="note">出せないものは、<b>出せない理由を添えて</b>書いています。
+  理由の違う空欄を同じ空欄にすると、読み手には見分けがつきません。</p>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col class="c-name"><col></colgroup>
+    <thead><tr><th>何が出せないか</th><th>理由の区別</th><th>何が起きているか</th></tr></thead>
+    <tbody>
+      <tr><th>外国人住民の町丁別</th><td><b>データ元が公開していない</b></td><td>外国人住民の数は市全体の粒度でのみ公開されており、町丁別の数はデータ元に無い。</td></tr>
+      <tr><th>外国人住民の地区別</th><td><b>まだ取得していない</b></td><td>地区別の数は別の統計表に載っているが、その表はまだ取得していない。このレポートが読んでいるのは町丁別の表である。</td></tr>
+      <tr><th>2026年4月の町丁別の世帯数</th><td><b>データ元が別の統計を掲載していた</b></td><td>2026年4月の町丁別世帯数・人口調表として公開されているファイルの中身は、別の統計だった。この月の人口は、もう一方の表から補っている。世帯数と、そこから求める世帯ごとの人数は、この月については出せない。</td></tr>
+      <tr><th>2007年6月の、ある町の男女の別</th><td><b>データ元の内訳と合計が食い違っていた</b></td><td>2007年6月は、町丁別の一覧に男の人数が欠けている町があり、その分だけ男の合計が表の総合計行と食い違う。その町の男女は、もう一方の表（年齢別）には載っており、前後の月とも揃っている。人口の合計は総合計行と一致する。この月は補わず、データ元の値をそのまま載せている。</td></tr>
+      <tr><th>2008年4月の町丁別の一覧</th><td><b>データ元の内訳と合計が食い違っていた</b></td><td>2008年4月は、町丁別の一覧に載っていない町があり、その町の分だけ一覧の合計と、表の総合計行および地区の小計が食い違う。この町の人口は、もう一方の表から補っている。</td></tr>
+      <tr><th>2013年1月の、ある町の年齢の内訳</th><td><b>データ元の内訳と合計が食い違っていた</b></td><td>2013年1月は、年齢別の表に、五歳ごとの内訳とその行の合計欄が食い違う町がある。市全体の総人口は、もう一方の表と一致する。この月は補わず、データ元の値をそのまま載せている。</td></tr>
+    </tbody></table></div>
+
+  <h3>読むときに気をつけること</h3>
+  <p class="note">人の移動ではない段差が、扱っている期間に含まれています。
+  注記のない折れ線は、制度の変更を人口の増減として読ませます。</p>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col></colgroup>
+    <thead><tr><th>いつ</th><th>何が起きたか</th></tr></thead>
+    <tbody>
+      <tr><th>2011年8月</th><td><b>東出雲町の編入</b>　2011年8月に東出雲町が松江市へ編入された。この月をまたぐ区間の増加には、編入によって加わった町丁の分が含まれる。</td></tr>
+      <tr><th>2012年7月</th><td><b>住民基本台帳法の改正</b>　2012年7月の住民基本台帳法の改正により、外国人住民が住民基本台帳に記録されるようになった。この月をまたぐ区間の増加には、新たに算入された外国人住民の分が含まれる。</td></tr>
+      <tr><th>2026年4月</th><td><b>別の統計が掲載されていた月</b>　2026年4月は、データ元が町丁別世帯数・人口調表ではない別の統計を掲載していた。この月の人口は、もう一方の系列（町丁別・年齢別人口集計表）から補っている。</td></tr>
+    </tbody></table></div>
+
+  <h3>中立性について</h3>
+  <p class="note">このレポートは、公開されている統計を整理して並べるところまでを担う。どの町がどうあるべきかは述べない。増減の理由の説明も、将来の見通しも書かない。数の裏づけが取れることだけを書き、出典まで辿れるようにしている。</p>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年8月20日
+</div></footer>
+</div>
+</div>
+
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+</body>
+</html>
