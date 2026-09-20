@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.7.0">
+<title>学校 — 松江市 教育レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="教育レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 教育レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 教育レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>学びの場を見る</h3>
+<a href="01-gakko.html" aria-current="page" title="学校"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">学校</span></a>
+</div>
+<div class="grp">
+<h3>卒業後を見る</h3>
+<a href="02-shinro.html" title="進路"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">進路</span></a>
+</div>
+<div class="grp">
+<h3>社会教育を見る</h3>
+<a href="03-kominkan.html" title="公民館"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">公民館</span></a>
+<a href="04-toshokan.html" title="図書館と文化財"><svg class="ic"><use href="#ic-book"/></svg><span class="lbl">図書館と文化財</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 教育レポート / 学校</p>
+  <h1>学校</h1>
+  <p class="lede">松江市にある学校を、<b>段ごと</b>に見ます。</p>
+<noscript><div class="ns">図は JavaScript が有効なときだけ描かれます。<b>数値はすべて「正確な値」の表にあります。</b></div></noscript><style>.neg{color:#b3261e}</style><div class="pick" style="padding:0 0 20px"><label for="seg"><b>見る段</b></label><select id="seg"><option value="yochien">幼稚園</option><option value="shogakko" selected>小学校</option><option value="chugakko">中学校</option><option value="koko_zenjitsu">高等学校（全日制）</option><option value="koko_teiji">高等学校（定時制）</option><option value="kosen">高等専門学校</option><option value="daigaku">大学・短大</option></select><span class="note">7つの段から1つ選ぶと、このページの図が全部その段になります。その段が持たない項目は、見出しごと隠します。</span></div>
+<section class="section" id="s-ic-trend">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>経年で見る</h2>
+  <p class="sub">選んだ段を、年の側から見たものです。積み上げた棒の高さが、その年の合計です。</p>
+<div data-seg="yochien shogakko chugakko koko_zenjitsu koko_teiji kosen daigaku">
+<h3 class="fig-only" id="cap-ch-total">児童数の推移</h3>
+<div class="chartbox"><canvas id="ch-total"></canvas></div>
+<p class="unit" id="u-ch-total">単位——人。</p>
+</div>
+<div data-seg="yochien shogakko chugakko koko_zenjitsu koko_teiji kosen">
+<h3 class="fig-only" id="cap-ch-school">学校数の推移</h3>
+<div class="chartbox"><canvas id="ch-school"></canvas></div>
+<p class="unit" id="u-ch-school">単位——校。</p>
+</div><p class="note" id="u-seg-ch-school" data-seg-note hidden>この段は学校数を持ちません。</p>
+<div data-seg="yochien shogakko chugakko">
+<h3 class="fig-only" id="cap-ch-cls">学級数の推移</h3>
+<div class="chartbox"><canvas id="ch-cls"></canvas></div>
+<p class="unit" id="u-ch-cls">単位——学級。</p>
+</div><p class="note" id="u-seg-ch-cls" data-seg-note hidden>この段は学級数を持ちません。</p>
+<div data-seg="yochien shogakko chugakko koko_zenjitsu koko_teiji kosen daigaku">
+<h3 class="fig-only" id="cap-ch-teach">教員数と職員数の推移</h3>
+<div class="chartbox"><canvas id="ch-teach"></canvas></div>
+<p class="unit" id="u-ch-teach">単位——人。本務者の数です。積み上げた棒の高さが、その年の教員と職員の合計です。</p>
+</div><p class="note" id="u-seg-ch-teach" data-seg-note hidden>この段は職員数を持ちません。</p>
+</section>
+<section class="section" id="s-year">
+  <h2><svg class="ic"><use href="#ic-panel"/></svg>年を選んで、内訳を見る</h2>
+  <p class="sub">上と同じ段を、選んだ年だけ見たものです。</p>
+  <div class="pick"><label for="year">年を選ぶ</label><select id="year"><option value="2005">平成17年</option><option value="2006">平成18年</option><option value="2007">平成19年</option><option value="2008">平成20年</option><option value="2009">平成21年</option><option value="2010">平成22年</option><option value="2011">平成23年</option><option value="2012">平成24年</option><option value="2013">平成25年</option><option value="2014">平成26年</option><option value="2015">平成27年</option><option value="2016">平成28年</option><option value="2017">平成29年</option><option value="2018">平成30年</option><option value="2019">令和元年</option><option value="2020">令和2年</option><option value="2021">令和3年</option><option value="2022">令和4年</option><option value="2023" selected>令和5年</option></select></div>
+<div data-seg="yochien shogakko chugakko koko_zenjitsu koko_teiji kosen">
+<h3 class="fig-only" id="cap-ch-grade">学年ごとの児童数</h3>
+<div class="chartbox"><canvas id="ch-grade"></canvas></div>
+<p class="unit" id="u-ch-grade">単位——人。横軸は学年で、系列は男と女です。</p>
+</div><p class="note" id="u-seg-ch-grade" data-seg-note hidden>この段は学年ごとの内訳を持ちません。</p>
+</section>
+<section class="section" id="s-values">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>正確な値</h2>
+<div id="t-yochien" data-seg="yochien">
+<h3>幼稚園の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">幼稚園／園数総数（園）</th><th class="n">認定こども園／園数総数（園）</th><th class="n">幼稚園／学級数（学級）</th><th class="n">認定こども園／学級数（学級）</th><th class="n">幼稚園／教員数本務者総数（人）</th><th class="n">認定こども園／教員数本務者総数（人）</th><th class="n">幼稚園／在園者数総数（人）</th><th class="n">幼稚園／在園者数総数男（人）</th><th class="n">幼稚園／在園者数総数女（人）</th><th class="n">認定こども園／在園者数総数（人）</th><th class="n">認定こども園／在園者数総数男（人）</th><th class="n">認定こども園／在園者数総数女（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">34</td><td class="n">—</td><td class="n">117</td><td class="n">—</td><td class="n">167</td><td class="n">—</td><td class="n">2,290</td><td class="n">1,178</td><td class="n">1,112</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年</th><td class="n">34</td><td class="n">—</td><td class="n">115</td><td class="n">—</td><td class="n">176</td><td class="n">—</td><td class="n">2,136</td><td class="n">1,122</td><td class="n">1,014</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年</th><td class="n">34</td><td class="n">—</td><td class="n">107</td><td class="n">—</td><td class="n">174</td><td class="n">—</td><td class="n">2,017</td><td class="n">1,049</td><td class="n">968</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年</th><td class="n">34</td><td class="n">—</td><td class="n">105</td><td class="n">—</td><td class="n">178</td><td class="n">—</td><td class="n">1,874</td><td class="n">957</td><td class="n">917</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年</th><td class="n">34</td><td class="n">—</td><td class="n">105</td><td class="n">—</td><td class="n">170</td><td class="n">—</td><td class="n">1,770</td><td class="n">870</td><td class="n">900</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成22年</th><td class="n">33</td><td class="n">—</td><td class="n">103</td><td class="n">—</td><td class="n">170</td><td class="n">—</td><td class="n">1,707</td><td class="n">848</td><td class="n">859</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成23年</th><td class="n">31</td><td class="n">—</td><td class="n">102</td><td class="n">—</td><td class="n">162</td><td class="n">—</td><td class="n">1,692</td><td class="n">852</td><td class="n">840</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成24年</th><td class="n">34</td><td class="n">—</td><td class="n">108</td><td class="n">—</td><td class="n">174</td><td class="n">—</td><td class="n">1,818</td><td class="n">940</td><td class="n">878</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成25年</th><td class="n">34</td><td class="n">—</td><td class="n">106</td><td class="n">—</td><td class="n">170</td><td class="n">—</td><td class="n">1,648</td><td class="n">851</td><td class="n">797</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成26年</th><td class="n">34</td><td class="n">—</td><td class="n">103</td><td class="n">—</td><td class="n">160</td><td class="n">—</td><td class="n">1,660</td><td class="n">826</td><td class="n">834</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成27年</th><td class="n">34</td><td class="n">—</td><td class="n">98</td><td class="n">—</td><td class="n">163</td><td class="n">—</td><td class="n">1,598</td><td class="n">791</td><td class="n">807</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成28年</th><td class="n">34</td><td class="n">—</td><td class="n">102</td><td class="n">—</td><td class="n">162</td><td class="n">—</td><td class="n">1,611</td><td class="n">839</td><td class="n">772</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>令和元年</th><td class="n">33</td><td class="n">9</td><td class="n">85</td><td class="n">33</td><td class="n">137</td><td class="n">195</td><td class="n">1,424</td><td class="n">732</td><td class="n">692</td><td class="n">1,002</td><td class="n">495</td><td class="n">507</td></tr>
+<tr><th>令和2年</th><td class="n">33</td><td class="n">9</td><td class="n">78</td><td class="n">33</td><td class="n">146</td><td class="n">183</td><td class="n">1,334</td><td class="n">697</td><td class="n">637</td><td class="n">958</td><td class="n">490</td><td class="n">468</td></tr>
+<tr><th>令和3年</th><td class="n">32</td><td class="n">10</td><td class="n">74</td><td class="n">34</td><td class="n">143</td><td class="n">189</td><td class="n">1,199</td><td class="n">618</td><td class="n">581</td><td class="n">965</td><td class="n">511</td><td class="n">454</td></tr>
+<tr><th>令和4年</th><td class="n">32</td><td class="n">10</td><td class="n">69</td><td class="n">35</td><td class="n">136</td><td class="n">199</td><td class="n">1,030</td><td class="n">502</td><td class="n">528</td><td class="n">876</td><td class="n">476</td><td class="n">400</td></tr>
+<tr><th>令和5年</th><td class="n">31</td><td class="n">10</td><td class="n">62</td><td class="n">38</td><td class="n">131</td><td class="n">180</td><td class="n">912</td><td class="n">470</td><td class="n">442</td><td class="n">832</td><td class="n">452</td><td class="n">380</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-shogakko" data-seg="shogakko">
+<h3>小学校の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">学校数（校）</th><th class="n">学級数（学級）</th><th class="n">教員数(本務者)総数（人）</th><th class="n">職員数(本務者)総数（人）</th><th class="n">児童数総数（人）</th><th class="n">児童数総数男（人）</th><th class="n">児童数総数女（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">37</td><td class="n">472</td><td class="n">752</td><td class="n">63</td><td class="n">11,326</td><td class="n">5,798</td><td class="n">5,528</td></tr>
+<tr><th>平成18年</th><td class="n">35</td><td class="n">460</td><td class="n">734</td><td class="n">58</td><td class="n">11,238</td><td class="n">5,767</td><td class="n">5,471</td></tr>
+<tr><th>平成19年</th><td class="n">35</td><td class="n">457</td><td class="n">724</td><td class="n">50</td><td class="n">11,143</td><td class="n">5,732</td><td class="n">5,411</td></tr>
+<tr><th>平成20年</th><td class="n">35</td><td class="n">453</td><td class="n">717</td><td class="n">51</td><td class="n">10,966</td><td class="n">5,663</td><td class="n">5,303</td></tr>
+<tr><th>平成21年</th><td class="n">35</td><td class="n">462</td><td class="n">732</td><td class="n">45</td><td class="n">10,801</td><td class="n">5,583</td><td class="n">5,218</td></tr>
+<tr><th>平成22年</th><td class="n">34</td><td class="n">453</td><td class="n">716</td><td class="n">46</td><td class="n">10,624</td><td class="n">5,480</td><td class="n">5,144</td></tr>
+<tr><th>平成23年</th><td class="n">33</td><td class="n">441</td><td class="n">712</td><td class="n">45</td><td class="n">10,458</td><td class="n">5,378</td><td class="n">5,080</td></tr>
+<tr><th>平成24年</th><td class="n">36</td><td class="n">478</td><td class="n">761</td><td class="n">47</td><td class="n">11,260</td><td class="n">5,722</td><td class="n">5,538</td></tr>
+<tr><th>平成25年</th><td class="n">36</td><td class="n">470</td><td class="n">756</td><td class="n">45</td><td class="n">11,137</td><td class="n">5,683</td><td class="n">5,454</td></tr>
+<tr><th>平成26年</th><td class="n">36</td><td class="n">485</td><td class="n">765</td><td class="n">50</td><td class="n">11,056</td><td class="n">5,643</td><td class="n">5,413</td></tr>
+<tr><th>平成27年</th><td class="n">36</td><td class="n">509</td><td class="n">757</td><td class="n">55</td><td class="n">10,888</td><td class="n">5,502</td><td class="n">5,386</td></tr>
+<tr><th>平成28年</th><td class="n">36</td><td class="n">503</td><td class="n">778</td><td class="n">42</td><td class="n">10,898</td><td class="n">5,496</td><td class="n">5,402</td></tr>
+<tr><th>平成29年</th><td class="n">36</td><td class="n">506</td><td class="n">784</td><td class="n">44</td><td class="n">10,922</td><td class="n">5,513</td><td class="n">5,409</td></tr>
+<tr><th>平成30年</th><td class="n">35</td><td class="n">504</td><td class="n">778</td><td class="n">45</td><td class="n">10,831</td><td class="n">5,520</td><td class="n">5,311</td></tr>
+<tr><th>令和元年</th><td class="n">34</td><td class="n">490</td><td class="n">757</td><td class="n">41</td><td class="n">10,431</td><td class="n">5,330</td><td class="n">5,101</td></tr>
+<tr><th>令和2年</th><td class="n">34</td><td class="n">493</td><td class="n">762</td><td class="n">45</td><td class="n">10,406</td><td class="n">5,284</td><td class="n">5,122</td></tr>
+<tr><th>令和3年</th><td class="n">32</td><td class="n">472</td><td class="n">724</td><td class="n">41</td><td class="n">9,946</td><td class="n">5,091</td><td class="n">4,855</td></tr>
+<tr><th>令和4年</th><td class="n">32</td><td class="n">467</td><td class="n">711</td><td class="n">39</td><td class="n">9,867</td><td class="n">5,079</td><td class="n">4,788</td></tr>
+<tr><th>令和5年</th><td class="n">32</td><td class="n">465</td><td class="n">689</td><td class="n">39</td><td class="n">9,718</td><td class="n">4,988</td><td class="n">4,730</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-chugakko" data-seg="chugakko">
+<h3>中学校の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">学校数（校）</th><th class="n">学級数（学級）</th><th class="n">教員数本務者総数（人）</th><th class="n">職員数本務者総数（人）</th><th class="n">生徒数総数（人）</th><th class="n">生徒数総数男（人）</th><th class="n">生徒数総数女（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">19</td><td class="n">206</td><td class="n">460</td><td class="n">33</td><td class="n">6,080</td><td class="n">3,107</td><td class="n">2,973</td></tr>
+<tr><th>平成18年</th><td class="n">19</td><td class="n">207</td><td class="n">469</td><td class="n">33</td><td class="n">6,006</td><td class="n">3,080</td><td class="n">2,926</td></tr>
+<tr><th>平成19年</th><td class="n">19</td><td class="n">204</td><td class="n">470</td><td class="n">32</td><td class="n">5,916</td><td class="n">3,011</td><td class="n">2,905</td></tr>
+<tr><th>平成20年</th><td class="n">19</td><td class="n">208</td><td class="n">461</td><td class="n">36</td><td class="n">5,918</td><td class="n">2,994</td><td class="n">2,924</td></tr>
+<tr><th>平成21年</th><td class="n">19</td><td class="n">202</td><td class="n">460</td><td class="n">34</td><td class="n">5,786</td><td class="n">2,941</td><td class="n">2,845</td></tr>
+<tr><th>平成22年</th><td class="n">19</td><td class="n">206</td><td class="n">469</td><td class="n">33</td><td class="n">5,737</td><td class="n">2,936</td><td class="n">2,801</td></tr>
+<tr><th>平成23年</th><td class="n">19</td><td class="n">204</td><td class="n">463</td><td class="n">32</td><td class="n">5,644</td><td class="n">2,927</td><td class="n">2,717</td></tr>
+<tr><th>平成24年</th><td class="n">20</td><td class="n">219</td><td class="n">490</td><td class="n">30</td><td class="n">6,123</td><td class="n">3,168</td><td class="n">2,955</td></tr>
+<tr><th>平成25年</th><td class="n">20</td><td class="n">219</td><td class="n">493</td><td class="n">31</td><td class="n">6,093</td><td class="n">3,182</td><td class="n">2,911</td></tr>
+<tr><th>平成26年</th><td class="n">20</td><td class="n">222</td><td class="n">501</td><td class="n">31</td><td class="n">6,023</td><td class="n">3,128</td><td class="n">2,895</td></tr>
+<tr><th>平成27年</th><td class="n">20</td><td class="n">231</td><td class="n">506</td><td class="n">31</td><td class="n">5,891</td><td class="n">3,052</td><td class="n">2,839</td></tr>
+<tr><th>平成28年</th><td class="n">20</td><td class="n">230</td><td class="n">494</td><td class="n">30</td><td class="n">5,761</td><td class="n">2,961</td><td class="n">2,800</td></tr>
+<tr><th>平成29年</th><td class="n">20</td><td class="n">224</td><td class="n">489</td><td class="n">32</td><td class="n">5,651</td><td class="n">2,894</td><td class="n">2,757</td></tr>
+<tr><th>平成30年</th><td class="n">19</td><td class="n">218</td><td class="n">478</td><td class="n">29</td><td class="n">5,388</td><td class="n">2,707</td><td class="n">2,681</td></tr>
+<tr><th>令和元年</th><td class="n">18</td><td class="n">214</td><td class="n">465</td><td class="n">26</td><td class="n">4,981</td><td class="n">2,526</td><td class="n">2,455</td></tr>
+<tr><th>令和2年</th><td class="n">18</td><td class="n">216</td><td class="n">459</td><td class="n">30</td><td class="n">5,038</td><td class="n">2,532</td><td class="n">2,506</td></tr>
+<tr><th>令和3年</th><td class="n">17</td><td class="n">198</td><td class="n">438</td><td class="n">39</td><td class="n">4,924</td><td class="n">2,496</td><td class="n">2,428</td></tr>
+<tr><th>令和4年</th><td class="n">17</td><td class="n">195</td><td class="n">429</td><td class="n">29</td><td class="n">4,954</td><td class="n">2,493</td><td class="n">2,461</td></tr>
+<tr><th>令和5年</th><td class="n">17</td><td class="n">198</td><td class="n">425</td><td class="n">29</td><td class="n">4,881</td><td class="n">2,481</td><td class="n">2,400</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-koko_zenjitsu" data-seg="koko_zenjitsu">
+<h3>高等学校（全日制）の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">学校数(注)（校）</th><th class="n">教員数(注)本務者総数（人）</th><th class="n">職員数(注)本務者総数（人）</th><th class="n">生徒数総数（人）</th><th class="n">生徒数総数男（人）</th><th class="n">生徒数総数女（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">11</td><td class="n">553</td><td class="n">124</td><td class="n">6,869</td><td class="n">3,501</td><td class="n">3,368</td></tr>
+<tr><th>平成18年</th><td class="n">11</td><td class="n">546</td><td class="n">122</td><td class="n">6,698</td><td class="n">3,390</td><td class="n">3,308</td></tr>
+<tr><th>平成19年</th><td class="n">11</td><td class="n">547</td><td class="n">119</td><td class="n">6,584</td><td class="n">3,356</td><td class="n">3,228</td></tr>
+<tr><th>平成20年</th><td class="n">11</td><td class="n">537</td><td class="n">118</td><td class="n">6,377</td><td class="n">3,237</td><td class="n">3,140</td></tr>
+<tr><th>平成21年</th><td class="n">11</td><td class="n">533</td><td class="n">112</td><td class="n">—</td><td class="n">3,194</td><td class="n">3,100</td></tr>
+<tr><th>平成22年</th><td class="n">11</td><td class="n">521</td><td class="n">120</td><td class="n">6,178</td><td class="n">3,136</td><td class="n">3,042</td></tr>
+<tr><th>平成23年</th><td class="n">11</td><td class="n">517</td><td class="n">115</td><td class="n">6,215</td><td class="n">3,153</td><td class="n">3,062</td></tr>
+<tr><th>平成24年</th><td class="n">11</td><td class="n">519</td><td class="n">108</td><td class="n">6,128</td><td class="n">3,168</td><td class="n">2,960</td></tr>
+<tr><th>平成25年</th><td class="n">11</td><td class="n">513</td><td class="n">111</td><td class="n">—</td><td class="n">3,126</td><td class="n">2,924</td></tr>
+<tr><th>平成26年</th><td class="n">11</td><td class="n">506</td><td class="n">110</td><td class="n">—</td><td class="n">3,148</td><td class="n">2,913</td></tr>
+<tr><th>平成27年</th><td class="n">11</td><td class="n">520</td><td class="n">110</td><td class="n">6,053</td><td class="n">3,157</td><td class="n">2,896</td></tr>
+<tr><th>平成28年</th><td class="n">11</td><td class="n">505</td><td class="n">111</td><td class="n">6,056</td><td class="n">3,172</td><td class="n">2,884</td></tr>
+<tr><th>平成29年</th><td class="n">11</td><td class="n">498</td><td class="n">111</td><td class="n">5,979</td><td class="n">3,142</td><td class="n">2,837</td></tr>
+<tr><th>平成30年</th><td class="n">11</td><td class="n">489</td><td class="n">115</td><td class="n">5,849</td><td class="n">3,092</td><td class="n">2,757</td></tr>
+<tr><th>令和元年</th><td class="n">11</td><td class="n">493</td><td class="n">116</td><td class="n">5,647</td><td class="n">2,987</td><td class="n">2,660</td></tr>
+<tr><th>令和2年</th><td class="n">11</td><td class="n">490</td><td class="n">121</td><td class="n">5,479</td><td class="n">2,871</td><td class="n">2,608</td></tr>
+<tr><th>令和3年</th><td class="n">11</td><td class="n">477</td><td class="n">99</td><td class="n">5,269</td><td class="n">2,711</td><td class="n">2,558</td></tr>
+<tr><th>令和4年</th><td class="n">11</td><td class="n">484</td><td class="n">87</td><td class="n">5,265</td><td class="n">2,721</td><td class="n">2,544</td></tr>
+<tr><th>令和5年</th><td class="n">11</td><td class="n">482</td><td class="n">90</td><td class="n">5,284</td><td class="n">2,715</td><td class="n">2,569</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-koko_teiji" data-seg="koko_teiji">
+<h3>高等学校（定時制）の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">学校数（校）</th><th class="n">教員数本務者総数（人）</th><th class="n">職員数本務者総数（人）</th><th class="n">生徒数総数（人）</th><th class="n">生徒数総数男（人）</th><th class="n">生徒数総数女（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">2</td><td class="n">47</td><td class="n">8</td><td class="n">295</td><td class="n">172</td><td class="n">123</td></tr>
+<tr><th>平成18年</th><td class="n">1</td><td class="n">46</td><td class="n">8</td><td class="n">279</td><td class="n">160</td><td class="n">119</td></tr>
+<tr><th>平成19年</th><td class="n">1</td><td class="n">47</td><td class="n">8</td><td class="n">256</td><td class="n">152</td><td class="n">104</td></tr>
+<tr><th>平成20年</th><td class="n">1</td><td class="n">46</td><td class="n">8</td><td class="n">254</td><td class="n">138</td><td class="n">116</td></tr>
+<tr><th>平成21年</th><td class="n">1</td><td class="n">47</td><td class="n">8</td><td class="n">—</td><td class="n">116</td><td class="n">102</td></tr>
+<tr><th>平成22年</th><td class="n">2</td><td class="n">63</td><td class="n">21</td><td class="n">291</td><td class="n">155</td><td class="n">136</td></tr>
+<tr><th>平成23年</th><td class="n">2</td><td class="n">72</td><td class="n">20</td><td class="n">—</td><td class="n">—</td><td class="n">160</td></tr>
+<tr><th>平成24年</th><td class="n">2</td><td class="n">76</td><td class="n">18</td><td class="n">—</td><td class="n">181</td><td class="n">157</td></tr>
+<tr><th>平成25年</th><td class="n">1</td><td class="n">70</td><td class="n">15</td><td class="n">—</td><td class="n">185</td><td class="n">139</td></tr>
+<tr><th>平成26年</th><td class="n">1</td><td class="n">70</td><td class="n">17</td><td class="n">—</td><td class="n">166</td><td class="n">139</td></tr>
+<tr><th>平成27年</th><td class="n">1</td><td class="n">71</td><td class="n">16</td><td class="n">254</td><td class="n">142</td><td class="n">112</td></tr>
+<tr><th>平成28年</th><td class="n">1</td><td class="n">70</td><td class="n">15</td><td class="n">232</td><td class="n">134</td><td class="n">98</td></tr>
+<tr><th>平成29年</th><td class="n">1</td><td class="n">69</td><td class="n">18</td><td class="n">256</td><td class="n">125</td><td class="n">131</td></tr>
+<tr><th>平成30年</th><td class="n">1</td><td class="n">70</td><td class="n">19</td><td class="n">254</td><td class="n">122</td><td class="n">132</td></tr>
+<tr><th>令和元年</th><td class="n">1</td><td class="n">72</td><td class="n">17</td><td class="n">263</td><td class="n">125</td><td class="n">138</td></tr>
+<tr><th>令和2年</th><td class="n">1</td><td class="n">76</td><td class="n">20</td><td class="n">279</td><td class="n">143</td><td class="n">136</td></tr>
+<tr><th>令和3年</th><td class="n">1</td><td class="n">72</td><td class="n">17</td><td class="n">260</td><td class="n">146</td><td class="n">114</td></tr>
+<tr><th>令和4年</th><td class="n">1</td><td class="n">71</td><td class="n">17</td><td class="n">290</td><td class="n">166</td><td class="n">124</td></tr>
+<tr><th>令和5年</th><td class="n">1</td><td class="n">67</td><td class="n">15</td><td class="n">312</td><td class="n">164</td><td class="n">148</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-kosen" data-seg="kosen">
+<h3>高等専門学校の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">学校数（校）</th><th class="n">教員数本務者総数（人）</th><th class="n">職員数総数（人）</th><th class="n">学生数総数（人）</th><th class="n">学生数総数男（人）</th><th class="n">学生数総数女（人）</th><th class="n">総数（人）</th></tr></thead><tbody>
+<tr><th>平成16年度</th><td class="n">1</td><td class="n">78</td><td class="n">51</td><td class="n">1,020</td><td class="n">846</td><td class="n">174</td><td class="n">—</td></tr>
+<tr><th>平成17年度</th><td class="n">1</td><td class="n">79</td><td class="n">50</td><td class="n">1,048</td><td class="n">869</td><td class="n">179</td><td class="n">—</td></tr>
+<tr><th>平成18年度</th><td class="n">1</td><td class="n">77</td><td class="n">49</td><td class="n">1,063</td><td class="n">870</td><td class="n">193</td><td class="n">—</td></tr>
+<tr><th>平成19年度</th><td class="n">1</td><td class="n">76</td><td class="n">46</td><td class="n">1,076</td><td class="n">891</td><td class="n">185</td><td class="n">—</td></tr>
+<tr><th>平成20年度</th><td class="n">1</td><td class="n">78</td><td class="n">45</td><td class="n">1,086</td><td class="n">899</td><td class="n">187</td><td class="n">—</td></tr>
+<tr><th>平成21年度</th><td class="n">1</td><td class="n">77</td><td class="n">46</td><td class="n">1,074</td><td class="n">897</td><td class="n">177</td><td class="n">—</td></tr>
+<tr><th>平成22年度</th><td class="n">1</td><td class="n">76</td><td class="n">44</td><td class="n">1,076</td><td class="n">899</td><td class="n">177</td><td class="n">—</td></tr>
+<tr><th>平成23年度</th><td class="n">1</td><td class="n">77</td><td class="n">43</td><td class="n">1,050</td><td class="n">889</td><td class="n">161</td><td class="n">—</td></tr>
+<tr><th>平成24年度</th><td class="n">1</td><td class="n">76</td><td class="n">43</td><td class="n">1,037</td><td class="n">879</td><td class="n">158</td><td class="n">—</td></tr>
+<tr><th>平成25年度</th><td class="n">1</td><td class="n">76</td><td class="n">43</td><td class="n">1,034</td><td class="n">873</td><td class="n">161</td><td class="n">—</td></tr>
+<tr><th>平成26年度</th><td class="n">1</td><td class="n">76</td><td class="n">43</td><td class="n">1,007</td><td class="n">851</td><td class="n">156</td><td class="n">—</td></tr>
+<tr><th>平成27年度</th><td class="n">1</td><td class="n">76</td><td class="n">44</td><td class="n">1,006</td><td class="n">840</td><td class="n">166</td><td class="n">—</td></tr>
+<tr><th>平成28年度</th><td class="n">1</td><td class="n">69</td><td class="n">44</td><td class="n">1,026</td><td class="n">841</td><td class="n">185</td><td class="n">—</td></tr>
+<tr><th>平成29年度</th><td class="n">1</td><td class="n">75</td><td class="n">45</td><td class="n">—</td><td class="n">831</td><td class="n">196</td><td class="n">1,027</td></tr>
+<tr><th>平成30年度</th><td class="n">1</td><td class="n">71</td><td class="n">43</td><td class="n">—</td><td class="n">814</td><td class="n">194</td><td class="n">1,008</td></tr>
+<tr><th>令和元年度</th><td class="n">1</td><td class="n">72</td><td class="n">43</td><td class="n">—</td><td class="n">798</td><td class="n">202</td><td class="n">1,000</td></tr>
+<tr><th>令和2年度</th><td class="n">1</td><td class="n">70</td><td class="n">43</td><td class="n">—</td><td class="n">793</td><td class="n">202</td><td class="n">995</td></tr>
+<tr><th>令和3年度</th><td class="n">1</td><td class="n">69</td><td class="n">43</td><td class="n">—</td><td class="n">785</td><td class="n">208</td><td class="n">993</td></tr>
+<tr><th>令和4年度</th><td class="n">1</td><td class="n">68</td><td class="n">46</td><td class="n">992</td><td class="n">789</td><td class="n">203</td><td class="n">—</td></tr>
+<tr><th>令和5年度</th><td class="n">1</td><td class="n">69</td><td class="n">46</td><td class="n">984</td><td class="n">768</td><td class="n">216</td><td class="n">—</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-daigaku" data-seg="daigaku">
+<h3>大学・短大の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">島根大学／教員数総数（人）</th><th class="n">島根県立大学短期大学部／教員数総数（人）</th><th class="n">島根県立大学松江キャンパス／教員数総数（人）</th><th class="n">島根女子短期大学／教員数総数（人）</th><th class="n">島根大学／学生数総数（人）</th><th class="n">島根大学／学生数(大学院)総数（人）</th><th class="n">島根県立大学短期大学部／学生数総数（人）</th><th class="n">島根県立大学松江キャンパス／学生数総数（人）</th><th class="n">島根女子短期大学／学生数総数（人）</th></tr></thead><tbody>
+<tr><th>平成14年</th><td class="n">434</td><td class="n">—</td><td class="n">—</td><td class="n">41</td><td class="n">5,085</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">470</td></tr>
+<tr><th>平成15年</th><td class="n">436</td><td class="n">44</td><td class="n">—</td><td class="n">—</td><td class="n">5,063</td><td class="n">—</td><td class="n">461</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成16年</th><td class="n">432</td><td class="n">45</td><td class="n">—</td><td class="n">—</td><td class="n">4,951</td><td class="n">—</td><td class="n">475</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成17年</th><td class="n">424</td><td class="n">42</td><td class="n">—</td><td class="n">—</td><td class="n">4,824</td><td class="n">—</td><td class="n">468</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年</th><td class="n">432</td><td class="n">37</td><td class="n">—</td><td class="n">—</td><td class="n">4,679</td><td class="n">—</td><td class="n">468</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年</th><td class="n">419</td><td class="n">37</td><td class="n">—</td><td class="n">—</td><td class="n">4,544</td><td class="n">—</td><td class="n">519</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年</th><td class="n">424</td><td class="n">37</td><td class="n">—</td><td class="n">—</td><td class="n">4,541</td><td class="n">621</td><td class="n">493</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年</th><td class="n">436</td><td class="n">36</td><td class="n">—</td><td class="n">—</td><td class="n">4,532</td><td class="n">591</td><td class="n">493</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成22年</th><td class="n">444</td><td class="n">36</td><td class="n">—</td><td class="n">—</td><td class="n">4,538</td><td class="n">565</td><td class="n">491</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成23年</th><td class="n">442</td><td class="n">36</td><td class="n">—</td><td class="n">—</td><td class="n">4,508</td><td class="n">548</td><td class="n">491</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成24年</th><td class="n">447</td><td class="n">36</td><td class="n">—</td><td class="n">—</td><td class="n">4,511</td><td class="n">514</td><td class="n">492</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成25年</th><td class="n">451</td><td class="n">34</td><td class="n">—</td><td class="n">—</td><td class="n">4,501</td><td class="n">497</td><td class="n">498</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成26年</th><td class="n">455</td><td class="n">35</td><td class="n">—</td><td class="n">—</td><td class="n">4,504</td><td class="n">499</td><td class="n">505</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成27年</th><td class="n">469</td><td class="n">35</td><td class="n">—</td><td class="n">—</td><td class="n">4,468</td><td class="n">502</td><td class="n">502</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成28年</th><td class="n">473</td><td class="n">36</td><td class="n">—</td><td class="n">—</td><td class="n">4,445</td><td class="n">489</td><td class="n">503</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年</th><td class="n">486</td><td class="n">35</td><td class="n">—</td><td class="n">—</td><td class="n">4,428</td><td class="n">507</td><td class="n">484</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年</th><td class="n">480</td><td class="n">15</td><td class="n">33</td><td class="n">—</td><td class="n">4,417</td><td class="n">497</td><td class="n">301</td><td class="n">117</td><td class="n">—</td></tr>
+<tr><th>令和元年</th><td class="n">472</td><td class="n">13</td><td class="n">36</td><td class="n">—</td><td class="n">4,388</td><td class="n">503</td><td class="n">174</td><td class="n">237</td><td class="n">—</td></tr>
+<tr><th>令和2年</th><td class="n">433</td><td class="n">13</td><td class="n">34</td><td class="n">—</td><td class="n">4,368</td><td class="n">532</td><td class="n">171</td><td class="n">354</td><td class="n">—</td></tr>
+<tr><th>令和3年</th><td class="n">427</td><td class="n">14</td><td class="n">35</td><td class="n">—</td><td class="n">4,385</td><td class="n">488</td><td class="n">167</td><td class="n">468</td><td class="n">—</td></tr>
+<tr><th>令和4年</th><td class="n">419</td><td class="n">15</td><td class="n">34</td><td class="n">—</td><td class="n">4,390</td><td class="n">532</td><td class="n">163</td><td class="n">470</td><td class="n">—</td></tr>
+<tr><th>令和5年</th><td class="n">415</td><td class="n">16</td><td class="n">32</td><td class="n">—</td><td class="n">5,326</td><td class="n">723</td><td class="n">167</td><td class="n">472</td><td class="n">—</td></tr>
+</tbody></table></div>
+</div>
+  <p class="note">出所は松江市統計情報データベースの識別子です。同じ時点を2つのファイルが持つときは、データ元が提出印を付けた側か、識別子の新しい側を採っています。</p>
+</section>
+<section class="section" id="s-caution">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead><tbody>
+<tr><td>段によって資料の出どころが違う</td><td>幼稚園・小学校・中学校・高等学校（全日制）・高等学校（定時制）は「島根県政策企画局統計調査課「学校基本調査結果報告書」」／高等専門学校は「松江工業高等専門学校」／大学・短大は「島根大学、島根県立大学短期大学部」と「島根大学、島根女子短期大学」。市がまとめた数ではありません。</td></tr>
+<tr><td>データが無い年がある</td><td>幼稚園の平成29年・幼稚園の平成30年は、データ元がその年の表を出していません（2つ）。図ではその年の場所に「データなし」の列を立てています——0 ではありません。</td></tr>
+<tr><td>データ元が総数を空けている年は、男と女を足している</td><td>高等学校（全日制）の平成21年・高等学校（全日制）の平成25年・高等学校（全日制）の平成26年・高等学校（定時制）の平成21年・高等学校（定時制）の平成24年・高等学校（定時制）の平成25年・高等学校（定時制）の平成26年・高等専門学校の平成29年度・高等専門学校の平成30年度・高等専門学校の令和元年度・高等専門学校の令和2年度・高等専門学校の令和3年度（12件）は、データ元が総数の欄を空けたまま男と女の数を載せています。その2つを足して出しました——データ元が公表した数ではありません。</td></tr>
+<tr><td>幼稚園の積み上げは、部品が無い年がある</td><td>認定こども園はデータ元が令和元年〜令和5年のぶんだけ載せています（5つ・データ元が認定こども園を載せるのは令和元年から（それ以前の棒は幼稚園だけの高さ））。積み上げた棒の高さは、その年の合計ではありません——既定を切るのではなく、切れていないことをここに書いています。</td></tr>
+<tr><td>大学・短大の積み上げは、部品が無い年がある</td><td>島根県立大学短期大学部はデータ元が平成15年〜令和5年のぶんだけ載せています（21件・2002年は旧称で、2003年以降は新称を採る）／島根県立大学松江キャンパスはデータ元が平成30年〜令和5年のぶんだけ載せています（6つ・データ元がこの機関を載せるのは平成30年から）／島根女子短期大学はデータ元が平成14年のぶんだけ載せています（1つ・2003年以降は新称が同年の値を持つため旧称を採らない）。積み上げた棒の高さは、その年の合計ではありません——既定を切るのではなく、切れていないことをここに書いています。</td></tr>
+<tr><td>幼稚園は学年の和が総数と合わない年がある</td><td>平成27年の1つです（幼稚園）。直していません——データ元の値をそのまま出し、合わないことをここに書いています。</td></tr>
+<tr><td>義務教育学校は小学校と中学校に分かれて数えられている</td><td>前期課程が小学校、後期課程が中学校として数えられています。学校数を足すと、1つの学校を2つ数えます。</td></tr>
+<tr><td>東出雲町は2012年から入っている</td><td>編入は2011年8月1日です。平成23年と平成24年の間に段差がある系列があります——この段差を「増えた」と読まないでください。不連続の位置は系列によって違います。</td></tr>
+<tr><td>大学・短大は形が違う</td><td>学校数・学級数・職員数を持たず、4つの綴りに分かれます（島根大学・島根県立大学短期大学部・島根県立大学松江キャンパス・島根女子短期大学）。凡例の数は綴りの数です——寄せていません。島根大学は平成14年〜令和5年（22件）／島根県立大学短期大学部は平成15年〜令和5年（21件）／島根県立大学松江キャンパスは平成30年〜令和5年（6つ）／島根女子短期大学は平成14年（1つ）。</td></tr>
+</tbody></table></div>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年9月17日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"axis": {"chugakko": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "daigaku": {"l": ["H14", "H15", "H16", "H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621014\u5e74", "\u5e73\u621015\u5e74", "\u5e73\u621016\u5e74", "\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "koko_teiji": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "koko_zenjitsu": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "kosen": {"l": ["H16", "H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621016\u5e74\u5ea6", "\u5e73\u621017\u5e74\u5ea6", "\u5e73\u621018\u5e74\u5ea6", "\u5e73\u621019\u5e74\u5ea6", "\u5e73\u621020\u5e74\u5ea6", "\u5e73\u621021\u5e74\u5ea6", "\u5e73\u621022\u5e74\u5ea6", "\u5e73\u621023\u5e74\u5ea6", "\u5e73\u621024\u5e74\u5ea6", "\u5e73\u621025\u5e74\u5ea6", "\u5e73\u621026\u5e74\u5ea6", "\u5e73\u621027\u5e74\u5ea6", "\u5e73\u621028\u5e74\u5ea6", "\u5e73\u621029\u5e74\u5ea6", "\u5e73\u621030\u5e74\u5ea6", "\u4ee4\u548c\u5143\u5e74\u5ea6", "\u4ee4\u548c2\u5e74\u5ea6", "\u4ee4\u548c3\u5e74\u5ea6", "\u4ee4\u548c4\u5e74\u5ea6", "\u4ee4\u548c5\u5e74\u5ea6"], "px": [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74\u5ea6", "x": [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "shogakko": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "yochien": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}}, "figures": {"ch-cls": {"axis": null, "kind": "stacked", "nodata": {"chugakko": [], "shogakko": [], "yochien": [2017, 2018]}, "segs": ["yochien", "shogakko", "chugakko"], "series": {"chugakko": [{"label": "\u5b66\u7d1a\u6570", "values": [206.0, 207.0, 204.0, 208.0, 202.0, 206.0, 204.0, 219.0, 219.0, 222.0, 231.0, 230.0, 224.0, 218.0, 214.0, 216.0, 198.0, 195.0, 198.0]}], "shogakko": [{"label": "\u5b66\u7d1a\u6570", "values": [472.0, 460.0, 457.0, 453.0, 462.0, 453.0, 441.0, 478.0, 470.0, 485.0, 509.0, 503.0, 506.0, 504.0, 490.0, 493.0, 472.0, 467.0, 465.0]}], "yochien": [{"label": "\u5e7c\u7a1a\u5712\uff0f\u5b66\u7d1a\u6570", "values": [117.0, 115.0, 107.0, 105.0, 105.0, 103.0, 102.0, 108.0, 106.0, 103.0, 98.0, 102.0, null, null, 85.0, 78.0, 74.0, 69.0, 62.0]}, {"label": "\u8a8d\u5b9a\u3053\u3069\u3082\u5712\uff0f\u5b66\u7d1a\u6570", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, 33.0, 33.0, 34.0, 35.0, 38.0]}]}, "texts": {"chugakko": "\u5358\u4f4d\u2014\u2014\u5b66\u7d1a\u3002", "shogakko": "\u5358\u4f4d\u2014\u2014\u5b66\u7d1a\u3002", "yochien": "\u5358\u4f4d\u2014\u2014\u5b66\u7d1a\u3002"}, "titles": {"chugakko": "\u5b66\u7d1a\u6570\u306e\u63a8\u79fb", "shogakko": "\u5b66\u7d1a\u6570\u306e\u63a8\u79fb", "yochien": "\u5b66\u7d1a\u6570\u306e\u63a8\u79fb"}, "unfetched": [], "unit": "\u5b66\u7d1a"}, "ch-grade": {"axis": {"chugakko": {"l": ["1\u5e74", "2\u5e74", "3\u5e74"], "t": "\u5b66\u5e74", "x": [0, 1, 2]}, "koko_teiji": {"l": ["1\u5e74", "2\u5e74", "3\u5e74", "4\u5e74"], "t": "\u5b66\u5e74", "x": [0, 1, 2, 3]}, "koko_zenjitsu": {"l": ["1\u5e74", "2\u5e74", "3\u5e74", "\u5c02\u653b\u79d1"], "t": "\u5b66\u5e74", "x": [0, 1, 2, 3]}, "kosen": {"l": ["1\u5e74", "2\u5e74", "3\u5e74", "4\u5e74", "5\u5e74"], "t": "\u5b66\u5e74", "x": [0, 1, 2, 3, 4]}, "shogakko": {"l": ["1\u5e74", "2\u5e74", "3\u5e74", "4\u5e74", "5\u5e74", "6\u5e74"], "t": "\u5b66\u5e74", "x": [0, 1, 2, 3, 4, 5]}, "yochien": {"l": ["3\u624d", "4\u624d", "5\u624d"], "t": "\u5b66\u5e74", "x": [0, 1, 2]}}, "kind": "categorical", "nodata": {"chugakko": [], "koko_teiji": [], "koko_zenjitsu": [], "kosen": [], "shogakko": [], "yochien": []}, "segs": ["yochien", "shogakko", "chugakko", "koko_zenjitsu", "koko_teiji", "kosen"], "series": {"chugakko": {"2005": [{"label": "\u7537", "values": [985.0, 1061.0, 1061.0]}, {"label": "\u5973", "values": [948.0, 1006.0, 1019.0]}], "2006": [{"label": "\u7537", "values": [1034.0, 989.0, 1057.0]}, {"label": "\u5973", "values": [982.0, 939.0, 1005.0]}], "2007": [{"label": "\u7537", "values": [979.0, 1039.0, 993.0]}, {"label": "\u5973", "values": [971.0, 995.0, 939.0]}], "2008": [{"label": "\u7537", "values": [975.0, 976.0, 1043.0]}, {"label": "\u5973", "values": [956.0, 976.0, 992.0]}], "2009": [{"label": "\u7537", "values": [993.0, 982.0, 966.0]}, {"label": "\u5973", "values": [915.0, 958.0, 972.0]}], "2010": [{"label": "\u7537", "values": [960.0, 999.0, 977.0]}, {"label": "\u5973", "values": [923.0, 917.0, 961.0]}], "2011": [{"label": "\u7537", "values": [966.0, 959.0, 1002.0]}, {"label": "\u5973", "values": [875.0, 926.0, 916.0]}], "2012": [{"label": "\u7537", "values": [1086.0, 1066.0, 1016.0]}, {"label": "\u5973", "values": [978.0, 960.0, 1017.0]}], "2013": [{"label": "\u7537", "values": [1030.0, 1085.0, 1067.0]}, {"label": "\u5973", "values": [971.0, 982.0, 958.0]}], "2014": [{"label": "\u7537", "values": [1019.0, 1023.0, 1086.0]}, {"label": "\u5973", "values": [950.0, 967.0, 978.0]}], "2015": [{"label": "\u7537", "values": [1010.0, 1018.0, 1024.0]}, {"label": "\u5973", "values": [931.0, 945.0, 963.0]}], "2016": [{"label": "\u7537", "values": [931.0, 1010.0, 1020.0]}, {"label": "\u5973", "values": [923.0, 935.0, 942.0]}], "2017": [{"label": "\u7537", "values": [953.0, 929.0, 1012.0]}, {"label": "\u5973", "values": [893.0, 929.0, 935.0]}], "2018": [{"label": "\u7537", "values": [849.0, 947.0, 911.0]}, {"label": "\u5973", "values": [895.0, 874.0, 912.0]}], "2019": [{"label": "\u7537", "values": [873.0, 783.0, 870.0]}, {"label": "\u5973", "values": [828.0, 820.0, 807.0]}], "2020": [{"label": "\u7537", "values": [877.0, 873.0, 782.0]}, {"label": "\u5973", "values": [858.0, 825.0, 823.0]}], "2021": [{"label": "\u7537", "values": [817.0, 837.0, 842.0]}, {"label": "\u5973", "values": [801.0, 832.0, 795.0]}], "2022": [{"label": "\u7537", "values": [851.0, 803.0, 839.0]}, {"label": "\u5973", "values": [824.0, 809.0, 828.0]}], "2023": [{"label": "\u7537", "values": [825.0, 851.0, 805.0]}, {"label": "\u5973", "values": [777.0, 818.0, 805.0]}]}, "koko_teiji": {"2005": [{"label": "\u7537", "values": [48.0, 40.0, 47.0, 37.0]}, {"label": "\u5973", "values": [49.0, 25.0, 31.0, 18.0]}], "2006": [{"label": "\u7537", "values": [56.0, 35.0, 34.0, 35.0]}, {"label": "\u5973", "values": [32.0, 35.0, 24.0, 28.0]}], "2007": [{"label": "\u7537", "values": [53.0, 36.0, 35.0, 28.0]}, {"label": "\u5973", "values": [32.0, 22.0, 28.0, 22.0]}], "2008": [{"label": "\u7537", "values": [38.0, 40.0, 31.0, 29.0]}, {"label": "\u5973", "values": [48.0, 26.0, 19.0, 23.0]}], "2009": [{"label": "\u7537", "values": [31.0, 25.0, 40.0, 20.0]}, {"label": "\u5973", "values": [34.0, 34.0, 20.0, 14.0]}], "2010": [{"label": "\u7537", "values": [75.0, 28.0, 22.0, 30.0]}, {"label": "\u5973", "values": [70.0, 26.0, 25.0, 15.0]}], "2011": [{"label": "\u7537", "values": [75.0, 49.0, 28.0, 14.0]}, {"label": "\u5973", "values": [75.0, 40.0, 22.0, 23.0]}], "2012": [{"label": "\u7537", "values": [77.0, 39.0, 47.0, 18.0]}, {"label": "\u5973", "values": [67.0, 37.0, 33.0, 20.0]}], "2013": [{"label": "\u7537", "values": [73.0, 49.0, 34.0, 29.0]}, {"label": "\u5973", "values": [55.0, 40.0, 30.0, 14.0]}], "2014": [{"label": "\u7537", "values": [53.0, 44.0, 45.0, 24.0]}, {"label": "\u5973", "values": [58.0, 34.0, 32.0, 15.0]}], "2015": [{"label": "\u7537", "values": [44.0, 35.0, 40.0, 23.0]}, {"label": "\u5973", "values": [38.0, 40.0, 28.0, 6.0]}], "2016": [{"label": "\u7537", "values": [37.0, 37.0, 32.0, 28.0]}, {"label": "\u5973", "values": [36.0, 27.0, 26.0, 9.0]}], "2017": [{"label": "\u7537", "values": [49.0, 29.0, 27.0, 20.0]}, {"label": "\u5973", "values": [71.0, 21.0, 23.0, 16.0]}], "2018": [{"label": "\u7537", "values": [43.0, 34.0, 26.0, 19.0]}, {"label": "\u5973", "values": [52.0, 51.0, 19.0, 10.0]}], "2019": [{"label": "\u7537", "values": [47.0, 30.0, 31.0, 17.0]}, {"label": "\u5973", "values": [47.0, 40.0, 40.0, 11.0]}], "2020": [{"label": "\u7537", "values": [61.0, 33.0, 30.0, 19.0]}, {"label": "\u5973", "values": [48.0, 38.0, 31.0, 19.0]}], "2021": [{"label": "\u7537", "values": [52.0, 49.0, 26.0, 19.0]}, {"label": "\u5973", "values": [30.0, 38.0, 22.0, 24.0]}], "2022": [{"label": "\u7537", "values": [60.0, 36.0, 37.0, 33.0]}, {"label": "\u5973", "values": [53.0, 24.0, 14.0, 33.0]}], "2023": [{"label": "\u7537", "values": [48.0, 50.0, 27.0, 39.0]}, {"label": "\u5973", "values": [76.0, 40.0, 13.0, 19.0]}]}, "koko_zenjitsu": {"2005": [{"label": "\u7537", "values": [1179.0, 1144.0, 1178.0, 0.0]}, {"label": "\u5973", "values": [1091.0, 1166.0, 1111.0, 0.0]}], "2006": [{"label": "\u7537", "values": [1177.0, 1110.0, 1103.0, 0.0]}, {"label": "\u5973", "values": [1109.0, 1062.0, 1137.0, 0.0]}], "2007": [{"label": "\u7537", "values": [1157.0, 1138.0, 1061.0, 0.0]}, {"label": "\u5973", "values": [1114.0, 1085.0, 1029.0, 0.0]}], "2008": [{"label": "\u7537", "values": [1030.0, 1106.0, 1101.0, 0.0]}, {"label": "\u5973", "values": [1004.0, 1082.0, 1054.0, 0.0]}], "2009": [{"label": "\u7537", "values": [1120.0, 995.0, 1079.0, 0.0]}, {"label": "\u5973", "values": [1078.0, 968.0, 1054.0, 0.0]}], "2010": [{"label": "\u7537", "values": [1082.0, 1076.0, 978.0, 0.0]}, {"label": "\u5973", "values": [1046.0, 1051.0, 945.0, 0.0]}], "2011": [{"label": "\u7537", "values": [1075.0, 1039.0, 1039.0, 0.0]}, {"label": "\u5973", "values": [1005.0, 1019.0, 1038.0, 0.0]}], "2012": [{"label": "\u7537", "values": [1121.0, 1031.0, 1016.0, 0.0]}, {"label": "\u5973", "values": [988.0, 980.0, 992.0, 0.0]}], "2013": [{"label": "\u7537", "values": [1040.0, 1079.0, 1007.0, 0.0]}, {"label": "\u5973", "values": [1014.0, 959.0, 951.0, 0.0]}], "2014": [{"label": "\u7537", "values": [1104.0, 995.0, 1049.0, 0.0]}, {"label": "\u5973", "values": [978.0, 990.0, 945.0, 0.0]}], "2015": [{"label": "\u7537", "values": [1115.0, 1070.0, 972.0, 0.0]}, {"label": "\u5973", "values": [986.0, 948.0, 962.0, 0.0]}], "2016": [{"label": "\u7537", "values": [1064.0, 1076.0, 1032.0, 0.0]}, {"label": "\u5973", "values": [987.0, 966.0, 931.0, 0.0]}], "2017": [{"label": "\u7537", "values": [1065.0, 1024.0, 1053.0, 0.0]}, {"label": "\u5973", "values": [930.0, 962.0, 945.0, 0.0]}], "2018": [{"label": "\u7537", "values": [1053.0, 1026.0, 1013.0, 0.0]}, {"label": "\u5973", "values": [922.0, 897.0, 938.0, 0.0]}], "2019": [{"label": "\u7537", "values": [960.0, 1022.0, 1005.0, 0.0]}, {"label": "\u5973", "values": [891.0, 896.0, 873.0, 0.0]}], "2020": [{"label": "\u7537", "values": [945.0, 924.0, 1002.0, 0.0]}, {"label": "\u5973", "values": [878.0, 863.0, 867.0, 0.0]}], "2021": [{"label": "\u7537", "values": [886.0, 922.0, 903.0, 0.0]}, {"label": "\u5973", "values": [859.0, 853.0, 846.0, 0.0]}], "2022": [{"label": "\u7537", "values": [960.0, 856.0, 905.0, 0.0]}, {"label": "\u5973", "values": [898.0, 820.0, 826.0, 0.0]}], "2023": [{"label": "\u7537", "values": [986.0, 907.0, 822.0, null]}, {"label": "\u5973", "values": [903.0, 868.0, 798.0, null]}]}, "kosen": {"2004": [{"label": "\u7537", "values": [174.0, 180.0, 162.0, 187.0, 143.0]}, {"label": "\u5973", "values": [39.0, 37.0, 43.0, 22.0, 33.0]}], "2005": [{"label": "\u7537", "values": [175.0, 177.0, 175.0, 175.0, 167.0]}, {"label": "\u5973", "values": [40.0, 38.0, 39.0, 43.0, 19.0]}], "2006": [{"label": "\u7537", "values": [175.0, 173.0, 175.0, 183.0, 164.0]}, {"label": "\u5973", "values": [41.0, 38.0, 37.0, 39.0, 38.0]}], "2007": [{"label": "\u7537", "values": [180.0, 179.0, 171.0, 191.0, 170.0]}, {"label": "\u5973", "values": [31.0, 40.0, 40.0, 40.0, 34.0]}], "2008": [{"label": "\u7537", "values": [177.0, 179.0, 183.0, 180.0, 180.0]}, {"label": "\u5973", "values": [36.0, 31.0, 44.0, 43.0, 33.0]}], "2009": [{"label": "\u7537", "values": [187.0, 171.0, 182.0, 187.0, 170.0]}, {"label": "\u5973", "values": [29.0, 35.0, 34.0, 43.0, 36.0]}], "2010": [{"label": "\u7537", "values": [174.0, 184.0, 171.0, 188.0, 182.0]}, {"label": "\u5973", "values": [36.0, 30.0, 34.0, 35.0, 42.0]}], "2011": [{"label": "\u7537", "values": [173.0, 173.0, 183.0, 181.0, 179.0]}, {"label": "\u5973", "values": [32.0, 36.0, 29.0, 31.0, 33.0]}], "2012": [{"label": "\u7537", "values": [174.0, 171.0, 176.0, 190.0, 168.0]}, {"label": "\u5973", "values": [33.0, 32.0, 37.0, 27.0, 29.0]}], "2013": [{"label": "\u7537", "values": [168.0, 171.0, 177.0, 178.0, 179.0]}, {"label": "\u5973", "values": [39.0, 34.0, 30.0, 35.0, 23.0]}], "2014": [{"label": "\u7537", "values": [179.0, 168.0, 178.0, 170.0, 156.0]}, {"label": "\u5973", "values": [29.0, 38.0, 33.0, 26.0, 30.0]}], "2015": [{"label": "\u7537", "values": [166.0, 180.0, 171.0, 178.0, 145.0]}, {"label": "\u5973", "values": [41.0, 30.0, 37.0, 34.0, 24.0]}], "2016": [{"label": "\u7537", "values": [157.0, 166.0, 182.0, 177.0, 159.0]}, {"label": "\u5973", "values": [44.0, 41.0, 29.0, 39.0, 32.0]}], "2017": [{"label": "\u7537", "values": [156.0, 154.0, 169.0, 187.0, 165.0]}, {"label": "\u5973", "values": [45.0, 43.0, 41.0, 33.0, 34.0]}], "2018": [{"label": "\u7537", "values": [164.0, 155.0, 155.0, 171.0, 169.0]}, {"label": "\u5973", "values": [37.0, 45.0, 43.0, 40.0, 29.0]}], "2019": [{"label": "\u7537", "values": [162.0, 166.0, 155.0, 158.0, 157.0]}, {"label": "\u5973", "values": [39.0, 37.0, 44.0, 45.0, 37.0]}], "2020": [{"label": "\u7537", "values": [163.0, 164.0, 163.0, 154.0, 149.0]}, {"label": "\u5973", "values": [40.0, 39.0, 37.0, 45.0, 41.0]}], "2021": [{"label": "\u7537", "values": [150.0, 161.0, 166.0, 159.0, 149.0]}, {"label": "\u5973", "values": [47.0, 40.0, 39.0, 38.0, 44.0]}], "2022": [{"label": "\u7537", "values": [159.0, 150.0, 167.0, 160.0, 153.0]}, {"label": "\u5973", "values": [51.0, 46.0, 40.0, 32.0, 34.0]}], "2023": [{"label": "\u7537", "values": [153.0, 165.0, 139.0, 166.0, 145.0]}, {"label": "\u5973", "values": [51.0, 51.0, 47.0, 36.0, 31.0]}]}, "shogakko": {"2005": [{"label": "\u7537", "values": [922.0, 926.0, 987.0, 980.0, 965.0, 1018.0]}, {"label": "\u5973", "values": [857.0, 911.0, 907.0, 925.0, 956.0, 972.0]}], "2006": [{"label": "\u7537", "values": [962.0, 931.0, 939.0, 986.0, 984.0, 965.0]}, {"label": "\u5973", "values": [883.0, 861.0, 922.0, 914.0, 934.0, 957.0]}], "2007": [{"label": "\u7537", "values": [916.0, 969.0, 932.0, 950.0, 987.0, 978.0]}, {"label": "\u5973", "values": [878.0, 898.0, 866.0, 920.0, 906.0, 943.0]}], "2008": [{"label": "\u7537", "values": [931.0, 912.0, 964.0, 923.0, 955.0, 978.0]}, {"label": "\u5973", "values": [829.0, 880.0, 906.0, 873.0, 911.0, 904.0]}], "2009": [{"label": "\u7537", "values": [900.0, 927.0, 912.0, 959.0, 938.0, 947.0]}, {"label": "\u5973", "values": [837.0, 825.0, 883.0, 894.0, 867.0, 912.0]}], "2010": [{"label": "\u7537", "values": [843.0, 909.0, 915.0, 914.0, 961.0, 938.0]}, {"label": "\u5973", "values": [815.0, 844.0, 828.0, 888.0, 899.0, 870.0]}], "2011": [{"label": "\u7537", "values": [838.0, 842.0, 903.0, 912.0, 917.0, 966.0]}, {"label": "\u5973", "values": [799.0, 822.0, 852.0, 824.0, 882.0, 901.0]}], "2012": [{"label": "\u7537", "values": [850.0, 928.0, 916.0, 1002.0, 1007.0, 1019.0]}, {"label": "\u5973", "values": [898.0, 888.0, 912.0, 943.0, 935.0, 962.0]}], "2013": [{"label": "\u7537", "values": [964.0, 855.0, 932.0, 918.0, 1008.0, 1006.0]}, {"label": "\u5973", "values": [894.0, 897.0, 884.0, 911.0, 940.0, 928.0]}], "2014": [{"label": "\u7537", "values": [957.0, 970.0, 852.0, 940.0, 918.0, 1006.0]}, {"label": "\u5973", "values": [902.0, 897.0, 896.0, 888.0, 899.0, 931.0]}], "2015": [{"label": "\u7537", "values": [878.0, 955.0, 965.0, 849.0, 939.0, 916.0]}, {"label": "\u5973", "values": [905.0, 913.0, 898.0, 900.0, 868.0, 902.0]}], "2016": [{"label": "\u7537", "values": [926.0, 876.0, 957.0, 960.0, 842.0, 935.0]}, {"label": "\u5973", "values": [914.0, 903.0, 917.0, 892.0, 900.0, 876.0]}], "2017": [{"label": "\u7537", "values": [923.0, 940.0, 883.0, 960.0, 959.0, 848.0]}, {"label": "\u5973", "values": [872.0, 925.0, 896.0, 919.0, 898.0, 899.0]}], "2018": [{"label": "\u7537", "values": [941.0, 902.0, 923.0, 880.0, 941.0, 933.0]}, {"label": "\u5973", "values": [862.0, 872.0, 909.0, 886.0, 905.0, 877.0]}], "2019": [{"label": "\u7537", "values": [886.0, 920.0, 876.0, 890.0, 851.0, 907.0]}, {"label": "\u5973", "values": [825.0, 832.0, 838.0, 873.0, 862.0, 871.0]}], "2020": [{"label": "\u7537", "values": [845.0, 893.0, 921.0, 882.0, 888.0, 855.0]}, {"label": "\u5973", "values": [892.0, 817.0, 838.0, 837.0, 880.0, 858.0]}], "2021": [{"label": "\u7537", "values": [855.0, 798.0, 852.0, 876.0, 844.0, 866.0]}, {"label": "\u5973", "values": [763.0, 852.0, 782.0, 808.0, 803.0, 847.0]}], "2022": [{"label": "\u7537", "values": [864.0, 854.0, 796.0, 853.0, 865.0, 847.0]}, {"label": "\u5973", "values": [796.0, 766.0, 841.0, 786.0, 798.0, 801.0]}], "2023": [{"label": "\u7537", "values": [769.0, 865.0, 851.0, 791.0, 849.0, 863.0]}, {"label": "\u5973", "values": [751.0, 797.0, 764.0, 831.0, 789.0, 798.0]}]}, "yochien": {"2005": [{"label": "\u7537", "values": [234.0, 452.0, 492.0]}, {"label": "\u5973", "values": [218.0, 420.0, 474.0]}], "2006": [{"label": "\u7537", "values": [247.0, 410.0, 465.0]}, {"label": "\u5973", "values": [204.0, 387.0, 423.0]}], "2007": [{"label": "\u7537", "values": [215.0, 406.0, 428.0]}, {"label": "\u5973", "values": [213.0, 360.0, 395.0]}], "2008": [{"label": "\u7537", "values": [187.0, 360.0, 410.0]}, {"label": "\u5973", "values": [215.0, 333.0, 369.0]}], "2009": [{"label": "\u7537", "values": [192.0, 315.0, 363.0]}, {"label": "\u5973", "values": [212.0, 334.0, 354.0]}], "2010": [{"label": "\u7537", "values": [234.0, 290.0, 324.0]}, {"label": "\u5973", "values": [204.0, 304.0, 351.0]}], "2011": [{"label": "\u7537", "values": [233.0, 305.0, 314.0]}, {"label": "\u5973", "values": [212.0, 312.0, 316.0]}], "2012": [{"label": "\u7537", "values": [265.0, 335.0, 340.0]}, {"label": "\u5973", "values": [240.0, 285.0, 353.0]}], "2013": [{"label": "\u7537", "values": [203.0, 312.0, 336.0]}, {"label": "\u5973", "values": [220.0, 278.0, 299.0]}], "2014": [{"label": "\u7537", "values": [242.0, 272.0, 312.0]}, {"label": "\u5973", "values": [244.0, 279.0, 311.0]}], "2015": [{"label": "\u7537", "values": [218.0, 290.0, 283.0]}, {"label": "\u5973", "values": [243.0, 548.0, 290.0]}], "2016": [{"label": "\u7537", "values": [251.0, 281.0, 307.0]}, {"label": "\u5973", "values": [219.0, 272.0, 281.0]}], "2019": [{"label": "\u7537", "values": [122.0, 113.0, 104.0]}, {"label": "\u5973", "values": [132.0, 100.0, 121.0]}], "2020": [{"label": "\u7537", "values": [105.0, 127.0, 104.0]}, {"label": "\u5973", "values": [108.0, 123.0, 101.0]}], "2021": [{"label": "\u7537", "values": [125.0, 107.0, 131.0]}, {"label": "\u5973", "values": [94.0, 117.0, 131.0]}], "2022": [{"label": "\u7537", "values": [121.0, 111.0, 99.0]}, {"label": "\u5973", "values": [84.0, 83.0, 108.0]}], "2023": [{"label": "\u7537", "values": [97.0, 117.0, 115.0]}, {"label": "\u5973", "values": [96.0, 81.0, 81.0]}]}}, "texts": {"chugakko": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002", "daigaku": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002", "koko_teiji": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002", "koko_zenjitsu": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002", "kosen": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002", "shogakko": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002", "yochien": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u5b66\u5e74\u3067\u3001\u7cfb\u5217\u306f\u7537\u3068\u5973\u3067\u3059\u3002"}, "titles": {"chugakko": "\u5b66\u5e74\u3054\u3068\u306e\u751f\u5f92\u6570", "daigaku": "\u5b66\u5e74\u3054\u3068\u306e\u5b66\u751f\u6570", "koko_teiji": "\u5b66\u5e74\u3054\u3068\u306e\u751f\u5f92\u6570", "koko_zenjitsu": "\u5b66\u5e74\u3054\u3068\u306e\u751f\u5f92\u6570", "kosen": "\u5b66\u5e74\u3054\u3068\u306e\u5b66\u751f\u6570", "shogakko": "\u5b66\u5e74\u3054\u3068\u306e\u5150\u7ae5\u6570", "yochien": "\u5b66\u5e74\u3054\u3068\u306e\u5728\u5712\u8005\u6570"}, "unfetched": [], "unit": "\u4eba"}, "ch-school": {"axis": null, "kind": "stacked", "nodata": {"chugakko": [], "koko_teiji": [], "koko_zenjitsu": [], "kosen": [], "shogakko": [], "yochien": [2017, 2018]}, "segs": ["yochien", "shogakko", "chugakko", "koko_zenjitsu", "koko_teiji", "kosen"], "series": {"chugakko": [{"label": "\u5b66\u6821\u6570", "values": [19.0, 19.0, 19.0, 19.0, 19.0, 19.0, 19.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 19.0, 18.0, 18.0, 17.0, 17.0, 17.0]}], "koko_teiji": [{"label": "\u5b66\u6821\u6570", "values": [2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]}], "koko_zenjitsu": [{"label": "\u5b66\u6821\u6570(\u6ce8)", "values": [11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0]}], "kosen": [{"label": "\u5b66\u6821\u6570", "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]}], "shogakko": [{"label": "\u5b66\u6821\u6570", "values": [37.0, 35.0, 35.0, 35.0, 35.0, 34.0, 33.0, 36.0, 36.0, 36.0, 36.0, 36.0, 36.0, 35.0, 34.0, 34.0, 32.0, 32.0, 32.0]}], "yochien": [{"label": "\u5e7c\u7a1a\u5712\uff0f\u5712\u6570\u7dcf\u6570", "values": [34.0, 34.0, 34.0, 34.0, 34.0, 33.0, 31.0, 34.0, 34.0, 34.0, 34.0, 34.0, null, null, 33.0, 33.0, 32.0, 32.0, 31.0]}, {"label": "\u8a8d\u5b9a\u3053\u3069\u3082\u5712\uff0f\u5712\u6570\u7dcf\u6570", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, 9.0, 9.0, 10.0, 10.0, 10.0]}]}, "texts": {"chugakko": "\u5358\u4f4d\u2014\u2014\u6821\u3002", "koko_teiji": "\u5358\u4f4d\u2014\u2014\u6821\u3002", "koko_zenjitsu": "\u5358\u4f4d\u2014\u2014\u6821\u3002", "kosen": "\u5358\u4f4d\u2014\u2014\u6821\u3002", "shogakko": "\u5358\u4f4d\u2014\u2014\u6821\u3002", "yochien": "\u5358\u4f4d\u2014\u2014\u5712\u3002"}, "titles": {"chugakko": "\u5b66\u6821\u6570\u306e\u63a8\u79fb", "koko_teiji": "\u5b66\u6821\u6570\u306e\u63a8\u79fb", "koko_zenjitsu": "\u5b66\u6821\u6570\u306e\u63a8\u79fb", "kosen": "\u5b66\u6821\u6570\u306e\u63a8\u79fb", "shogakko": "\u5b66\u6821\u6570\u306e\u63a8\u79fb", "yochien": "\u5712\u6570\u306e\u63a8\u79fb"}, "unfetched": [], "unit": {"chugakko": "\u6821", "koko_teiji": "\u6821", "koko_zenjitsu": "\u6821", "kosen": "\u6821", "shogakko": "\u6821", "yochien": "\u5712"}}, "ch-teach": {"axis": null, "kind": "stacked", "nodata": {"chugakko": [], "daigaku": [], "koko_teiji": [], "koko_zenjitsu": [], "kosen": [], "shogakko": [], "yochien": [2017, 2018]}, "segs": ["yochien", "shogakko", "chugakko", "koko_zenjitsu", "koko_teiji", "kosen", "daigaku"], "series": {"chugakko": [{"label": "\u6559\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [460.0, 469.0, 470.0, 461.0, 460.0, 469.0, 463.0, 490.0, 493.0, 501.0, 506.0, 494.0, 489.0, 478.0, 465.0, 459.0, 438.0, 429.0, 425.0]}, {"label": "\u8077\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [33.0, 33.0, 32.0, 36.0, 34.0, 33.0, 32.0, 30.0, 31.0, 31.0, 31.0, 30.0, 32.0, 29.0, 26.0, 30.0, 39.0, 29.0, 29.0]}], "daigaku": [{"color": "#61a6ff", "label": "\u5cf6\u6839\u5927\u5b66\uff0f\u6559\u54e1\u6570\u7dcf\u6570", "values": [434.0, 436.0, 432.0, 424.0, 432.0, 419.0, 424.0, 436.0, 444.0, 442.0, 447.0, 451.0, 455.0, 469.0, 473.0, 486.0, 480.0, 472.0, 433.0, 427.0, 419.0, 415.0]}, {"color": "#0358af", "label": "\u5cf6\u6839\u770c\u7acb\u5927\u5b66\u77ed\u671f\u5927\u5b66\u90e8\uff0f\u6559\u54e1\u6570\u7dcf\u6570", "values": [null, 44.0, 45.0, 42.0, 37.0, 37.0, 37.0, 36.0, 36.0, 36.0, 36.0, 34.0, 35.0, 35.0, 36.0, 35.0, 15.0, 13.0, 13.0, 14.0, 15.0, 16.0]}, {"color": "#f67d50", "label": "\u5cf6\u6839\u770c\u7acb\u5927\u5b66\u677e\u6c5f\u30ad\u30e3\u30f3\u30d1\u30b9\uff0f\u6559\u54e1\u6570\u7dcf\u6570", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 33.0, 36.0, 34.0, 35.0, 34.0, 32.0]}, {"color": "#9a3503", "label": "\u5cf6\u6839\u5973\u5b50\u77ed\u671f\u5927\u5b66\uff0f\u6559\u54e1\u6570\u7dcf\u6570", "values": [41.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}], "koko_teiji": [{"label": "\u6559\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [47.0, 46.0, 47.0, 46.0, 47.0, 63.0, 72.0, 76.0, 70.0, 70.0, 71.0, 70.0, 69.0, 70.0, 72.0, 76.0, 72.0, 71.0, 67.0]}, {"label": "\u8077\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [8.0, 8.0, 8.0, 8.0, 8.0, 21.0, 20.0, 18.0, 15.0, 17.0, 16.0, 15.0, 18.0, 19.0, 17.0, 20.0, 17.0, 17.0, 15.0]}], "koko_zenjitsu": [{"label": "\u6559\u54e1\u6570(\u6ce8)\u672c\u52d9\u8005\u7dcf\u6570", "values": [553.0, 546.0, 547.0, 537.0, 533.0, 521.0, 517.0, 519.0, 513.0, 506.0, 520.0, 505.0, 498.0, 489.0, 493.0, 490.0, 477.0, 484.0, 482.0]}, {"label": "\u8077\u54e1\u6570(\u6ce8)\u672c\u52d9\u8005\u7dcf\u6570", "values": [124.0, 122.0, 119.0, 118.0, 112.0, 120.0, 115.0, 108.0, 111.0, 110.0, 110.0, 111.0, 111.0, 115.0, 116.0, 121.0, 99.0, 87.0, 90.0]}], "kosen": [{"label": "\u6559\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [78.0, 79.0, 77.0, 76.0, 78.0, 77.0, 76.0, 77.0, 76.0, 76.0, 76.0, 76.0, 69.0, 75.0, 71.0, 72.0, 70.0, 69.0, 68.0, 69.0]}, {"label": "\u8077\u54e1\u6570\u7dcf\u6570", "values": [51.0, 50.0, 49.0, 46.0, 45.0, 46.0, 44.0, 43.0, 43.0, 43.0, 43.0, 44.0, 44.0, 45.0, 43.0, 43.0, 43.0, 43.0, 46.0, 46.0]}], "shogakko": [{"label": "\u6559\u54e1\u6570(\u672c\u52d9\u8005)\u7dcf\u6570", "values": [752.0, 734.0, 724.0, 717.0, 732.0, 716.0, 712.0, 761.0, 756.0, 765.0, 757.0, 778.0, 784.0, 778.0, 757.0, 762.0, 724.0, 711.0, 689.0]}, {"label": "\u8077\u54e1\u6570(\u672c\u52d9\u8005)\u7dcf\u6570", "values": [63.0, 58.0, 50.0, 51.0, 45.0, 46.0, 45.0, 47.0, 45.0, 50.0, 55.0, 42.0, 44.0, 45.0, 41.0, 45.0, 41.0, 39.0, 39.0]}], "yochien": [{"label": "\u5e7c\u7a1a\u5712\uff0f\u6559\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [167.0, 176.0, 174.0, 178.0, 170.0, 170.0, 162.0, 174.0, 170.0, 160.0, 163.0, 162.0, null, null, 137.0, 146.0, 143.0, 136.0, 131.0]}, {"label": "\u8a8d\u5b9a\u3053\u3069\u3082\u5712\uff0f\u6559\u54e1\u6570\u672c\u52d9\u8005\u7dcf\u6570", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, 195.0, 183.0, 189.0, 199.0, 180.0]}]}, "texts": {"chugakko": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u6559\u54e1\u3068\u8077\u54e1\u306e\u5408\u8a08\u3067\u3059\u3002", "daigaku": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002", "koko_teiji": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u6559\u54e1\u3068\u8077\u54e1\u306e\u5408\u8a08\u3067\u3059\u3002", "koko_zenjitsu": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u6559\u54e1\u3068\u8077\u54e1\u306e\u5408\u8a08\u3067\u3059\u3002", "kosen": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u6559\u54e1\u3068\u8077\u54e1\u306e\u5408\u8a08\u3067\u3059\u3002", "shogakko": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u6559\u54e1\u3068\u8077\u54e1\u306e\u5408\u8a08\u3067\u3059\u3002", "yochien": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u672c\u52d9\u8005\u306e\u6570\u3067\u3059\u3002"}, "titles": {"chugakko": "\u6559\u54e1\u6570\u3068\u8077\u54e1\u6570\u306e\u63a8\u79fb", "daigaku": "\u6559\u54e1\u6570\u306e\u63a8\u79fb", "koko_teiji": "\u6559\u54e1\u6570\u3068\u8077\u54e1\u6570\u306e\u63a8\u79fb", "koko_zenjitsu": "\u6559\u54e1\u6570\u3068\u8077\u54e1\u6570\u306e\u63a8\u79fb", "kosen": "\u6559\u54e1\u6570\u3068\u8077\u54e1\u6570\u306e\u63a8\u79fb", "shogakko": "\u6559\u54e1\u6570\u3068\u8077\u54e1\u6570\u306e\u63a8\u79fb", "yochien": "\u6559\u54e1\u6570\u306e\u63a8\u79fb"}, "unfetched": [], "unit": "\u4eba"}, "ch-total": {"axis": null, "kind": "stacked", "nodata": {"chugakko": [], "daigaku": [], "koko_teiji": [2011], "koko_zenjitsu": [], "kosen": [], "shogakko": [], "yochien": [2017, 2018]}, "segs": ["yochien", "shogakko", "chugakko", "koko_zenjitsu", "koko_teiji", "kosen", "daigaku"], "series": {"chugakko": [{"label": "\u751f\u5f92\u6570\u7dcf\u6570", "values": [6080.0, 6006.0, 5916.0, 5918.0, 5786.0, 5737.0, 5644.0, 6123.0, 6093.0, 6023.0, 5891.0, 5761.0, 5651.0, 5388.0, 4981.0, 5038.0, 4924.0, 4954.0, 4881.0]}], "daigaku": [{"color": "#61a6ff", "label": "\u5cf6\u6839\u5927\u5b66\uff0f\u5b66\u751f\u6570\u7dcf\u6570", "values": [5085.0, 5063.0, 4951.0, 4824.0, 4679.0, 4544.0, 4541.0, 4532.0, 4538.0, 4508.0, 4511.0, 4501.0, 4504.0, 4468.0, 4445.0, 4428.0, 4417.0, 4388.0, 4368.0, 4385.0, 4390.0, 5326.0]}, {"color": "#0358af", "label": "\u5cf6\u6839\u770c\u7acb\u5927\u5b66\u77ed\u671f\u5927\u5b66\u90e8\uff0f\u5b66\u751f\u6570\u7dcf\u6570", "values": [null, 461.0, 475.0, 468.0, 468.0, 519.0, 493.0, 493.0, 491.0, 491.0, 492.0, 498.0, 505.0, 502.0, 503.0, 484.0, 301.0, 174.0, 171.0, 167.0, 163.0, 167.0]}, {"color": "#f67d50", "label": "\u5cf6\u6839\u770c\u7acb\u5927\u5b66\u677e\u6c5f\u30ad\u30e3\u30f3\u30d1\u30b9\uff0f\u5b66\u751f\u6570\u7dcf\u6570", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 117.0, 237.0, 354.0, 468.0, 470.0, 472.0]}, {"color": "#9a3503", "label": "\u5cf6\u6839\u5973\u5b50\u77ed\u671f\u5927\u5b66\uff0f\u5b66\u751f\u6570\u7dcf\u6570", "values": [470.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}], "koko_teiji": [{"label": "\u751f\u5f92\u6570\u7dcf\u6570", "values": [295.0, 279.0, 256.0, 254.0, 218.0, 291.0, null, 338.0, 324.0, 305.0, 254.0, 232.0, 256.0, 254.0, 263.0, 279.0, 260.0, 290.0, 312.0]}], "koko_zenjitsu": [{"label": "\u751f\u5f92\u6570\u7dcf\u6570", "values": [6869.0, 6698.0, 6584.0, 6377.0, 6294.0, 6178.0, 6215.0, 6128.0, 6050.0, 6061.0, 6053.0, 6056.0, 5979.0, 5849.0, 5647.0, 5479.0, 5269.0, 5265.0, 5284.0]}], "kosen": [{"label": "\u5b66\u751f\u6570\u7dcf\u6570", "values": [1020.0, 1048.0, 1063.0, 1076.0, 1086.0, 1074.0, 1076.0, 1050.0, 1037.0, 1034.0, 1007.0, 1006.0, 1026.0, 1027.0, 1008.0, 1000.0, 995.0, 993.0, 992.0, 984.0]}], "shogakko": [{"label": "\u5150\u7ae5\u6570\u7dcf\u6570", "values": [11326.0, 11238.0, 11143.0, 10966.0, 10801.0, 10624.0, 10458.0, 11260.0, 11137.0, 11056.0, 10888.0, 10898.0, 10922.0, 10831.0, 10431.0, 10406.0, 9946.0, 9867.0, 9718.0]}], "yochien": [{"label": "\u5e7c\u7a1a\u5712\uff0f\u5728\u5712\u8005\u6570\u7dcf\u6570", "values": [2290.0, 2136.0, 2017.0, 1874.0, 1770.0, 1707.0, 1692.0, 1818.0, 1648.0, 1660.0, 1598.0, 1611.0, null, null, 1424.0, 1334.0, 1199.0, 1030.0, 912.0]}, {"label": "\u8a8d\u5b9a\u3053\u3069\u3082\u5712\uff0f\u5728\u5712\u8005\u6570\u7dcf\u6570", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1002.0, 958.0, 965.0, 876.0, 832.0]}]}, "texts": {"chugakko": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "daigaku": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "koko_teiji": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "koko_zenjitsu": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "kosen": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "shogakko": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "yochien": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u5e7c\u7a1a\u5712\u3068\u8a8d\u5b9a\u3053\u3069\u3082\u5712\u306e\u5408\u8a08\u3067\u3059\u3002\u8a8d\u5b9a\u3053\u3069\u3082\u5712\u306f\u30c7\u30fc\u30bf\u5143\u304c\u4ee4\u548c\u5143\u5e74\u301c\u4ee4\u548c5\u5e74\u306e\u3076\u3093\u3057\u304b\u8f09\u305b\u3066\u3044\u307e\u305b\u3093\u2014\u2014\u305d\u308c\u4ee5\u524d\u306e\u68d2\u306f\u5e7c\u7a1a\u5712\u3060\u3051\u306e\u9ad8\u3055\u3067\u3059\u3002"}, "titles": {"chugakko": "\u751f\u5f92\u6570\u306e\u63a8\u79fb", "daigaku": "\u5b66\u751f\u6570\u306e\u63a8\u79fb", "koko_teiji": "\u751f\u5f92\u6570\u306e\u63a8\u79fb", "koko_zenjitsu": "\u751f\u5f92\u6570\u306e\u63a8\u79fb", "kosen": "\u5b66\u751f\u6570\u306e\u63a8\u79fb", "shogakko": "\u5150\u7ae5\u6570\u306e\u63a8\u79fb", "yochien": "\u5728\u5712\u8005\u6570\u306e\u63a8\u79fb"}, "unfetched": [], "unit": "\u4eba"}}, "pick": {"default": {"seg": "shogakko", "year": 2023}, "kind": "segment", "segs": ["yochien", "shogakko", "chugakko", "koko_zenjitsu", "koko_teiji", "kosen", "daigaku"]}}</script><script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+/* 選択で画面の図を全部切り替える（#234 の決定D7・D8・D11）。**3形を1本で持つ**——
+   `D.pick.kind` が `segment`（学校・進路: `{seg, year}`）／`time`（公民館: `{time}`）／
+   `none`（図書館と文化財: 状態なし）。
+
+   ★**区域の JS を写していない**（anzen の `_region_select.js`）。あちらの `scope` は
+   「市全体だけの図か」であり、こちらの `segs` は「**その項目を持つ段の白名簿**」で、
+   意味が違う。写すと「持たないから描かない」と「市全体だから描かない」が混ざる。
+
+   ★**捕獲ハーネス（`scripts/ops/chart_capture.js`）の身代わりが持つ口だけで書く**——
+   `document.querySelector` と `window.addEventListener` を持たず、`change` を `this` 無しで呼ぶ。
+   **`document.querySelectorAll` は身代わりでは常に空を返す**ので、**隠すものは id で引く**。
+
+   ★**段が持たない項目は、空の系列を共有の描き手へ渡して隠す。** 共有の `frame()` が
+   枠と `h3.fig-only` をひとかたまりで隠すので、**こちらで枠を触らない**（`_charts.js` を
+   触らないため）。対の注は `u-seg-<id>` で、**隠したときだけ**出す（決定D8）。 */
+document.addEventListener("DOMContentLoaded", function () {
+  var D = JSON.parse(document.getElementById("d").textContent);
+  var kind = D.pick.kind;
+  var state = {};
+  if (kind === "segment") { state.seg = D.pick["default"].seg; state.year = String(D.pick["default"].year); }
+  if (kind === "time") { state.time = D.pick["default"].time; }
+  var drawn = {};
+
+  function isArray(value) { return Object.prototype.toString.call(value) === "[object Array]"; }
+  function current() { return kind === "segment" ? state.seg : state.time; }
+  function keyed(value) { return value && !isArray(value) && value.x === undefined; }
+
+  /* 軸は3通りある——図が自分で持つ（文化財の時点）／画面の軸が選択の鍵で割れている
+     （段ごとの期）／画面の軸が1つ（公民館の時点・図書館の年度）。 */
+  function axisOf(figure) {
+    var axis = figure.axis || D.axis;
+    return keyed(axis) ? axis[current()] : axis;
+  }
+
+  /* 系列も3通り——素の並び（選択に依らない）／選択の鍵で割れている／
+     **段と年の2つで割れている**（単年の図）。 */
+  function setsOf(figure) {
+    var series = figure.series;
+    if (isArray(series)) { return series; }
+    var picked = series[current()];
+    if (!picked) { return []; }
+    if (isArray(picked)) { return picked; }
+    return picked[state.year] || [];
+  }
+
+  /* 未取得の帯（決定D11）。**`unfetched` が空でないときだけ**足す。
+
+     ★**共有の `MS.stackedBar` は plugin を受ける引数を持たない**（`id, axis, sets, unit, d` の5つ）。
+     **`_charts.js` は触らない**と決めてあるので、**Chart.js の全体の plugin として1度だけ登録し、
+     図ごとの設定（`options.plugins.unfetchedBand`）で効かせる**。
+     捕獲ハーネスの `Chart` は `register` を持たないので、**登録は在るときだけ**行う。 */
+  var BAND = {
+    id: "unfetchedBand",
+    beforeDraw: function (chart) {
+      var conf = chart.options && chart.options.plugins && chart.options.plugins.unfetchedBand;
+      if (!conf || !conf.years || !conf.years.length) { return; }
+      var scale = chart.scales && chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+      if (!scale || !area || !ctx) { return; }
+      var half = Math.max(4, area.width / Math.max(1, conf.span) / 2);
+      for (var i = 0; i < conf.years.length; i++) {
+        var at = scale.getPixelForValue(conf.years[i]);
+        ctx.save();
+        ctx.fillStyle = "rgba(118,125,140,0.14)";
+        ctx.fillRect(at - half, area.top, half * 2, area.bottom - area.top);
+        /* **札は縦に書く**（#235 の⑰・ユーザー決定 2026-09-20）。**列の幅は軸の1目盛**
+           しかないので、横に書くと**隣の列の札と重なる**（`ノーデータノーデータ`）。
+           **未取得の側も同じ形にする**——教育では0件で露わにならないだけで、
+           2列続けば同じように重なる。
+
+           **札の綴りは `NO DATA`**（ユーザー決定・2026-09-20）。**用語の歯には当たらない**
+           ——`glossary` は `<script>` を外してから略号を探すので、**canvas へ描く札は
+           走査の外**である。画面の本文にこの綴りを出すなら用語の節が要る。 */
+        ctx.fillStyle = "#767d8c";
+        ctx.font = "11px sans-serif";
+        /* **下から上へ読む向きにする**（`product.md` `fig-vertical-bottom-up`）。
+
+           **この図の軸の表題と同じ向きに揃える**のが決め手である——共有の描画が使う
+           Chart.js は、**左に置いた軸の表題を `-90°` で描く**（`chart.umd.min.js` の
+           `"left"===position ? -0.5*Math.PI : 0.5*Math.PI`）。∴ `+90°` で書くと
+           **同じ図の中で、札と軸の表題が反対を向く**。
+
+           慣行の側も同じ向きである——**ISO 15519 は図の回転を下から上と定めており**、
+           量のグラフの軸の綴りもこれに倣う。**`+90°`（上から下）は縦書きの流儀**で、
+           ラテン字の図には合わない。
+
+           `textAlign` は `right`——札の**終わりを図の上端に合わせる**ので、
+           向きを変えても**札の置き場所は変わらない**。 */
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.translate(at, area.top + 6);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText(conf.word || "未取得", 0, 0);
+        ctx.restore();
+      }
+    }
+  };
+  if (window.Chart && window.Chart.register) { window.Chart.register(BAND); }
+
+  function band(chart, spec, axis) {
+    if (!chart || !spec.unfetched || !spec.unfetched.length) { return; }
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    chart.options.plugins.unfetchedBand = { years: spec.unfetched, span: axis.x.length, word: "未取得" };
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **値が無い年に「データなし」の列を立てる**（#235 の⑩・ユーザー決定 2026-09-20）。
+     **棒の場所を空けるだけでは 0 の棒と見分けが付かない**——通読で「0人に見える」と出た。
+     **未取得の帯とは別の言葉を出す**（あちらは「こちらが取っていない」）。
+     **なぜ無いかは注が分ける**——表ごと無いのか、総数の升だけが空なのか。 */
+  function nodata(chart, spec, axis) {
+    if (!chart || !spec.nodata) { return; }
+    var years = isArray(spec.nodata) ? spec.nodata : spec.nodata[current()];
+    if (!years || !years.length) { return; }
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    chart.options.plugins.unfetchedBand = { years: years, span: axis.x.length, word: "NO DATA" };
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **段が1つの図は凡例を出さない**（`product.md` `fig-legend-one-band`）。
+     図の題が「児童数の推移」なら、凡例の「児童数総数」は**同じことの繰り返し**である。
+     **積み上げ（段が複数）は残す**——どの帯がどれかは凡例でしか分からない。
+
+     **共有の `stackedBar` を直さない**——`_charts.js` は6本のレポートが読んでおり、
+     既定を変えると**通読を終えた5本の凡例まで動く**。∴ 教育の側で消す。
+     （`line` ・ `categorical` は共有の側が既に `sets.length > 1` で切っている。） */
+  function legend(chart, sets) {
+    if (!chart || sets.length > 1) { return; }
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    if (!chart.options.plugins.legend) { chart.options.plugins.legend = {}; }
+    chart.options.plugins.legend.display = false;
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **時点の間隔が1年より短い軸は、目盛を立てる**（#235 の⑮・ユーザー指摘 2026-09-20）。
+     文化財の x は**時点の間隔に比例する実数**なので、3か月しか離れていない2時点が
+     14画素で隣り合い、**横に寝かせた綴りが重なる**（`H30.2` と `H30.5`）。
+
+     **共有の `scaleX` は `maxRotation: 0` を持つ**が、`_charts.js` は触らない
+     ——6本が読んでおり、**年の軸まで立ってしまう**。∴ 立てるのはこの軸だけにする。
+     **間引かない**（`autoSkip: false`）——時点を落とすと、図に在る点が軸から消える。 */
+  function upright(chart, axis) {
+    if (!chart || !axis || !axis.x || axis.x.length < 2) { return; }
+    var tight = false;
+    for (var i = 1; i < axis.x.length; i++) {
+      if (axis.x[i] - axis.x[i - 1] < 1) { tight = true; }
+    }
+    if (!tight) { return; }
+    var scale = chart.options && chart.options.scales && chart.options.scales.x;
+    if (!scale || !scale.ticks) { return; }
+    scale.ticks.maxRotation = 90;
+    scale.ticks.minRotation = 90;
+    scale.ticks.autoSkip = false;
+    if (chart.update) { chart.update(); }
+  }
+
+  function figure(id, spec) {
+    if (drawn[id]) { drawn[id].destroy(); drawn[id] = null; }
+    var axis = axisOf(spec);
+    var sets = setsOf(spec);
+    /* **白名簿に無い段では空を渡す**——共有の `frame()` が枠と見出しを隠す。 */
+    if (spec.segs && spec.segs.length && spec.segs.indexOf(current()) < 0) { sets = []; }
+    var unit = spec.unit;
+    if (unit && typeof unit === "object") { unit = unit[current()] || ""; }
+    if (!axis) { axis = { x: [], l: [], t: "" }; }
+    if (spec.kind === "categorical") {
+      drawn[id] = MS.categorical(id, "bar", axis.l, sets, unit, { horizontal: true, digits: 0 });
+    } else {
+      drawn[id] = MS.stackedBar(id, axis, sets, unit, 0);
+      band(drawn[id], spec, axis);
+      nodata(drawn[id], spec, axis);
+      legend(drawn[id], sets);
+      upright(drawn[id], axis);
+    }
+    /* 図が描けなかったときは、**単位の文も連れて隠す**（anzen #193 と同じ）。 */
+    var note = document.getElementById("u-" + id);
+    if (note) { note.hidden = !drawn[id]; }
+    /* 対の注は、**隠したときだけ**出す（決定D8）。 */
+    var paired = document.getElementById("u-seg-" + id);
+    if (paired) { paired.hidden = !!drawn[id]; }
+    /* 段ごとに題と単位の文を書き換える（`_carry_captions` が `payload` へ運んでいる）。 */
+    var caption = document.getElementById("cap-" + id);
+    if (caption && spec.titles && spec.titles[current()]) { caption.textContent = spec.titles[current()]; }
+    if (note && spec.texts && spec.texts[current()]) { note.textContent = spec.texts[current()]; }
+  }
+
+  /* 表と注の行は、選択の鍵を持つものだけを出す。**id で引ける形にしてある**
+     ——身代わりの `querySelectorAll` は空を返すので、選択子では観測できない。 */
+  function rows(prefix, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var node = document.getElementById(prefix + keys[i]);
+      if (node) { node.hidden = keys[i] !== current(); }
+    }
+  }
+
+  /* 年の選択肢を組み直す。**綴りは `axis.p`（`平成17年`）から取る**——`axis.l` は
+     図の目盛の綴り（`H17`）であり、**選択肢に使うと略記が選択肢へ漏れる**（#235 の⑦）。
+     **年も `axis.px` から取る**——`axis.x` は穴に立てた「データなし」の列を含んでおり、
+     **選ばせると選んだ先が空になる**（#235 の⑩）。 */
+  function years() {
+    var picker = document.getElementById("year");
+    if (!picker || kind !== "segment") { return; }
+    var options = D.axis[state.seg];
+    if (!options) { return; }
+    var html = "";
+    for (var i = 0; i < options.px.length; i++) {
+      html += '<option value="' + options.px[i] + '"' +
+        (String(options.px[i]) === state.year ? " selected" : "") + ">" + options.p[i] + "</option>";
+    }
+    /* **選んでいた年がその段に無ければ、いちばん新しい年へ落とす。** */
+    if (options.px.map(String).indexOf(state.year) < 0) {
+      state.year = String(options.px[options.px.length - 1]);
+      html = html.replace(" selected", "");
+      html = html.replace('value="' + state.year + '"', 'value="' + state.year + '" selected');
+    }
+    picker.innerHTML = html;
+    picker.value = state.year;
+  }
+
+  function draw() {
+    years();
+    Object.keys(D.figures).forEach(function (id) { figure(id, D.figures[id]); });
+    if (kind === "segment") { rows("t-", D.pick.segs); }
+    if (kind === "time") { rows("t-", D.pick.times); }
+  }
+
+  function toHash() {
+    var parts = [];
+    if (kind === "segment") { parts.push("seg=" + encodeURIComponent(state.seg), "year=" + state.year); }
+    if (kind === "time") { parts.push("time=" + encodeURIComponent(state.time)); }
+    if (parts.length) { history.replaceState(null, "", "#" + parts.join("&")); }
+  }
+
+  function fromHash() {
+    location.hash.replace(/^#/, "").split("&").forEach(function (part) {
+      var pair = part.split("="), value = decodeURIComponent(pair[1] || "");
+      if (pair[0] === "seg" && kind === "segment" && D.pick.segs.indexOf(value) >= 0) { state.seg = value; }
+      if (pair[0] === "year" && kind === "segment") { state.year = value; }
+      if (pair[0] === "time" && kind === "time" && D.pick.times.indexOf(value) >= 0) { state.time = value; }
+    });
+  }
+
+  function listen(id, key) {
+    var picker = document.getElementById(id);
+    if (!picker) { return; }
+    picker.addEventListener("change", function () {
+      state[key] = document.getElementById(id).value;
+      draw();
+      toHash();
+    });
+  }
+
+  fromHash();
+  if (kind === "segment") {
+    var seg = document.getElementById("seg");
+    if (seg) { seg.value = state.seg; }
+    listen("seg", "seg");
+    listen("year", "year");
+  }
+  if (kind === "time") {
+    var time = document.getElementById("time");
+    if (time) { time.value = state.time; }
+    listen("time", "time");
+  }
+  draw();
+});
+</script>
+</body>
+</html>
