@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.7.1">
+<title>町どうしの増減 — 松江市 町丁別人口レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="町丁別人口レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 町丁別人口レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 町丁別人口レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>町を見る</h3>
+<a href="01-town-trend.html" title="町ごとの推移"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">町ごとの推移</span></a>
+<a href="02-town-change.html" aria-current="page" title="町どうしの増減"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">町どうしの増減</span></a>
+</div>
+<div class="grp">
+<h3>地区を見る</h3>
+<a href="03-district.html" title="地区の比較"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">地区の比較</span></a>
+</div>
+<div class="grp">
+<h3>人口の中身を見る</h3>
+<a href="04-age.html" title="年齢構成の推移"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">年齢構成の推移</span></a>
+<a href="05-household.html" title="1世帯あたりの人数"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">1世帯あたりの人数</span></a>
+<a href="06-foreign.html" title="外国人住民"><svg class="ic"><use href="#ic-globe"/></svg><span class="lbl">外国人住民</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 町丁別人口レポート / 町どうしの増減</p>
+  <h1>町どうしの増減</h1>
+  <p class="lede">松江市全体の動きを見たうえで、町ごとに記録開始から終点までの増減を並べます。</p>
+<noscript><div class="ns">JavaScript が無効です。並べ替えは動きませんが、<b>表の数値はすべて読めます</b>。</div></noscript>
+<section class="section" id="s-city">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>まず松江市全体で見る</h2>
+  <p class="sub">町ごとの話に入る前に、市全体がどう動いたかを置きます。
+  並べているのは<b>各年4月末と最新月（2026年7月）</b>の数です。</p>
+  <div class="kpis">
+    <div class="kpi"><span class="k">人口（2007年4月）</span><span class="v">194,039 人</span></div>
+    <div class="kpi"><span class="k">人口（2026年7月）</span><span class="v">191,488 人</span></div>
+    <div class="kpi"><span class="k">この間の増減</span><span class="v">-2,551 人</span></div>
+    <div class="kpi"><span class="k">増減の率</span><span class="v">-1.3%</span></div>
+  </div>
+  <h3 class="fig-only first">人口（人）</h3>
+  <div class="chartbox"><canvas id="cCity"></canvas></div>
+  <h3 class="fig-only">世帯数（世帯）</h3>
+  <div class="chartbox"><canvas id="cCityH"></canvas></div>
+<p class="note">図の横軸は<b>時間</b>で取っています。点の間隔は、その区間の長さに比例します。
+右端の<b>2026年7月</b>は<b>最新月</b>——ほかの点が各年4月末であるのに対し、
+この点だけ月が異なります。図では<b>現在</b>として置いています。</p>
+  <div class="table-scroll"><table class="yr">
+    <thead>
+      <tr><th class="cnr" rowspan="2">区分</th><th colspan="20">年月（各年4月末と最新月）</th></tr>
+      <tr><th>2007年4月</th><th>2008年4月</th><th>2009年4月</th><th>2010年4月</th><th>2011年4月</th><th>2012年4月</th><th>2013年4月</th><th>2014年4月</th><th>2015年4月</th><th>2016年4月</th><th>2017年4月</th><th>2018年4月</th><th>2019年4月</th><th>2020年4月</th><th>2021年4月</th><th>2022年4月</th><th>2023年4月</th><th>2024年4月</th><th>2025年4月</th><th>2026年7月</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>人口（人）</th><td>194,039</td><td>193,334</td><td>192,727</td><td>192,362</td><td>191,852</td><td>206,226</td><td>206,670</td><td>205,809</td><td>205,063</td><td>204,446</td><td>203,965</td><td>203,288</td><td>202,511</td><td>201,154</td><td>199,967</td><td>198,580</td><td>196,794</td><td>195,157</td><td>193,297</td><td>191,488</td></tr>
+      <tr><th>世帯数（世帯）</th><td>76,257</td><td>76,904</td><td>77,544</td><td>78,272</td><td>78,965</td><td>84,745</td><td>85,944</td><td>86,494</td><td>87,191</td><td>87,913</td><td>88,771</td><td>89,560</td><td>90,256</td><td>90,711</td><td>91,139</td><td>91,484</td><td>91,678</td><td>91,910</td><td>92,173</td><td>92,712</td></tr>
+    </tbody></table></div>
+  <p class="unit">単位——人口は人、世帯数は世帯。市全体の数は、統計表の総合計行の値です。</p>
+  <h3>読むときに気をつけること</h3>
+  <p class="note">人の移動ではない段差が、この期間に含まれています。増減はデータから数えたものです。</p>
+<div class="table-scroll"><table class="lst">
+  <colgroup><col class="c-sub"><col class="c-name"><col></colgroup>
+  <thead><tr><th>いつ</th><th class="n">またぐ区間の増減（人）</th><th>何が起きたか</th></tr></thead>
+  <tbody>
+    <tr><th class="n">2011年8月</th>
+      <td class="n">+14,374<br><span class="since">2011年4月→2012年4月</span></td>
+      <td><b>東出雲町の編入</b>　2011年8月に東出雲町が松江市へ編入された。この月をまたぐ区間の増加には、編入によって加わった町丁の分が含まれる。</td></tr>
+    <tr><th class="n">2012年7月</th>
+      <td class="n">+444<br><span class="since">2012年4月→2013年4月</span></td>
+      <td><b>住民基本台帳法の改正</b>　2012年7月の住民基本台帳法の改正により、外国人住民が住民基本台帳に記録されるようになった。この月をまたぐ区間の増加には、新たに算入された外国人住民の分が含まれる。</td></tr>
+    <tr><th class="n">2026年4月</th>
+      <td class="n">—</td>
+      <td><b>別の統計が掲載されていた月</b>　2026年4月は、データ元が町丁別世帯数・人口調表ではない別の統計を掲載していた。この月の人口は、もう一方の系列（町丁別・年齢別人口集計表）から補っている。</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="section" id="s-sum">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>増えた町と減った町</h2>
+  <p class="sub">この節で数えるのは、<b>2007年4月から2026年7月まで記録が続いている町</b>です。
+  記録の期間が違う町は、下の別の節で扱います。</p>
+  <div class="kpis">
+    <div class="kpi"><span class="k">この節の町</span><span class="v">224 町</span></div>
+    <div class="kpi"><span class="k">増えた町</span><span class="v up">49 町</span></div>
+    <div class="kpi"><span class="k">減った町</span><span class="v dn">175 町</span></div>
+  </div>
+</section>
+
+<section class="section" id="s-top">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>増えた町・減った町（上位15）</h2>
+  <p class="sub">2007年4月と2026年7月の<b>2時点</b>を比べ、増減の大きい順に抜き出しています。
+  <b>人数と率の両方</b>を表に並べています。</p>
+
+  <h3 class="fig-lead first">増えた町</h3>
+  <div class="chartbox tall" id="upBox"><canvas id="cUp"></canvas></div>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-sub"></colgroup>
+    <thead><tr><th>町名</th><th class="n">2007年4月（人）</th><th class="n">2026年7月（人）</th><th class="n">増減（人）</th><th class="p">率</th></tr></thead>
+    <tbody>
+      <tr><th><a href="01-town-trend.html#%E7%8E%89%E6%B9%AF%E7%94%BA%E6%B9%AF%E7%94%BA">玉湯町湯町</a></th><td class="n">2,297</td><td class="n">3,960</td><td class="n up">+1,663</td><td class="p up">+72.4%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E4%B8%8B%E6%9D%B1%E5%B7%9D%E6%B4%A5%E7%94%BA">下東川津町</a></th><td class="n">1,178</td><td class="n">2,047</td><td class="n up">+869</td><td class="p up">+73.8%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E9%BB%92%E7%94%B0%E7%94%BA">黒田町</a></th><td class="n">2,871</td><td class="n">3,473</td><td class="n up">+602</td><td class="p up">+21.0%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%9B%BD%E5%B1%8B%E7%94%BA">国屋町</a></th><td class="n">2,132</td><td class="n">2,731</td><td class="n up">+599</td><td class="p up">+28.1%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%9D%B1%E6%B4%A5%E7%94%B0%E7%94%BA">東津田町</a></th><td class="n">8,018</td><td class="n">8,522</td><td class="n up">+504</td><td class="p up">+6.3%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E5%9B%9B%E4%B8%81%E7%9B%AE">上乃木四丁目</a></th><td class="n">1,357</td><td class="n">1,771</td><td class="n up">+414</td><td class="p up">+30.5%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%AD%A6%E5%9C%92%E5%8D%97%E4%BA%8C%E4%B8%81%E7%9B%AE">学園南二丁目</a></th><td class="n">648</td><td class="n">938</td><td class="n up">+290</td><td class="p up">+44.8%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E8%A5%BF%E6%8C%81%E7%94%B0%E7%94%BA">西持田町</a></th><td class="n">1,445</td><td class="n">1,735</td><td class="n up">+290</td><td class="p up">+20.1%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E5%85%AB%E4%B8%81%E7%9B%AE">上乃木八丁目</a></th><td class="n">1,063</td><td class="n">1,328</td><td class="n up">+265</td><td class="p up">+24.9%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%B8%80%E4%B8%81%E7%9B%AE">西津田一丁目</a></th><td class="n">351</td><td class="n">595</td><td class="n up">+244</td><td class="p up">+69.5%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E7%94%BA">比津町</a></th><td class="n">1,177</td><td class="n">1,378</td><td class="n up">+201</td><td class="p up">+17.1%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%98%A5%E6%97%A5%E7%94%BA">春日町</a></th><td class="n">2,744</td><td class="n">2,922</td><td class="n up">+178</td><td class="p up">+6.5%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E5%85%AD%E4%B8%81%E7%9B%AE">浜乃木六丁目</a></th><td class="n">1,180</td><td class="n">1,351</td><td class="n up">+171</td><td class="p up">+14.5%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E7%AB%B9%E7%9F%A2%E7%94%BA">竹矢町</a></th><td class="n">1,794</td><td class="n">1,954</td><td class="n up">+160</td><td class="p up">+8.9%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%B5%9C%E4%BD%90%E7%94%B0%E7%94%BA">浜佐田町</a></th><td class="n">1,159</td><td class="n">1,300</td><td class="n up">+141</td><td class="p up">+12.2%</td></tr>
+    </tbody></table></div>
+
+  <h3 class="fig-lead">減った町</h3>
+  <div class="chartbox tall" id="dnBox"><canvas id="cDn"></canvas></div>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-sub"></colgroup>
+    <thead><tr><th>町名</th><th class="n">2007年4月（人）</th><th class="n">2026年7月（人）</th><th class="n">増減（人）</th><th class="p">率</th></tr></thead>
+    <tbody>
+      <tr><th><a href="01-town-trend.html#%E5%B1%B1%E4%BB%A3%E7%94%BA">山代町</a></th><td class="n">4,907</td><td class="n">3,759</td><td class="n dn">-1,148</td><td class="p dn">-23.4%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%B7%9E%E5%8C%97%E5%8F%B0">淞北台</a></th><td class="n">1,444</td><td class="n">786</td><td class="n dn">-658</td><td class="p dn">-45.6%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%8F%A4%E6%9B%BD%E5%BF%97%E7%94%BA">古曽志町</a></th><td class="n">2,241</td><td class="n">1,658</td><td class="n dn">-583</td><td class="p dn">-26.0%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E5%A4%A7%E8%8A%A6">島根町大芦</a></th><td class="n">1,292</td><td class="n">789</td><td class="n dn">-503</td><td class="p dn">-38.9%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E9%9B%91%E8%B3%80%E7%94%BA">雑賀町</a></th><td class="n">2,710</td><td class="n">2,232</td><td class="n dn">-478</td><td class="p dn">-17.6%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E4%B8%83%E9%A1%9E">美保関町七類</a></th><td class="n">1,231</td><td class="n">755</td><td class="n dn">-476</td><td class="p dn">-38.7%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E9%87%8E%E6%B3%A2">島根町野波</a></th><td class="n">1,128</td><td class="n">691</td><td class="n dn">-437</td><td class="p dn">-38.7%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E8%A5%BF%E7%94%9F%E9%A6%AC%E7%94%BA">西生馬町</a></th><td class="n">668</td><td class="n">232</td><td class="n dn">-436</td><td class="p dn">-65.3%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E6%B3%95%E5%90%89%E7%94%BA">法吉町</a></th><td class="n">2,997</td><td class="n">2,604</td><td class="n dn">-393</td><td class="p dn">-13.1%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E7%89%87%E6%B1%9F">美保関町片江</a></th><td class="n">959</td><td class="n">572</td><td class="n dn">-387</td><td class="p dn">-40.4%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E7%9F%A2%E7%94%B0%E7%94%BA">矢田町</a></th><td class="n">1,575</td><td class="n">1,199</td><td class="n dn">-376</td><td class="p dn">-23.9%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E7%BE%8E%E4%BF%9D%E9%96%A2">美保関町美保関</a></th><td class="n">755</td><td class="n">400</td><td class="n dn">-355</td><td class="p dn">-47.0%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E7%94%BA%E7%86%8A%E9%87%8E">八雲町熊野</a></th><td class="n">1,387</td><td class="n">1,043</td><td class="n dn">-344</td><td class="p dn">-24.8%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E4%B8%8A%E6%9D%B1%E5%B7%9D%E6%B4%A5%E7%94%BA">上東川津町</a></th><td class="n">2,272</td><td class="n">1,952</td><td class="n dn">-320</td><td class="p dn">-14.1%</td></tr>
+      <tr><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E5%8A%A0%E8%B3%80">島根町加賀</a></th><td class="n">1,123</td><td class="n">807</td><td class="n dn">-316</td><td class="p dn">-28.1%</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="section" id="s-all">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>2007年4月から記録が続いている町</h2>
+  <p class="sub">2007年4月と2026年7月の<b>2時点</b>を比べています。
+  並べ替えを切り替えられます。行をひらくと、その町の推移のページへ移ります。</p>
+  <div class="seg" role="group" aria-label="並べ替え">
+    <button type="button" id="byNum" aria-pressed="true">人数の大きい順</button>
+    <button type="button" id="byRate" aria-pressed="false">率の大きい順</button>
+  </div>
+  <p class="note" id="sortnote"><b>人数の大きい順</b>で並べています。</p>
+  <div class="table-scroll"><table class="lst" id="tAll">
+    <colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-sub"></colgroup>
+    <thead><tr><th>町名</th><th class="n">2007年4月（人）</th><th class="n">2026年7月（人）</th><th class="n">増減（人）</th><th class="p">率</th></tr></thead>
+    <tbody id="allBody">
+      <tr data-town="玉湯町湯町" data-d="1663" data-r="0.7239878101872007"><th><a href="01-town-trend.html#%E7%8E%89%E6%B9%AF%E7%94%BA%E6%B9%AF%E7%94%BA">玉湯町湯町</a></th><td class="n">2,297</td><td class="n">3,960</td><td class="n">+1,663</td><td class="p">+72.4%</td></tr>
+      <tr data-town="下東川津町" data-d="869" data-r="0.7376910016977929"><th><a href="01-town-trend.html#%E4%B8%8B%E6%9D%B1%E5%B7%9D%E6%B4%A5%E7%94%BA">下東川津町</a></th><td class="n">1,178</td><td class="n">2,047</td><td class="n">+869</td><td class="p">+73.8%</td></tr>
+      <tr data-town="黒田町" data-d="602" data-r="0.20968303726924417"><th><a href="01-town-trend.html#%E9%BB%92%E7%94%B0%E7%94%BA">黒田町</a></th><td class="n">2,871</td><td class="n">3,473</td><td class="n">+602</td><td class="p">+21.0%</td></tr>
+      <tr data-town="国屋町" data-d="599" data-r="0.28095684803001875"><th><a href="01-town-trend.html#%E5%9B%BD%E5%B1%8B%E7%94%BA">国屋町</a></th><td class="n">2,132</td><td class="n">2,731</td><td class="n">+599</td><td class="p">+28.1%</td></tr>
+      <tr data-town="東津田町" data-d="504" data-r="0.06285856822150163"><th><a href="01-town-trend.html#%E6%9D%B1%E6%B4%A5%E7%94%B0%E7%94%BA">東津田町</a></th><td class="n">8,018</td><td class="n">8,522</td><td class="n">+504</td><td class="p">+6.3%</td></tr>
+      <tr data-town="上乃木四丁目" data-d="414" data-r="0.3050847457627119"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E5%9B%9B%E4%B8%81%E7%9B%AE">上乃木四丁目</a></th><td class="n">1,357</td><td class="n">1,771</td><td class="n">+414</td><td class="p">+30.5%</td></tr>
+      <tr data-town="学園南二丁目" data-d="290" data-r="0.44753086419753085"><th><a href="01-town-trend.html#%E5%AD%A6%E5%9C%92%E5%8D%97%E4%BA%8C%E4%B8%81%E7%9B%AE">学園南二丁目</a></th><td class="n">648</td><td class="n">938</td><td class="n">+290</td><td class="p">+44.8%</td></tr>
+      <tr data-town="西持田町" data-d="290" data-r="0.20069204152249134"><th><a href="01-town-trend.html#%E8%A5%BF%E6%8C%81%E7%94%B0%E7%94%BA">西持田町</a></th><td class="n">1,445</td><td class="n">1,735</td><td class="n">+290</td><td class="p">+20.1%</td></tr>
+      <tr data-town="上乃木八丁目" data-d="265" data-r="0.24929444967074318"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E5%85%AB%E4%B8%81%E7%9B%AE">上乃木八丁目</a></th><td class="n">1,063</td><td class="n">1,328</td><td class="n">+265</td><td class="p">+24.9%</td></tr>
+      <tr data-town="西津田一丁目" data-d="244" data-r="0.6951566951566952"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%B8%80%E4%B8%81%E7%9B%AE">西津田一丁目</a></th><td class="n">351</td><td class="n">595</td><td class="n">+244</td><td class="p">+69.5%</td></tr>
+      <tr data-town="比津町" data-d="201" data-r="0.1707731520815633"><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E7%94%BA">比津町</a></th><td class="n">1,177</td><td class="n">1,378</td><td class="n">+201</td><td class="p">+17.1%</td></tr>
+      <tr data-town="春日町" data-d="178" data-r="0.06486880466472303"><th><a href="01-town-trend.html#%E6%98%A5%E6%97%A5%E7%94%BA">春日町</a></th><td class="n">2,744</td><td class="n">2,922</td><td class="n">+178</td><td class="p">+6.5%</td></tr>
+      <tr data-town="浜乃木六丁目" data-d="171" data-r="0.14491525423728813"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E5%85%AD%E4%B8%81%E7%9B%AE">浜乃木六丁目</a></th><td class="n">1,180</td><td class="n">1,351</td><td class="n">+171</td><td class="p">+14.5%</td></tr>
+      <tr data-town="竹矢町" data-d="160" data-r="0.08918617614269789"><th><a href="01-town-trend.html#%E7%AB%B9%E7%9F%A2%E7%94%BA">竹矢町</a></th><td class="n">1,794</td><td class="n">1,954</td><td class="n">+160</td><td class="p">+8.9%</td></tr>
+      <tr data-town="浜佐田町" data-d="141" data-r="0.12165660051768766"><th><a href="01-town-trend.html#%E6%B5%9C%E4%BD%90%E7%94%B0%E7%94%BA">浜佐田町</a></th><td class="n">1,159</td><td class="n">1,300</td><td class="n">+141</td><td class="p">+12.2%</td></tr>
+      <tr data-town="東朝日町" data-d="108" data-r="0.05004633920296571"><th><a href="01-town-trend.html#%E6%9D%B1%E6%9C%9D%E6%97%A5%E7%94%BA">東朝日町</a></th><td class="n">2,158</td><td class="n">2,266</td><td class="n">+108</td><td class="p">+5.0%</td></tr>
+      <tr data-town="砂子町" data-d="108" data-r="0.1695447409733124"><th><a href="01-town-trend.html#%E7%A0%82%E5%AD%90%E7%94%BA">砂子町</a></th><td class="n">637</td><td class="n">745</td><td class="n">+108</td><td class="p">+17.0%</td></tr>
+      <tr data-town="坂本町" data-d="104" data-r="0.27956989247311825"><th><a href="01-town-trend.html#%E5%9D%82%E6%9C%AC%E7%94%BA">坂本町</a></th><td class="n">372</td><td class="n">476</td><td class="n">+104</td><td class="p">+28.0%</td></tr>
+      <tr data-town="八雲町東岩坂" data-d="80" data-r="0.03524229074889868"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E7%94%BA%E6%9D%B1%E5%B2%A9%E5%9D%82">八雲町東岩坂</a></th><td class="n">2,270</td><td class="n">2,350</td><td class="n">+80</td><td class="p">+3.5%</td></tr>
+      <tr data-town="西津田六丁目" data-d="73" data-r="0.21987951807228914"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E5%85%AD%E4%B8%81%E7%9B%AE">西津田六丁目</a></th><td class="n">332</td><td class="n">405</td><td class="n">+73</td><td class="p">+22.0%</td></tr>
+      <tr data-town="乃木福富町" data-d="68" data-r="0.04748603351955307"><th><a href="01-town-trend.html#%E4%B9%83%E6%9C%A8%E7%A6%8F%E5%AF%8C%E7%94%BA">乃木福富町</a></th><td class="n">1,432</td><td class="n">1,500</td><td class="n">+68</td><td class="p">+4.7%</td></tr>
+      <tr data-town="浜乃木七丁目" data-d="65" data-r="0.065"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E4%B8%83%E4%B8%81%E7%9B%AE">浜乃木七丁目</a></th><td class="n">1,000</td><td class="n">1,065</td><td class="n">+65</td><td class="p">+6.5%</td></tr>
+      <tr data-town="西津田九丁目" data-d="53" data-r="0.12649164677804295"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%B9%9D%E4%B8%81%E7%9B%AE">西津田九丁目</a></th><td class="n">419</td><td class="n">472</td><td class="n">+53</td><td class="p">+12.6%</td></tr>
+      <tr data-town="西津田四丁目" data-d="53" data-r="0.06919060052219321"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E5%9B%9B%E4%B8%81%E7%9B%AE">西津田四丁目</a></th><td class="n">766</td><td class="n">819</td><td class="n">+53</td><td class="p">+6.9%</td></tr>
+      <tr data-town="上乃木九丁目" data-d="44" data-r="0.03907637655417407"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E4%B9%9D%E4%B8%81%E7%9B%AE">上乃木九丁目</a></th><td class="n">1,126</td><td class="n">1,170</td><td class="n">+44</td><td class="p">+3.9%</td></tr>
+      <tr data-town="堂形町" data-d="44" data-r="0.10451306413301663"><th><a href="01-town-trend.html#%E5%A0%82%E5%BD%A2%E7%94%BA">堂形町</a></th><td class="n">421</td><td class="n">465</td><td class="n">+44</td><td class="p">+10.5%</td></tr>
+      <tr data-town="西津田五丁目" data-d="42" data-r="0.06919275123558484"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%BA%94%E4%B8%81%E7%9B%AE">西津田五丁目</a></th><td class="n">607</td><td class="n">649</td><td class="n">+42</td><td class="p">+6.9%</td></tr>
+      <tr data-town="本郷町" data-d="38" data-r="0.17040358744394618"><th><a href="01-town-trend.html#%E6%9C%AC%E9%83%B7%E7%94%BA">本郷町</a></th><td class="n">223</td><td class="n">261</td><td class="n">+38</td><td class="p">+17.0%</td></tr>
+      <tr data-town="殿町" data-d="38" data-r="0.0811965811965812"><th><a href="01-town-trend.html#%E6%AE%BF%E7%94%BA">殿町</a></th><td class="n">468</td><td class="n">506</td><td class="n">+38</td><td class="p">+8.1%</td></tr>
+      <tr data-town="古志原二丁目" data-d="37" data-r="0.02609308885754584"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E4%BA%8C%E4%B8%81%E7%9B%AE">古志原二丁目</a></th><td class="n">1,418</td><td class="n">1,455</td><td class="n">+37</td><td class="p">+2.6%</td></tr>
+      <tr data-town="比津が丘五丁目" data-d="37" data-r="0.10335195530726257"><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E3%81%8C%E4%B8%98%E4%BA%94%E4%B8%81%E7%9B%AE">比津が丘五丁目</a></th><td class="n">358</td><td class="n">395</td><td class="n">+37</td><td class="p">+10.3%</td></tr>
+      <tr data-town="母衣町" data-d="32" data-r="0.08839779005524862"><th><a href="01-town-trend.html#%E6%AF%8D%E8%A1%A3%E7%94%BA">母衣町</a></th><td class="n">362</td><td class="n">394</td><td class="n">+32</td><td class="p">+8.8%</td></tr>
+      <tr data-town="大正町" data-d="28" data-r="0.041666666666666664"><th><a href="01-town-trend.html#%E5%A4%A7%E6%AD%A3%E7%94%BA">大正町</a></th><td class="n">672</td><td class="n">700</td><td class="n">+28</td><td class="p">+4.2%</td></tr>
+      <tr data-town="浜乃木二丁目" data-d="28" data-r="0.033136094674556214"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E4%BA%8C%E4%B8%81%E7%9B%AE">浜乃木二丁目</a></th><td class="n">845</td><td class="n">873</td><td class="n">+28</td><td class="p">+3.3%</td></tr>
+      <tr data-town="嫁島町" data-d="23" data-r="0.21296296296296297"><th><a href="01-town-trend.html#%E5%AB%81%E5%B3%B6%E7%94%BA">嫁島町</a></th><td class="n">108</td><td class="n">131</td><td class="n">+23</td><td class="p">+21.3%</td></tr>
+      <tr data-town="西法吉町" data-d="22" data-r="0.024390243902439025"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B3%95%E5%90%89%E7%94%BA">西法吉町</a></th><td class="n">902</td><td class="n">924</td><td class="n">+22</td><td class="p">+2.4%</td></tr>
+      <tr data-town="西津田二丁目" data-d="20" data-r="0.040983606557377046"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%BA%8C%E4%B8%81%E7%9B%AE">西津田二丁目</a></th><td class="n">488</td><td class="n">508</td><td class="n">+20</td><td class="p">+4.1%</td></tr>
+      <tr data-town="天神町" data-d="17" data-r="0.054313099041533544"><th><a href="01-town-trend.html#%E5%A4%A9%E7%A5%9E%E7%94%BA">天神町</a></th><td class="n">313</td><td class="n">330</td><td class="n">+17</td><td class="p">+5.4%</td></tr>
+      <tr data-town="東長江町" data-d="15" data-r="0.030364372469635626"><th><a href="01-town-trend.html#%E6%9D%B1%E9%95%B7%E6%B1%9F%E7%94%BA">東長江町</a></th><td class="n">494</td><td class="n">509</td><td class="n">+15</td><td class="p">+3.0%</td></tr>
+      <tr data-town="平成町" data-d="14" data-r="0"><th><a href="01-town-trend.html#%E5%B9%B3%E6%88%90%E7%94%BA">平成町</a></th><td class="n">0</td><td class="n">14</td><td class="n">+14</td><td class="p">—</td></tr>
+      <tr data-town="中原町" data-d="13" data-r="0.024208566108007448"><th><a href="01-town-trend.html#%E4%B8%AD%E5%8E%9F%E7%94%BA">中原町</a></th><td class="n">537</td><td class="n">550</td><td class="n">+13</td><td class="p">+2.4%</td></tr>
+      <tr data-town="千鳥町" data-d="10" data-r="0.11627906976744186"><th><a href="01-town-trend.html#%E5%8D%83%E9%B3%A5%E7%94%BA">千鳥町</a></th><td class="n">86</td><td class="n">96</td><td class="n">+10</td><td class="p">+11.6%</td></tr>
+      <tr data-town="古志原五丁目" data-d="9" data-r="0.008050089445438283"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E4%BA%94%E4%B8%81%E7%9B%AE">古志原五丁目</a></th><td class="n">1,118</td><td class="n">1,127</td><td class="n">+9</td><td class="p">+0.8%</td></tr>
+      <tr data-town="苧町" data-d="8" data-r="0.10526315789473684"><th><a href="01-town-trend.html#%E8%8B%A7%E7%94%BA">苧町</a></th><td class="n">76</td><td class="n">84</td><td class="n">+8</td><td class="p">+10.5%</td></tr>
+      <tr data-town="東本町１丁目" data-d="5" data-r="0.07246376811594203"><th><a href="01-town-trend.html#%E6%9D%B1%E6%9C%AC%E7%94%BA%EF%BC%91%E4%B8%81%E7%9B%AE">東本町１丁目</a></th><td class="n">69</td><td class="n">74</td><td class="n">+5</td><td class="p">+7.2%</td></tr>
+      <tr data-town="浜乃木一丁目" data-d="5" data-r="0.00314070351758794"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E4%B8%80%E4%B8%81%E7%9B%AE">浜乃木一丁目</a></th><td class="n">1,592</td><td class="n">1,597</td><td class="n">+5</td><td class="p">+0.3%</td></tr>
+      <tr data-town="朝日町" data-d="4" data-r="0.028985507246376812"><th><a href="01-town-trend.html#%E6%9C%9D%E6%97%A5%E7%94%BA">朝日町</a></th><td class="n">138</td><td class="n">142</td><td class="n">+4</td><td class="p">+2.9%</td></tr>
+      <tr data-town="一の谷町" data-d="2" data-r="0.005141388174807198"><th><a href="01-town-trend.html#%E4%B8%80%E3%81%AE%E8%B0%B7%E7%94%BA">一の谷町</a></th><td class="n">389</td><td class="n">391</td><td class="n">+2</td><td class="p">+0.5%</td></tr>
+      <tr data-town="浜乃木八丁目" data-d="2" data-r="0.16666666666666666"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E5%85%AB%E4%B8%81%E7%9B%AE">浜乃木八丁目</a></th><td class="n">12</td><td class="n">14</td><td class="n">+2</td><td class="p">+16.7%</td></tr>
+      <tr data-town="打出町" data-d="-1" data-r="-0.03125"><th><a href="01-town-trend.html#%E6%89%93%E5%87%BA%E7%94%BA">打出町</a></th><td class="n">32</td><td class="n">31</td><td class="n">-1</td><td class="p">-3.1%</td></tr>
+      <tr data-town="西嫁島一丁目" data-d="-6" data-r="-0.1276595744680851"><th><a href="01-town-trend.html#%E8%A5%BF%E5%AB%81%E5%B3%B6%E4%B8%80%E4%B8%81%E7%9B%AE">西嫁島一丁目</a></th><td class="n">47</td><td class="n">41</td><td class="n">-6</td><td class="p">-12.8%</td></tr>
+      <tr data-town="田和山町" data-d="-7" data-r="-0.07608695652173914"><th><a href="01-town-trend.html#%E7%94%B0%E5%92%8C%E5%B1%B1%E7%94%BA">田和山町</a></th><td class="n">92</td><td class="n">85</td><td class="n">-7</td><td class="p">-7.6%</td></tr>
+      <tr data-town="学園南一丁目" data-d="-8" data-r="-0.009478672985781991"><th><a href="01-town-trend.html#%E5%AD%A6%E5%9C%92%E5%8D%97%E4%B8%80%E4%B8%81%E7%9B%AE">学園南一丁目</a></th><td class="n">844</td><td class="n">836</td><td class="n">-8</td><td class="p">-0.9%</td></tr>
+      <tr data-town="東奥谷町" data-d="-8" data-r="-0.008412197686645636"><th><a href="01-town-trend.html#%E6%9D%B1%E5%A5%A5%E8%B0%B7%E7%94%BA">東奥谷町</a></th><td class="n">951</td><td class="n">943</td><td class="n">-8</td><td class="p">-0.8%</td></tr>
+      <tr data-town="向島町" data-d="-11" data-r="-0.4782608695652174"><th><a href="01-town-trend.html#%E5%90%91%E5%B3%B6%E7%94%BA">向島町</a></th><td class="n">23</td><td class="n">12</td><td class="n">-11</td><td class="p">-47.8%</td></tr>
+      <tr data-town="玉湯町玉造" data-d="-12" data-r="-0.0061823802163833074"><th><a href="01-town-trend.html#%E7%8E%89%E6%B9%AF%E7%94%BA%E7%8E%89%E9%80%A0">玉湯町玉造</a></th><td class="n">1,941</td><td class="n">1,929</td><td class="n">-12</td><td class="p">-0.6%</td></tr>
+      <tr data-town="西嫁島三丁目" data-d="-12" data-r="-0.10619469026548672"><th><a href="01-town-trend.html#%E8%A5%BF%E5%AB%81%E5%B3%B6%E4%B8%89%E4%B8%81%E7%9B%AE">西嫁島三丁目</a></th><td class="n">113</td><td class="n">101</td><td class="n">-12</td><td class="p">-10.6%</td></tr>
+      <tr data-town="大輪町" data-d="-15" data-r="-0.02403846153846154"><th><a href="01-town-trend.html#%E5%A4%A7%E8%BC%AA%E7%94%BA">大輪町</a></th><td class="n">624</td><td class="n">609</td><td class="n">-15</td><td class="p">-2.4%</td></tr>
+      <tr data-town="宍道町伊志見" data-d="-15" data-r="-0.09090909090909091"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E4%BC%8A%E5%BF%97%E8%A6%8B">宍道町伊志見</a></th><td class="n">165</td><td class="n">150</td><td class="n">-15</td><td class="p">-9.1%</td></tr>
+      <tr data-town="川原町" data-d="-15" data-r="-0.07936507936507936"><th><a href="01-town-trend.html#%E5%B7%9D%E5%8E%9F%E7%94%BA">川原町</a></th><td class="n">189</td><td class="n">174</td><td class="n">-15</td><td class="p">-7.9%</td></tr>
+      <tr data-town="比津が丘三丁目" data-d="-16" data-r="-0.04804804804804805"><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E3%81%8C%E4%B8%98%E4%B8%89%E4%B8%81%E7%9B%AE">比津が丘三丁目</a></th><td class="n">333</td><td class="n">317</td><td class="n">-16</td><td class="p">-4.8%</td></tr>
+      <tr data-town="上佐陀町" data-d="-17" data-r="-0.10759493670886076"><th><a href="01-town-trend.html#%E4%B8%8A%E4%BD%90%E9%99%80%E7%94%BA">上佐陀町</a></th><td class="n">158</td><td class="n">141</td><td class="n">-17</td><td class="p">-10.8%</td></tr>
+      <tr data-town="佐草町" data-d="-19" data-r="-0.04513064133016627"><th><a href="01-town-trend.html#%E4%BD%90%E8%8D%89%E7%94%BA">佐草町</a></th><td class="n">421</td><td class="n">402</td><td class="n">-19</td><td class="p">-4.5%</td></tr>
+      <tr data-town="末次町" data-d="-19" data-r="-0.14074074074074075"><th><a href="01-town-trend.html#%E6%9C%AB%E6%AC%A1%E7%94%BA">末次町</a></th><td class="n">135</td><td class="n">116</td><td class="n">-19</td><td class="p">-14.1%</td></tr>
+      <tr data-town="津田町" data-d="-20" data-r="-0.12987012987012986"><th><a href="01-town-trend.html#%E6%B4%A5%E7%94%B0%E7%94%BA">津田町</a></th><td class="n">154</td><td class="n">134</td><td class="n">-20</td><td class="p">-13.0%</td></tr>
+      <tr data-town="八雲台二丁目" data-d="-23" data-r="-0.027090694935217905"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E5%8F%B0%E4%BA%8C%E4%B8%81%E7%9B%AE">八雲台二丁目</a></th><td class="n">849</td><td class="n">826</td><td class="n">-23</td><td class="p">-2.7%</td></tr>
+      <tr data-town="比津が丘一丁目" data-d="-24" data-r="-0.0525164113785558"><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E3%81%8C%E4%B8%98%E4%B8%80%E4%B8%81%E7%9B%AE">比津が丘一丁目</a></th><td class="n">457</td><td class="n">433</td><td class="n">-24</td><td class="p">-5.3%</td></tr>
+      <tr data-town="八束町寺津" data-d="-26" data-r="-0.12807881773399016"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E5%AF%BA%E6%B4%A5">八束町寺津</a></th><td class="n">203</td><td class="n">177</td><td class="n">-26</td><td class="p">-12.8%</td></tr>
+      <tr data-town="東本町２丁目" data-d="-29" data-r="-0.3372093023255814"><th><a href="01-town-trend.html#%E6%9D%B1%E6%9C%AC%E7%94%BA%EF%BC%92%E4%B8%81%E7%9B%AE">東本町２丁目</a></th><td class="n">86</td><td class="n">57</td><td class="n">-29</td><td class="p">-33.7%</td></tr>
+      <tr data-town="東本町５丁目" data-d="-29" data-r="-0.10622710622710622"><th><a href="01-town-trend.html#%E6%9D%B1%E6%9C%AC%E7%94%BA%EF%BC%95%E4%B8%81%E7%9B%AE">東本町５丁目</a></th><td class="n">273</td><td class="n">244</td><td class="n">-29</td><td class="p">-10.6%</td></tr>
+      <tr data-town="上宇部尾町" data-d="-30" data-r="-0.3225806451612903"><th><a href="01-town-trend.html#%E4%B8%8A%E5%AE%87%E9%83%A8%E5%B0%BE%E7%94%BA">上宇部尾町</a></th><td class="n">93</td><td class="n">63</td><td class="n">-30</td><td class="p">-32.3%</td></tr>
+      <tr data-town="下佐陀町" data-d="-30" data-r="-0.08042895442359249"><th><a href="01-town-trend.html#%E4%B8%8B%E4%BD%90%E9%99%80%E7%94%BA">下佐陀町</a></th><td class="n">373</td><td class="n">343</td><td class="n">-30</td><td class="p">-8.0%</td></tr>
+      <tr data-town="奥谷町" data-d="-30" data-r="-0.03138075313807531"><th><a href="01-town-trend.html#%E5%A5%A5%E8%B0%B7%E7%94%BA">奥谷町</a></th><td class="n">956</td><td class="n">926</td><td class="n">-30</td><td class="p">-3.1%</td></tr>
+      <tr data-town="袖師町" data-d="-30" data-r="-0.079155672823219"><th><a href="01-town-trend.html#%E8%A2%96%E5%B8%AB%E7%94%BA">袖師町</a></th><td class="n">379</td><td class="n">349</td><td class="n">-30</td><td class="p">-7.9%</td></tr>
+      <tr data-town="末次本町" data-d="-32" data-r="-0.3855421686746988"><th><a href="01-town-trend.html#%E6%9C%AB%E6%AC%A1%E6%9C%AC%E7%94%BA">末次本町</a></th><td class="n">83</td><td class="n">51</td><td class="n">-32</td><td class="p">-38.6%</td></tr>
+      <tr data-town="東本町３丁目" data-d="-33" data-r="-0.2323943661971831"><th><a href="01-town-trend.html#%E6%9D%B1%E6%9C%AC%E7%94%BA%EF%BC%93%E4%B8%81%E7%9B%AE">東本町３丁目</a></th><td class="n">142</td><td class="n">109</td><td class="n">-33</td><td class="p">-23.2%</td></tr>
+      <tr data-town="片原町" data-d="-33" data-r="-0.2972972972972973"><th><a href="01-town-trend.html#%E7%89%87%E5%8E%9F%E7%94%BA">片原町</a></th><td class="n">111</td><td class="n">78</td><td class="n">-33</td><td class="p">-29.7%</td></tr>
+      <tr data-town="八束町亀尻" data-d="-34" data-r="-0.192090395480226"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E4%BA%80%E5%B0%BB">八束町亀尻</a></th><td class="n">177</td><td class="n">143</td><td class="n">-34</td><td class="p">-19.2%</td></tr>
+      <tr data-town="御手船場町" data-d="-34" data-r="-0.1452991452991453"><th><a href="01-town-trend.html#%E5%BE%A1%E6%89%8B%E8%88%B9%E5%A0%B4%E7%94%BA">御手船場町</a></th><td class="n">234</td><td class="n">200</td><td class="n">-34</td><td class="p">-14.5%</td></tr>
+      <tr data-town="東茶町" data-d="-35" data-r="-0.2023121387283237"><th><a href="01-town-trend.html#%E6%9D%B1%E8%8C%B6%E7%94%BA">東茶町</a></th><td class="n">173</td><td class="n">138</td><td class="n">-35</td><td class="p">-20.2%</td></tr>
+      <tr data-town="朝酌町" data-d="-36" data-r="-0.07128712871287128"><th><a href="01-town-trend.html#%E6%9C%9D%E9%85%8C%E7%94%BA">朝酌町</a></th><td class="n">505</td><td class="n">469</td><td class="n">-36</td><td class="p">-7.1%</td></tr>
+      <tr data-town="枕木町" data-d="-36" data-r="-0.2706766917293233"><th><a href="01-town-trend.html#%E6%9E%95%E6%9C%A8%E7%94%BA">枕木町</a></th><td class="n">133</td><td class="n">97</td><td class="n">-36</td><td class="p">-27.1%</td></tr>
+      <tr data-town="薦津町" data-d="-36" data-r="-0.11285266457680251"><th><a href="01-town-trend.html#%E8%96%A6%E6%B4%A5%E7%94%BA">薦津町</a></th><td class="n">319</td><td class="n">283</td><td class="n">-36</td><td class="p">-11.3%</td></tr>
+      <tr data-town="福富町" data-d="-38" data-r="-0.26573426573426573"><th><a href="01-town-trend.html#%E7%A6%8F%E5%AF%8C%E7%94%BA">福富町</a></th><td class="n">143</td><td class="n">105</td><td class="n">-38</td><td class="p">-26.6%</td></tr>
+      <tr data-town="米子町" data-d="-38" data-r="-0.24836601307189543"><th><a href="01-town-trend.html#%E7%B1%B3%E5%AD%90%E7%94%BA">米子町</a></th><td class="n">153</td><td class="n">115</td><td class="n">-38</td><td class="p">-24.8%</td></tr>
+      <tr data-town="大海崎町" data-d="-39" data-r="-0.20967741935483872"><th><a href="01-town-trend.html#%E5%A4%A7%E6%B5%B7%E5%B4%8E%E7%94%BA">大海崎町</a></th><td class="n">186</td><td class="n">147</td><td class="n">-39</td><td class="p">-21.0%</td></tr>
+      <tr data-town="白瀉本町" data-d="-39" data-r="-0.47560975609756095"><th><a href="01-town-trend.html#%E7%99%BD%E7%80%89%E6%9C%AC%E7%94%BA">白瀉本町</a></th><td class="n">82</td><td class="n">43</td><td class="n">-39</td><td class="p">-47.6%</td></tr>
+      <tr data-town="古志原三丁目" data-d="-40" data-r="-0.02863278453829635"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E4%B8%89%E4%B8%81%E7%9B%AE">古志原三丁目</a></th><td class="n">1,397</td><td class="n">1,357</td><td class="n">-40</td><td class="p">-2.9%</td></tr>
+      <tr data-town="荘成町" data-d="-40" data-r="-0.2702702702702703"><th><a href="01-town-trend.html#%E8%8D%98%E6%88%90%E7%94%BA">荘成町</a></th><td class="n">148</td><td class="n">108</td><td class="n">-40</td><td class="p">-27.0%</td></tr>
+      <tr data-town="西尾町" data-d="-40" data-r="-0.037914691943127965"><th><a href="01-town-trend.html#%E8%A5%BF%E5%B0%BE%E7%94%BA">西尾町</a></th><td class="n">1,055</td><td class="n">1,015</td><td class="n">-40</td><td class="p">-3.8%</td></tr>
+      <tr data-town="上乃木十丁目" data-d="-42" data-r="-0.21761658031088082"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E5%8D%81%E4%B8%81%E7%9B%AE">上乃木十丁目</a></th><td class="n">193</td><td class="n">151</td><td class="n">-42</td><td class="p">-21.8%</td></tr>
+      <tr data-town="南平台" data-d="-42" data-r="-0.0584144645340751"><th><a href="01-town-trend.html#%E5%8D%97%E5%B9%B3%E5%8F%B0">南平台</a></th><td class="n">719</td><td class="n">677</td><td class="n">-42</td><td class="p">-5.8%</td></tr>
+      <tr data-town="野原町" data-d="-44" data-r="-0.21052631578947367"><th><a href="01-town-trend.html#%E9%87%8E%E5%8E%9F%E7%94%BA">野原町</a></th><td class="n">209</td><td class="n">165</td><td class="n">-44</td><td class="p">-21.1%</td></tr>
+      <tr data-town="学園一丁目" data-d="-46" data-r="-0.053488372093023255"><th><a href="01-town-trend.html#%E5%AD%A6%E5%9C%92%E4%B8%80%E4%B8%81%E7%9B%AE">学園一丁目</a></th><td class="n">860</td><td class="n">814</td><td class="n">-46</td><td class="p">-5.3%</td></tr>
+      <tr data-town="上乃木三丁目" data-d="-49" data-r="-0.04149026248941575"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E4%B8%89%E4%B8%81%E7%9B%AE">上乃木三丁目</a></th><td class="n">1,181</td><td class="n">1,132</td><td class="n">-49</td><td class="p">-4.1%</td></tr>
+      <tr data-town="乃白町" data-d="-50" data-r="-0.036576444769568395"><th><a href="01-town-trend.html#%E4%B9%83%E7%99%BD%E7%94%BA">乃白町</a></th><td class="n">1,367</td><td class="n">1,317</td><td class="n">-50</td><td class="p">-3.7%</td></tr>
+      <tr data-town="古志原四丁目" data-d="-50" data-r="-0.04035512510088781"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E5%9B%9B%E4%B8%81%E7%9B%AE">古志原四丁目</a></th><td class="n">1,239</td><td class="n">1,189</td><td class="n">-50</td><td class="p">-4.0%</td></tr>
+      <tr data-town="浜乃木四丁目" data-d="-50" data-r="-0.047619047619047616"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E5%9B%9B%E4%B8%81%E7%9B%AE">浜乃木四丁目</a></th><td class="n">1,050</td><td class="n">1,000</td><td class="n">-50</td><td class="p">-4.8%</td></tr>
+      <tr data-town="灘町" data-d="-50" data-r="-0.1392757660167131"><th><a href="01-town-trend.html#%E7%81%98%E7%94%BA">灘町</a></th><td class="n">359</td><td class="n">309</td><td class="n">-50</td><td class="p">-13.9%</td></tr>
+      <tr data-town="八雲町西岩坂" data-d="-51" data-r="-0.048204158790170135"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E7%94%BA%E8%A5%BF%E5%B2%A9%E5%9D%82">八雲町西岩坂</a></th><td class="n">1,058</td><td class="n">1,007</td><td class="n">-51</td><td class="p">-4.8%</td></tr>
+      <tr data-town="長海町" data-d="-51" data-r="-0.375"><th><a href="01-town-trend.html#%E9%95%B7%E6%B5%B7%E7%94%BA">長海町</a></th><td class="n">136</td><td class="n">85</td><td class="n">-51</td><td class="p">-37.5%</td></tr>
+      <tr data-town="新雑賀町" data-d="-53" data-r="-0.16358024691358025"><th><a href="01-town-trend.html#%E6%96%B0%E9%9B%91%E8%B3%80%E7%94%BA">新雑賀町</a></th><td class="n">324</td><td class="n">271</td><td class="n">-53</td><td class="p">-16.4%</td></tr>
+      <tr data-town="手角町" data-d="-56" data-r="-0.4028776978417266"><th><a href="01-town-trend.html#%E6%89%8B%E8%A7%92%E7%94%BA">手角町</a></th><td class="n">139</td><td class="n">83</td><td class="n">-56</td><td class="p">-40.3%</td></tr>
+      <tr data-town="新町" data-d="-56" data-r="-0.3684210526315789"><th><a href="01-town-trend.html#%E6%96%B0%E7%94%BA">新町</a></th><td class="n">152</td><td class="n">96</td><td class="n">-56</td><td class="p">-36.8%</td></tr>
+      <tr data-town="美保関町雲津" data-d="-57" data-r="-0.4014084507042254"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E9%9B%B2%E6%B4%A5">美保関町雲津</a></th><td class="n">142</td><td class="n">85</td><td class="n">-57</td><td class="p">-40.1%</td></tr>
+      <tr data-town="竪町" data-d="-59" data-r="-0.2543103448275862"><th><a href="01-town-trend.html#%E7%AB%AA%E7%94%BA">竪町</a></th><td class="n">232</td><td class="n">173</td><td class="n">-59</td><td class="p">-25.4%</td></tr>
+      <tr data-town="西嫁島二丁目" data-d="-59" data-r="-0.2757009345794392"><th><a href="01-town-trend.html#%E8%A5%BF%E5%AB%81%E5%B3%B6%E4%BA%8C%E4%B8%81%E7%9B%AE">西嫁島二丁目</a></th><td class="n">214</td><td class="n">155</td><td class="n">-59</td><td class="p">-27.6%</td></tr>
+      <tr data-town="鹿島町佐陀宮内" data-d="-63" data-r="-0.1008"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E4%BD%90%E9%99%80%E5%AE%AE%E5%86%85">鹿島町佐陀宮内</a></th><td class="n">625</td><td class="n">562</td><td class="n">-63</td><td class="p">-10.1%</td></tr>
+      <tr data-town="伊勢宮町" data-d="-64" data-r="-0.3386243386243386"><th><a href="01-town-trend.html#%E4%BC%8A%E5%8B%A2%E5%AE%AE%E7%94%BA">伊勢宮町</a></th><td class="n">189</td><td class="n">125</td><td class="n">-64</td><td class="p">-33.9%</td></tr>
+      <tr data-town="西茶町" data-d="-64" data-r="-0.18497109826589594"><th><a href="01-town-trend.html#%E8%A5%BF%E8%8C%B6%E7%94%BA">西茶町</a></th><td class="n">346</td><td class="n">282</td><td class="n">-64</td><td class="p">-18.5%</td></tr>
+      <tr data-town="古志原一丁目" data-d="-66" data-r="-0.09705882352941177"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E4%B8%80%E4%B8%81%E7%9B%AE">古志原一丁目</a></th><td class="n">680</td><td class="n">614</td><td class="n">-66</td><td class="p">-9.7%</td></tr>
+      <tr data-town="宍道町昭和" data-d="-68" data-r="-0.192090395480226"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E6%98%AD%E5%92%8C">宍道町昭和</a></th><td class="n">354</td><td class="n">286</td><td class="n">-68</td><td class="p">-19.2%</td></tr>
+      <tr data-town="八束町馬渡" data-d="-69" data-r="-0.25650557620817843"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E9%A6%AC%E6%B8%A1">八束町馬渡</a></th><td class="n">269</td><td class="n">200</td><td class="n">-69</td><td class="p">-25.7%</td></tr>
+      <tr data-town="松尾町" data-d="-69" data-r="-0.5"><th><a href="01-town-trend.html#%E6%9D%BE%E5%B0%BE%E7%94%BA">松尾町</a></th><td class="n">138</td><td class="n">69</td><td class="n">-69</td><td class="p">-50.0%</td></tr>
+      <tr data-town="西長江町" data-d="-69" data-r="-0.20909090909090908"><th><a href="01-town-trend.html#%E8%A5%BF%E9%95%B7%E6%B1%9F%E7%94%BA">西長江町</a></th><td class="n">330</td><td class="n">261</td><td class="n">-69</td><td class="p">-20.9%</td></tr>
+      <tr data-town="魚町" data-d="-69" data-r="-0.518796992481203"><th><a href="01-town-trend.html#%E9%AD%9A%E7%94%BA">魚町</a></th><td class="n">133</td><td class="n">64</td><td class="n">-69</td><td class="p">-51.9%</td></tr>
+      <tr data-town="八束町遅江" data-d="-70" data-r="-0.1338432122370937"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E9%81%85%E6%B1%9F">八束町遅江</a></th><td class="n">523</td><td class="n">453</td><td class="n">-70</td><td class="p">-13.4%</td></tr>
+      <tr data-town="玉湯町布志名" data-d="-71" data-r="-0.12220309810671257"><th><a href="01-town-trend.html#%E7%8E%89%E6%B9%AF%E7%94%BA%E5%B8%83%E5%BF%97%E5%90%8D">玉湯町布志名</a></th><td class="n">581</td><td class="n">510</td><td class="n">-71</td><td class="p">-12.2%</td></tr>
+      <tr data-town="八雲台一丁目" data-d="-75" data-r="-0.13440860215053763"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E5%8F%B0%E4%B8%80%E4%B8%81%E7%9B%AE">八雲台一丁目</a></th><td class="n">558</td><td class="n">483</td><td class="n">-75</td><td class="p">-13.4%</td></tr>
+      <tr data-town="北堀町" data-d="-75" data-r="-0.06944444444444445"><th><a href="01-town-trend.html#%E5%8C%97%E5%A0%80%E7%94%BA">北堀町</a></th><td class="n">1,080</td><td class="n">1,005</td><td class="n">-75</td><td class="p">-6.9%</td></tr>
+      <tr data-town="美保関町諸喰" data-d="-75" data-r="-0.41208791208791207"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E8%AB%B8%E5%96%B0">美保関町諸喰</a></th><td class="n">182</td><td class="n">107</td><td class="n">-75</td><td class="p">-41.2%</td></tr>
+      <tr data-town="和多見町" data-d="-79" data-r="-0.3319327731092437"><th><a href="01-town-trend.html#%E5%92%8C%E5%A4%9A%E8%A6%8B%E7%94%BA">和多見町</a></th><td class="n">238</td><td class="n">159</td><td class="n">-79</td><td class="p">-33.2%</td></tr>
+      <tr data-town="美保関町北浦" data-d="-83" data-r="-0.20243902439024392"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E5%8C%97%E6%B5%A6">美保関町北浦</a></th><td class="n">410</td><td class="n">327</td><td class="n">-83</td><td class="p">-20.2%</td></tr>
+      <tr data-town="東本町４丁目" data-d="-85" data-r="-0.32945736434108525"><th><a href="01-town-trend.html#%E6%9D%B1%E6%9C%AC%E7%94%BA%EF%BC%94%E4%B8%81%E7%9B%AE">東本町４丁目</a></th><td class="n">258</td><td class="n">173</td><td class="n">-85</td><td class="p">-32.9%</td></tr>
+      <tr data-town="横浜町" data-d="-88" data-r="-0.27076923076923076"><th><a href="01-town-trend.html#%E6%A8%AA%E6%B5%9C%E7%94%BA">横浜町</a></th><td class="n">325</td><td class="n">237</td><td class="n">-88</td><td class="p">-27.1%</td></tr>
+      <tr data-town="菅田町" data-d="-89" data-r="-0.057345360824742266"><th><a href="01-town-trend.html#%E8%8F%85%E7%94%B0%E7%94%BA">菅田町</a></th><td class="n">1,552</td><td class="n">1,463</td><td class="n">-89</td><td class="p">-5.7%</td></tr>
+      <tr data-town="西津田八丁目" data-d="-89" data-r="-0.18619246861924685"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E5%85%AB%E4%B8%81%E7%9B%AE">西津田八丁目</a></th><td class="n">478</td><td class="n">389</td><td class="n">-89</td><td class="p">-18.6%</td></tr>
+      <tr data-town="北田町" data-d="-90" data-r="-0.0522344747533372"><th><a href="01-town-trend.html#%E5%8C%97%E7%94%B0%E7%94%BA">北田町</a></th><td class="n">1,723</td><td class="n">1,633</td><td class="n">-90</td><td class="p">-5.2%</td></tr>
+      <tr data-town="上乃木七丁目" data-d="-95" data-r="-0.13929618768328444"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E4%B8%83%E4%B8%81%E7%9B%AE">上乃木七丁目</a></th><td class="n">682</td><td class="n">587</td><td class="n">-95</td><td class="p">-13.9%</td></tr>
+      <tr data-town="栄町" data-d="-95" data-r="-0.2159090909090909"><th><a href="01-town-trend.html#%E6%A0%84%E7%94%BA">栄町</a></th><td class="n">440</td><td class="n">345</td><td class="n">-95</td><td class="p">-21.6%</td></tr>
+      <tr data-town="大草町" data-d="-96" data-r="-0.2782608695652174"><th><a href="01-town-trend.html#%E5%A4%A7%E8%8D%89%E7%94%BA">大草町</a></th><td class="n">345</td><td class="n">249</td><td class="n">-96</td><td class="p">-27.8%</td></tr>
+      <tr data-town="美保関町福浦" data-d="-96" data-r="-0.2807017543859649"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E7%A6%8F%E6%B5%A6">美保関町福浦</a></th><td class="n">342</td><td class="n">246</td><td class="n">-96</td><td class="p">-28.1%</td></tr>
+      <tr data-town="比津が丘二丁目" data-d="-98" data-r="-0.2572178477690289"><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E3%81%8C%E4%B8%98%E4%BA%8C%E4%B8%81%E7%9B%AE">比津が丘二丁目</a></th><td class="n">381</td><td class="n">283</td><td class="n">-98</td><td class="p">-25.7%</td></tr>
+      <tr data-town="邑生町" data-d="-98" data-r="-0.1917808219178082"><th><a href="01-town-trend.html#%E9%82%91%E7%94%9F%E7%94%BA">邑生町</a></th><td class="n">511</td><td class="n">413</td><td class="n">-98</td><td class="p">-19.2%</td></tr>
+      <tr data-town="大井町" data-d="-99" data-r="-0.31230283911671924"><th><a href="01-town-trend.html#%E5%A4%A7%E4%BA%95%E7%94%BA">大井町</a></th><td class="n">317</td><td class="n">218</td><td class="n">-99</td><td class="p">-31.2%</td></tr>
+      <tr data-town="西谷町" data-d="-100" data-r="-0.2849002849002849"><th><a href="01-town-trend.html#%E8%A5%BF%E8%B0%B7%E7%94%BA">西谷町</a></th><td class="n">351</td><td class="n">251</td><td class="n">-100</td><td class="p">-28.5%</td></tr>
+      <tr data-town="美保関町菅浦" data-d="-101" data-r="-0.43162393162393164"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E8%8F%85%E6%B5%A6">美保関町菅浦</a></th><td class="n">234</td><td class="n">133</td><td class="n">-101</td><td class="p">-43.2%</td></tr>
+      <tr data-town="上乃木六丁目" data-d="-103" data-r="-0.1"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E5%85%AD%E4%B8%81%E7%9B%AE">上乃木六丁目</a></th><td class="n">1,030</td><td class="n">927</td><td class="n">-103</td><td class="p">-10.0%</td></tr>
+      <tr data-town="東忌部町" data-d="-103" data-r="-0.09279279279279279"><th><a href="01-town-trend.html#%E6%9D%B1%E5%BF%8C%E9%83%A8%E7%94%BA">東忌部町</a></th><td class="n">1,110</td><td class="n">1,007</td><td class="n">-103</td><td class="p">-9.3%</td></tr>
+      <tr data-town="うぐいす台" data-d="-107" data-r="-0.23060344827586207"><th><a href="01-town-trend.html#%E3%81%86%E3%81%90%E3%81%84%E3%81%99%E5%8F%B0">うぐいす台</a></th><td class="n">464</td><td class="n">357</td><td class="n">-107</td><td class="p">-23.1%</td></tr>
+      <tr data-town="美保関町下宇部尾" data-d="-111" data-r="-0.2868217054263566"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E4%B8%8B%E5%AE%87%E9%83%A8%E5%B0%BE">美保関町下宇部尾</a></th><td class="n">387</td><td class="n">276</td><td class="n">-111</td><td class="p">-28.7%</td></tr>
+      <tr data-town="八束町江島" data-d="-113" data-r="-0.1477124183006536"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E6%B1%9F%E5%B3%B6">八束町江島</a></th><td class="n">765</td><td class="n">652</td><td class="n">-113</td><td class="p">-14.8%</td></tr>
+      <tr data-town="八雲町平原" data-d="-115" data-r="-0.24364406779661016"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E7%94%BA%E5%B9%B3%E5%8E%9F">八雲町平原</a></th><td class="n">472</td><td class="n">357</td><td class="n">-115</td><td class="p">-24.4%</td></tr>
+      <tr data-town="福原町" data-d="-122" data-r="-0.18597560975609756"><th><a href="01-town-trend.html#%E7%A6%8F%E5%8E%9F%E7%94%BA">福原町</a></th><td class="n">656</td><td class="n">534</td><td class="n">-122</td><td class="p">-18.6%</td></tr>
+      <tr data-town="八雲町日吉" data-d="-128" data-r="-0.06618407445708377"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E7%94%BA%E6%97%A5%E5%90%89">八雲町日吉</a></th><td class="n">1,934</td><td class="n">1,806</td><td class="n">-128</td><td class="p">-6.6%</td></tr>
+      <tr data-town="島根町多古" data-d="-130" data-r="-0.4406779661016949"><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E5%A4%9A%E5%8F%A4">島根町多古</a></th><td class="n">295</td><td class="n">165</td><td class="n">-130</td><td class="p">-44.1%</td></tr>
+      <tr data-town="内中原町" data-d="-132" data-r="-0.08349146110056926"><th><a href="01-town-trend.html#%E5%86%85%E4%B8%AD%E5%8E%9F%E7%94%BA">内中原町</a></th><td class="n">1,581</td><td class="n">1,449</td><td class="n">-132</td><td class="p">-8.3%</td></tr>
+      <tr data-town="古志町" data-d="-133" data-r="-0.20652173913043478"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E7%94%BA">古志町</a></th><td class="n">644</td><td class="n">511</td><td class="n">-133</td><td class="p">-20.7%</td></tr>
+      <tr data-town="石橋町" data-d="-133" data-r="-0.12090909090909091"><th><a href="01-town-trend.html#%E7%9F%B3%E6%A9%8B%E7%94%BA">石橋町</a></th><td class="n">1,100</td><td class="n">967</td><td class="n">-133</td><td class="p">-12.1%</td></tr>
+      <tr data-town="鹿島町片句" data-d="-139" data-r="-0.44126984126984126"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E7%89%87%E5%8F%A5">鹿島町片句</a></th><td class="n">315</td><td class="n">176</td><td class="n">-139</td><td class="p">-44.1%</td></tr>
+      <tr data-town="鹿島町北講武" data-d="-140" data-r="-0.32941176470588235"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E5%8C%97%E8%AC%9B%E6%AD%A6">鹿島町北講武</a></th><td class="n">425</td><td class="n">285</td><td class="n">-140</td><td class="p">-32.9%</td></tr>
+      <tr data-town="古志原七丁目" data-d="-143" data-r="-0.11304347826086956"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E4%B8%83%E4%B8%81%E7%9B%AE">古志原七丁目</a></th><td class="n">1,265</td><td class="n">1,122</td><td class="n">-143</td><td class="p">-11.3%</td></tr>
+      <tr data-town="新庄町" data-d="-146" data-r="-0.3459715639810427"><th><a href="01-town-trend.html#%E6%96%B0%E5%BA%84%E7%94%BA">新庄町</a></th><td class="n">422</td><td class="n">276</td><td class="n">-146</td><td class="p">-34.6%</td></tr>
+      <tr data-town="浜乃木三丁目" data-d="-146" data-r="-0.18985695708712613"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E4%B8%89%E4%B8%81%E7%9B%AE">浜乃木三丁目</a></th><td class="n">769</td><td class="n">623</td><td class="n">-146</td><td class="p">-19.0%</td></tr>
+      <tr data-town="青葉台" data-d="-146" data-r="-0.20738636363636365"><th><a href="01-town-trend.html#%E9%9D%92%E8%91%89%E5%8F%B0">青葉台</a></th><td class="n">704</td><td class="n">558</td><td class="n">-146</td><td class="p">-20.7%</td></tr>
+      <tr data-town="上乃木二丁目" data-d="-147" data-r="-0.11493354182955434"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E4%BA%8C%E4%B8%81%E7%9B%AE">上乃木二丁目</a></th><td class="n">1,279</td><td class="n">1,132</td><td class="n">-147</td><td class="p">-11.5%</td></tr>
+      <tr data-town="島根町野井" data-d="-149" data-r="-0.39210526315789473"><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E9%87%8E%E4%BA%95">島根町野井</a></th><td class="n">380</td><td class="n">231</td><td class="n">-149</td><td class="p">-39.2%</td></tr>
+      <tr data-town="鹿島町上講武" data-d="-150" data-r="-0.351288056206089"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E4%B8%8A%E8%AC%9B%E6%AD%A6">鹿島町上講武</a></th><td class="n">427</td><td class="n">277</td><td class="n">-150</td><td class="p">-35.1%</td></tr>
+      <tr data-town="学園二丁目" data-d="-152" data-r="-0.10242587601078167"><th><a href="01-town-trend.html#%E5%AD%A6%E5%9C%92%E4%BA%8C%E4%B8%81%E7%9B%AE">学園二丁目</a></th><td class="n">1,484</td><td class="n">1,332</td><td class="n">-152</td><td class="p">-10.2%</td></tr>
+      <tr data-town="西津田三丁目" data-d="-152" data-r="-0.12719665271966527"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%B8%89%E4%B8%81%E7%9B%AE">西津田三丁目</a></th><td class="n">1,195</td><td class="n">1,043</td><td class="n">-152</td><td class="p">-12.7%</td></tr>
+      <tr data-town="浜乃木五丁目" data-d="-157" data-r="-0.2586490939044481"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E4%BA%94%E4%B8%81%E7%9B%AE">浜乃木五丁目</a></th><td class="n">607</td><td class="n">450</td><td class="n">-157</td><td class="p">-25.9%</td></tr>
+      <tr data-town="八束町波入" data-d="-162" data-r="-0.1532639545884579"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E6%B3%A2%E5%85%A5">八束町波入</a></th><td class="n">1,057</td><td class="n">895</td><td class="n">-162</td><td class="p">-15.3%</td></tr>
+      <tr data-town="西浜佐陀町" data-d="-162" data-r="-0.18181818181818182"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B5%9C%E4%BD%90%E9%99%80%E7%94%BA">西浜佐陀町</a></th><td class="n">891</td><td class="n">729</td><td class="n">-162</td><td class="p">-18.2%</td></tr>
+      <tr data-town="寺町" data-d="-169" data-r="-0.2007125890736342"><th><a href="01-town-trend.html#%E5%AF%BA%E7%94%BA">寺町</a></th><td class="n">842</td><td class="n">673</td><td class="n">-169</td><td class="p">-20.1%</td></tr>
+      <tr data-town="鹿島町南講武" data-d="-170" data-r="-0.40865384615384615"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E5%8D%97%E8%AC%9B%E6%AD%A6">鹿島町南講武</a></th><td class="n">416</td><td class="n">246</td><td class="n">-170</td><td class="p">-40.9%</td></tr>
+      <tr data-town="本庄町" data-d="-172" data-r="-0.36363636363636365"><th><a href="01-town-trend.html#%E6%9C%AC%E5%BA%84%E7%94%BA">本庄町</a></th><td class="n">473</td><td class="n">301</td><td class="n">-172</td><td class="p">-36.4%</td></tr>
+      <tr data-town="上本庄町" data-d="-173" data-r="-0.24061196105702365"><th><a href="01-town-trend.html#%E4%B8%8A%E6%9C%AC%E5%BA%84%E7%94%BA">上本庄町</a></th><td class="n">719</td><td class="n">546</td><td class="n">-173</td><td class="p">-24.1%</td></tr>
+      <tr data-town="大垣町" data-d="-175" data-r="-0.3113879003558719"><th><a href="01-town-trend.html#%E5%A4%A7%E5%9E%A3%E7%94%BA">大垣町</a></th><td class="n">562</td><td class="n">387</td><td class="n">-175</td><td class="p">-31.1%</td></tr>
+      <tr data-town="岡本町" data-d="-175" data-r="-0.42997542997543"><th><a href="01-town-trend.html#%E5%B2%A1%E6%9C%AC%E7%94%BA">岡本町</a></th><td class="n">407</td><td class="n">232</td><td class="n">-175</td><td class="p">-43.0%</td></tr>
+      <tr data-town="美保関町笠浦" data-d="-180" data-r="-0.3879310344827586"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E7%AC%A0%E6%B5%A6">美保関町笠浦</a></th><td class="n">464</td><td class="n">284</td><td class="n">-180</td><td class="p">-38.8%</td></tr>
+      <tr data-town="美保関町森山" data-d="-184" data-r="-0.26436781609195403"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E6%A3%AE%E5%B1%B1">美保関町森山</a></th><td class="n">696</td><td class="n">512</td><td class="n">-184</td><td class="p">-26.4%</td></tr>
+      <tr data-town="美保関町千酌" data-d="-188" data-r="-0.3321554770318021"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E5%8D%83%E9%85%8C">美保関町千酌</a></th><td class="n">566</td><td class="n">378</td><td class="n">-188</td><td class="p">-33.2%</td></tr>
+      <tr data-town="八束町二子" data-d="-191" data-r="-0.31414473684210525"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E4%BA%8C%E5%AD%90">八束町二子</a></th><td class="n">608</td><td class="n">417</td><td class="n">-191</td><td class="p">-31.4%</td></tr>
+      <tr data-town="玉湯町大谷" data-d="-191" data-r="-0.35834896810506567"><th><a href="01-town-trend.html#%E7%8E%89%E6%B9%AF%E7%94%BA%E5%A4%A7%E8%B0%B7">玉湯町大谷</a></th><td class="n">533</td><td class="n">342</td><td class="n">-191</td><td class="p">-35.8%</td></tr>
+      <tr data-town="魚瀬町" data-d="-191" data-r="-0.4431554524361949"><th><a href="01-town-trend.html#%E9%AD%9A%E7%80%AC%E7%94%BA">魚瀬町</a></th><td class="n">431</td><td class="n">240</td><td class="n">-191</td><td class="p">-44.3%</td></tr>
+      <tr data-town="上乃木一丁目" data-d="-196" data-r="-0.1891891891891892"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E4%B8%80%E4%B8%81%E7%9B%AE">上乃木一丁目</a></th><td class="n">1,036</td><td class="n">840</td><td class="n">-196</td><td class="p">-18.9%</td></tr>
+      <tr data-town="幸町" data-d="-200" data-r="-0.2574002574002574"><th><a href="01-town-trend.html#%E5%B9%B8%E7%94%BA">幸町</a></th><td class="n">777</td><td class="n">577</td><td class="n">-200</td><td class="p">-25.7%</td></tr>
+      <tr data-town="鹿島町御津" data-d="-203" data-r="-0.3338815789473684"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E5%BE%A1%E6%B4%A5">鹿島町御津</a></th><td class="n">608</td><td class="n">405</td><td class="n">-203</td><td class="p">-33.4%</td></tr>
+      <tr data-town="東持田町" data-d="-204" data-r="-0.13043478260869565"><th><a href="01-town-trend.html#%E6%9D%B1%E6%8C%81%E7%94%B0%E7%94%BA">東持田町</a></th><td class="n">1,564</td><td class="n">1,360</td><td class="n">-204</td><td class="p">-13.0%</td></tr>
+      <tr data-town="上乃木五丁目" data-d="-211" data-r="-0.2640801001251564"><th><a href="01-town-trend.html#%E4%B8%8A%E4%B9%83%E6%9C%A8%E4%BA%94%E4%B8%81%E7%9B%AE">上乃木五丁目</a></th><td class="n">799</td><td class="n">588</td><td class="n">-211</td><td class="p">-26.4%</td></tr>
+      <tr data-town="西忌部町" data-d="-212" data-r="-0.18339100346020762"><th><a href="01-town-trend.html#%E8%A5%BF%E5%BF%8C%E9%83%A8%E7%94%BA">西忌部町</a></th><td class="n">1,156</td><td class="n">944</td><td class="n">-212</td><td class="p">-18.3%</td></tr>
+      <tr data-town="馬潟町" data-d="-212" data-r="-0.16408668730650156"><th><a href="01-town-trend.html#%E9%A6%AC%E6%BD%9F%E7%94%BA">馬潟町</a></th><td class="n">1,292</td><td class="n">1,080</td><td class="n">-212</td><td class="p">-16.4%</td></tr>
+      <tr data-town="鹿島町名分" data-d="-215" data-r="-0.237045203969129"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E5%90%8D%E5%88%86">鹿島町名分</a></th><td class="n">907</td><td class="n">692</td><td class="n">-215</td><td class="p">-23.7%</td></tr>
+      <tr data-town="西津田十丁目" data-d="-217" data-r="-0.18515358361774745"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E5%8D%81%E4%B8%81%E7%9B%AE">西津田十丁目</a></th><td class="n">1,172</td><td class="n">955</td><td class="n">-217</td><td class="p">-18.5%</td></tr>
+      <tr data-town="鹿島町武代" data-d="-219" data-r="-0.33031674208144796"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E6%AD%A6%E4%BB%A3">鹿島町武代</a></th><td class="n">663</td><td class="n">444</td><td class="n">-219</td><td class="p">-33.0%</td></tr>
+      <tr data-town="八束町入江" data-d="-231" data-r="-0.27176470588235296"><th><a href="01-town-trend.html#%E5%85%AB%E6%9D%9F%E7%94%BA%E5%85%A5%E6%B1%9F">八束町入江</a></th><td class="n">850</td><td class="n">619</td><td class="n">-231</td><td class="p">-27.2%</td></tr>
+      <tr data-town="大庭町" data-d="-232" data-r="-0.0690270752752157"><th><a href="01-town-trend.html#%E5%A4%A7%E5%BA%AD%E7%94%BA">大庭町</a></th><td class="n">3,361</td><td class="n">3,129</td><td class="n">-232</td><td class="p">-6.9%</td></tr>
+      <tr data-town="宍道町佐々布" data-d="-232" data-r="-0.10603290676416818"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E4%BD%90%E3%80%85%E5%B8%83">宍道町佐々布</a></th><td class="n">2,188</td><td class="n">1,956</td><td class="n">-232</td><td class="p">-10.6%</td></tr>
+      <tr data-town="玉湯町林" data-d="-234" data-r="-0.2695852534562212"><th><a href="01-town-trend.html#%E7%8E%89%E6%B9%AF%E7%94%BA%E6%9E%97">玉湯町林</a></th><td class="n">868</td><td class="n">634</td><td class="n">-234</td><td class="p">-27.0%</td></tr>
+      <tr data-town="宍道町西来待" data-d="-239" data-r="-0.2855436081242533"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E8%A5%BF%E6%9D%A5%E5%BE%85">宍道町西来待</a></th><td class="n">837</td><td class="n">598</td><td class="n">-239</td><td class="p">-28.6%</td></tr>
+      <tr data-town="大野町" data-d="-240" data-r="-0.374414976599064"><th><a href="01-town-trend.html#%E5%A4%A7%E9%87%8E%E7%94%BA">大野町</a></th><td class="n">641</td><td class="n">401</td><td class="n">-240</td><td class="p">-37.4%</td></tr>
+      <tr data-town="鹿島町手結" data-d="-240" data-r="-0.3715170278637771"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E6%89%8B%E7%B5%90">鹿島町手結</a></th><td class="n">646</td><td class="n">406</td><td class="n">-240</td><td class="p">-37.2%</td></tr>
+      <tr data-town="八幡町" data-d="-242" data-r="-0.1867283950617284"><th><a href="01-town-trend.html#%E5%85%AB%E5%B9%A1%E7%94%BA">八幡町</a></th><td class="n">1,296</td><td class="n">1,054</td><td class="n">-242</td><td class="p">-18.7%</td></tr>
+      <tr data-town="西川津町" data-d="-246" data-r="-0.026844172850283718"><th><a href="01-town-trend.html#%E8%A5%BF%E5%B7%9D%E6%B4%A5%E7%94%BA">西川津町</a></th><td class="n">9,164</td><td class="n">8,918</td><td class="n">-246</td><td class="p">-2.7%</td></tr>
+      <tr data-town="外中原町" data-d="-249" data-r="-0.15543071161048688"><th><a href="01-town-trend.html#%E5%A4%96%E4%B8%AD%E5%8E%9F%E7%94%BA">外中原町</a></th><td class="n">1,602</td><td class="n">1,353</td><td class="n">-249</td><td class="p">-15.5%</td></tr>
+      <tr data-town="南田町" data-d="-254" data-r="-0.14481185860889395"><th><a href="01-town-trend.html#%E5%8D%97%E7%94%B0%E7%94%BA">南田町</a></th><td class="n">1,754</td><td class="n">1,500</td><td class="n">-254</td><td class="p">-14.5%</td></tr>
+      <tr data-town="宍道町上来待" data-d="-255" data-r="-0.27717391304347827"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E4%B8%8A%E6%9D%A5%E5%BE%85">宍道町上来待</a></th><td class="n">920</td><td class="n">665</td><td class="n">-255</td><td class="p">-27.7%</td></tr>
+      <tr data-town="東生馬町" data-d="-255" data-r="-0.19303557910673733"><th><a href="01-town-trend.html#%E6%9D%B1%E7%94%9F%E9%A6%AC%E7%94%BA">東生馬町</a></th><td class="n">1,321</td><td class="n">1,066</td><td class="n">-255</td><td class="p">-19.3%</td></tr>
+      <tr data-town="西津田七丁目" data-d="-256" data-r="-0.21824381926683717"><th><a href="01-town-trend.html#%E8%A5%BF%E6%B4%A5%E7%94%B0%E4%B8%83%E4%B8%81%E7%9B%AE">西津田七丁目</a></th><td class="n">1,173</td><td class="n">917</td><td class="n">-256</td><td class="p">-21.8%</td></tr>
+      <tr data-town="秋鹿町" data-d="-267" data-r="-0.2256973795435334"><th><a href="01-town-trend.html#%E7%A7%8B%E9%B9%BF%E7%94%BA">秋鹿町</a></th><td class="n">1,183</td><td class="n">916</td><td class="n">-267</td><td class="p">-22.6%</td></tr>
+      <tr data-town="上大野町" data-d="-274" data-r="-0.44844517184942717"><th><a href="01-town-trend.html#%E4%B8%8A%E5%A4%A7%E9%87%8E%E7%94%BA">上大野町</a></th><td class="n">611</td><td class="n">337</td><td class="n">-274</td><td class="p">-44.8%</td></tr>
+      <tr data-town="鹿島町恵曇" data-d="-277" data-r="-0.3789329685362517"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E6%81%B5%E6%9B%87">鹿島町恵曇</a></th><td class="n">731</td><td class="n">454</td><td class="n">-277</td><td class="p">-37.9%</td></tr>
+      <tr data-town="古志原六丁目" data-d="-281" data-r="-0.23573825503355705"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E5%85%AD%E4%B8%81%E7%9B%AE">古志原六丁目</a></th><td class="n">1,192</td><td class="n">911</td><td class="n">-281</td><td class="p">-23.6%</td></tr>
+      <tr data-town="宍道町白石" data-d="-287" data-r="-0.19523809523809524"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E7%99%BD%E7%9F%B3">宍道町白石</a></th><td class="n">1,470</td><td class="n">1,183</td><td class="n">-287</td><td class="p">-19.5%</td></tr>
+      <tr data-town="比津が丘四丁目" data-d="-295" data-r="-0.41843971631205673"><th><a href="01-town-trend.html#%E6%AF%94%E6%B4%A5%E3%81%8C%E4%B8%98%E5%9B%9B%E4%B8%81%E7%9B%AE">比津が丘四丁目</a></th><td class="n">705</td><td class="n">410</td><td class="n">-295</td><td class="p">-41.8%</td></tr>
+      <tr data-town="鹿島町佐陀本郷" data-d="-300" data-r="-0.26200873362445415"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E4%BD%90%E9%99%80%E6%9C%AC%E9%83%B7">鹿島町佐陀本郷</a></th><td class="n">1,145</td><td class="n">845</td><td class="n">-300</td><td class="p">-26.2%</td></tr>
+      <tr data-town="宍道町東来待" data-d="-309" data-r="-0.1987138263665595"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E6%9D%B1%E6%9D%A5%E5%BE%85">宍道町東来待</a></th><td class="n">1,555</td><td class="n">1,246</td><td class="n">-309</td><td class="p">-19.9%</td></tr>
+      <tr data-town="鹿島町古浦" data-d="-310" data-r="-0.30876494023904383"><th><a href="01-town-trend.html#%E9%B9%BF%E5%B3%B6%E7%94%BA%E5%8F%A4%E6%B5%A6">鹿島町古浦</a></th><td class="n">1,004</td><td class="n">694</td><td class="n">-310</td><td class="p">-30.9%</td></tr>
+      <tr data-town="宍道町宍道" data-d="-313" data-r="-0.15194174757281553"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E5%AE%8D%E9%81%93">宍道町宍道</a></th><td class="n">2,060</td><td class="n">1,747</td><td class="n">-313</td><td class="p">-15.2%</td></tr>
+      <tr data-town="島根町加賀" data-d="-316" data-r="-0.28138913624220835"><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E5%8A%A0%E8%B3%80">島根町加賀</a></th><td class="n">1,123</td><td class="n">807</td><td class="n">-316</td><td class="p">-28.1%</td></tr>
+      <tr data-town="上東川津町" data-d="-320" data-r="-0.14084507042253522"><th><a href="01-town-trend.html#%E4%B8%8A%E6%9D%B1%E5%B7%9D%E6%B4%A5%E7%94%BA">上東川津町</a></th><td class="n">2,272</td><td class="n">1,952</td><td class="n">-320</td><td class="p">-14.1%</td></tr>
+      <tr data-town="八雲町熊野" data-d="-344" data-r="-0.2480173035328046"><th><a href="01-town-trend.html#%E5%85%AB%E9%9B%B2%E7%94%BA%E7%86%8A%E9%87%8E">八雲町熊野</a></th><td class="n">1,387</td><td class="n">1,043</td><td class="n">-344</td><td class="p">-24.8%</td></tr>
+      <tr data-town="美保関町美保関" data-d="-355" data-r="-0.47019867549668876"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E7%BE%8E%E4%BF%9D%E9%96%A2">美保関町美保関</a></th><td class="n">755</td><td class="n">400</td><td class="n">-355</td><td class="p">-47.0%</td></tr>
+      <tr data-town="矢田町" data-d="-376" data-r="-0.23873015873015874"><th><a href="01-town-trend.html#%E7%9F%A2%E7%94%B0%E7%94%BA">矢田町</a></th><td class="n">1,575</td><td class="n">1,199</td><td class="n">-376</td><td class="p">-23.9%</td></tr>
+      <tr data-town="美保関町片江" data-d="-387" data-r="-0.4035453597497393"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E7%89%87%E6%B1%9F">美保関町片江</a></th><td class="n">959</td><td class="n">572</td><td class="n">-387</td><td class="p">-40.4%</td></tr>
+      <tr data-town="法吉町" data-d="-393" data-r="-0.13113113113113112"><th><a href="01-town-trend.html#%E6%B3%95%E5%90%89%E7%94%BA">法吉町</a></th><td class="n">2,997</td><td class="n">2,604</td><td class="n">-393</td><td class="p">-13.1%</td></tr>
+      <tr data-town="西生馬町" data-d="-436" data-r="-0.6526946107784432"><th><a href="01-town-trend.html#%E8%A5%BF%E7%94%9F%E9%A6%AC%E7%94%BA">西生馬町</a></th><td class="n">668</td><td class="n">232</td><td class="n">-436</td><td class="p">-65.3%</td></tr>
+      <tr data-town="島根町野波" data-d="-437" data-r="-0.3874113475177305"><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E9%87%8E%E6%B3%A2">島根町野波</a></th><td class="n">1,128</td><td class="n">691</td><td class="n">-437</td><td class="p">-38.7%</td></tr>
+      <tr data-town="美保関町七類" data-d="-476" data-r="-0.3866774979691308"><th><a href="01-town-trend.html#%E7%BE%8E%E4%BF%9D%E9%96%A2%E7%94%BA%E4%B8%83%E9%A1%9E">美保関町七類</a></th><td class="n">1,231</td><td class="n">755</td><td class="n">-476</td><td class="p">-38.7%</td></tr>
+      <tr data-town="雑賀町" data-d="-478" data-r="-0.17638376383763837"><th><a href="01-town-trend.html#%E9%9B%91%E8%B3%80%E7%94%BA">雑賀町</a></th><td class="n">2,710</td><td class="n">2,232</td><td class="n">-478</td><td class="p">-17.6%</td></tr>
+      <tr data-town="島根町大芦" data-d="-503" data-r="-0.3893188854489164"><th><a href="01-town-trend.html#%E5%B3%B6%E6%A0%B9%E7%94%BA%E5%A4%A7%E8%8A%A6">島根町大芦</a></th><td class="n">1,292</td><td class="n">789</td><td class="n">-503</td><td class="p">-38.9%</td></tr>
+      <tr data-town="古曽志町" data-d="-583" data-r="-0.26015171798304326"><th><a href="01-town-trend.html#%E5%8F%A4%E6%9B%BD%E5%BF%97%E7%94%BA">古曽志町</a></th><td class="n">2,241</td><td class="n">1,658</td><td class="n">-583</td><td class="p">-26.0%</td></tr>
+      <tr data-town="淞北台" data-d="-658" data-r="-0.4556786703601108"><th><a href="01-town-trend.html#%E6%B7%9E%E5%8C%97%E5%8F%B0">淞北台</a></th><td class="n">1,444</td><td class="n">786</td><td class="n">-658</td><td class="p">-45.6%</td></tr>
+      <tr data-town="山代町" data-d="-1148" data-r="-0.23395149786019973"><th><a href="01-town-trend.html#%E5%B1%B1%E4%BB%A3%E7%94%BA">山代町</a></th><td class="n">4,907</td><td class="n">3,759</td><td class="n">-1,148</td><td class="p">-23.4%</td></tr>
+    </tbody></table></div>
+  <p class="unit">単位——人口と増減は人、率は百分率。横棒（—）は、起点が0人で率を求められないことを示します。</p>
+</section>
+
+<section class="section" id="s-late">
+  <h2><svg class="ic"><use href="#ic-map"/></svg>途中から記録が始まった町</h2>
+  <p class="sub">上の節には入れていません。<b>比べている期間が違う</b>ためです。
+  この節では、その町の<b>記録開始</b>から2026年7月までを比べ、記録開始を添えています。</p>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col class="c-sub"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-sub"></colgroup>
+    <thead><tr><th>町名</th><th class="n">記録開始</th><th class="n">記録開始（人）</th><th class="n">2026年7月（人）</th><th class="n">増減（人）</th><th class="p">率</th></tr></thead>
+    <tbody>
+      <tr data-town="東出雲町意宇東二丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E6%9D%B1%E4%BA%8C%E4%B8%81%E7%9B%AE">東出雲町意宇東二丁目</a></th><td class="n">2011年8月</td><td class="n">38</td><td class="n">388</td><td class="n">+350</td><td class="p">+921.1%</td></tr>
+      <tr data-town="東出雲町意宇東一丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E6%9D%B1%E4%B8%80%E4%B8%81%E7%9B%AE">東出雲町意宇東一丁目</a></th><td class="n">2011年8月</td><td class="n">14</td><td class="n">359</td><td class="n">+345</td><td class="p">+2464.3%</td></tr>
+      <tr data-town="東出雲町出雲郷"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E5%87%BA%E9%9B%B2%E9%83%B7">東出雲町出雲郷</a></th><td class="n">2011年8月</td><td class="n">1,708</td><td class="n">1,893</td><td class="n">+185</td><td class="p">+10.8%</td></tr>
+      <tr data-town="東出雲町意宇東三丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E6%9D%B1%E4%B8%89%E4%B8%81%E7%9B%AE">東出雲町意宇東三丁目</a></th><td class="n">2011年8月</td><td class="n">54</td><td class="n">193</td><td class="n">+139</td><td class="p">+257.4%</td></tr>
+      <tr data-town="東出雲町揖屋"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%8F%96%E5%B1%8B">東出雲町揖屋</a></th><td class="n">2011年8月</td><td class="n">7,008</td><td class="n">7,063</td><td class="n">+55</td><td class="p">+0.8%</td></tr>
+      <tr data-town="東出雲町意宇南二丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E5%8D%97%E4%BA%8C%E4%B8%81%E7%9B%AE">東出雲町意宇南二丁目</a></th><td class="n">2011年8月</td><td class="n">13</td><td class="n">64</td><td class="n">+51</td><td class="p">+392.3%</td></tr>
+      <tr data-town="東出雲町錦新町六丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E5%85%AD%E4%B8%81%E7%9B%AE">東出雲町錦新町六丁目</a></th><td class="n">2011年8月</td><td class="n">332</td><td class="n">376</td><td class="n">+44</td><td class="p">+13.3%</td></tr>
+      <tr data-town="東出雲町意宇南四丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E5%8D%97%E5%9B%9B%E4%B8%81%E7%9B%AE">東出雲町意宇南四丁目</a></th><td class="n">2011年8月</td><td class="n">4</td><td class="n">35</td><td class="n">+31</td><td class="p">+775.0%</td></tr>
+      <tr data-town="東出雲町錦新町五丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E4%BA%94%E4%B8%81%E7%9B%AE">東出雲町錦新町五丁目</a></th><td class="n">2011年8月</td><td class="n">288</td><td class="n">314</td><td class="n">+26</td><td class="p">+9.0%</td></tr>
+      <tr data-town="東出雲町意宇南一丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E5%8D%97%E4%B8%80%E4%B8%81%E7%9B%AE">東出雲町意宇南一丁目</a></th><td class="n">2011年8月</td><td class="n">80</td><td class="n">91</td><td class="n">+11</td><td class="p">+13.8%</td></tr>
+      <tr data-town="東出雲町意宇南五丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E5%8D%97%E4%BA%94%E4%B8%81%E7%9B%AE">東出雲町意宇南五丁目</a></th><td class="n">2011年8月</td><td class="n">11</td><td class="n">19</td><td class="n">+8</td><td class="p">+72.7%</td></tr>
+      <tr data-town="東出雲町意宇南三丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E5%8D%97%E4%B8%89%E4%B8%81%E7%9B%AE">東出雲町意宇南三丁目</a></th><td class="n">2011年8月</td><td class="n">22</td><td class="n">25</td><td class="n">+3</td><td class="p">+13.6%</td></tr>
+      <tr data-town="東出雲町錦新町四丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E5%9B%9B%E4%B8%81%E7%9B%AE">東出雲町錦新町四丁目</a></th><td class="n">2011年8月</td><td class="n">30</td><td class="n">32</td><td class="n">+2</td><td class="p">+6.7%</td></tr>
+      <tr data-town="東出雲町意宇南六丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%84%8F%E5%AE%87%E5%8D%97%E5%85%AD%E4%B8%81%E7%9B%AE">東出雲町意宇南六丁目</a></th><td class="n">2011年8月</td><td class="n">84</td><td class="n">83</td><td class="n">-1</td><td class="p">-1.2%</td></tr>
+      <tr data-town="東出雲町錦新町二丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E4%BA%8C%E4%B8%81%E7%9B%AE">東出雲町錦新町二丁目</a></th><td class="n">2011年8月</td><td class="n">292</td><td class="n">286</td><td class="n">-6</td><td class="p">-2.1%</td></tr>
+      <tr data-town="東出雲町内馬"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E5%86%85%E9%A6%AC">東出雲町内馬</a></th><td class="n">2011年8月</td><td class="n">176</td><td class="n">155</td><td class="n">-21</td><td class="p">-11.9%</td></tr>
+      <tr data-town="東出雲町今宮"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E4%BB%8A%E5%AE%AE">東出雲町今宮</a></th><td class="n">2011年8月</td><td class="n">237</td><td class="n">204</td><td class="n">-33</td><td class="p">-13.9%</td></tr>
+      <tr data-town="東出雲町錦新町一丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E4%B8%80%E4%B8%81%E7%9B%AE">東出雲町錦新町一丁目</a></th><td class="n">2011年8月</td><td class="n">342</td><td class="n">306</td><td class="n">-36</td><td class="p">-10.5%</td></tr>
+      <tr data-town="東出雲町錦新町七丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E4%B8%83%E4%B8%81%E7%9B%AE">東出雲町錦新町七丁目</a></th><td class="n">2011年8月</td><td class="n">441</td><td class="n">393</td><td class="n">-48</td><td class="p">-10.9%</td></tr>
+      <tr data-town="東出雲町須田"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%A0%88%E7%94%B0">東出雲町須田</a></th><td class="n">2011年8月</td><td class="n">240</td><td class="n">185</td><td class="n">-55</td><td class="p">-22.9%</td></tr>
+      <tr data-town="東出雲町錦新町三丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E4%B8%89%E4%B8%81%E7%9B%AE">東出雲町錦新町三丁目</a></th><td class="n">2011年8月</td><td class="n">325</td><td class="n">265</td><td class="n">-60</td><td class="p">-18.5%</td></tr>
+      <tr data-town="東出雲町春日"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E6%98%A5%E6%97%A5">東出雲町春日</a></th><td class="n">2011年8月</td><td class="n">666</td><td class="n">528</td><td class="n">-138</td><td class="p">-20.7%</td></tr>
+      <tr data-town="東出雲町上意東"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E4%B8%8A%E6%84%8F%E6%9D%B1">東出雲町上意東</a></th><td class="n">2011年8月</td><td class="n">424</td><td class="n">282</td><td class="n">-142</td><td class="p">-33.5%</td></tr>
+      <tr data-town="東出雲町下意東"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E4%B8%8B%E6%84%8F%E6%9D%B1">東出雲町下意東</a></th><td class="n">2011年8月</td><td class="n">1,980</td><td class="n">1,736</td><td class="n">-244</td><td class="p">-12.3%</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="section" id="s-ended">
+  <h2><svg class="ic"><use href="#ic-map"/></svg>記録が2026年7月より前で終わっている町</h2>
+  <p class="sub">上の2つの節には入れていません。<b>終点が違う</b>ためです。
+  最後に現れた月を終点として比べ、その月を添えています。
+  終点より後の月を0人として数えると、記録が終わっただけの町が「全員が居なくなった」ように見えます。</p>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col class="c-sub"><col class="c-sub"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-sub"></colgroup>
+    <thead><tr><th>町名</th><th class="n">記録開始</th><th class="n">終点</th><th class="n">記録開始（人）</th><th class="n">終点（人）</th><th class="n">増減（人）</th><th class="p">率</th></tr></thead>
+    <tbody>
+      <tr data-town="古志原町"><th><a href="01-town-trend.html#%E5%8F%A4%E5%BF%97%E5%8E%9F%E7%94%BA">古志原町</a></th><td class="n">2008年4月</td><td class="n">2008年4月</td><td class="n">3</td><td class="n">3</td><td class="n">—</td><td class="p">—</td></tr>
+      <tr data-town="北陵町"><th><a href="01-town-trend.html#%E5%8C%97%E9%99%B5%E7%94%BA">北陵町</a></th><td class="n">2007年4月</td><td class="n">2013年1月</td><td class="n">0</td><td class="n">0</td><td class="n">±0</td><td class="p">—</td></tr>
+      <tr data-town="宍道町昭和新田"><th><a href="01-town-trend.html#%E5%AE%8D%E9%81%93%E7%94%BA%E6%98%AD%E5%92%8C%E6%96%B0%E7%94%B0">宍道町昭和新田</a></th><td class="n">2007年4月</td><td class="n">2013年1月</td><td class="n">0</td><td class="n">0</td><td class="n">±0</td><td class="p">—</td></tr>
+      <tr data-town="意宇町"><th><a href="01-town-trend.html#%E6%84%8F%E5%AE%87%E7%94%BA">意宇町</a></th><td class="n">2007年4月</td><td class="n">2013年1月</td><td class="n">0</td><td class="n">0</td><td class="n">±0</td><td class="p">—</td></tr>
+      <tr data-town="東出雲町錦新町八丁目"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%96%B0%E7%94%BA%E5%85%AB%E4%B8%81%E7%9B%AE">東出雲町錦新町八丁目</a></th><td class="n">2011年8月</td><td class="n">2013年1月</td><td class="n">0</td><td class="n">0</td><td class="n">±0</td><td class="p">—</td></tr>
+      <tr data-town="東出雲町錦浜"><th><a href="01-town-trend.html#%E6%9D%B1%E5%87%BA%E9%9B%B2%E7%94%BA%E9%8C%A6%E6%B5%9C">東出雲町錦浜</a></th><td class="n">2011年8月</td><td class="n">2013年1月</td><td class="n">0</td><td class="n">0</td><td class="n">±0</td><td class="p">—</td></tr>
+      <tr data-town="浜乃木町"><th><a href="01-town-trend.html#%E6%B5%9C%E4%B9%83%E6%9C%A8%E7%94%BA">浜乃木町</a></th><td class="n">2007年4月</td><td class="n">2013年1月</td><td class="n">0</td><td class="n">0</td><td class="n">±0</td><td class="p">—</td></tr>
+      <tr data-town="富士見町"><th><a href="01-town-trend.html#%E5%AF%8C%E5%A3%AB%E8%A6%8B%E7%94%BA">富士見町</a></th><td class="n">2007年4月</td><td class="n">2013年1月</td><td class="n">8</td><td class="n">0</td><td class="n">-8</td><td class="p">-100.0%</td></tr>
+      <tr data-town="八軒屋町"><th><a href="01-town-trend.html#%E5%85%AB%E8%BB%92%E5%B1%8B%E7%94%BA">八軒屋町</a></th><td class="n">2007年4月</td><td class="n">2025年11月</td><td class="n">13</td><td class="n">4</td><td class="n">-9</td><td class="p">-69.2%</td></tr>
+    </tbody></table></div>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年8月20日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"axis": {"l": ["2007\u5e744\u6708", "2008\u5e744\u6708", "2009\u5e744\u6708", "2010\u5e744\u6708", "2011\u5e744\u6708", "2012\u5e744\u6708", "2013\u5e744\u6708", "2014\u5e744\u6708", "2015\u5e744\u6708", "2016\u5e744\u6708", "2017\u5e744\u6708", "2018\u5e744\u6708", "2019\u5e744\u6708", "2020\u5e744\u6708", "2021\u5e744\u6708", "2022\u5e744\u6708", "2023\u5e744\u6708", "2024\u5e744\u6708", "2025\u5e744\u6708", "2026\u5e747\u6708\uff08\u73fe\u5728\uff09"], "t": "\u5e74\u6708\uff08\u5404\u5e744\u6708\u672b\u3068\u3001\u6700\u65b0\u6708 2026\u5e747\u6708\uff09", "x": [24087, 24099, 24111, 24123, 24135, 24147, 24159, 24171, 24183, 24195, 24207, 24219, 24231, 24243, 24255, 24267, 24279, 24291, 24303, 24318]}, "down": [{"d": -1148, "n": "\u5c71\u4ee3\u753a"}, {"d": -658, "n": "\u6dde\u5317\u53f0"}, {"d": -583, "n": "\u53e4\u66fd\u5fd7\u753a"}, {"d": -503, "n": "\u5cf6\u6839\u753a\u5927\u82a6"}, {"d": -478, "n": "\u96d1\u8cc0\u753a"}, {"d": -476, "n": "\u7f8e\u4fdd\u95a2\u753a\u4e03\u985e"}, {"d": -437, "n": "\u5cf6\u6839\u753a\u91ce\u6ce2"}, {"d": -436, "n": "\u897f\u751f\u99ac\u753a"}, {"d": -393, "n": "\u6cd5\u5409\u753a"}, {"d": -387, "n": "\u7f8e\u4fdd\u95a2\u753a\u7247\u6c5f"}, {"d": -376, "n": "\u77e2\u7530\u753a"}, {"d": -355, "n": "\u7f8e\u4fdd\u95a2\u753a\u7f8e\u4fdd\u95a2"}, {"d": -344, "n": "\u516b\u96f2\u753a\u718a\u91ce"}, {"d": -320, "n": "\u4e0a\u6771\u5ddd\u6d25\u753a"}, {"d": -316, "n": "\u5cf6\u6839\u753a\u52a0\u8cc0"}], "h": [76257, 76904, 77544, 78272, 78965, 84745, 85944, 86494, 87191, 87913, 88771, 89560, 90256, 90711, 91139, 91484, 91678, 91910, 92173, 92712], "up": [{"d": 1663, "n": "\u7389\u6e6f\u753a\u6e6f\u753a"}, {"d": 869, "n": "\u4e0b\u6771\u5ddd\u6d25\u753a"}, {"d": 602, "n": "\u9ed2\u7530\u753a"}, {"d": 599, "n": "\u56fd\u5c4b\u753a"}, {"d": 504, "n": "\u6771\u6d25\u7530\u753a"}, {"d": 414, "n": "\u4e0a\u4e43\u6728\u56db\u4e01\u76ee"}, {"d": 290, "n": "\u5b66\u5712\u5357\u4e8c\u4e01\u76ee"}, {"d": 290, "n": "\u897f\u6301\u7530\u753a"}, {"d": 265, "n": "\u4e0a\u4e43\u6728\u516b\u4e01\u76ee"}, {"d": 244, "n": "\u897f\u6d25\u7530\u4e00\u4e01\u76ee"}, {"d": 201, "n": "\u6bd4\u6d25\u753a"}, {"d": 178, "n": "\u6625\u65e5\u753a"}, {"d": 171, "n": "\u6d5c\u4e43\u6728\u516d\u4e01\u76ee"}, {"d": 160, "n": "\u7af9\u77e2\u753a"}, {"d": 141, "n": "\u6d5c\u4f50\u7530\u753a"}], "y": [194039, 193334, 192727, 192362, 191852, 206226, 206670, 205809, 205063, 204446, 203965, 203288, 202511, 201154, 199967, 198580, 196794, 195157, 193297, 191488]}</script>
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent),A=D.axis;
+  MS.line("cCity",A,[{label:"人口",values:D.y}],"人",0);
+  MS.line("cCityH",A,[{label:"世帯数",values:D.h,color:MS.SERIES[1]}],"世帯",0);
+  /* 枠の出し入れは MS が持つ（#53）。該当する町が無い節では、図が枠ごと消える。 */
+  var bar=function(id,rows,color){
+    MS.categorical(id,"bar",rows.map(function(r){return r.n;}),
+      [{values:rows.map(function(r){return r.d;}),color:color}],"人",{horizontal:true,digits:0});
+  };
+  bar("cUp",D.up,MS.P.up);
+  bar("cDn",D.down,MS.P.dn);
+  var body=document.getElementById("allBody");
+  if(!body) return;
+  var rows=[].slice.call(body.querySelectorAll("tr"));
+  var bn=document.getElementById("byNum"),br=document.getElementById("byRate"),note=document.getElementById("sortnote");
+  function sort(mode){
+    var key=mode==="rate"?"data-r":"data-d";
+    rows.sort(function(a,b){return parseFloat(b.getAttribute(key))-parseFloat(a.getAttribute(key));});
+    rows.forEach(function(tr){body.appendChild(tr);});
+    bn.setAttribute("aria-pressed",String(mode!=="rate"));
+    br.setAttribute("aria-pressed",String(mode==="rate"));
+    note.innerHTML=mode==="rate"
+      ? "<b>率の大きい順</b>で並べています。もとの人口が小さい町ほど、少ない人数でも率が大きく出ます。"
+      : "<b>人数の大きい順</b>で並べています。";
+  }
+  bn.addEventListener("click",function(){sort("num");});
+  br.addEventListener("click",function(){sort("rate");});
+});
+</script>
+</body>
+</html>

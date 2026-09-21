@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.7.1">
+<title>このレポートについて — 松江市 教育レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="教育レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 教育レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 教育レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" aria-current="page" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>学びの場を見る</h3>
+<a href="01-gakko.html" title="学校"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">学校</span></a>
+</div>
+<div class="grp">
+<h3>卒業後を見る</h3>
+<a href="02-shinro.html" title="進路"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">進路</span></a>
+</div>
+<div class="grp">
+<h3>社会教育を見る</h3>
+<a href="03-kominkan.html" title="公民館"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">公民館</span></a>
+<a href="04-toshokan.html" title="図書館と文化財"><svg class="ic"><use href="#ic-book"/></svg><span class="lbl">図書館と文化財</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 教育レポート</p>
+  <h1>松江市 教育レポート</h1>
+  <p class="lede">松江市が公表している統計から、<b>学びの場</b>を4つの画面で見るレポートです。</p>
+<section class="section" id="s-about">
+  <h2><svg class="ic"><use href="#ic-info"/></svg>このレポートは何か</h2>
+  <p>松江市の統計から、学校・進路・公民館・図書館と文化財を並べたレポートです。数えているのは<b>場と人</b>です。数える範囲と数えているところが画面ごとに違うので、下の節を先に読んでください。</p>
+  <p class="note">3領域・4画面</p>
+  <ul class="bul">
+    <li><a href="01-gakko.html"><b>学校</b></a>——学校の数と人</li>
+    <li><a href="02-shinro.html"><b>進路</b></a>——卒業後の進路</li>
+    <li><a href="03-kominkan.html"><b>公民館</b></a>——公民館の状況</li>
+    <li><a href="04-toshokan.html"><b>図書館と文化財</b></a>——図書館と文化財</li>
+  </ul>
+</section>
+<section class="section">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>4つの画面</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>画面</th><th>何が見られるか</th></tr></thead><tbody>
+<tr><td>学校</td><td>幼稚園・小学校・中学校・高等学校（全日制／定時制）・高等専門学校・大学短大の7つの段。段を1つ選ぶと、学校の数・学級数・教員数・児童生徒数の推移と、その年の学年ごとの内訳が見られます。</td></tr>
+<tr><td>進路</td><td>中学校・高等学校を卒業した人の行き先。進学・就職・専修学校などの区分ごとに、年の推移と、その年の内訳が見られます。</td></tr>
+<tr><td>公民館</td><td>館ごとの職員数・延床面積・敷地面積・設置年月日。19件の時点から選べます。</td></tr>
+<tr><td>図書館と文化財</td><td>図書館の蔵書・貸出・利用者の推移と、指定文化財の件数の推移。</td></tr>
+</tbody></table></div>
+</section>
+<section class="section">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>どこまで細かく見られるか</h2>
+  <p class="sub">画面によって、見られる細かさが違います。</p>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>画面</th><th>細かさ</th></tr></thead><tbody>
+<tr><td>学校</td><td>段ごと（7つ）と、その中の学年ごと。学校ごとには見られません。</td></tr>
+<tr><td>進路</td><td>中学校・高等学校の別と、行き先の区分ごと。</td></tr>
+<tr><td>公民館</td><td>館ごと。このレポートで、市より細かく見られるのはここだけです。</td></tr>
+<tr><td>図書館</td><td>市の合計。館ごとには割れていません。</td></tr>
+<tr><td>文化財</td><td>市の合計だけ。種別ごと・国／県／市の指定区分ごとには見られません。</td></tr>
+</tbody></table></div>
+</section>
+<section class="section">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>今回のレポートでは出さなかったもの</h2>
+  <p class="sub">松江市の統計には、教育に関わる数がこれ以外にもあります。そのうち、このレポートに入れなかったものと、その理由です。</p>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>何を</th><th>なぜ</th></tr></thead><tbody>
+<tr><td>学校ごとの児童・生徒数</td><td>学校ごとに数を持つ系列はあります。ただし市の調査と県の学校基本調査で、同じ年の小学校児童数が食い違い、どちらが何を数えているかをデータ元が説明していません。並べる前に、この差を解く必要があります。</td></tr>
+<tr><td>体格（身長・体重）と学校保健統計</td><td>人を評価する数は扱わないという、このレポート群の決めごとに沿って外しました。学校保健統計はPDFでもあり、このレポートの読み取りの型が効きません。</td></tr>
+<tr><td>学校施設（面積・プール）</td><td>同じ列に 25×11 のような寸法の文字列と、数が混ざっています。どちらの単位で読むかを決められないまま図にすると、読み手に判断を押しつけます。</td></tr>
+<tr><td>学校給食の実施状況</td><td>給食センターと受配校ごとの数を持ちますが、今回は学校の段にしぼりました。</td></tr>
+<tr><td>社会教育施設利用者数</td><td>昭和61年度からの31年ぶんを1つのファイルに持つ、この題材でいちばん長い系列です。ただし平成28年度で更新が止まっており、市立図書館の利用者数が図書館概況と食い違います。食い違いの理由をデータ元が説明していないので、今回は入れていません。</td></tr>
+</tbody></table></div>
+</section>
+<section class="section">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>数えている人が、画面ごとに違う</h2>
+  <p class="sub">1つの役所が全部を数えているのではありません。画面をまたいで数を比べるときは、ここを見てください。</p>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>画面</th><th>数えているところ</th></tr></thead><tbody>
+<tr><td>学校（幼稚園・小・中・高）と進路</td><td>島根県政策企画局統計調査課「学校基本調査」</td></tr>
+<tr><td>学校（高等専門学校）</td><td>松江工業高等専門学校</td></tr>
+<tr><td>学校（大学・短大）</td><td>島根大学／島根県立大学短期大学部</td></tr>
+<tr><td>公民館</td><td>松江市教育委員会生涯学習課</td></tr>
+<tr><td>図書館</td><td>松江市立図書館</td></tr>
+<tr><td>文化財</td><td>松江市まちづくり文化財課</td></tr>
+</tbody></table></div>
+</section>
+<section class="section">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>時間の形が、画面ごとに違う</h2>
+  <p class="sub">「年」と「年度」と「時点」が混ざっています。横に並べるときは、同じ時間を見ているか確かめてください。</p>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>画面</th><th>時間の形</th></tr></thead><tbody>
+<tr><td>学校・進路</td><td>年（5月1日現在）。高等専門学校だけはデータ元が「年度」と見出しを付けていますが、数は同じく各年5月1日現在です。</td></tr>
+<tr><td>図書館</td><td>年度。</td></tr>
+<tr><td>公民館</td><td>時点（4月1日現在が18件・8月1日現在が1つ）。間の年はありません。</td></tr>
+<tr><td>文化財</td><td>時点（9つ）。間隔が揃っていません——年に1度の調査ではありません。</td></tr>
+</tbody></table></div>
+</section>
+<section class="section">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>読むときの約束</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>どこ</th><th>どうしているか</th></tr></thead><tbody>
+<tr><td>取っていない年</td><td>棒の場所に薄い帯を敷いて「未取得」と書きます。0 ではありません。</td></tr>
+<tr><td>データ元の数が合わないとき</td><td>合わないまま見せます。こちらで直しません——直すと、データ元が言っていない数を出すことになります。合わないことは、図の下に書きます。</td></tr>
+<tr><td>データ元が説明していないこと</td><td>こちらでも説明しません。数が大きく動いた理由を、推測で書くことはしません。</td></tr>
+<tr><td>区分の綴り</td><td>データ元のままです。読みやすく言い換えると、データ元が言っていない区分をこちらで作ることになります。</td></tr>
+</tbody></table></div>
+</section>
+<section class="section" id="s-source">
+  <h2><svg class="ic"><use href="#ic-book"/></svg>出典</h2>
+  <p><b>データ元</b>：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工。<b>一次資料</b>は画面ごとに違い、上の「数えている人が、画面ごとに違う」に載せています。</p>
+  <p class="note">このレポートは数値を評価しません。データ元が公表している数と、その数がどう作られたかを示すところまでを役目とします。</p>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年9月17日
+</div></footer>
+</div>
+</div>
+
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+</body>
+</html>

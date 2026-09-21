@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.7.1">
+<title>生活保護を受けている人と世帯 — 松江市 福祉・労働レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="福祉・労働レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 福祉・労働レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 福祉・労働レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>支える仕組みを見る</h3>
+<a href="01-hogo.html" aria-current="page" title="生活保護を受けている人と世帯"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">生活保護を受けている人と世帯</span></a>
+<a href="02-shikyu.html" title="生活保護の支給額"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">生活保護の支給額</span></a>
+<a href="03-shogai.html" title="障がい者手帳と手当"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">障がい者手帳と手当</span></a>
+</div>
+<div class="grp">
+<h3>働く場を見る</h3>
+<a href="04-kyujin.html" title="産業ごとの新規求人数"><svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">産業ごとの新規求人数</span></a>
+<a href="05-shisu.html" title="賃金と雇用の指数"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">賃金と雇用の指数</span></a>
+</div>
+<div class="grp">
+<h3>地区で見る</h3>
+<a href="06-chiku.html" title="地区ごとの高齢化"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">地区ごとの高齢化</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 福祉・労働レポート / 生活保護を受けている人と世帯</p>
+  <h1>生活保護を受けている人と世帯</h1>
+  <p class="lede">平成13年度から令和6年度までの、延世帯数・延人員と、扶助の種類ごとの人員です。</p>
+<noscript><div class="ns">JavaScript が無効です。図は出ませんが、<b>下の表の数値はすべて読めます</b>。</div></noscript>
+<section class="section" id="s-nin">
+  <h2><svg class="ic"><use href="#ic-home2"/></svg>延べ何世帯・何人が受けたか</h2>
+  <p class="sub"><b>「延」は、月ごとの数を1年ぶん足した数</b>です。<b>その年に何世帯が受けたかではありません。</b></p>
+  <div class="chartbox"><canvas id="cHogoNin"></canvas></div>
+  <p class="unit">単位——延世帯数は世帯・延べ、延人員は人・延べ。正確な値は下の表にあります。</p>
+</section>
+
+<section class="section" id="s-rate">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>保護率</h2>
+  <p class="sub">松江市・島根県・全国です。<b>この3つを並べているのはデータ元</b>で、こちらが持ち込んだ比較ではありません。</p>
+  <div class="chartbox"><canvas id="cHogoRate"></canvas></div>
+  <p class="unit">単位——人口千人につき何人か。表示は小数第1位までに丸めています（<b>丸めているのは表示だけ</b>です）。</p>
+</section>
+
+<section class="section" id="s-hj">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>扶助の種類ごとの人員</h2>
+  <p class="sub"><b>積み上げにしていません。</b>扶助は種類ごとに支給され、すべての世帯がすべてを受けるわけではないからです。
+  <b>桁のそろった種類ごとに図を分けています</b>——同じ図に載せると、小さいほうの線が横ばいに見えます。</p>
+  <h3 class="fig-only first">生活扶助・住宅扶助・医療扶助・介護扶助</h3>
+  <div class="chartbox"><canvas id="cHogoHj0"></canvas></div>
+  <h3 class="fig-only">教育扶助・生業扶助</h3>
+  <div class="chartbox"><canvas id="cHogoHj1"></canvas></div>
+  <h3 class="fig-only">葬祭扶助・就労自立給付金・進学準備給付金</h3>
+  <div class="chartbox"><canvas id="cHogoHj2"></canvas></div>
+  <h3 class="fig-only">出産扶助</h3>
+  <div class="chartbox"><canvas id="cHogoHj3"></canvas></div>
+  <p class="unit">単位——人・延べ。正確な値は下の表にあります。</p>
+</section>
+
+<section class="section" id="s-table">
+  <h2><svg class="ic"><use href="#ic-panel"/></svg>正確な値</h2>
+
+  <h3 class="first">概要</h3>
+  <div class="table-scroll"><table class="yr">
+    <thead><tr><th class="cnr">年度</th><th class="n">平成13</th><th class="n">平成14</th><th class="n">平成15</th><th class="n">平成16</th><th class="n">平成17</th><th class="n">平成18</th><th class="n">平成19</th><th class="n">平成20</th><th class="n">平成21</th><th class="n">平成22</th><th class="n">平成23</th><th class="n">平成24</th><th class="n">平成25</th><th class="n">平成26</th><th class="n">平成27</th><th class="n">平成28</th><th class="n">平成29</th><th class="n">平成30</th><th class="n">令和元</th><th class="n">令和2</th><th class="n">令和3</th><th class="n">令和4</th><th class="n">令和5</th><th class="n">令和6</th></tr></thead>
+    <tbody>
+      <tr><th>延世帯数（世帯・延べ）</th><td class="n">8,987</td><td class="n">9,636</td><td class="n">10,311</td><td class="n">11,037</td><td class="n">13,333</td><td class="n">14,666</td><td class="n">15,352</td><td class="n">16,180</td><td class="n">17,767</td><td class="n">20,065</td><td class="n">22,540</td><td class="n">23,811</td><td class="n">24,686</td><td class="n">25,012</td><td class="n">25,385</td><td class="n">25,653</td><td class="n">25,670</td><td class="n">25,141</td><td class="n">24,783</td><td class="n">24,699</td><td class="n">24,912</td><td class="n">25,173</td><td class="n">25,536</td><td class="n">25,793</td></tr>
+      <tr><th>延人員（人・延べ）</th><td class="n">12,260</td><td class="n">13,363</td><td class="n">14,235</td><td class="n">15,420</td><td class="n">18,468</td><td class="n">20,047</td><td class="n">21,009</td><td class="n">22,136</td><td class="n">24,386</td><td class="n">27,854</td><td class="n">31,576</td><td class="n">33,254</td><td class="n">33,870</td><td class="n">33,942</td><td class="n">34,139</td><td class="n">33,803</td><td class="n">33,428</td><td class="n">32,768</td><td class="n">32,124</td><td class="n">31,682</td><td class="n">31,736</td><td class="n">31,561</td><td class="n">31,574</td><td class="n">31,636</td></tr>
+      <tr><th>保護率（松江市）（人口千人につき何人か）</th><td class="n">7.1</td><td class="n">7.7</td><td class="n">8.2</td><td class="n">8.3</td><td class="n">7.8</td><td class="n">8.5</td><td class="n">9.0</td><td class="n">9.5</td><td class="n">10.5</td><td class="n">12.0</td><td class="n">12.6</td><td class="n">13.4</td><td class="n">13.7</td><td class="n">13.7</td><td class="n">13.8</td><td class="n">13.7</td><td class="n">13.6</td><td class="n">13.4</td><td class="n">13.0</td><td class="n">13.2</td><td class="n">13.1</td><td class="n">13.1</td><td class="n">13.1</td><td class="n">13.3</td></tr>
+      <tr><th>保護率（島根県）（人口千人につき何人か）</th><td class="n">4.5</td><td class="n">4.7</td><td class="n">5.0</td><td class="n">5.2</td><td class="n">5.5</td><td class="n">5.8</td><td class="n">6.1</td><td class="n">6.3</td><td class="n">6.8</td><td class="n">7.6</td><td class="n">8.1</td><td class="n">8.6</td><td class="n">8.7</td><td class="n">8.8</td><td class="n">8.8</td><td class="n">8.6</td><td class="n">8.6</td><td class="n">8.4</td><td class="n">8.4</td><td class="n">8.2</td><td class="n">8.2</td><td class="n">8.1</td><td class="n">8.1</td><td class="n">8.2</td></tr>
+      <tr><th>保護率（全国）（人口千人につき何人か）</th><td class="n">8.5</td><td class="n">9.7</td><td class="n">10.7</td><td class="n">11.1</td><td class="n">11.6</td><td class="n">11.9</td><td class="n">12.1</td><td class="n">12.4</td><td class="n">13.8</td><td class="n">15.3</td><td class="n">16.2</td><td class="n">16.7</td><td class="n">17.0</td><td class="n">17.1</td><td class="n">17.1</td><td class="n">16.9</td><td class="n">16.7</td><td class="n">16.6</td><td class="n">16.6</td><td class="n">16.3</td><td class="n">16.3</td><td class="n">16.2</td><td class="n">16.3</td><td class="n">16.2</td></tr>
+      <tr><th>保護費の支給総額（千円）</th><td class="n">1,801,154</td><td class="n">1,949,057</td><td class="n">2,198,212</td><td class="n">2,304,890</td><td class="n">2,891,647</td><td class="n">2,954,245</td><td class="n">3,043,833</td><td class="n">3,094,564</td><td class="n">3,352,381</td><td class="n">3,747,512</td><td class="n">4,359,522</td><td class="n">4,444,533</td><td class="n">4,538,060</td><td class="n">4,464,866</td><td class="n">4,453,885</td><td class="n">4,437,929</td><td class="n">4,347,758</td><td class="n">4,203,405</td><td class="n">4,129,986</td><td class="n">4,098,513</td><td class="n">4,117,058</td><td class="n">4,069,067</td><td class="n">4,229,737</td><td class="n">4,230,902</td></tr>
+      <tr><th>1人当りの給付額（円）</th><td class="n">146,914</td><td class="n">145,855</td><td class="n">154,423</td><td class="n">149,474</td><td class="n">156,576</td><td class="n">147,366</td><td class="n">144,882</td><td class="n">139,798</td><td class="n">137,472</td><td class="n">134,541</td><td class="n">138,064</td><td class="n">133,654</td><td class="n">133,985</td><td class="n">131,544</td><td class="n">130,463</td><td class="n">131,288</td><td class="n">130,063</td><td class="n">128,278</td><td class="n">128,564</td><td class="n">129,364</td><td class="n">129,728</td><td class="n">128,927</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><th>1人1月当たりの給付額（データ元の見出しは円・途中で千円に変わる）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">138,064</td><td class="n">133,654</td><td class="n">133,985</td><td class="n">131,544</td><td class="n">130,463</td><td class="n">131,288</td><td class="n">130,063</td><td class="n">128,278</td><td class="n">128,564</td><td class="n">129,364</td><td class="n">129,728</td><td class="n">128,927</td><td class="n">133.96</td><td class="n">133.74</td></tr>
+    </tbody></table></div>
+  <p class="unit"><b>一次資料——市生活福祉課</b>。横棒（—）は、数として得られなかったことを示します。</p>
+
+  <h3>扶助の種類ごとの人員</h3>
+  <div class="table-scroll"><table class="yr">
+    <thead><tr><th class="cnr">年度</th><th class="n">平成13</th><th class="n">平成14</th><th class="n">平成15</th><th class="n">平成16</th><th class="n">平成17</th><th class="n">平成18</th><th class="n">平成19</th><th class="n">平成20</th><th class="n">平成21</th><th class="n">平成22</th><th class="n">平成23</th><th class="n">平成24</th><th class="n">平成25</th><th class="n">平成26</th><th class="n">平成27</th><th class="n">平成28</th><th class="n">平成29</th><th class="n">平成30</th><th class="n">令和元</th><th class="n">令和2</th><th class="n">令和3</th><th class="n">令和4</th><th class="n">令和5</th><th class="n">令和6</th></tr></thead>
+    <tbody>
+      <tr><th>生活扶助（人・延べ）</th><td class="n">10,861</td><td class="n">12,009</td><td class="n">12,862</td><td class="n">14,037</td><td class="n">16,762</td><td class="n">18,145</td><td class="n">18,647</td><td class="n">19,607</td><td class="n">21,938</td><td class="n">25,484</td><td class="n">27,509</td><td class="n">28,270</td><td class="n">27,959</td><td class="n">28,130</td><td class="n">28,281</td><td class="n">27,846</td><td class="n">27,331</td><td class="n">26,831</td><td class="n">26,162</td><td class="n">25,452</td><td class="n">25,354</td><td class="n">25,175</td><td class="n">24,881</td><td class="n">25,164</td></tr>
+      <tr><th>住宅扶助（人・延べ）</th><td class="n">9,396</td><td class="n">10,244</td><td class="n">10,622</td><td class="n">11,618</td><td class="n">12,778</td><td class="n">13,779</td><td class="n">14,898</td><td class="n">16,296</td><td class="n">18,202</td><td class="n">21,086</td><td class="n">24,131</td><td class="n">25,693</td><td class="n">25,688</td><td class="n">26,198</td><td class="n">26,856</td><td class="n">26,685</td><td class="n">26,286</td><td class="n">25,775</td><td class="n">25,416</td><td class="n">25,223</td><td class="n">25,521</td><td class="n">25,353</td><td class="n">25,268</td><td class="n">25,421</td></tr>
+      <tr><th>医療扶助（人・延べ）</th><td class="n">10,529</td><td class="n">11,640</td><td class="n">12,464</td><td class="n">13,608</td><td class="n">16,302</td><td class="n">17,566</td><td class="n">17,934</td><td class="n">18,543</td><td class="n">19,944</td><td class="n">22,071</td><td class="n">22,640</td><td class="n">23,951</td><td class="n">23,264</td><td class="n">23,926</td><td class="n">24,629</td><td class="n">25,187</td><td class="n">25,138</td><td class="n">24,816</td><td class="n">24,223</td><td class="n">24,045</td><td class="n">24,159</td><td class="n">24,388</td><td class="n">24,657</td><td class="n">25,020</td></tr>
+      <tr><th>介護扶助（人・延べ）</th><td class="n">1,231</td><td class="n">1,257</td><td class="n">1,289</td><td class="n">1,731</td><td class="n">2,258</td><td class="n">2,368</td><td class="n">2,524</td><td class="n">2,617</td><td class="n">2,523</td><td class="n">2,878</td><td class="n">4,241</td><td class="n">4,586</td><td class="n">4,782</td><td class="n">5,215</td><td class="n">5,756</td><td class="n">6,173</td><td class="n">6,393</td><td class="n">6,613</td><td class="n">6,432</td><td class="n">6,476</td><td class="n">6,392</td><td class="n">6,444</td><td class="n">7,010</td><td class="n">7,271</td></tr>
+      <tr><th>教育扶助（人・延べ）</th><td class="n">684</td><td class="n">908</td><td class="n">935</td><td class="n">1,025</td><td class="n">1,149</td><td class="n">1,375</td><td class="n">1,575</td><td class="n">1,689</td><td class="n">1,745</td><td class="n">2,150</td><td class="n">2,523</td><td class="n">2,520</td><td class="n">2,499</td><td class="n">2,463</td><td class="n">2,539</td><td class="n">2,481</td><td class="n">2,578</td><td class="n">2,503</td><td class="n">2,263</td><td class="n">2,027</td><td class="n">2,037</td><td class="n">1,771</td><td class="n">1,580</td><td class="n">1,328</td></tr>
+      <tr><th>生業扶助（人・延べ）</th><td class="n">3</td><td class="n">15</td><td class="n">15</td><td class="n">27</td><td class="n">329</td><td class="n">309</td><td class="n">428</td><td class="n">455</td><td class="n">557</td><td class="n">920</td><td class="n">831</td><td class="n">984</td><td class="n">769</td><td class="n">793</td><td class="n">800</td><td class="n">808</td><td class="n">747</td><td class="n">784</td><td class="n">740</td><td class="n">875</td><td class="n">810</td><td class="n">819</td><td class="n">487</td><td class="n">631</td></tr>
+      <tr><th>葬祭扶助（人・延べ）</th><td class="n">7</td><td class="n">12</td><td class="n">11</td><td class="n">19</td><td class="n">18</td><td class="n">20</td><td class="n">31</td><td class="n">19</td><td class="n">35</td><td class="n">41</td><td class="n">35</td><td class="n">31</td><td class="n">58</td><td class="n">64</td><td class="n">51</td><td class="n">53</td><td class="n">23</td><td class="n">9</td><td class="n">33</td><td class="n">35</td><td class="n">28</td><td class="n">18</td><td class="n">27</td><td class="n">23</td></tr>
+      <tr><th>就労自立給付金（人・延べ）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">11</td><td class="n">17</td><td class="n">26</td><td class="n">19</td><td class="n">23</td><td class="n">33</td><td class="n">14</td><td class="n">20</td><td class="n">31</td><td class="n">27</td><td class="n">22</td></tr>
+      <tr><th>進学準備給付金（人・延べ）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">7</td><td class="n">5</td><td class="n">6</td><td class="n">6</td><td class="n">11</td><td class="n">4</td><td class="n">11</td></tr>
+      <tr><th>出産扶助（人・延べ）</th><td class="n">—</td><td class="n">1</td><td class="n">1</td><td class="n">—</td><td class="n">1</td><td class="n">—</td><td class="n">3</td><td class="n">1</td><td class="n">—</td><td class="n">—</td><td class="n">1</td><td class="n">—</td><td class="n">1</td><td class="n">—</td><td class="n">3</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">1</td><td class="n">—</td><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr>
+    </tbody></table></div>
+  <p class="unit"><b>一次資料——市生活福祉課</b>。単位は人・延べ。</p>
+
+  <h3>最初の年度と最後の年度</h3>
+  <div class="table-scroll"><table class="lst">
+    <thead><tr><th>何を</th><th>最初の年度</th><th class="n">その値</th><th>最後の年度</th><th class="n">その値</th><th class="n">変化</th></tr></thead>
+    <tbody>
+      <tr><th>延世帯数（世帯・延べ）</th><td>平成13</td><td class="n">8,987</td><td>令和6</td><td class="n">25,793</td><td class="n">+16,806</td></tr>
+      <tr><th>延人員（人・延べ）</th><td>平成13</td><td class="n">12,260</td><td>令和6</td><td class="n">31,636</td><td class="n">+19,376</td></tr>
+      <tr><th>保護率（松江市）（人口千人につき何人か）</th><td>平成13</td><td class="n">7.1</td><td>令和6</td><td class="n">13.3</td><td class="n">+6.2</td></tr>
+      <tr><th>保護率（島根県）（人口千人につき何人か）</th><td>平成13</td><td class="n">4.5</td><td>令和6</td><td class="n">8.2</td><td class="n">+3.7</td></tr>
+      <tr><th>保護率（全国）（人口千人につき何人か）</th><td>平成13</td><td class="n">8.5</td><td>令和6</td><td class="n">16.2</td><td class="n">+7.7</td></tr>
+      <tr><th>保護費の支給総額（千円）</th><td>平成13</td><td class="n">1,801,154</td><td>令和6</td><td class="n">4,230,902</td><td class="n">+2,429,748</td></tr>
+      <tr><th>1人当りの給付額（円）</th><td>平成13</td><td class="n">146,914</td><td>令和4</td><td class="n">128,927</td><td class="n">-17,987</td></tr>
+      <tr><th>生活扶助（人・延べ）</th><td>平成13</td><td class="n">10,861</td><td>令和6</td><td class="n">25,164</td><td class="n">+14,303</td></tr>
+      <tr><th>住宅扶助（人・延べ）</th><td>平成13</td><td class="n">9,396</td><td>令和6</td><td class="n">25,421</td><td class="n">+16,025</td></tr>
+      <tr><th>医療扶助（人・延べ）</th><td>平成13</td><td class="n">10,529</td><td>令和6</td><td class="n">25,020</td><td class="n">+14,491</td></tr>
+      <tr><th>介護扶助（人・延べ）</th><td>平成13</td><td class="n">1,231</td><td>令和6</td><td class="n">7,271</td><td class="n">+6,040</td></tr>
+      <tr><th>教育扶助（人・延べ）</th><td>平成13</td><td class="n">684</td><td>令和6</td><td class="n">1,328</td><td class="n">+644</td></tr>
+      <tr><th>生業扶助（人・延べ）</th><td>平成13</td><td class="n">3</td><td>令和6</td><td class="n">631</td><td class="n">+628</td></tr>
+      <tr><th>葬祭扶助（人・延べ）</th><td>平成13</td><td class="n">7</td><td>令和6</td><td class="n">23</td><td class="n">+16</td></tr>
+      <tr><th>就労自立給付金（人・延べ）</th><td>平成26</td><td class="n">11</td><td>令和6</td><td class="n">22</td><td class="n">+11</td></tr>
+      <tr><th>進学準備給付金（人・延べ）</th><td>平成30</td><td class="n">7</td><td>令和6</td><td class="n">11</td><td class="n">+4</td></tr>
+      <tr><th>出産扶助（人・延べ）</th><td>平成14</td><td class="n">1</td><td>令和6</td><td class="n">1</td><td class="n">±0</td></tr>
+    </tbody></table></div>
+  <p class="unit"><b>変化は、この表に出ている2つの値の差です。</b>丸める前の値どうしの差ではありません。<b>行ごとに最初の年度が違います</b>——値のある最初の年度を採っています。単位が途中で変わっている列は、差を出していません。</p>
+
+  <h3>読むときに気をつけること</h3>
+  <div class="table-scroll"><table class="lst">
+    <colgroup><col class="c-name"><col></colgroup>
+    <thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead>
+    <tbody>
+      <tr><th>「延」の意味<span class="pill">数え方</span></th><td>月ごとの数を1年ぶん足した数である。その年に何世帯・何人が受けたかは、この数からは出せない。∴ こちらの言葉へ言い換えていない。ただし、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある。</td></tr>
+      <tr><th>横棒（—）の意味<span class="pill">記録が無い</span></th><td>データ元が数ではなく横棒を書いている升である。0だったのか、集計していないのかは、このファイルからは分からない。∴ 0として図にも表にも出していない。</td></tr>
+      <tr><th>この画面が持っている年度<span class="pill">未取得</span></th><td>平成13年度から令和6年度までである。この範囲の外は未取得であり、出せない。</td></tr>
+      <tr><th>就労自立給付金<span class="pill">仕組みがまだ無かった</span></th><td>平成26年度から値がある。この年度から始まった仕組みである。それより前の年度に値が無いのは、受けた人が居なかったからではなく、仕組みがまだ無かったからである。</td></tr>
+      <tr><th>進学準備給付金<span class="pill">仕組みがまだ無かった</span></th><td>平成30年度から値がある。この年度から始まった仕組みである。それより前の年度に値が無いのは、受けた人が居なかったからではなく、仕組みがまだ無かったからである。</td></tr>
+      <tr><th>1人1月当たりの給付額の、令和5年度からの値<span class="pill">データ元の不具合</span></th><td>令和5年度から。データ元の見出しは「円」と名乗っているが、この年度からは千円で書かれている。こちらでは直さず、図にも出さず、データ元の値をそのまま表に載せている。</td></tr>
+      <tr><th>保護費の支給総額／1人当りの給付額<span class="pill">表だけに載せた</span></th><td>この画面は人と世帯を数える画面である。金額の列は図にせず、表にだけ載せている。</td></tr>
+      <tr><th>概要<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「保護率は年度平均」</td></tr>
+      <tr><th>概要<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「平成23年度は旧東出雲町分を含む」</td></tr>
+      <tr><th>概要<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)保護率は年度平均」</td></tr>
+      <tr><th>概要／扶助の種類ごとの人員<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)平成13年度から平成16年度は旧松江市の数値平成17年度は合併後の松江市の数値」</td></tr>
+      <tr><th>概要／扶助の種類ごとの人員<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)平成14年度から平成16年度は旧松江市の数値平成17年度は合併後の松江市の数値」</td></tr>
+      <tr><th>扶助の種類ごとの人員<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)平成16年度は旧松江市の数値平成17年度は合併後の松江市の数値」</td></tr>
+      <tr><th>概要<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)平成16年度は旧松江市の数値平成17年度は合併後の松江市の数値保護率は年度平均」</td></tr>
+      <tr><th>扶助の種類ごとの人員<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「注)平成23年度は旧東出雲町分を含む」</td></tr>
+      <tr><th>概要／扶助の種類ごとの人員<span class="pill">データ元の注記</span></th><td>データ元のファイル自身が書いている断りである。こちらの言葉へ言い換えていないが、綴りは、読み取るときに空白と改行を落とし、全角の記号や数字を半角の形へ揃えてある——「資料:市生活福祉課」</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="section" id="s-glossary">
+  <h2><svg class="ic"><use href="#ic-book"/></svg>専門用語</h2>
+  <p class="sub">この画面に出てくる言葉です。クリックすると開きます。</p>
+  <details class="dd"><summary>延</summary><div class="ddc">月ごとの数を1年ぶん足した数です。その年に何世帯・何人が受けたかではありません。世帯数・人数と言い換えると、別の意味になります。</div></details>
+  <details class="dd"><summary>保護率</summary><div class="ddc">人口千人につき何人が生活保護を受けているかを表した数です。データ元がそのまま持っている数であり、こちらが作ったものではありません。</div></details>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年8月25日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"axis": {"l": ["\u5e73\u621013", "\u5e73\u621014", "\u5e73\u621015", "\u5e73\u621016", "\u5e73\u621017", "\u5e73\u621018", "\u5e73\u621019", "\u5e73\u621020", "\u5e73\u621021", "\u5e73\u621022", "\u5e73\u621023", "\u5e73\u621024", "\u5e73\u621025", "\u5e73\u621026", "\u5e73\u621027", "\u5e73\u621028", "\u5e73\u621029", "\u5e73\u621030", "\u4ee4\u548c\u5143", "\u4ee4\u548c2", "\u4ee4\u548c3", "\u4ee4\u548c4", "\u4ee4\u548c5", "\u4ee4\u548c6"], "t": "\u5e74\u5ea6", "x": [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "counts": [{"label": "\u5ef6\u4e16\u5e2f\u6570", "values": [8987.0, 9636.0, 10311.0, 11037.0, 13333.0, 14666.0, 15352.0, 16180.0, 17767.0, 20065.0, 22540.0, 23811.0, 24686.0, 25012.0, 25385.0, 25653.0, 25670.0, 25141.0, 24783.0, 24699.0, 24912.0, 25173.0, 25536.0, 25793.0]}, {"label": "\u5ef6\u4eba\u54e1", "values": [12260.0, 13363.0, 14235.0, 15420.0, 18468.0, 20047.0, 21009.0, 22136.0, 24386.0, 27854.0, 31576.0, 33254.0, 33870.0, 33942.0, 34139.0, 33803.0, 33428.0, 32768.0, 32124.0, 31682.0, 31736.0, 31561.0, 31574.0, 31636.0]}], "rates": [{"label": "\u677e\u6c5f\u5e02", "values": [7.1, 7.7, 8.2, 8.3, 7.8, 8.5, 9.0, 9.5, 10.5, 12.0, 12.6, 13.4, 13.7, 13.7, 13.8, 13.7, 13.6, 13.4, 13.0, 13.2, 13.1, 13.1, 13.1, 13.28]}, {"label": "\u5cf6\u6839\u770c", "values": [4.5, 4.7, 5.0, 5.2, 5.5, 5.8, 6.1, 6.3, 6.8, 7.6, 8.1, 8.6, 8.7, 8.8, 8.8, 8.6, 8.6, 8.4, 8.4, 8.2, 8.2, 8.1, 8.1, 8.2]}, {"label": "\u5168\u56fd", "values": [8.5, 9.7, 10.7, 11.1, 11.6, 11.9, 12.1, 12.4, 13.8, 15.3, 16.2, 16.7, 17.0, 17.1, 17.1, 16.9, 16.7, 16.6, 16.6, 16.3, 16.3, 16.2, 16.3, 16.2]}], "relief": [{"id": "cHogoHj0", "sets": [{"label": "\u751f\u6d3b\u6276\u52a9", "values": [10861.0, 12009.0, 12862.0, 14037.0, 16762.0, 18145.0, 18647.0, 19607.0, 21938.0, 25484.0, 27509.0, 28270.0, 27959.0, 28130.0, 28281.0, 27846.0, 27331.0, 26831.0, 26162.0, 25452.0, 25354.0, 25175.0, 24881.0, 25164.0]}, {"label": "\u4f4f\u5b85\u6276\u52a9", "values": [9396.0, 10244.0, 10622.0, 11618.0, 12778.0, 13779.0, 14898.0, 16296.0, 18202.0, 21086.0, 24131.0, 25693.0, 25688.0, 26198.0, 26856.0, 26685.0, 26286.0, 25775.0, 25416.0, 25223.0, 25521.0, 25353.0, 25268.0, 25421.0]}, {"label": "\u533b\u7642\u6276\u52a9", "values": [10529.0, 11640.0, 12464.0, 13608.0, 16302.0, 17566.0, 17934.0, 18543.0, 19944.0, 22071.0, 22640.0, 23951.0, 23264.0, 23926.0, 24629.0, 25187.0, 25138.0, 24816.0, 24223.0, 24045.0, 24159.0, 24388.0, 24657.0, 25020.0]}, {"label": "\u4ecb\u8b77\u6276\u52a9", "values": [1231.0, 1257.0, 1289.0, 1731.0, 2258.0, 2368.0, 2524.0, 2617.0, 2523.0, 2878.0, 4241.0, 4586.0, 4782.0, 5215.0, 5756.0, 6173.0, 6393.0, 6613.0, 6432.0, 6476.0, 6392.0, 6444.0, 7010.0, 7271.0]}]}, {"id": "cHogoHj1", "sets": [{"label": "\u6559\u80b2\u6276\u52a9", "values": [684.0, 908.0, 935.0, 1025.0, 1149.0, 1375.0, 1575.0, 1689.0, 1745.0, 2150.0, 2523.0, 2520.0, 2499.0, 2463.0, 2539.0, 2481.0, 2578.0, 2503.0, 2263.0, 2027.0, 2037.0, 1771.0, 1580.0, 1328.0]}, {"label": "\u751f\u696d\u6276\u52a9", "values": [3.0, 15.0, 15.0, 27.0, 329.0, 309.0, 428.0, 455.0, 557.0, 920.0, 831.0, 984.0, 769.0, 793.0, 800.0, 808.0, 747.0, 784.0, 740.0, 875.0, 810.0, 819.0, 487.0, 631.0]}]}, {"id": "cHogoHj2", "sets": [{"label": "\u846c\u796d\u6276\u52a9", "values": [7.0, 12.0, 11.0, 19.0, 18.0, 20.0, 31.0, 19.0, 35.0, 41.0, 35.0, 31.0, 58.0, 64.0, 51.0, 53.0, 23.0, 9.0, 33.0, 35.0, 28.0, 18.0, 27.0, 23.0]}, {"label": "\u5c31\u52b4\u81ea\u7acb\u7d66\u4ed8\u91d1", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, 11.0, 17.0, 26.0, 19.0, 23.0, 33.0, 14.0, 20.0, 31.0, 27.0, 22.0]}, {"label": "\u9032\u5b66\u6e96\u5099\u7d66\u4ed8\u91d1", "values": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 7.0, 5.0, 6.0, 6.0, 11.0, 4.0, 11.0]}]}, {"id": "cHogoHj3", "sets": [{"label": "\u51fa\u7523\u6276\u52a9", "values": [null, 1.0, 1.0, null, 1.0, null, 3.0, 1.0, null, null, 1.0, null, 1.0, null, 3.0, null, null, null, null, 1.0, null, 1.0, 1.0, 1.0]}]}], "relief_axis": {"l": ["\u5e73\u621013", "\u5e73\u621014", "\u5e73\u621015", "\u5e73\u621016", "\u5e73\u621017", "\u5e73\u621018", "\u5e73\u621019", "\u5e73\u621020", "\u5e73\u621021", "\u5e73\u621022", "\u5e73\u621023", "\u5e73\u621024", "\u5e73\u621025", "\u5e73\u621026", "\u5e73\u621027", "\u5e73\u621028", "\u5e73\u621029", "\u5e73\u621030", "\u4ee4\u548c\u5143", "\u4ee4\u548c2", "\u4ee4\u548c3", "\u4ee4\u548c4", "\u4ee4\u548c5", "\u4ee4\u548c6"], "t": "\u5e74\u5ea6", "x": [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}}</script>
+<script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent);
+  MS.line("cHogoNin", D.axis, D.counts, "延べ（世帯・人）", 0);
+  MS.line("cHogoRate", D.axis, D.rates, "千人につき", 1);
+  if(D.relief_axis){
+    D.relief.forEach(function(chart){
+      MS.line(chart.id, D.relief_axis, chart.sets, "人（延べ）", 0);
+    });
+  }
+});
+</script>
+</body>
+</html>

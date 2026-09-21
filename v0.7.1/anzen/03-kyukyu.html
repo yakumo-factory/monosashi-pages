@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.7.1">
+<title>救急 — 松江市 安全レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="安全レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 安全レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 安全レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>火事を見る</h3>
+<a href="01-kasai.html" title="火事"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">火事</span></a>
+<a href="02-shobo.html" title="消防の備え"><svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">消防の備え</span></a>
+</div>
+<div class="grp">
+<h3>救急を見る</h3>
+<a href="03-kyukyu.html" aria-current="page" title="救急"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">救急</span></a>
+</div>
+<div class="grp">
+<h3>交通を見る</h3>
+<a href="04-kotsu.html" title="交通"><svg class="ic"><use href="#ic-globe"/></svg><span class="lbl">交通</span></a>
+</div>
+<div class="grp">
+<h3>犯罪を見る</h3>
+<a href="05-hanzai.html" title="犯罪"><svg class="ic"><use href="#ic-list"/></svg><span class="lbl">犯罪</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 安全レポート / 救急</p>
+  <h1>救急</h1>
+  <p class="lede">救急車の出動の件数を、何で呼ばれたか・どれだけ重かったか・誰が運ばれたかの切り口で見ます。</p>
+<noscript><div class="ns">図は JavaScript が有効なときだけ描かれます。表は JavaScript が無くても読めます。</div></noscript><div class="pick" style="padding:0 0 20px"><label for="region"><b>見る区域</b></label><select id="region"><option value="市全体" selected>市全体</option><option value="旧松江市">旧松江市</option><option value="鹿島町">鹿島町</option><option value="島根町">島根町</option><option value="美保関町">美保関町</option><option value="八雲町">八雲町</option><option value="玉湯町">玉湯町</option><option value="宍道町">宍道町</option><option value="八束町">八束町</option><option value="東出雲町">東出雲町</option></select><span class="note">区域を選ぶと、<b>この画面の図が全部その区域になります。</b></span></div>
+<p class="note">松江市の区域は、2005年3月の合併と2011年8月の東出雲町の編入で、2回変わっています。</p>
+<p class="note" data-region="東出雲町" data-breakdown>東出雲町は、2005年から2009年の表にこの区域の行がありません。</p>
+<section class="section" id="s-trend">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>経年で見る</h2>
+  <p class="sub">切り口ごとに、年の側から見たものです。</p>
+<h3 class="fig-only">出動の件数</h3><div class="chartbox"><canvas id="cDispY"></canvas></div>
+<p class="unit" id="u-cDispY">単位——件。市全体を選んでいる間は、区域とその他管外を積んでいます。区域を選ぶと、その区域の数です。</p>
+<h3>何で呼ばれたか</h3>
+<p class="note">事故の種別の分け方は、2通りあります（2005年から2010年、2011年から2024年）。年をまたいで繋ぐと、データ元が言っていない対応づけを作ることになるので、ここに図を置きません。下の「年を選んで、切り口で見る」で年ごとに見られます。</p>
+<div data-scope="city"><h3 class="fig-only">どれだけ重かったか</h3><div class="chartbox"><canvas id="cSevY"></canvas></div>
+<p class="unit" id="u-cSevY">単位——件。傷病の程度を積んでいます。</p></div><p class="note" data-scope-note hidden>どれだけ重かったかは市全体の数しかないので、区域を選んでいる間は出しません。</p>
+<div data-scope="city"><h3 class="fig-only">誰が運ばれたか</h3><div class="chartbox"><canvas id="cAgeY"></canvas></div>
+<p class="unit" id="u-cAgeY">単位——件。データ元の年齢の区分を積んでいます。</p></div><p class="note" data-scope-note hidden>誰が運ばれたかは市全体の数しかないので、区域を選んでいる間は出しません。</p>
+</section>
+<section class="section" id="s-year">
+  <h2><svg class="ic"><use href="#ic-panel"/></svg>年を選んで、切り口で見る</h2>
+  <p class="sub">上と同じ切り口を、同じ順で、選んだ年だけ見たものです。</p>
+  <div class="pick"><label for="year">年を選ぶ</label><select id="year"><option value="2005">2005（平成17年）</option><option value="2006">2006（平成18年）</option><option value="2007">2007（平成19年）</option><option value="2008">2008（平成20年）</option><option value="2009">2009（平成21年）</option><option value="2010">2010（平成22年）</option><option value="2011">2011（平成23年）</option><option value="2012">2012（平成24年）</option><option value="2013">2013（平成25年）</option><option value="2014">2014（平成26年）</option><option value="2015">2015（平成27年）</option><option value="2016">2016（平成28年）</option><option value="2017">2017（平成29年）</option><option value="2018">2018（平成30年）</option><option value="2019">2019（令和元年）</option><option value="2020">2020（令和2年）</option><option value="2021">2021（令和3年）</option><option value="2022">2022（令和4年）</option><option value="2023">2023（令和5年）</option><option value="2024" selected>2024（令和6年）</option></select></div>
+<div data-scope="city"><h3 class="fig-only">出動の件数（区域ごと）</h3><div class="chartbox"><canvas id="cDisp"></canvas></div>
+<p class="unit" id="u-cDisp">単位——件。区域とその他管外の数です。その年の表に行の無いものは並べていません。</p></div><p class="note" data-scope-note hidden>区域ごとの出動の件数は、市全体を選んでいるときだけ出します。</p>
+<h3 class="fig-only">何で呼ばれたか</h3><div class="chartbox"><canvas id="cType"></canvas></div>
+<p class="unit" id="u-cType">単位——件。多い順に並べています。分け方は、その年の表のものです。</p>
+<div data-scope="city"><h3 class="fig-only">どれだけ重かったか</h3><div class="chartbox"><canvas id="cSev"></canvas></div>
+<p class="unit" id="u-cSev">単位——件。</p></div><p class="note" data-scope-note hidden>どれだけ重かったかは市全体の数しかないので、区域を選んでいる間は出しません。</p>
+<div data-scope="city"><h3 class="fig-only">誰が運ばれたか</h3><div class="chartbox"><canvas id="cAge"></canvas></div>
+<p class="unit" id="u-cAge">単位——件。</p></div><p class="note" data-scope-note hidden>誰が運ばれたかは市全体の数しかないので、区域を選んでいる間は出しません。</p>
+</section>
+<section class="section" id="s-values">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>正確な値</h2>
+<h3>年 × 区域の出動件数</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">市全体（件）</th><th class="n">旧松江市（件）</th><th class="n">鹿島町（件）</th><th class="n">島根町（件）</th><th class="n">美保関町（件）</th><th class="n">八雲町（件）</th><th class="n">玉湯町（件）</th><th class="n">宍道町（件）</th><th class="n">八束町（件）</th><th class="n">東出雲町（件）</th><th class="n">その他管外（件）</th><th class="n">市立病院（件）</th><th class="n">日赤（件）</th><th class="n">消防署/旧市町村計（件）</th><th>採ったファイル</th></tr></thead><tbody>
+<tr><th>2005（平成17年）</th><td class="n">6,837</td><td class="n">5,186</td><td class="n">243</td><td class="n">186</td><td class="n">166</td><td class="n">185</td><td class="n">357</td><td class="n">328</td><td class="n">151</td><td class="n"></td><td class="n"></td><td class="n">21</td><td class="n">14</td><td class="n">6,802</td><td>2467</td></tr>
+<tr><th>2006（平成18年）</th><td class="n">6,456</td><td class="n">4,774</td><td class="n">245</td><td class="n">186</td><td class="n">205</td><td class="n">194</td><td class="n">333</td><td class="n">313</td><td class="n">162</td><td class="n"></td><td class="n"></td><td class="n">25</td><td class="n">19</td><td class="n">6,412</td><td>2465</td></tr>
+<tr><th>2007（平成19年）</th><td class="n">6,803</td><td class="n">4,914</td><td class="n">302</td><td class="n">193</td><td class="n">213</td><td class="n">246</td><td class="n">353</td><td class="n">330</td><td class="n">199</td><td class="n"></td><td class="n"></td><td class="n">41</td><td class="n">12</td><td class="n">6,750</td><td>2463</td></tr>
+<tr><th>2008（平成20年）</th><td class="n">6,841</td><td class="n">4,777</td><td class="n">303</td><td class="n">161</td><td class="n">202</td><td class="n">216</td><td class="n">311</td><td class="n">307</td><td class="n">168</td><td class="n"></td><td class="n"></td><td class="n">30</td><td class="n">11</td><td class="n">6,445</td><td>2462</td></tr>
+<tr><th>2009（平成21年）</th><td class="n">6,503</td><td class="n">4,817</td><td class="n">265</td><td class="n">164</td><td class="n">238</td><td class="n">198</td><td class="n">324</td><td class="n">322</td><td class="n">140</td><td class="n"></td><td class="n"></td><td class="n">27</td><td class="n">8</td><td class="n">6,468</td><td>2461</td></tr>
+<tr><th>2010（平成22年）</th><td class="n">7,491</td><td class="n">5,294</td><td class="n">332</td><td class="n">183</td><td class="n">199</td><td class="n">197</td><td class="n">302</td><td class="n">338</td><td class="n">182</td><td class="n">436</td><td class="n">28</td><td class="n"></td><td class="n"></td><td class="n"></td><td>2460</td></tr>
+<tr><th>2011（平成23年）</th><td class="n">7,636</td><td class="n">5,364</td><td class="n">301</td><td class="n">184</td><td class="n">277</td><td class="n">239</td><td class="n">302</td><td class="n">336</td><td class="n">180</td><td class="n">433</td><td class="n">20</td><td class="n"></td><td class="n"></td><td class="n"></td><td>2445</td></tr>
+<tr><th>2012（平成24年）</th><td class="n">7,503</td><td class="n">5,303</td><td class="n">270</td><td class="n">189</td><td class="n">241</td><td class="n">211</td><td class="n">325</td><td class="n">373</td><td class="n">190</td><td class="n">386</td><td class="n">15</td><td class="n"></td><td class="n"></td><td class="n"></td><td>3081</td></tr>
+<tr><th>2013（平成25年）</th><td class="n">7,718</td><td class="n">5,404</td><td class="n">298</td><td class="n">171</td><td class="n">206</td><td class="n">197</td><td class="n">380</td><td class="n">386</td><td class="n">198</td><td class="n">454</td><td class="n">24</td><td class="n"></td><td class="n"></td><td class="n"></td><td>3388</td></tr>
+<tr><th>2014（平成26年）</th><td class="n">7,960</td><td class="n">5,655</td><td class="n">287</td><td class="n">148</td><td class="n">239</td><td class="n">222</td><td class="n">348</td><td class="n">343</td><td class="n">169</td><td class="n">518</td><td class="n">31</td><td class="n"></td><td class="n"></td><td class="n"></td><td>3389</td></tr>
+<tr><th>2015（平成27年）</th><td class="n">8,363</td><td class="n">5,990</td><td class="n">274</td><td class="n">152</td><td class="n">231</td><td class="n">249</td><td class="n">377</td><td class="n">365</td><td class="n">158</td><td class="n">536</td><td class="n">31</td><td class="n"></td><td class="n"></td><td class="n"></td><td>4130</td></tr>
+<tr><th>2016（平成28年）</th><td class="n">8,761</td><td class="n">6,403</td><td class="n">329</td><td class="n">164</td><td class="n">228</td><td class="n">209</td><td class="n">325</td><td class="n">374</td><td class="n">177</td><td class="n">531</td><td class="n">21</td><td class="n"></td><td class="n"></td><td class="n"></td><td>4265</td></tr>
+<tr><th>2017（平成29年）</th><td class="n">8,821</td><td class="n">6,285</td><td class="n">341</td><td class="n">185</td><td class="n">234</td><td class="n">235</td><td class="n">413</td><td class="n">415</td><td class="n">152</td><td class="n">536</td><td class="n">25</td><td class="n"></td><td class="n"></td><td class="n"></td><td>4519</td></tr>
+<tr><th>2018（平成30年）</th><td class="n">9,095</td><td class="n">6,618</td><td class="n">378</td><td class="n">149</td><td class="n">240</td><td class="n">246</td><td class="n">362</td><td class="n">425</td><td class="n">173</td><td class="n">488</td><td class="n">16</td><td class="n"></td><td class="n"></td><td class="n"></td><td>4860</td></tr>
+<tr><th>2019（令和元年）</th><td class="n">8,951</td><td class="n">6,529</td><td class="n">347</td><td class="n">171</td><td class="n">245</td><td class="n">221</td><td class="n">345</td><td class="n">375</td><td class="n">168</td><td class="n">524</td><td class="n">26</td><td class="n"></td><td class="n"></td><td class="n"></td><td>5165</td></tr>
+<tr><th>2020（令和2年）</th><td class="n">8,184</td><td class="n">5,951</td><td class="n">268</td><td class="n">156</td><td class="n">219</td><td class="n">212</td><td class="n">315</td><td class="n">374</td><td class="n">163</td><td class="n">493</td><td class="n">33</td><td class="n"></td><td class="n"></td><td class="n"></td><td>5172</td></tr>
+<tr><th>2021（令和3年）</th><td class="n">8,753</td><td class="n">6,364</td><td class="n">332</td><td class="n">168</td><td class="n">224</td><td class="n">177</td><td class="n">330</td><td class="n">416</td><td class="n">152</td><td class="n">565</td><td class="n">25</td><td class="n"></td><td class="n"></td><td class="n"></td><td>5595</td></tr>
+<tr><th>2022（令和4年）</th><td class="n">9,826</td><td class="n">7,249</td><td class="n">335</td><td class="n">161</td><td class="n">237</td><td class="n">239</td><td class="n">361</td><td class="n">447</td><td class="n">182</td><td class="n">598</td><td class="n">17</td><td class="n"></td><td class="n"></td><td class="n"></td><td>5949</td></tr>
+<tr><th>2023（令和5年）</th><td class="n">10,992</td><td class="n">8,185</td><td class="n">356</td><td class="n">192</td><td class="n">270</td><td class="n">226</td><td class="n">404</td><td class="n">483</td><td class="n">192</td><td class="n">662</td><td class="n">22</td><td class="n"></td><td class="n"></td><td class="n"></td><td>6369</td></tr>
+<tr><th>2024（令和6年）</th><td class="n">10,836</td><td class="n">8,083</td><td class="n">331</td><td class="n">151</td><td class="n">262</td><td class="n">248</td><td class="n">419</td><td class="n">448</td><td class="n">197</td><td class="n">683</td><td class="n">14</td><td class="n"></td><td class="n"></td><td class="n"></td><td>6646</td></tr>
+</tbody></table></div>
+<p class="unit">単位——件。</p>
+<p class="note">一次資料——市消防本部・松江市立病院・松江赤十字病院、市消防本部・市立病院・松江赤十字病院、市消防本部</p>
+
+<div data-scope="city"><h3>年 × 傷病程度</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">死亡（件）</th><th class="n">重症（件）</th><th class="n">中等症（件）</th><th class="n">軽傷（件）</th><th class="n">その他（件）</th><th class="n">計（件）</th><th>採ったファイル</th></tr></thead><tbody>
+<tr><th>2005（平成17年）</th><td class="n">75</td><td class="n">675</td><td class="n">2,690</td><td class="n">3,212</td><td class="n">0</td><td class="n">6,652</td><td>2644</td></tr>
+<tr><th>2006（平成18年）</th><td class="n">55</td><td class="n">670</td><td class="n">2,737</td><td class="n">3,012</td><td class="n">2</td><td class="n">6,476</td><td>2645</td></tr>
+<tr><th>2007（平成19年）</th><td class="n">98</td><td class="n">600</td><td class="n">2,714</td><td class="n">3,403</td><td class="n">4</td><td class="n">6,819</td><td>2646</td></tr>
+<tr><th>2008（平成20年）</th><td class="n">108</td><td class="n">520</td><td class="n">2,524</td><td class="n">3,130</td><td class="n">0</td><td class="n">6,282</td><td>2647</td></tr>
+<tr><th>2009（平成21年）</th><td class="n">97</td><td class="n">545</td><td class="n">2,627</td><td class="n">3,161</td><td class="n">4</td><td class="n">6,434</td><td>2648</td></tr>
+<tr><th>2010（平成22年）</th><td class="n">108</td><td class="n">671</td><td class="n">2,740</td><td class="n">3,426</td><td class="n">1</td><td class="n">6,946</td><td>2649</td></tr>
+<tr><th>2011（平成23年）</th><td class="n">96</td><td class="n">602</td><td class="n">2,935</td><td class="n">3,386</td><td class="n">0</td><td class="n">7,019</td><td>2650</td></tr>
+<tr><th>2012（平成24年）</th><td class="n">122</td><td class="n">582</td><td class="n">2,914</td><td class="n">3,267</td><td class="n">0</td><td class="n">6,885</td><td>3093</td></tr>
+<tr><th>2013（平成25年）</th><td class="n">109</td><td class="n">648</td><td class="n">3,090</td><td class="n">3,225</td><td class="n">3</td><td class="n">7,075</td><td>3391</td></tr>
+<tr><th>2014（平成26年）</th><td class="n">108</td><td class="n">721</td><td class="n">3,242</td><td class="n">3,246</td><td class="n">4</td><td class="n">7,321</td><td>3390</td></tr>
+<tr><th>2015（平成27年）</th><td class="n">109</td><td class="n">846</td><td class="n">3,531</td><td class="n">3,184</td><td class="n">1</td><td class="n">7,671</td><td>4131</td></tr>
+<tr><th>2016（平成28年）</th><td class="n">110</td><td class="n">803</td><td class="n">3,725</td><td class="n">3,308</td><td class="n">0</td><td class="n">7,946</td><td>4267</td></tr>
+<tr><th>2017（平成29年）</th><td class="n">94</td><td class="n">842</td><td class="n">4,515</td><td class="n">2,697</td><td class="n">0</td><td class="n">8,148</td><td>4520</td></tr>
+<tr><th>2018（平成30年）</th><td class="n">97</td><td class="n">779</td><td class="n">4,686</td><td class="n">2,840</td><td class="n">0</td><td class="n">8,402</td><td>4862</td></tr>
+<tr><th>2019（令和元年）</th><td class="n">97</td><td class="n">827</td><td class="n">4,696</td><td class="n">2,664</td><td class="n">0</td><td class="n">8,284</td><td>5173</td></tr>
+<tr><th>2020（令和2年）</th><td class="n">95</td><td class="n">742</td><td class="n">4,703</td><td class="n">2,068</td><td class="n">0</td><td class="n">7,608</td><td>5174</td></tr>
+<tr><th>2021（令和3年）</th><td class="n">84</td><td class="n">773</td><td class="n">4,948</td><td class="n">2,372</td><td class="n">0</td><td class="n">8,177</td><td>5596</td></tr>
+</tbody></table></div>
+<p class="unit">単位——件。</p>
+<p class="note">一次資料——市消防本部</p>
+</div><p class="note" data-scope-note hidden>傷病程度の表は市全体の数だけなので、区域を選んでいる間は出しません。</p>
+<div data-scope="city"><h3>年 × 年齢</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">新生児（件）</th><th class="n">乳幼児（件）</th><th class="n">少年（件）</th><th class="n">成人（件）</th><th class="n">老人（件）</th><th class="n">計（件）</th><th>採ったファイル</th></tr></thead><tbody>
+<tr><th>2005（平成17年）</th><td class="n">11</td><td class="n">253</td><td class="n">250</td><td class="n">2,689</td><td class="n">3,449</td><td class="n">6,652</td><td>2651</td></tr>
+<tr><th>2006（平成18年）</th><td class="n">9</td><td class="n">278</td><td class="n">260</td><td class="n">2,549</td><td class="n">3,380</td><td class="n">6,476</td><td>2652</td></tr>
+<tr><th>2007（平成19年）</th><td class="n">10</td><td class="n">277</td><td class="n">295</td><td class="n">2,705</td><td class="n">3,532</td><td class="n">6,819</td><td>2653</td></tr>
+<tr><th>2008（平成20年）</th><td class="n">12</td><td class="n">238</td><td class="n">262</td><td class="n">2,288</td><td class="n">3,482</td><td class="n">6,282</td><td>2654</td></tr>
+<tr><th>2009（平成21年）</th><td class="n">14</td><td class="n">249</td><td class="n">224</td><td class="n">2,332</td><td class="n">3,615</td><td class="n">6,434</td><td>2655</td></tr>
+<tr><th>2010（平成22年）</th><td class="n">18</td><td class="n">262</td><td class="n">266</td><td class="n">2,432</td><td class="n">3,968</td><td class="n">6,946</td><td>2656</td></tr>
+<tr><th>2011（平成23年）</th><td class="n">11</td><td class="n">298</td><td class="n">255</td><td class="n">2,372</td><td class="n">4,083</td><td class="n">7,019</td><td>2657</td></tr>
+<tr><th>2012（平成24年）</th><td class="n">19</td><td class="n">281</td><td class="n">241</td><td class="n">2,349</td><td class="n">3,995</td><td class="n">6,885</td><td>3094</td></tr>
+<tr><th>2013（平成25年）</th><td class="n">20</td><td class="n">276</td><td class="n">247</td><td class="n">2,320</td><td class="n">4,212</td><td class="n">7,075</td><td>3392</td></tr>
+<tr><th>2014（平成26年）</th><td class="n">25</td><td class="n">268</td><td class="n">255</td><td class="n">2,339</td><td class="n">4,434</td><td class="n">7,321</td><td>3393</td></tr>
+<tr><th>2015（平成27年）</th><td class="n">23</td><td class="n">264</td><td class="n">237</td><td class="n">2,433</td><td class="n">4,714</td><td class="n">7,671</td><td>4132</td></tr>
+<tr><th>2016（平成28年）</th><td class="n">27</td><td class="n">286</td><td class="n">249</td><td class="n">2,486</td><td class="n">4,898</td><td class="n">7,946</td><td>4269</td></tr>
+<tr><th>2017（平成29年）</th><td class="n">23</td><td class="n">332</td><td class="n">235</td><td class="n">2,314</td><td class="n">5,244</td><td class="n">8,148</td><td>4521</td></tr>
+<tr><th>2018（平成30年）</th><td class="n">18</td><td class="n">291</td><td class="n">270</td><td class="n">2,262</td><td class="n">5,561</td><td class="n">8,402</td><td>4863</td></tr>
+<tr><th>2019（令和元年）</th><td class="n">28</td><td class="n">347</td><td class="n">245</td><td class="n">2,289</td><td class="n">5,375</td><td class="n">8,284</td><td>5210</td></tr>
+<tr><th>2020（令和2年）</th><td class="n">32</td><td class="n">231</td><td class="n">165</td><td class="n">1,935</td><td class="n">5,245</td><td class="n">7,608</td><td>5176</td></tr>
+<tr><th>2021（令和3年）</th><td class="n">21</td><td class="n">271</td><td class="n">220</td><td class="n">1,981</td><td class="n">5,684</td><td class="n">8,177</td><td>5597</td></tr>
+</tbody></table></div>
+<p class="unit">単位——件。</p>
+<p class="note">一次資料——市消防本部</p>
+</div><p class="note" data-scope-note hidden>年齢の表は市全体の数だけなので、区域を選んでいる間は出しません。</p>
+</section>
+<section class="section" id="s-caution">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead><tbody>
+<tr><td>— と空欄</td><td>— はデータ元が数を書いていない升、空欄はその年の表にその区域の行が無い升です。0 とは別に書いています。</td></tr>
+<tr><td>事故の種別の分け方</td><td>事故の種別の分け方は、2通りあります（2005年から2010年、2011年から2024年）。</td></tr>
+<tr><td>市全体の数しかない切り口</td><td>区域を選んでいる間は出しません。見出しと単位ごと隠し、市全体へ戻すと出します。</td></tr>
+<tr><td>どれだけ重かったか・誰が運ばれたかの年</td><td>どれだけ重かったかは2005年から2021年、誰が運ばれたかは2005年から2021年の表しかありません。ほかの年を選ぶと、この切り口の横棒は描かれません。</td></tr>
+<tr data-region="市全体" data-breakdown><td>出動（市全体・2005年）</td><td>市全体の数と、区域とその他管外を積んだ高さが合いません。この年の表の列のうち、市立病院、日赤、消防署/旧市町村計は積んでいません。どちらの値も直さずに載せています。</td></tr>
+<tr data-region="市全体" data-breakdown><td>出動（市全体・2006年）</td><td>市全体の数と、区域とその他管外を積んだ高さが合いません。この年の表の列のうち、市立病院、日赤、消防署/旧市町村計は積んでいません。どちらの値も直さずに載せています。</td></tr>
+<tr data-region="市全体" data-breakdown><td>出動（市全体・2007年）</td><td>市全体の数と、区域とその他管外を積んだ高さが合いません。この年の表の列のうち、市立病院、日赤、消防署/旧市町村計は積んでいません。どちらの値も直さずに載せています。</td></tr>
+<tr data-region="市全体" data-breakdown><td>出動（市全体・2008年）</td><td>市全体の数と、区域とその他管外を積んだ高さが合いません。この年の表の列のうち、市立病院、日赤、消防署/旧市町村計は積んでいません。どちらの値も直さずに載せています。</td></tr>
+<tr data-region="市全体" data-breakdown><td>出動（市全体・2009年）</td><td>市全体の数と、区域とその他管外を積んだ高さが合いません。この年の表の列のうち、市立病院、日赤、消防署/旧市町村計は積んでいません。どちらの値も直さずに載せています。</td></tr>
+</tbody></table></div>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年9月10日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"axis": {"l": ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "default": {"region": "\u5e02\u5168\u4f53", "year": 2024}, "figures": {"cAge": {"kind": "categorical", "scope": "city", "series": {"\u5e02\u5168\u4f53": {"2005": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [11.0, 253.0, 250.0, 2689.0, 3449.0]}, "2006": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [9.0, 278.0, 260.0, 2549.0, 3380.0]}, "2007": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [10.0, 277.0, 295.0, 2705.0, 3532.0]}, "2008": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [12.0, 238.0, 262.0, 2288.0, 3482.0]}, "2009": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [14.0, 249.0, 224.0, 2332.0, 3615.0]}, "2010": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [18.0, 262.0, 266.0, 2432.0, 3968.0]}, "2011": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [11.0, 298.0, 255.0, 2372.0, 4083.0]}, "2012": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [19.0, 281.0, 241.0, 2349.0, 3995.0]}, "2013": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [20.0, 276.0, 247.0, 2320.0, 4212.0]}, "2014": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [25.0, 268.0, 255.0, 2339.0, 4434.0]}, "2015": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [23.0, 264.0, 237.0, 2433.0, 4714.0]}, "2016": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [27.0, 286.0, 249.0, 2486.0, 4898.0]}, "2017": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [23.0, 332.0, 235.0, 2314.0, 5244.0]}, "2018": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [18.0, 291.0, 270.0, 2262.0, 5561.0]}, "2019": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [28.0, 347.0, 245.0, 2289.0, 5375.0]}, "2020": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [32.0, 231.0, 165.0, 1935.0, 5245.0]}, "2021": {"labels": ["\u65b0\u751f\u5150", "\u4e73\u5e7c\u5150", "\u5c11\u5e74", "\u6210\u4eba", "\u8001\u4eba"], "values": [21.0, 271.0, 220.0, 1981.0, 5684.0]}}}, "unit": "\u4ef6"}, "cAgeY": {"kind": "stacked", "scope": "city", "series": {"\u5e02\u5168\u4f53": [{"color": "#8ea7ff", "label": "\u65b0\u751f\u5150", "values": [11.0, 9.0, 10.0, 12.0, 14.0, 18.0, 11.0, 19.0, 20.0, 25.0, 23.0, 27.0, 23.0, 18.0, 28.0, 32.0, 21.0, null, null, null]}, {"color": "#6982e4", "label": "\u4e73\u5e7c\u5150", "values": [253.0, 278.0, 277.0, 238.0, 249.0, 262.0, 298.0, 281.0, 276.0, 268.0, 264.0, 286.0, 332.0, 291.0, 347.0, 231.0, 271.0, null, null, null]}, {"color": "#4b60bf", "label": "\u5c11\u5e74", "values": [250.0, 260.0, 295.0, 262.0, 224.0, 266.0, 255.0, 241.0, 247.0, 255.0, 237.0, 249.0, 235.0, 270.0, 245.0, 165.0, 220.0, null, null, null]}, {"color": "#2f3f9a", "label": "\u6210\u4eba", "values": [2689.0, 2549.0, 2705.0, 2288.0, 2332.0, 2432.0, 2372.0, 2349.0, 2320.0, 2339.0, 2433.0, 2486.0, 2314.0, 2262.0, 2289.0, 1935.0, 1981.0, null, null, null]}, {"color": "#171c77", "label": "\u8001\u4eba", "values": [3449.0, 3380.0, 3532.0, 3482.0, 3615.0, 3968.0, 4083.0, 3995.0, 4212.0, 4434.0, 4714.0, 4898.0, 5244.0, 5561.0, 5375.0, 5245.0, 5684.0, null, null, null]}]}, "unit": "\u4ef6"}, "cDisp": {"kind": "categorical", "scope": "city", "series": {"\u5e02\u5168\u4f53": {"2005": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a"], "values": [5186.0, 243.0, 186.0, 166.0, 185.0, 357.0, 328.0, 151.0]}, "2006": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a"], "values": [4774.0, 245.0, 186.0, 205.0, 194.0, 333.0, 313.0, 162.0]}, "2007": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a"], "values": [4914.0, 302.0, 193.0, 213.0, 246.0, 353.0, 330.0, 199.0]}, "2008": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a"], "values": [4777.0, 303.0, 161.0, 202.0, 216.0, 311.0, 307.0, 168.0]}, "2009": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a"], "values": [4817.0, 265.0, 164.0, 238.0, 198.0, 324.0, 322.0, 140.0]}, "2010": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5294.0, 332.0, 183.0, 199.0, 197.0, 302.0, 338.0, 182.0, 436.0, 28.0]}, "2011": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5364.0, 301.0, 184.0, 277.0, 239.0, 302.0, 336.0, 180.0, 433.0, 20.0]}, "2012": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5303.0, 270.0, 189.0, 241.0, 211.0, 325.0, 373.0, 190.0, 386.0, 15.0]}, "2013": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5404.0, 298.0, 171.0, 206.0, 197.0, 380.0, 386.0, 198.0, 454.0, 24.0]}, "2014": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5655.0, 287.0, 148.0, 239.0, 222.0, 348.0, 343.0, 169.0, 518.0, 31.0]}, "2015": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5990.0, 274.0, 152.0, 231.0, 249.0, 377.0, 365.0, 158.0, 536.0, 31.0]}, "2016": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [6403.0, 329.0, 164.0, 228.0, 209.0, 325.0, 374.0, 177.0, 531.0, 21.0]}, "2017": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [6285.0, 341.0, 185.0, 234.0, 235.0, 413.0, 415.0, 152.0, 536.0, 25.0]}, "2018": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [6618.0, 378.0, 149.0, 240.0, 246.0, 362.0, 425.0, 173.0, 488.0, 16.0]}, "2019": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [6529.0, 347.0, 171.0, 245.0, 221.0, 345.0, 375.0, 168.0, 524.0, 26.0]}, "2020": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [5951.0, 268.0, 156.0, 219.0, 212.0, 315.0, 374.0, 163.0, 493.0, 33.0]}, "2021": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [6364.0, 332.0, 168.0, 224.0, 177.0, 330.0, 416.0, 152.0, 565.0, 25.0]}, "2022": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [7249.0, 335.0, 161.0, 237.0, 239.0, 361.0, 447.0, 182.0, 598.0, 17.0]}, "2023": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [8185.0, 356.0, 192.0, 270.0, 226.0, 404.0, 483.0, 192.0, 662.0, 22.0]}, "2024": {"labels": ["\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a", "\u305d\u306e\u4ed6\u7ba1\u5916"], "values": [8083.0, 331.0, 151.0, 262.0, 248.0, 419.0, 448.0, 197.0, 683.0, 14.0]}}}, "unit": "\u4ef6"}, "cDispY": {"kind": "stacked", "scope": "region", "series": {"\u516b\u675f\u753a": [{"label": "\u516b\u675f\u753a", "values": [151.0, 162.0, 199.0, 168.0, 140.0, 182.0, 180.0, 190.0, 198.0, 169.0, 158.0, 177.0, 152.0, 173.0, 168.0, 163.0, 152.0, 182.0, 192.0, 197.0]}], "\u516b\u96f2\u753a": [{"label": "\u516b\u96f2\u753a", "values": [185.0, 194.0, 246.0, 216.0, 198.0, 197.0, 239.0, 211.0, 197.0, 222.0, 249.0, 209.0, 235.0, 246.0, 221.0, 212.0, 177.0, 239.0, 226.0, 248.0]}], "\u5b8d\u9053\u753a": [{"label": "\u5b8d\u9053\u753a", "values": [328.0, 313.0, 330.0, 307.0, 322.0, 338.0, 336.0, 373.0, 386.0, 343.0, 365.0, 374.0, 415.0, 425.0, 375.0, 374.0, 416.0, 447.0, 483.0, 448.0]}], "\u5cf6\u6839\u753a": [{"label": "\u5cf6\u6839\u753a", "values": [186.0, 186.0, 193.0, 161.0, 164.0, 183.0, 184.0, 189.0, 171.0, 148.0, 152.0, 164.0, 185.0, 149.0, 171.0, 156.0, 168.0, 161.0, 192.0, 151.0]}], "\u5e02\u5168\u4f53": [{"color": "#61a6ff", "label": "\u65e7\u677e\u6c5f\u5e02", "values": [5186.0, 4774.0, 4914.0, 4777.0, 4817.0, 5294.0, 5364.0, 5303.0, 5404.0, 5655.0, 5990.0, 6403.0, 6285.0, 6618.0, 6529.0, 5951.0, 6364.0, 7249.0, 8185.0, 8083.0]}, {"color": "#0358af", "label": "\u9e7f\u5cf6\u753a", "values": [243.0, 245.0, 302.0, 303.0, 265.0, 332.0, 301.0, 270.0, 298.0, 287.0, 274.0, 329.0, 341.0, 378.0, 347.0, 268.0, 332.0, 335.0, 356.0, 331.0]}, {"color": "#f67d50", "label": "\u5cf6\u6839\u753a", "values": [186.0, 186.0, 193.0, 161.0, 164.0, 183.0, 184.0, 189.0, 171.0, 148.0, 152.0, 164.0, 185.0, 149.0, 171.0, 156.0, 168.0, 161.0, 192.0, 151.0]}, {"color": "#9a3503", "label": "\u7f8e\u4fdd\u95a2\u753a", "values": [166.0, 205.0, 213.0, 202.0, 238.0, 199.0, 277.0, 241.0, 206.0, 239.0, 231.0, 228.0, 234.0, 240.0, 245.0, 219.0, 224.0, 237.0, 270.0, 262.0]}, {"color": "#0cc286", "label": "\u516b\u96f2\u753a", "values": [185.0, 194.0, 246.0, 216.0, 198.0, 197.0, 239.0, 211.0, 197.0, 222.0, 249.0, 209.0, 235.0, 246.0, 221.0, 212.0, 177.0, 239.0, 226.0, 248.0]}, {"color": "#036c49", "label": "\u7389\u6e6f\u753a", "values": [357.0, 333.0, 353.0, 311.0, 324.0, 302.0, 302.0, 325.0, 380.0, 348.0, 377.0, 325.0, 413.0, 362.0, 345.0, 315.0, 330.0, 361.0, 404.0, 419.0]}, {"color": "#f175a5", "label": "\u5b8d\u9053\u753a", "values": [328.0, 313.0, 330.0, 307.0, 322.0, 338.0, 336.0, 373.0, 386.0, 343.0, 365.0, 374.0, 415.0, 425.0, 375.0, 374.0, 416.0, 447.0, 483.0, 448.0]}, {"color": "#9b255b", "label": "\u516b\u675f\u753a", "values": [151.0, 162.0, 199.0, 168.0, 140.0, 182.0, 180.0, 190.0, 198.0, 169.0, 158.0, 177.0, 152.0, 173.0, 168.0, 163.0, 152.0, 182.0, 192.0, 197.0]}, {"color": "#9a96ff", "label": "\u6771\u51fa\u96f2\u753a", "values": [null, null, null, null, null, 436.0, 433.0, 386.0, 454.0, 518.0, 536.0, 531.0, 536.0, 488.0, 524.0, 493.0, 565.0, 598.0, 662.0, 683.0]}, {"color": "#9aa3b4", "label": "\u305d\u306e\u4ed6\u7ba1\u5916", "values": [null, null, null, null, null, 28.0, 20.0, 15.0, 24.0, 31.0, 31.0, 21.0, 25.0, 16.0, 26.0, 33.0, 25.0, 17.0, 22.0, 14.0]}], "\u65e7\u677e\u6c5f\u5e02": [{"label": "\u65e7\u677e\u6c5f\u5e02", "values": [5186.0, 4774.0, 4914.0, 4777.0, 4817.0, 5294.0, 5364.0, 5303.0, 5404.0, 5655.0, 5990.0, 6403.0, 6285.0, 6618.0, 6529.0, 5951.0, 6364.0, 7249.0, 8185.0, 8083.0]}], "\u6771\u51fa\u96f2\u753a": [{"label": "\u6771\u51fa\u96f2\u753a", "values": [null, null, null, null, null, 436.0, 433.0, 386.0, 454.0, 518.0, 536.0, 531.0, 536.0, 488.0, 524.0, 493.0, 565.0, 598.0, 662.0, 683.0]}], "\u7389\u6e6f\u753a": [{"label": "\u7389\u6e6f\u753a", "values": [357.0, 333.0, 353.0, 311.0, 324.0, 302.0, 302.0, 325.0, 380.0, 348.0, 377.0, 325.0, 413.0, 362.0, 345.0, 315.0, 330.0, 361.0, 404.0, 419.0]}], "\u7f8e\u4fdd\u95a2\u753a": [{"label": "\u7f8e\u4fdd\u95a2\u753a", "values": [166.0, 205.0, 213.0, 202.0, 238.0, 199.0, 277.0, 241.0, 206.0, 239.0, 231.0, 228.0, 234.0, 240.0, 245.0, 219.0, 224.0, 237.0, 270.0, 262.0]}], "\u9e7f\u5cf6\u753a": [{"label": "\u9e7f\u5cf6\u753a", "values": [243.0, 245.0, 302.0, 303.0, 265.0, 332.0, 301.0, 270.0, 298.0, 287.0, 274.0, 329.0, 341.0, 378.0, 347.0, 268.0, 332.0, 335.0, 356.0, 331.0]}]}, "unit": "\u4ef6"}, "cSev": {"kind": "categorical", "scope": "city", "series": {"\u5e02\u5168\u4f53": {"2005": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [75.0, 675.0, 2690.0, 3212.0, 0.0]}, "2006": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [55.0, 670.0, 2737.0, 3012.0, 2.0]}, "2007": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [98.0, 600.0, 2714.0, 3403.0, 4.0]}, "2008": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [108.0, 520.0, 2524.0, 3130.0, 0.0]}, "2009": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [97.0, 545.0, 2627.0, 3161.0, 4.0]}, "2010": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [108.0, 671.0, 2740.0, 3426.0, 1.0]}, "2011": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [96.0, 602.0, 2935.0, 3386.0, 0.0]}, "2012": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [122.0, 582.0, 2914.0, 3267.0, 0.0]}, "2013": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [109.0, 648.0, 3090.0, 3225.0, 3.0]}, "2014": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [108.0, 721.0, 3242.0, 3246.0, 4.0]}, "2015": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [109.0, 846.0, 3531.0, 3184.0, 1.0]}, "2016": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [110.0, 803.0, 3725.0, 3308.0, 0.0]}, "2017": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [94.0, 842.0, 4515.0, 2697.0, 0.0]}, "2018": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [97.0, 779.0, 4686.0, 2840.0, 0.0]}, "2019": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [97.0, 827.0, 4696.0, 2664.0, 0.0]}, "2020": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [95.0, 742.0, 4703.0, 2068.0, 0.0]}, "2021": {"labels": ["\u6b7b\u4ea1", "\u91cd\u75c7", "\u4e2d\u7b49\u75c7", "\u8efd\u50b7", "\u305d\u306e\u4ed6"], "values": [84.0, 773.0, 4948.0, 2372.0, 0.0]}}}, "unit": "\u4ef6"}, "cSevY": {"kind": "stacked", "scope": "city", "series": {"\u5e02\u5168\u4f53": [{"color": "#8ea7ff", "label": "\u6b7b\u4ea1", "values": [75.0, 55.0, 98.0, 108.0, 97.0, 108.0, 96.0, 122.0, 109.0, 108.0, 109.0, 110.0, 94.0, 97.0, 97.0, 95.0, 84.0, null, null, null]}, {"color": "#5f77d8", "label": "\u91cd\u75c7", "values": [675.0, 670.0, 600.0, 520.0, 545.0, 671.0, 602.0, 582.0, 648.0, 721.0, 846.0, 803.0, 842.0, 779.0, 827.0, 742.0, 773.0, null, null, null]}, {"color": "#384aa6", "label": "\u4e2d\u7b49\u75c7", "values": [2690.0, 2737.0, 2714.0, 2524.0, 2627.0, 2740.0, 2935.0, 2914.0, 3090.0, 3242.0, 3531.0, 3725.0, 4515.0, 4686.0, 4696.0, 4703.0, 4948.0, null, null, null]}, {"color": "#171c77", "label": "\u8efd\u50b7", "values": [3212.0, 3012.0, 3403.0, 3130.0, 3161.0, 3426.0, 3386.0, 3267.0, 3225.0, 3246.0, 3184.0, 3308.0, 2697.0, 2840.0, 2664.0, 2068.0, 2372.0, null, null, null]}, {"color": "#9aa3b4", "label": "\u305d\u306e\u4ed6", "values": [0.0, 2.0, 4.0, 0.0, 4.0, 1.0, 0.0, 0.0, 3.0, 4.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, null, null, null]}]}, "unit": "\u4ef6"}, "cType": {"kind": "categorical", "scope": "region", "series": {"\u516b\u675f\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545"], "values": [108.0, 17.0, 16.0, 4.0, 3.0, 2.0, 1.0, null, null, null]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [119.0, 14.0, 14.0, 13.0, 1.0, 1.0, null, null, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [144.0, 26.0, 20.0, 14.0, 4.0, 2.0, null, null, null, null]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [116.0, 25.0, 15.0, 7.0, 3.0, 2.0, null, null, null, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba"], "values": [108.0, 16.0, 12.0, 3.0, 1.0, null, null, null, null, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba"], "values": [130.0, 29.0, 14.0, 5.0, 3.0, 1.0, null, null, null, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [116.0, 30.0, 20.0, 8.0, 4.0, 2.0, null, null, null, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [140.0, 28.0, 8.0, 7.0, 5.0, 2.0, null, null, null, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [155.0, 17.0, 14.0, 7.0, 4.0, 1.0, null, null, null, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [124.0, 21.0, 9.0, 8.0, 3.0, 2.0, 1.0, 1.0, null, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [112.0, 22.0, 7.0, 6.0, 4.0, 3.0, 2.0, 1.0, 1.0, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [131.0, 29.0, 7.0, 4.0, 3.0, 2.0, 1.0, null, null, null, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [102.0, 19.0, 11.0, 7.0, 5.0, 5.0, 2.0, 1.0, null, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [117.0, 29.0, 11.0, 5.0, 3.0, 3.0, 2.0, 2.0, 1.0, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [118.0, 24.0, 17.0, 3.0, 2.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [117.0, 23.0, 7.0, 4.0, 4.0, 4.0, 3.0, 1.0, 0.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [100.0, 28.0, 9.0, 7.0, 3.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [139.0, 24.0, 6.0, 4.0, 4.0, 2.0, 1.0, 1.0, 1.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [132.0, 38.0, 9.0, 7.0, 2.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [148.0, 30.0, 10.0, 3.0, 3.0, 2.0, 1.0, 0.0, 0.0, 0.0, 0.0]}}, "\u516b\u96f2\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545"], "values": [127.0, 34.0, 10.0, 6.0, 3.0, 2.0, 2.0, 1.0, null, null]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545"], "values": [142.0, 29.0, 12.0, 3.0, 3.0, 3.0, 1.0, 1.0, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [181.0, 33.0, 14.0, 10.0, 3.0, 2.0, 2.0, 1.0, 1.0, null]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545"], "values": [150.0, 47.0, 5.0, 5.0, 3.0, 3.0, 2.0, 1.0, null, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [148.0, 31.0, 14.0, 3.0, 1.0, 1.0, null, null, null, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [131.0, 38.0, 12.0, 9.0, 3.0, 2.0, 1.0, 1.0, null, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [161.0, 50.0, 15.0, 4.0, 4.0, 3.0, 2.0, null, null, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [165.0, 33.0, 6.0, 4.0, 2.0, 1.0, null, null, null, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [139.0, 34.0, 13.0, 5.0, 4.0, 1.0, 1.0, null, null, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u81ea\u640d\u884c\u70ba", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [157.0, 35.0, 8.0, 6.0, 6.0, 5.0, 4.0, 1.0, null, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [173.0, 48.0, 15.0, 4.0, 3.0, 3.0, 2.0, 1.0, null, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [147.0, 40.0, 6.0, 5.0, 4.0, 4.0, 2.0, 1.0, null, null, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [179.0, 23.0, 20.0, 6.0, 3.0, 3.0, 1.0, null, null, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [179.0, 35.0, 15.0, 4.0, 4.0, 4.0, 3.0, 2.0, null, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [161.0, 34.0, 11.0, 9.0, 2.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [164.0, 29.0, 8.0, 6.0, 3.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [129.0, 32.0, 7.0, 4.0, 2.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [175.0, 44.0, 8.0, 3.0, 3.0, 3.0, 2.0, 1.0, 0.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [165.0, 36.0, 7.0, 5.0, 5.0, 4.0, 3.0, 1.0, 0.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [186.0, 35.0, 15.0, 7.0, 2.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]}}, "\u5b8d\u9053\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [188.0, 48.0, 43.0, 35.0, 5.0, 4.0, 2.0, 2.0, 1.0, null]}, "2006": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [166.0, 51.0, 43.0, 42.0, 6.0, 4.0, 1.0, null, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [171.0, 55.0, 43.0, 42.0, 10.0, 4.0, 3.0, 1.0, null, null]}, "2008": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [176.0, 49.0, 38.0, 35.0, 3.0, 3.0, 3.0, null, null, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [185.0, 44.0, 39.0, 38.0, 7.0, 5.0, 3.0, 1.0, null, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [172.0, 50.0, 48.0, 48.0, 7.0, 5.0, 4.0, 2.0, 1.0, 1.0]}, "2011": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [185.0, 55.0, 47.0, 34.0, 10.0, 3.0, 2.0, null, null, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [233.0, 63.0, 41.0, 30.0, 4.0, 2.0, null, null, null, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [213.0, 65.0, 49.0, 39.0, 5.0, 5.0, 5.0, 4.0, 1.0, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [187.0, 56.0, 47.0, 45.0, 4.0, 2.0, 1.0, 1.0, null, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [196.0, 68.0, 53.0, 35.0, 5.0, 4.0, 2.0, 1.0, 1.0, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [242.0, 45.0, 40.0, 33.0, 6.0, 5.0, 2.0, 1.0, null, null, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [240.0, 57.0, 52.0, 52.0, 6.0, 5.0, 2.0, 1.0, null, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [248.0, 61.0, 56.0, 49.0, 3.0, 2.0, 2.0, 2.0, 1.0, 1.0, null]}, "2019": {"labels": ["\u6025\u75c5", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [236.0, 51.0, 39.0, 37.0, 4.0, 4.0, 2.0, 1.0, 1.0, 0.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [218.0, 54.0, 49.0, 36.0, 8.0, 6.0, 2.0, 1.0, 0.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [270.0, 63.0, 55.0, 18.0, 6.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [298.0, 52.0, 47.0, 37.0, 6.0, 3.0, 2.0, 1.0, 1.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [317.0, 70.0, 53.0, 36.0, 3.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [285.0, 78.0, 40.0, 35.0, 4.0, 2.0, 2.0, 1.0, 1.0, 0.0, 0.0]}}, "\u5cf6\u6839\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [140.0, 25.0, 6.0, 5.0, 5.0, 4.0, 1.0, null, null, null]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [142.0, 23.0, 9.0, 4.0, 3.0, 3.0, 2.0, null, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [131.0, 35.0, 15.0, 8.0, 2.0, 1.0, 1.0, null, null, null]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba"], "values": [121.0, 23.0, 6.0, 4.0, 4.0, 2.0, 1.0, null, null, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u81ea\u640d\u884c\u70ba", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [122.0, 20.0, 9.0, 4.0, 3.0, 2.0, 2.0, 2.0, null, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u81ea\u640d\u884c\u70ba", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [129.0, 27.0, 9.0, 7.0, 5.0, 3.0, 2.0, 1.0, null, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [124.0, 32.0, 9.0, 5.0, 5.0, 4.0, 3.0, 1.0, 1.0, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [124.0, 45.0, 8.0, 4.0, 3.0, 2.0, 2.0, 1.0, null, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [124.0, 32.0, 6.0, 3.0, 2.0, 2.0, 1.0, 1.0, null, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [105.0, 20.0, 7.0, 4.0, 4.0, 2.0, 2.0, 2.0, 2.0, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [107.0, 28.0, 5.0, 4.0, 2.0, 2.0, 2.0, 1.0, 1.0, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [125.0, 23.0, 8.0, 2.0, 2.0, 2.0, 1.0, 1.0, null, null, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [127.0, 34.0, 9.0, 5.0, 3.0, 2.0, 2.0, 2.0, 1.0, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [118.0, 25.0, 2.0, 2.0, 1.0, 1.0, null, null, null, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u6c34\u96e3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [131.0, 28.0, 3.0, 3.0, 2.0, 2.0, 2.0, 0.0, 0.0, 0.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [114.0, 19.0, 7.0, 3.0, 3.0, 3.0, 3.0, 2.0, 2.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52a0\u5bb3\u4e8b\u6545"], "values": [119.0, 29.0, 5.0, 4.0, 4.0, 2.0, 2.0, 1.0, 1.0, 1.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [114.0, 30.0, 8.0, 4.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [142.0, 36.0, 6.0, 3.0, 2.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [118.0, 23.0, 2.0, 2.0, 2.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0]}}, "\u5e02\u5168\u4f53": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [4232.0, 948.0, 777.0, 576.0, 84.0, 82.0, 72.0, 35.0, 19.0, 12.0]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545"], "values": [4054.0, 915.0, 667.0, 548.0, 105.0, 70.0, 48.0, 23.0, 16.0, 10.0]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545"], "values": [4290.0, 903.0, 779.0, 548.0, 128.0, 87.0, 81.0, 31.0, 8.0, 6.0]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [4349.0, 979.0, 703.0, 500.0, 116.0, 72.0, 58.0, 24.0, 23.0, 17.0]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545"], "values": [4179.0, 916.0, 613.0, 505.0, 123.0, 58.0, 57.0, 32.0, 31.0, 19.0]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545"], "values": [4696.0, 1127.0, 726.0, 604.0, 125.0, 70.0, 59.0, 36.0, 28.0, 20.0]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4900.0, 1189.0, 708.0, 495.0, 148.0, 89.0, 61.0, 22.0, 14.0, 10.0, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4803.0, 1180.0, 725.0, 518.0, 86.0, 81.0, 40.0, 29.0, 22.0, 17.0, 2.0]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4892.0, 1177.0, 728.0, 556.0, 110.0, 81.0, 72.0, 61.0, 23.0, 18.0, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5118.0, 1175.0, 735.0, 562.0, 90.0, 88.0, 75.0, 55.0, 34.0, 27.0, 1.0]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5498.0, 1211.0, 703.0, 611.0, 86.0, 77.0, 68.0, 64.0, 29.0, 16.0, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5800.0, 1261.0, 694.0, 680.0, 95.0, 73.0, 66.0, 36.0, 35.0, 17.0, 4.0]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5796.0, 1345.0, 679.0, 659.0, 93.0, 85.0, 75.0, 54.0, 18.0, 17.0, 0.0]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [6125.0, 1339.0, 723.0, 600.0, 81.0, 71.0, 66.0, 53.0, 25.0, 11.0, 1.0]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5984.0, 1365.0, 749.0, 559.0, 85.0, 77.0, 49.0, 43.0, 22.0, 17.0, 1.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5349.0, 1351.0, 728.0, 479.0, 88.0, 68.0, 41.0, 33.0, 23.0, 16.0, 8.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3", "\u52a0\u5bb3\u4e8b\u6545"], "values": [5860.0, 1382.0, 712.0, 487.0, 94.0, 73.0, 52.0, 44.0, 24.0, 13.0, 12.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [6828.0, 1443.0, 716.0, 507.0, 92.0, 71.0, 68.0, 47.0, 28.0, 23.0, 3.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [7572.0, 1689.0, 782.0, 633.0, 80.0, 77.0, 76.0, 51.0, 22.0, 10.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [7603.0, 1643.0, 761.0, 506.0, 84.0, 80.0, 73.0, 32.0, 30.0, 24.0, 0.0]}}, "\u65e7\u677e\u6c5f\u5e02": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [3162.0, 721.0, 620.0, 460.0, 68.0, 56.0, 54.0, 27.0, 15.0, 3.0]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [2969.0, 676.0, 513.0, 412.0, 81.0, 59.0, 31.0, 19.0, 9.0, 5.0]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [3022.0, 657.0, 603.0, 412.0, 87.0, 71.0, 52.0, 29.0, 3.0, 3.0]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [3022.0, 682.0, 518.0, 350.0, 75.0, 64.0, 30.0, 20.0, 15.0, 2.0]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [3010.0, 692.0, 484.0, 392.0, 101.0, 47.0, 33.0, 31.0, 14.0, 13.0]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [3324.0, 779.0, 532.0, 443.0, 73.0, 55.0, 33.0, 31.0, 12.0, 12.0]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [3437.0, 818.0, 505.0, 374.0, 99.0, 63.0, 33.0, 21.0, 7.0, 7.0, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [3336.0, 834.0, 529.0, 396.0, 68.0, 63.0, 31.0, 26.0, 13.0, 5.0, 2.0]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [3413.0, 816.0, 498.0, 422.0, 75.0, 57.0, 56.0, 40.0, 18.0, 9.0, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [3620.0, 847.0, 527.0, 418.0, 71.0, 62.0, 36.0, 36.0, 23.0, 14.0, 1.0]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [3941.0, 852.0, 496.0, 468.0, 65.0, 54.0, 43.0, 40.0, 23.0, 8.0, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4214.0, 925.0, 519.0, 517.0, 64.0, 49.0, 48.0, 31.0, 25.0, 7.0, 4.0]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4121.0, 992.0, 494.0, 452.0, 76.0, 62.0, 36.0, 33.0, 15.0, 4.0, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4448.0, 986.0, 521.0, 440.0, 61.0, 53.0, 44.0, 37.0, 22.0, 5.0, 1.0]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4328.0, 1020.0, 571.0, 409.0, 59.0, 56.0, 33.0, 28.0, 15.0, 9.0, 1.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [3889.0, 1021.0, 523.0, 328.0, 63.0, 43.0, 31.0, 25.0, 15.0, 7.0, 6.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [4257.0, 1026.0, 503.0, 370.0, 68.0, 45.0, 43.0, 24.0, 13.0, 9.0, 6.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5039.0, 1063.0, 553.0, 372.0, 67.0, 53.0, 48.0, 24.0, 21.0, 7.0, 2.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5655.0, 1254.0, 610.0, 440.0, 63.0, 56.0, 48.0, 37.0, 18.0, 4.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [5695.0, 1222.0, 593.0, 340.0, 62.0, 62.0, 50.0, 28.0, 21.0, 10.0, 0.0]}}, "\u6771\u51fa\u96f2\u753a": {"2005": {"labels": [], "values": []}, "2006": {"labels": [], "values": []}, "2007": {"labels": [], "values": []}, "2008": {"labels": [], "values": []}, "2009": {"labels": [], "values": []}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [272.0, 73.0, 60.0, 14.0, 9.0, 3.0, 2.0, 2.0, 1.0, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [300.0, 54.0, 47.0, 13.0, 11.0, 5.0, 3.0, null, null, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [253.0, 58.0, 53.0, 11.0, 3.0, 3.0, 2.0, 1.0, 1.0, 1.0, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [282.0, 71.0, 66.0, 8.0, 8.0, 7.0, 5.0, 5.0, 2.0, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [350.0, 75.0, 57.0, 12.0, 11.0, 6.0, 4.0, 2.0, 1.0, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [390.0, 71.0, 44.0, 15.0, 6.0, 4.0, 3.0, 2.0, 1.0, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [372.0, 74.0, 54.0, 11.0, 8.0, 6.0, 3.0, 3.0, null, null, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [385.0, 80.0, 37.0, 18.0, 6.0, 4.0, 3.0, 2.0, 1.0, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [350.0, 65.0, 40.0, 17.0, 9.0, 3.0, 2.0, 2.0, null, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [378.0, 68.0, 42.0, 17.0, 7.0, 5.0, 4.0, 1.0, 1.0, 1.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [354.0, 75.0, 33.0, 19.0, 5.0, 4.0, 2.0, 1.0, 0.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [426.0, 77.0, 29.0, 17.0, 7.0, 4.0, 2.0, 2.0, 1.0, 0.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [436.0, 84.0, 38.0, 14.0, 12.0, 7.0, 4.0, 2.0, 1.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [454.0, 107.0, 63.0, 17.0, 11.0, 9.0, 1.0, 0.0, 0.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [514.0, 95.0, 45.0, 16.0, 6.0, 4.0, 2.0, 1.0, 0.0, 0.0, 0.0]}}, "\u7389\u6e6f\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [224.0, 43.0, 41.0, 37.0, 5.0, 4.0, 2.0, 1.0, null, null]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [195.0, 55.0, 40.0, 27.0, 7.0, 5.0, 3.0, 1.0, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [238.0, 49.0, 38.0, 27.0, 5.0, 2.0, 2.0, null, null, null]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545"], "values": [201.0, 38.0, 34.0, 23.0, 8.0, 3.0, 2.0, 1.0, 1.0, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [233.0, 41.0, 30.0, 14.0, 4.0, 1.0, 1.0, null, null, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [202.0, 42.0, 21.0, 21.0, 8.0, 7.0, 1.0, null, null, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [204.0, 52.0, 18.0, 17.0, 4.0, 4.0, 1.0, 1.0, 1.0, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [213.0, 43.0, 39.0, 21.0, 3.0, 2.0, 2.0, 1.0, 1.0, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [251.0, 59.0, 35.0, 25.0, 3.0, 2.0, 2.0, 2.0, 1.0, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [229.0, 44.0, 36.0, 26.0, 5.0, 4.0, 4.0, null, null, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [246.0, 49.0, 44.0, 30.0, 2.0, 2.0, 2.0, 2.0, null, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [210.0, 44.0, 31.0, 30.0, 7.0, 3.0, null, null, null, null, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [259.0, 62.0, 42.0, 37.0, 4.0, 3.0, 2.0, 2.0, 2.0, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [241.0, 48.0, 41.0, 26.0, 3.0, 2.0, 1.0, null, null, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [219.0, 61.0, 32.0, 25.0, 3.0, 3.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [178.0, 50.0, 41.0, 40.0, 3.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3", "\u6c34\u96e3\u4e8b\u6545"], "values": [201.0, 53.0, 44.0, 19.0, 5.0, 3.0, 2.0, 1.0, 1.0, 1.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba"], "values": [244.0, 53.0, 31.0, 25.0, 4.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [273.0, 58.0, 31.0, 31.0, 6.0, 2.0, 1.0, 1.0, 1.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [286.0, 54.0, 36.0, 33.0, 6.0, 3.0, 1.0, 0.0, 0.0, 0.0, 0.0]}}, "\u7f8e\u4fdd\u95a2\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [96.0, 30.0, 19.0, 10.0, 3.0, 3.0, 2.0, 1.0, 1.0, 1.0]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba"], "values": [127.0, 37.0, 28.0, 12.0, 1.0, null, null, null, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [140.0, 30.0, 28.0, 12.0, 8.0, 6.0, 2.0, 1.0, 1.0, null]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [113.0, 38.0, 28.0, 10.0, 8.0, 2.0, 2.0, 1.0, null, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [141.0, 37.0, 24.0, 11.0, 10.0, 6.0, 5.0, 3.0, 1.0, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545"], "values": [122.0, 43.0, 18.0, 8.0, 2.0, 2.0, 2.0, 1.0, 1.0, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [172.0, 68.0, 15.0, 7.0, 6.0, 4.0, 3.0, 1.0, 1.0, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [161.0, 46.0, 10.0, 9.0, 9.0, 3.0, 2.0, 1.0, null, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [130.0, 48.0, 9.0, 8.0, 4.0, 4.0, 2.0, 1.0, null, null, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [164.0, 27.0, 23.0, 12.0, 5.0, 5.0, 1.0, 1.0, 1.0, null, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u305d\u306e\u4ed6", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [151.0, 43.0, 15.0, 6.0, 5.0, 4.0, 3.0, 3.0, 1.0, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [157.0, 36.0, 14.0, 9.0, 3.0, 3.0, 3.0, 1.0, 1.0, 1.0, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [166.0, 37.0, 12.0, 6.0, 5.0, 3.0, 2.0, 2.0, 1.0, null, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [177.0, 37.0, 7.0, 6.0, 6.0, 3.0, 2.0, 1.0, 1.0, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [163.0, 43.0, 13.0, 6.0, 6.0, 6.0, 3.0, 2.0, 2.0, 1.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [150.0, 46.0, 9.0, 7.0, 5.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [134.0, 42.0, 15.0, 14.0, 6.0, 4.0, 3.0, 3.0, 3.0, 0.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [162.0, 40.0, 13.0, 9.0, 4.0, 4.0, 2.0, 1.0, 1.0, 1.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [201.0, 33.0, 18.0, 10.0, 2.0, 2.0, 2.0, 1.0, 1.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [168.0, 46.0, 15.0, 13.0, 8.0, 5.0, 4.0, 2.0, 1.0, 0.0, 0.0]}}, "\u9e7f\u5cf6\u753a": {"2005": {"labels": ["\u6025\u75c5", "\u4ea4\u901a\u4e8b\u6545", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [152.0, 32.0, 30.0, 12.0, 9.0, 4.0, 2.0, 2.0, null, null]}, "2006": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [150.0, 39.0, 19.0, 17.0, 7.0, 6.0, 5.0, 2.0, null, null]}, "2007": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [210.0, 31.0, 22.0, 19.0, 6.0, 6.0, 3.0, 2.0, 1.0, 1.0]}, "2008": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545"], "values": [184.0, 62.0, 21.0, 16.0, 11.0, 4.0, 3.0, 1.0, 1.0, null]}, "2009": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba"], "values": [167.0, 35.0, 28.0, 20.0, 9.0, 5.0, 1.0, null, null, null]}, "2010": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [214.0, 46.0, 24.0, 20.0, 10.0, 9.0, 6.0, 3.0, null, null]}, "2011": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [201.0, 45.0, 23.0, 17.0, 6.0, 5.0, 3.0, 1.0, null, null, null]}, "2012": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [178.0, 52.0, 17.0, 13.0, 4.0, 3.0, 2.0, 1.0, null, null, null]}, "2013": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [184.0, 56.0, 17.0, 17.0, 10.0, 5.0, 5.0, 2.0, 1.0, 1.0, null]}, "2014": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u305d\u306e\u4ed6", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [181.0, 50.0, 17.0, 15.0, 9.0, 5.0, 4.0, 4.0, 1.0, 1.0, null]}, "2015": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [180.0, 45.0, 23.0, 8.0, 8.0, 4.0, 4.0, 2.0, null, null, null]}, "2016": {"labels": ["\u6025\u75c5", "\u305d\u306e\u4ed6", "\u4e00\u822c\u8ca0\u50b7", "\u4ea4\u901a\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u6c34\u96e3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [202.0, 52.0, 45.0, 13.0, 5.0, 4.0, 3.0, 2.0, 2.0, 1.0, null]}, "2017": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [216.0, 46.0, 32.0, 21.0, 9.0, 6.0, 6.0, 3.0, 1.0, 1.0, null]}, "2018": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [246.0, 58.0, 45.0, 18.0, 4.0, 3.0, 2.0, 1.0, 1.0, null, null]}, "2019": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [250.0, 48.0, 28.0, 8.0, 6.0, 4.0, 2.0, 1.0, 0.0, 0.0, 0.0]}, "2020": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545"], "values": [164.0, 43.0, 33.0, 13.0, 5.0, 3.0, 2.0, 2.0, 2.0, 1.0, 0.0]}, "2021": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u706b\u707d\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [222.0, 40.0, 36.0, 15.0, 9.0, 5.0, 2.0, 2.0, 1.0, 0.0, 0.0]}, "2022": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u6c34\u96e3\u4e8b\u6545", "\u4ea4\u901a\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u7136\u707d\u5bb3"], "values": [219.0, 58.0, 28.0, 8.0, 6.0, 6.0, 5.0, 3.0, 2.0, 0.0, 0.0]}, "2023": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [233.0, 57.0, 36.0, 12.0, 6.0, 6.0, 3.0, 2.0, 1.0, 0.0, 0.0]}, "2024": {"labels": ["\u6025\u75c5", "\u4e00\u822c\u8ca0\u50b7", "\u305d\u306e\u4ed6", "\u4ea4\u901a\u4e8b\u6545", "\u52b4\u50cd\u707d\u5bb3\u4e8b\u6545", "\u904b\u52d5\u7af6\u6280\u4e8b\u6545", "\u706b\u707d\u4e8b\u6545", "\u6c34\u96e3\u4e8b\u6545", "\u52a0\u5bb3\u4e8b\u6545", "\u81ea\u640d\u884c\u70ba", "\u81ea\u7136\u707d\u5bb3"], "values": [203.0, 60.0, 38.0, 12.0, 9.0, 5.0, 2.0, 2.0, 0.0, 0.0, 0.0]}}}, "unit": "\u4ef6"}}, "regions": ["\u5e02\u5168\u4f53", "\u65e7\u677e\u6c5f\u5e02", "\u9e7f\u5cf6\u753a", "\u5cf6\u6839\u753a", "\u7f8e\u4fdd\u95a2\u753a", "\u516b\u96f2\u753a", "\u7389\u6e6f\u753a", "\u5b8d\u9053\u753a", "\u516b\u675f\u753a", "\u6771\u51fa\u96f2\u753a"], "years": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}</script><script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+/* 区域と年の選択で、画面の図と表を全部切り替える（anzen-report design.md D8・D32 (9)）。
+   区域の選択（#region）が無い画面は年だけを読み書きする（D34 (1)）。
+   捕獲ハーネス（scripts/ops/chart_capture.js）の身代わりが持つ口だけで書く——
+   document.querySelector と window.addEventListener は持たず、change を this 無しで呼ぶ。 */
+document.addEventListener("DOMContentLoaded",function(){
+  var D=JSON.parse(document.getElementById("d").textContent);
+  var CITY=D.regions[0];
+  var years=D.years.map(String);
+  var state={region:D["default"].region,year:String(D["default"].year)};
+  var drawn={};
+  var picker=document.getElementById("region");
+  function fromHash(){
+    location.hash.replace(/^#/,"").split("&").forEach(function(part){
+      var pair=part.split("="),value=decodeURIComponent(pair[1]||"");
+      if(pair[0]==="region"&&picker&&D.regions.indexOf(value)>=0){state.region=value;}
+      if(pair[0]==="year"&&years.indexOf(value)>=0){state.year=value;}
+    });
+  }
+  function toHash(){history.replaceState(null,"","#"+(picker?"region="+encodeURIComponent(state.region)+"&":"")+"year="+state.year);}
+  function each(selector,fn){var nodes=document.querySelectorAll(selector);for(var i=0;i<nodes.length;i++){fn(nodes[i]);}}
+  /* 値の在る最後の年で軸を切る（#193）。**末尾だけを切り、頭は切らない**
+     ——頭の空きは「その年の表にこの区域の行が無い」であり、消すと事実が消える。
+     切らないと、系列が先に終わっている図（救急の傷病程度・年齢は2021年まで、
+     交通の事故と違反は2022年まで）の右側に、**空の年が並ぶ**。 */
+  function trimmed(axis,sets){
+    var last=-1;
+    for(var i=0;i<sets.length;i++){
+      var values=sets[i].values||[];
+      for(var j=0;j<values.length;j++){
+        if(values[j]!==null&&values[j]!==undefined&&j>last){last=j;}
+      }
+    }
+    if(last<0||last>=axis.x.length-1){return axis;}
+    return {x:axis.x.slice(0,last+1),l:axis.l.slice(0,last+1),t:axis.t};
+  }
+  function figure(id,f){
+    if(drawn[id]){drawn[id].destroy();drawn[id]=null;}
+    if(f.scope==="city"&&state.region!==CITY){return;}
+    var s=f.series[f.scope==="city"?CITY:state.region];
+    if(f.kind==="stacked"){drawn[id]=MS.stackedBar(id,trimmed(D.axis,s),s,f.unit,0);}
+    else if(f.kind==="line"){drawn[id]=MS.line(id,trimmed(D.axis,s),s,f.unit,0);}
+    else{var c=s[state.year]||{labels:[],values:[]};drawn[id]=MS.categorical(id,"bar",c.labels,[{label:"",values:c.values}],f.unit,{horizontal:true,digits:0});}
+    /* 図が描けなかったときは、**単位の文も連れて隠す**（#193）。共有の `frame()` は
+       枠と見出しまでを持つので、**その次に置いた単位の文だけが残っていた**
+       ——救急の年の側で「単位——件。」が2つ、見出しの無いまま並んでいた。 */
+    var note=document.getElementById("u-"+id);
+    if(note){note.hidden=!drawn[id];}
+  }
+  function draw(){
+    Object.keys(D.figures).forEach(function(id){figure(id,D.figures[id]);});
+    var city=state.region===CITY;
+    each("[data-scope]",function(n){n.hidden=!city;});
+    each("[data-scope-note]",function(n){n.hidden=city;});
+    each("[data-region]",function(n){var r=n.getAttribute("data-region");n.hidden=!(r===state.region||(city&&n.hasAttribute("data-breakdown")));});
+  }
+  function listen(id,key){document.getElementById(id).addEventListener("change",function(){state[key]=document.getElementById(id).value;draw();toHash();});}
+  fromHash();
+  if(picker){picker.value=state.region;listen("region","region");}
+  document.getElementById("year").value=state.year;
+  listen("year","year");
+  draw();
+});
+</script>
+</body>
+</html>
