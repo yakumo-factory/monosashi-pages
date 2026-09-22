@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.7.2">
+<title>進路 — 松江市 教育レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="教育レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 教育レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 教育レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+</div>
+<div class="grp">
+<h3>学びの場を見る</h3>
+<a href="01-gakko.html" title="学校"><svg class="ic"><use href="#ic-age"/></svg><span class="lbl">学校</span></a>
+</div>
+<div class="grp">
+<h3>卒業後を見る</h3>
+<a href="02-shinro.html" aria-current="page" title="進路"><svg class="ic"><use href="#ic-trend"/></svg><span class="lbl">進路</span></a>
+</div>
+<div class="grp">
+<h3>社会教育を見る</h3>
+<a href="03-kominkan.html" title="公民館"><svg class="ic"><use href="#ic-home2"/></svg><span class="lbl">公民館</span></a>
+<a href="04-toshokan.html" title="図書館と文化財"><svg class="ic"><use href="#ic-book"/></svg><span class="lbl">図書館と文化財</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 教育レポート / 進路</p>
+  <h1>進路</h1>
+  <p class="lede">松江市の中学校・高等学校を卒業した人が、<b>どこへ行ったか</b>を見ます。</p>
+<noscript><div class="ns">図は JavaScript が有効なときだけ描かれます。<b>数値はすべて「正確な値」の表にあります。</b></div></noscript><style>.neg{color:#b3261e}</style><div class="pick" style="padding:0 0 20px"><label for="seg"><b>見る段</b></label><select id="seg"><option value="chugakko_shinro" selected>中学校</option><option value="koko_shinro">高等学校</option></select><span class="note">2つの段から1つ選ぶと、このページの図が全部その段になります。その段が持たない項目は、見出しごと隠します。</span></div>
+<section class="section" id="s-ic-trend">
+  <h2><svg class="ic"><use href="#ic-trend"/></svg>経年で見る</h2>
+  <p class="sub">行き先ごとに、年の側から見たものです。積み上げた棒の高さが、その年の卒業者の数です。</p>
+<div data-seg="chugakko_shinro koko_shinro">
+<h3 class="fig-only" id="cap-ch-all">行き先の内訳</h3>
+<div class="chartbox"><canvas id="ch-all"></canvas></div>
+<p class="unit" id="u-ch-all">単位——人。積み上げた棒の高さが、その年の卒業者の数です。</p>
+</div>
+<div data-seg="chugakko_shinro">
+<h3 class="fig-only" id="cap-ch-rest">進学者を外した、残りの行き先</h3>
+<div class="chartbox"><canvas id="ch-rest"></canvas></div>
+<p class="unit" id="u-ch-rest">単位——人。この図の高さは、その年の合計ではありません。</p>
+</div><p class="note" id="u-seg-ch-rest" data-seg-note hidden>この段には置いていません——高等学校は大学等進学者が49.5%で、上の図でそのまま読めます。</p>
+</section>
+<section class="section" id="s-year">
+  <h2><svg class="ic"><use href="#ic-panel"/></svg>年を選んで、内訳を見る</h2>
+  <p class="sub">上と同じ段を、選んだ年だけ見たものです。</p>
+  <div class="pick"><label for="year">年を選ぶ</label><select id="year"><option value="2005">平成17年</option><option value="2006">平成18年</option><option value="2007">平成19年</option><option value="2008">平成20年</option><option value="2009">平成21年</option><option value="2010">平成22年</option><option value="2011">平成23年</option><option value="2012">平成24年</option><option value="2013">平成25年</option><option value="2014">平成26年</option><option value="2015">平成27年</option><option value="2016">平成28年</option><option value="2017">平成29年</option><option value="2018">平成30年</option><option value="2019">令和元年</option><option value="2020">令和2年</option><option value="2021">令和3年</option><option value="2022">令和4年</option><option value="2023" selected>令和5年</option></select></div>
+<div data-seg="chugakko_shinro koko_shinro">
+<h3 class="fig-only" id="cap-ch-year">行き先の区分ごと</h3>
+<div class="chartbox"><canvas id="ch-year"></canvas></div>
+<p class="unit" id="u-ch-year">単位——人。横軸は行き先の区分で、綴りはデータ元のままです。</p>
+</div>
+</section>
+<section class="section" id="s-values">
+  <h2><svg class="ic"><use href="#ic-list"/></svg>正確な値</h2>
+<div id="t-chugakko_shinro" data-seg="chugakko_shinro">
+<h3>中学校の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">高等学校等進学者（人）</th><th class="n">専修学校(高等課程)進学者（人）</th><th class="n">専修学校(一般課程)等入学者（人）</th><th class="n">公共職業能力開発施設等入学者（人）</th><th class="n">就職者（人）</th><th class="n">左記以外の者（人）</th><th class="n">死亡・不詳（人）</th><th class="n">計（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">2,075</td><td class="n">4</td><td class="n">1</td><td class="n">1</td><td class="n">22</td><td class="n">14</td><td class="n">0</td><td class="n">2,117</td></tr>
+<tr><th>平成18年</th><td class="n">2,048</td><td class="n">0</td><td class="n">3</td><td class="n">2</td><td class="n">13</td><td class="n">10</td><td class="n">0</td><td class="n">2,076</td></tr>
+<tr><th>平成19年</th><td class="n">2,026</td><td class="n">0</td><td class="n">1</td><td class="n">5</td><td class="n">15</td><td class="n">23</td><td class="n">0</td><td class="n">2,070</td></tr>
+<tr><th>平成20年</th><td class="n">1,910</td><td class="n">1</td><td class="n">0</td><td class="n">5</td><td class="n">1</td><td class="n">17</td><td class="n">0</td><td class="n">1,934</td></tr>
+<tr><th>平成21年</th><td class="n">2,013</td><td class="n">2</td><td class="n">2</td><td class="n">4</td><td class="n">3</td><td class="n">16</td><td class="n">0</td><td class="n">2,040</td></tr>
+<tr><th>平成22年</th><td class="n">1,916</td><td class="n">0</td><td class="n">0</td><td class="n">3</td><td class="n">1</td><td class="n">14</td><td class="n">0</td><td class="n">1,934</td></tr>
+<tr><th>平成23年</th><td class="n">1,918</td><td class="n">2</td><td class="n">0</td><td class="n">2</td><td class="n">0</td><td class="n">15</td><td class="n">0</td><td class="n">1,937</td></tr>
+<tr><th>平成24年</th><td class="n">2,046</td><td class="n">2</td><td class="n">0</td><td class="n">2</td><td class="n">5</td><td class="n">18</td><td class="n">0</td><td class="n">2,073</td></tr>
+<tr><th>平成25年</th><td class="n">2,013</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td class="n">2</td><td class="n">17</td><td class="n">0</td><td class="n">2,034</td></tr>
+<tr><th>平成26年</th><td class="n">1,983</td><td class="n">1</td><td class="n">1</td><td class="n">3</td><td class="n">4</td><td class="n">33</td><td class="n">0</td><td class="n">2,025</td></tr>
+<tr><th>平成27年</th><td class="n">2,032</td><td class="n">3</td><td class="n">1</td><td class="n">0</td><td class="n">4</td><td class="n">16</td><td class="n">0</td><td class="n">2,056</td></tr>
+<tr><th>平成28年</th><td class="n">1,969</td><td class="n">1</td><td class="n">2</td><td class="n">1</td><td class="n">5</td><td class="n">14</td><td class="n">0</td><td class="n">1,992</td></tr>
+<tr><th>平成29年</th><td class="n">1,934</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">7</td><td class="n">19</td><td class="n">2</td><td class="n">1,963</td></tr>
+<tr><th>平成30年</th><td class="n">1,923</td><td class="n">1</td><td class="n">0</td><td class="n">3</td><td class="n">6</td><td class="n">13</td><td class="n">0</td><td class="n">1,946</td></tr>
+<tr><th>令和元年</th><td class="n">1,798</td><td class="n">3</td><td class="n">1</td><td class="n">2</td><td class="n">9</td><td class="n">10</td><td class="n">0</td><td class="n">1,823</td></tr>
+<tr><th>令和2年</th><td class="n">1,657</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">9</td><td class="n">8</td><td class="n">0</td><td class="n">1,675</td></tr>
+<tr><th>令和3年</th><td class="n">1,589</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n">17</td><td class="n">0</td><td class="n">1,608</td></tr>
+<tr><th>令和4年</th><td class="n">1,629</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">4</td><td class="n">6</td><td class="n">0</td><td class="n">1,639</td></tr>
+<tr><th>令和5年</th><td class="n">1,645</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n">2</td><td class="n">17</td><td class="n">0</td><td class="n">1,665</td></tr>
+</tbody></table></div>
+</div>
+<div id="t-koko_shinro" data-seg="koko_shinro">
+<h3>高等学校の正確な値</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年</th><th class="n">大学等進学者（人）</th><th class="n">専修学校(専門課程)進学者（人）</th><th class="n">専修学校(一般課程)等入学者（人）</th><th class="n">公共職業能力開発施設等入学者（人）</th><th class="n">就職者（人）</th><th class="n">一時的な仕事についた者（人）</th><th class="n">左記以外の者（人）</th><th class="n">死亡・不詳（人）</th><th class="n">計（人）</th></tr></thead><tbody>
+<tr><th>平成17年</th><td class="n">1,119</td><td class="n">468</td><td class="n">95</td><td class="n">22</td><td class="n">449</td><td class="n">24</td><td class="n">196</td><td class="n">1</td><td class="n">2,374</td></tr>
+<tr><th>平成18年</th><td class="n">1,092</td><td class="n">482</td><td class="n">64</td><td class="n">15</td><td class="n">484</td><td class="n">51</td><td class="n">139</td><td class="n">0</td><td class="n">2,327</td></tr>
+<tr><th>平成19年</th><td class="n">1,096</td><td class="n">452</td><td class="n">88</td><td class="n">17</td><td class="n">452</td><td class="n">49</td><td class="n">129</td><td class="n">0</td><td class="n">2,283</td></tr>
+<tr><th>平成20年</th><td class="n">986</td><td class="n">432</td><td class="n">53</td><td class="n">12</td><td class="n">445</td><td class="n">18</td><td class="n">189</td><td class="n">0</td><td class="n">2,135</td></tr>
+<tr><th>平成21年</th><td class="n">1,076</td><td class="n">444</td><td class="n">38</td><td class="n">11</td><td class="n">420</td><td class="n">30</td><td class="n">156</td><td class="n">0</td><td class="n">2,175</td></tr>
+<tr><th>平成22年</th><td class="n">1,131</td><td class="n">392</td><td class="n">29</td><td class="n">18</td><td class="n">345</td><td class="n">19</td><td class="n">183</td><td class="n">4</td><td class="n">2,121</td></tr>
+<tr><th>平成23年</th><td class="n">967</td><td class="n">401</td><td class="n">25</td><td class="n">24</td><td class="n">355</td><td class="n">23</td><td class="n">158</td><td class="n">0</td><td class="n">1,953</td></tr>
+<tr><th>平成24年</th><td class="n">1,017</td><td class="n">427</td><td class="n">121</td><td class="n">23</td><td class="n">383</td><td class="n">8</td><td class="n">112</td><td class="n">0</td><td class="n">2,091</td></tr>
+<tr><th>平成25年</th><td class="n">942</td><td class="n">453</td><td class="n">81</td><td class="n">17</td><td class="n">402</td><td class="n">20</td><td class="n">144</td><td class="n">0</td><td class="n">2,059</td></tr>
+<tr><th>平成26年</th><td class="n">957</td><td class="n">434</td><td class="n">69</td><td class="n">15</td><td class="n">408</td><td class="n">13</td><td class="n">102</td><td class="n">0</td><td class="n">1,998</td></tr>
+<tr><th>平成27年</th><td class="n">963</td><td class="n">431</td><td class="n">81</td><td class="n">9</td><td class="n">446</td><td class="n">12</td><td class="n">110</td><td class="n">1</td><td class="n">2,053</td></tr>
+<tr><th>平成28年</th><td class="n">983</td><td class="n">377</td><td class="n">122</td><td class="n">7</td><td class="n">389</td><td class="n">10</td><td class="n">83</td><td class="n">1</td><td class="n">1,972</td></tr>
+<tr><th>平成29年</th><td class="n">939</td><td class="n">352</td><td class="n">123</td><td class="n">10</td><td class="n">469</td><td class="n">6</td><td class="n">94</td><td class="n">0</td><td class="n">1,993</td></tr>
+<tr><th>平成30年</th><td class="n">977</td><td class="n">363</td><td class="n">88</td><td class="n">11</td><td class="n">434</td><td class="n">2</td><td class="n">151</td><td class="n">0</td><td class="n">2,026</td></tr>
+<tr><th>令和元年</th><td class="n">936</td><td class="n">353</td><td class="n">142</td><td class="n">21</td><td class="n">432</td><td class="n">4</td><td class="n">73</td><td class="n">0</td><td class="n">1,961</td></tr>
+<tr><th>令和2年</th><td class="n">878</td><td class="n">378</td><td class="n">114</td><td class="n">21</td><td class="n">479</td><td class="n">1</td><td class="n">47</td><td class="n">1</td><td class="n">1,919</td></tr>
+<tr><th>令和3年</th><td class="n">919</td><td class="n">332</td><td class="n">161</td><td class="n">30</td><td class="n">339</td><td class="n">2</td><td class="n">77</td><td class="n">0</td><td class="n">1,920</td></tr>
+<tr><th>令和4年</th><td class="n">917</td><td class="n">363</td><td class="n">32</td><td class="n">30</td><td class="n">332</td><td class="n">0</td><td class="n">85</td><td class="n">1</td><td class="n">1,760</td></tr>
+<tr><th>令和5年</th><td class="n">880</td><td class="n">375</td><td class="n">52</td><td class="n">24</td><td class="n">362</td><td class="n">0</td><td class="n">86</td><td class="n">0</td><td class="n">1,779</td></tr>
+</tbody></table></div>
+</div>
+  <p class="note">出所は松江市統計情報データベースの識別子です。同じ時点を2つのファイルが持つときは、データ元が提出印を付けた側か、識別子の新しい側を採っています。</p>
+</section>
+<section class="section" id="s-caution">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead><tbody>
+<tr><td>行き先の和が計と合わない年</td><td>高等学校の令和3年は計 1,920 に対し、行き先を足すと 1,860 で 60 足りません。データ元の値を直さずに出しています。</td></tr>
+<tr><td>進学者を外した図</td><td>中学校は高等学校等進学者が98.8%で置いています／高等学校は大学等進学者が49.5%で置いていません。いちばん多い行き先が8割を超えるときだけ置いています。この図の高さは、その年の合計ではありません。</td></tr>
+<tr><td>進学しながら就職している人は、積んでいない</td><td>データ元が、ほかの区分の内数として別に載せている数です。積むと同じ人を二度数えるので、図にも表にも入れていません。</td></tr>
+<tr><td>東出雲町は2012年から入っている</td><td>東出雲町の数は平成24年から入っています。編入前の東出雲町の数は、松江市の数に足していません。</td></tr>
+<tr><td>中学校と高等学校で、数えている人が違う</td><td>中学校は市内の中学校を卒業した人、高等学校は市内の高等学校を卒業した人です。同じ人の6年後を追いかけたものではありません——市外から通う生徒も、市外へ進む生徒もいます。</td></tr>
+</tbody></table></div>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年9月17日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"axis": {"chugakko_shinro": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}, "koko_shinro": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4", "R5"], "p": ["\u5e73\u621017\u5e74", "\u5e73\u621018\u5e74", "\u5e73\u621019\u5e74", "\u5e73\u621020\u5e74", "\u5e73\u621021\u5e74", "\u5e73\u621022\u5e74", "\u5e73\u621023\u5e74", "\u5e73\u621024\u5e74", "\u5e73\u621025\u5e74", "\u5e73\u621026\u5e74", "\u5e73\u621027\u5e74", "\u5e73\u621028\u5e74", "\u5e73\u621029\u5e74", "\u5e73\u621030\u5e74", "\u4ee4\u548c\u5143\u5e74", "\u4ee4\u548c2\u5e74", "\u4ee4\u548c3\u5e74", "\u4ee4\u548c4\u5e74", "\u4ee4\u548c5\u5e74"], "px": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023], "t": "\u5e74", "x": [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]}}, "figures": {"ch-all": {"axis": null, "kind": "stacked", "nodata": {"chugakko_shinro": [], "koko_shinro": []}, "segs": ["chugakko_shinro", "koko_shinro"], "series": {"chugakko_shinro": [{"label": "\u9ad8\u7b49\u5b66\u6821\u7b49\u9032\u5b66\u8005", "values": [2075.0, 2048.0, 2026.0, 1910.0, 2013.0, 1916.0, 1918.0, 2046.0, 2013.0, 1983.0, 2032.0, 1969.0, 1934.0, 1923.0, 1798.0, 1657.0, 1589.0, 1629.0, 1645.0]}], "koko_shinro": [{"label": "\u5927\u5b66\u7b49\u9032\u5b66\u8005", "values": [1119.0, 1092.0, 1096.0, 986.0, 1076.0, 1131.0, 967.0, 1017.0, 942.0, 957.0, 963.0, 983.0, 939.0, 977.0, 936.0, 878.0, 919.0, 917.0, 880.0]}]}, "texts": {"chugakko_shinro": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u5352\u696d\u8005\u306e\u6570\u3067\u3059\u3002", "koko_shinro": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u7a4d\u307f\u4e0a\u3052\u305f\u68d2\u306e\u9ad8\u3055\u304c\u3001\u305d\u306e\u5e74\u306e\u5352\u696d\u8005\u306e\u6570\u3067\u3059\u3002"}, "titles": {"chugakko_shinro": "\u884c\u304d\u5148\u306e\u5185\u8a33", "koko_shinro": "\u884c\u304d\u5148\u306e\u5185\u8a33"}, "unfetched": [], "unit": "\u4eba"}, "ch-rest": {"axis": null, "kind": "stacked", "nodata": {"chugakko_shinro": []}, "segs": ["chugakko_shinro"], "series": {"chugakko_shinro": [{"label": "\u9ad8\u7b49\u5b66\u6821\u7b49\u9032\u5b66\u8005", "values": [2075.0, 2048.0, 2026.0, 1910.0, 2013.0, 1916.0, 1918.0, 2046.0, 2013.0, 1983.0, 2032.0, 1969.0, 1934.0, 1923.0, 1798.0, 1657.0, 1589.0, 1629.0, 1645.0]}]}, "texts": {"chugakko_shinro": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u3053\u306e\u56f3\u306e\u9ad8\u3055\u306f\u3001\u305d\u306e\u5e74\u306e\u5408\u8a08\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"}, "titles": {"chugakko_shinro": "\u9032\u5b66\u8005\u3092\u5916\u3057\u305f\u3001\u6b8b\u308a\u306e\u884c\u304d\u5148"}, "unfetched": [], "unit": "\u4eba"}, "ch-year": {"axis": {"chugakko_shinro": {"l": ["\u9ad8\u7b49\u5b66\u6821/\u7b49\u9032\u5b66\u8005/A", "\u5c02\u4fee\u5b66\u6821/(\u9ad8\u7b49\u8ab2\u7a0b)/\u9032\u5b66\u8005B", "\u5c02\u4fee\u5b66\u6821/(\u4e00\u822c\u8ab2\u7a0b)/\u7b49\u5165\u5b66\u8005C", "\u516c\u5171\u8077\u696d\u80fd\u529b/\u958b\u767a\u65bd\u8a2d/\u7b49\u5165\u5b66\u8005D", "/\u5c31\u8077\u8005/E", "\u5de6\u8a18\u4ee5\u5916/\u306e\u8005/F", "/\u6b7b\u4ea1\u30fb\u4e0d\u8a73/G"], "t": "\u884c\u304d\u5148\u306e\u533a\u5206", "x": [0, 1, 2, 3, 4, 5, 6]}, "koko_shinro": {"l": ["\u5927\u5b66\u7b49/\u9032\u5b66\u8005/A", "\u5c02\u4fee\u5b66\u6821/(\u5c02\u9580\u8ab2\u7a0b)/\u9032\u5b66\u8005B", "\u5c02\u4fee\u5b66\u6821/(\u4e00\u822c\u8ab2\u7a0b)/\u7b49\u5165\u5b66\u8005C", "\u516c\u5171\u8077\u696d\u80fd\u529b/\u958b\u767a\u65bd\u8a2d/\u7b49\u5165\u5b66\u8005D", "\u5c31\u8077\u8005/\u5c31\u8077\u8005/\u5c31\u8077\u8005", "\u4e00\u6642\u7684\u306a/\u4ed5\u4e8b\u306b/\u3064\u3044\u305f\u8005", "\u5de6\u8a18\u4ee5\u5916\u306e\u8005/\u5de6\u8a18\u4ee5\u5916\u306e\u8005/\u5de6\u8a18\u4ee5\u5916\u306e\u8005", "\u6b7b\u4ea1\u30fb\u4e0d\u8a73/\u6b7b\u4ea1\u30fb\u4e0d\u8a73/\u6b7b\u4ea1\u30fb\u4e0d\u8a73"], "t": "\u884c\u304d\u5148\u306e\u533a\u5206", "x": [0, 1, 2, 3, 4, 5, 6, 7]}}, "kind": "categorical", "nodata": {"chugakko_shinro": [], "koko_shinro": []}, "segs": ["chugakko_shinro", "koko_shinro"], "series": {"chugakko_shinro": {"2005": [{"label": "\u5352\u696d\u8005\u6570", "values": [2075.0, 4.0, 1.0, 1.0, 22.0, 14.0, 0.0]}], "2006": [{"label": "\u5352\u696d\u8005\u6570", "values": [2048.0, 0.0, 3.0, 2.0, 13.0, 10.0, 0.0]}], "2007": [{"label": "\u5352\u696d\u8005\u6570", "values": [2026.0, 0.0, 1.0, 5.0, 15.0, 23.0, 0.0]}], "2008": [{"label": "\u5352\u696d\u8005\u6570", "values": [1910.0, 1.0, 0.0, 5.0, 1.0, 17.0, 0.0]}], "2009": [{"label": "\u5352\u696d\u8005\u6570", "values": [2013.0, 2.0, 2.0, 4.0, 3.0, 16.0, 0.0]}], "2010": [{"label": "\u5352\u696d\u8005\u6570", "values": [1916.0, 0.0, 0.0, 3.0, 1.0, 14.0, 0.0]}], "2011": [{"label": "\u5352\u696d\u8005\u6570", "values": [1918.0, 2.0, 0.0, 2.0, 0.0, 15.0, 0.0]}], "2012": [{"label": "\u5352\u696d\u8005\u6570", "values": [2046.0, 2.0, 0.0, 2.0, 5.0, 18.0, 0.0]}], "2013": [{"label": "\u5352\u696d\u8005\u6570", "values": [2013.0, 1.0, 1.0, 0.0, 2.0, 17.0, 0.0]}], "2014": [{"label": "\u5352\u696d\u8005\u6570", "values": [1983.0, 1.0, 1.0, 3.0, 4.0, 33.0, 0.0]}], "2015": [{"label": "\u5352\u696d\u8005\u6570", "values": [2032.0, 3.0, 1.0, 0.0, 4.0, 16.0, 0.0]}], "2016": [{"label": "\u5352\u696d\u8005\u6570", "values": [1969.0, 1.0, 2.0, 1.0, 5.0, 14.0, 0.0]}], "2017": [{"label": "\u5352\u696d\u8005\u6570", "values": [1934.0, 0.0, 1.0, 0.0, 7.0, 19.0, 2.0]}], "2018": [{"label": "\u5352\u696d\u8005\u6570", "values": [1923.0, 1.0, 0.0, 3.0, 6.0, 13.0, 0.0]}], "2019": [{"label": "\u5352\u696d\u8005\u6570", "values": [1798.0, 3.0, 1.0, 2.0, 9.0, 10.0, 0.0]}], "2020": [{"label": "\u5352\u696d\u8005\u6570", "values": [1657.0, 1.0, 0.0, 0.0, 9.0, 8.0, 0.0]}], "2021": [{"label": "\u5352\u696d\u8005\u6570", "values": [1589.0, 1.0, 0.0, 0.0, 1.0, 17.0, 0.0]}], "2022": [{"label": "\u5352\u696d\u8005\u6570", "values": [1629.0, 0.0, 0.0, 0.0, 4.0, 6.0, 0.0]}], "2023": [{"label": "\u5352\u696d\u8005\u6570", "values": [1645.0, 0.0, 0.0, 1.0, 2.0, 17.0, 0.0]}]}, "koko_shinro": {"2005": [{"label": "\u5352\u696d\u8005\u6570", "values": [1119.0, 468.0, 95.0, 22.0, 449.0, 24.0, 196.0, 1.0]}], "2006": [{"label": "\u5352\u696d\u8005\u6570", "values": [1092.0, 482.0, 64.0, 15.0, 484.0, 51.0, 139.0, 0.0]}], "2007": [{"label": "\u5352\u696d\u8005\u6570", "values": [1096.0, 452.0, 88.0, 17.0, 452.0, 49.0, 129.0, 0.0]}], "2008": [{"label": "\u5352\u696d\u8005\u6570", "values": [986.0, 432.0, 53.0, 12.0, 445.0, 18.0, 189.0, 0.0]}], "2009": [{"label": "\u5352\u696d\u8005\u6570", "values": [1076.0, 444.0, 38.0, 11.0, 420.0, 30.0, 156.0, 0.0]}], "2010": [{"label": "\u5352\u696d\u8005\u6570", "values": [1131.0, 392.0, 29.0, 18.0, 345.0, 19.0, 183.0, 4.0]}], "2011": [{"label": "\u5352\u696d\u8005\u6570", "values": [967.0, 401.0, 25.0, 24.0, 355.0, 23.0, 158.0, 0.0]}], "2012": [{"label": "\u5352\u696d\u8005\u6570", "values": [1017.0, 427.0, 121.0, 23.0, 383.0, 8.0, 112.0, 0.0]}], "2013": [{"label": "\u5352\u696d\u8005\u6570", "values": [942.0, 453.0, 81.0, 17.0, 402.0, 20.0, 144.0, 0.0]}], "2014": [{"label": "\u5352\u696d\u8005\u6570", "values": [957.0, 434.0, 69.0, 15.0, 408.0, 13.0, 102.0, 0.0]}], "2015": [{"label": "\u5352\u696d\u8005\u6570", "values": [963.0, 431.0, 81.0, 9.0, 446.0, 12.0, 110.0, 1.0]}], "2016": [{"label": "\u5352\u696d\u8005\u6570", "values": [983.0, 377.0, 122.0, 7.0, 389.0, 10.0, 83.0, 1.0]}], "2017": [{"label": "\u5352\u696d\u8005\u6570", "values": [939.0, 352.0, 123.0, 10.0, 469.0, 6.0, 94.0, 0.0]}], "2018": [{"label": "\u5352\u696d\u8005\u6570", "values": [977.0, 363.0, 88.0, 11.0, 434.0, 2.0, 151.0, 0.0]}], "2019": [{"label": "\u5352\u696d\u8005\u6570", "values": [936.0, 353.0, 142.0, 21.0, 432.0, 4.0, 73.0, 0.0]}], "2020": [{"label": "\u5352\u696d\u8005\u6570", "values": [878.0, 378.0, 114.0, 21.0, 479.0, 1.0, 47.0, 1.0]}], "2021": [{"label": "\u5352\u696d\u8005\u6570", "values": [919.0, 332.0, 161.0, 30.0, 339.0, 2.0, 77.0, 0.0]}], "2022": [{"label": "\u5352\u696d\u8005\u6570", "values": [917.0, 363.0, 32.0, 30.0, 332.0, 0.0, 85.0, 1.0]}], "2023": [{"label": "\u5352\u696d\u8005\u6570", "values": [880.0, 375.0, 52.0, 24.0, 362.0, 0.0, 86.0, 0.0]}]}}, "texts": {"chugakko_shinro": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u884c\u304d\u5148\u306e\u533a\u5206\u3067\u3001\u7db4\u308a\u306f\u30c7\u30fc\u30bf\u5143\u306e\u307e\u307e\u3067\u3059\u3002", "koko_shinro": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u6a2a\u8ef8\u306f\u884c\u304d\u5148\u306e\u533a\u5206\u3067\u3001\u7db4\u308a\u306f\u30c7\u30fc\u30bf\u5143\u306e\u307e\u307e\u3067\u3059\u3002"}, "titles": {"chugakko_shinro": "\u884c\u304d\u5148\u306e\u533a\u5206\u3054\u3068", "koko_shinro": "\u884c\u304d\u5148\u306e\u533a\u5206\u3054\u3068"}, "unfetched": [], "unit": "\u4eba"}}, "pick": {"default": {"seg": "chugakko_shinro", "year": 2023}, "kind": "segment", "segs": ["chugakko_shinro", "koko_shinro"]}}</script><script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && head.tagName === "H3" && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+/* 選択で画面の図を全部切り替える（#234 の決定D7・D8・D11）。**3形を1本で持つ**——
+   `D.pick.kind` が `segment`（学校・進路: `{seg, year}`）／`time`（公民館: `{time}`）／
+   `none`（図書館と文化財: 状態なし）。
+
+   ★**区域の JS を写していない**（anzen の `_region_select.js`）。あちらの `scope` は
+   「市全体だけの図か」であり、こちらの `segs` は「**その項目を持つ段の白名簿**」で、
+   意味が違う。写すと「持たないから描かない」と「市全体だから描かない」が混ざる。
+
+   ★**捕獲ハーネス（`scripts/ops/chart_capture.js`）の身代わりが持つ口だけで書く**——
+   `document.querySelector` と `window.addEventListener` を持たず、`change` を `this` 無しで呼ぶ。
+   **`document.querySelectorAll` は身代わりでは常に空を返す**ので、**隠すものは id で引く**。
+
+   ★**段が持たない項目は、空の系列を共有の描き手へ渡して隠す。** 共有の `frame()` が
+   枠と `h3.fig-only` をひとかたまりで隠すので、**こちらで枠を触らない**（`_charts.js` を
+   触らないため）。対の注は `u-seg-<id>` で、**隠したときだけ**出す（決定D8）。 */
+document.addEventListener("DOMContentLoaded", function () {
+  var D = JSON.parse(document.getElementById("d").textContent);
+  var kind = D.pick.kind;
+  var state = {};
+  if (kind === "segment") { state.seg = D.pick["default"].seg; state.year = String(D.pick["default"].year); }
+  if (kind === "time") { state.time = D.pick["default"].time; }
+  var drawn = {};
+
+  function isArray(value) { return Object.prototype.toString.call(value) === "[object Array]"; }
+  function current() { return kind === "segment" ? state.seg : state.time; }
+  function keyed(value) { return value && !isArray(value) && value.x === undefined; }
+
+  /* 軸は3通りある——図が自分で持つ（文化財の時点）／画面の軸が選択の鍵で割れている
+     （段ごとの期）／画面の軸が1つ（公民館の時点・図書館の年度）。 */
+  function axisOf(figure) {
+    var axis = figure.axis || D.axis;
+    return keyed(axis) ? axis[current()] : axis;
+  }
+
+  /* 系列も3通り——素の並び（選択に依らない）／選択の鍵で割れている／
+     **段と年の2つで割れている**（単年の図）。 */
+  function setsOf(figure) {
+    var series = figure.series;
+    if (isArray(series)) { return series; }
+    var picked = series[current()];
+    if (!picked) { return []; }
+    if (isArray(picked)) { return picked; }
+    return picked[state.year] || [];
+  }
+
+  /* 未取得の帯（決定D11）。**`unfetched` が空でないときだけ**足す。
+
+     ★**共有の `MS.stackedBar` は plugin を受ける引数を持たない**（`id, axis, sets, unit, d` の5つ）。
+     **`_charts.js` は触らない**と決めてあるので、**Chart.js の全体の plugin として1度だけ登録し、
+     図ごとの設定（`options.plugins.unfetchedBand`）で効かせる**。
+     捕獲ハーネスの `Chart` は `register` を持たないので、**登録は在るときだけ**行う。 */
+  var BAND = {
+    id: "unfetchedBand",
+    beforeDraw: function (chart) {
+      var conf = chart.options && chart.options.plugins && chart.options.plugins.unfetchedBand;
+      if (!conf || !conf.years || !conf.years.length) { return; }
+      var scale = chart.scales && chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+      if (!scale || !area || !ctx) { return; }
+      var half = Math.max(4, area.width / Math.max(1, conf.span) / 2);
+      for (var i = 0; i < conf.years.length; i++) {
+        var at = scale.getPixelForValue(conf.years[i]);
+        ctx.save();
+        ctx.fillStyle = "rgba(118,125,140,0.14)";
+        ctx.fillRect(at - half, area.top, half * 2, area.bottom - area.top);
+        /* **札は縦に書く**（#235 の⑰・ユーザー決定 2026-09-20）。**列の幅は軸の1目盛**
+           しかないので、横に書くと**隣の列の札と重なる**（`ノーデータノーデータ`）。
+           **未取得の側も同じ形にする**——教育では0件で露わにならないだけで、
+           2列続けば同じように重なる。
+
+           **札の綴りは `NO DATA`**（ユーザー決定・2026-09-20）。**用語の歯には当たらない**
+           ——`glossary` は `<script>` を外してから略号を探すので、**canvas へ描く札は
+           走査の外**である。画面の本文にこの綴りを出すなら用語の節が要る。 */
+        ctx.fillStyle = "#767d8c";
+        ctx.font = "11px sans-serif";
+        /* **下から上へ読む向きにする**（`product.md` `fig-vertical-bottom-up`）。
+
+           **この図の軸の表題と同じ向きに揃える**のが決め手である——共有の描画が使う
+           Chart.js は、**左に置いた軸の表題を `-90°` で描く**（`chart.umd.min.js` の
+           `"left"===position ? -0.5*Math.PI : 0.5*Math.PI`）。∴ `+90°` で書くと
+           **同じ図の中で、札と軸の表題が反対を向く**。
+
+           慣行の側も同じ向きである——**ISO 15519 は図の回転を下から上と定めており**、
+           量のグラフの軸の綴りもこれに倣う。**`+90°`（上から下）は縦書きの流儀**で、
+           ラテン字の図には合わない。
+
+           `textAlign` は `right`——札の**終わりを図の上端に合わせる**ので、
+           向きを変えても**札の置き場所は変わらない**。 */
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.translate(at, area.top + 6);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText(conf.word || "未取得", 0, 0);
+        ctx.restore();
+      }
+    }
+  };
+  if (window.Chart && window.Chart.register) { window.Chart.register(BAND); }
+
+  function band(chart, spec, axis) {
+    if (!chart || !spec.unfetched || !spec.unfetched.length) { return; }
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    chart.options.plugins.unfetchedBand = { years: spec.unfetched, span: axis.x.length, word: "\u672a\u53d6\u5f97" };
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **値が無い年に「データなし」の列を立てる**（#235 の⑩・ユーザー決定 2026-09-20）。
+     **棒の場所を空けるだけでは 0 の棒と見分けが付かない**——通読で「0人に見える」と出た。
+     **未取得の帯とは別の言葉を出す**（あちらは「こちらが取っていない」）。
+     **なぜ無いかは注が分ける**——表ごと無いのか、総数の升だけが空なのか。 */
+  function nodata(chart, spec, axis) {
+    if (!chart || !spec.nodata) { return; }
+    var years = isArray(spec.nodata) ? spec.nodata : spec.nodata[current()];
+    if (!years || !years.length) { return; }
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    chart.options.plugins.unfetchedBand = { years: years, span: axis.x.length, word: "NO DATA" };
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **段が1つの図は凡例を出さない**（`product.md` `fig-legend-one-band`）。
+     図の題が「児童数の推移」なら、凡例の「児童数総数」は**同じことの繰り返し**である。
+     **積み上げ（段が複数）は残す**——どの帯がどれかは凡例でしか分からない。
+
+     **共有の `stackedBar` を直さない**——`_charts.js` は6本のレポートが読んでおり、
+     既定を変えると**通読を終えた5本の凡例まで動く**。∴ 教育の側で消す。
+     （`line` ・ `categorical` は共有の側が既に `sets.length > 1` で切っている。） */
+  function legend(chart, sets) {
+    if (!chart || sets.length > 1) { return; }
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    if (!chart.options.plugins.legend) { chart.options.plugins.legend = {}; }
+    chart.options.plugins.legend.display = false;
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **時点の間隔が1年より短い軸は、目盛を立てる**（#235 の⑮・ユーザー指摘 2026-09-20）。
+     文化財の x は**時点の間隔に比例する実数**なので、3か月しか離れていない2時点が
+     14画素で隣り合い、**横に寝かせた綴りが重なる**（`H30.2` と `H30.5`）。
+
+     **共有の `scaleX` は `maxRotation: 0` を持つ**が、`_charts.js` は触らない
+     ——6本が読んでおり、**年の軸まで立ってしまう**。∴ 立てるのはこの軸だけにする。
+     **間引かない**（`autoSkip: false`）——時点を落とすと、図に在る点が軸から消える。 */
+  function upright(chart, axis) {
+    if (!chart || !axis || !axis.x || axis.x.length < 2) { return; }
+    var tight = false;
+    for (var i = 1; i < axis.x.length; i++) {
+      if (axis.x[i] - axis.x[i - 1] < 1) { tight = true; }
+    }
+    if (!tight) { return; }
+    var scale = chart.options && chart.options.scales && chart.options.scales.x;
+    if (!scale || !scale.ticks) { return; }
+    scale.ticks.maxRotation = 90;
+    scale.ticks.minRotation = 90;
+    scale.ticks.autoSkip = false;
+    if (chart.update) { chart.update(); }
+  }
+
+  /* **国指定・県指定・市指定を積む横棒**（`ch-bunka-kind`・#289）。共有の `categorical` は
+     積み上げを持たない。**`_charts.js` は触らない**（6本が読む）ので、描いた後に**両軸へ**
+     `stacked` を置く——片方だけだと棒が系列ごとに別の段へずれる（`stackedBar` の註と同じ）。
+     **値の軸（横棒なので x）の下端に 0 を明示する**（`PUBLICATION_CONVENTIONS.md` §3.2
+     ——積み上げは帯の長さが値であり、描画の既定に任せない）。 */
+  function stack(chart, spec) {
+    if (!chart || !spec.stacked) { return; }
+    var scales = chart.options && chart.options.scales;
+    if (!scales || !scales.x || !scales.y) { return; }
+    scales.x.stacked = true;
+    scales.y.stacked = true;
+    scales.x.min = 0;
+    if (chart.update) { chart.update(); }
+  }
+
+  function figure(id, spec) {
+    if (drawn[id]) { drawn[id].destroy(); drawn[id] = null; }
+    var axis = axisOf(spec);
+    var sets = setsOf(spec);
+    /* **白名簿に無い段では空を渡す**——共有の `frame()` が枠と見出しを隠す。 */
+    if (spec.segs && spec.segs.length && spec.segs.indexOf(current()) < 0) { sets = []; }
+    var unit = spec.unit;
+    if (unit && typeof unit === "object") { unit = unit[current()] || ""; }
+    if (!axis) { axis = { x: [], l: [], t: "" }; }
+    if (spec.kind === "categorical") {
+      drawn[id] = MS.categorical(id, "bar", axis.l, sets, unit, { horizontal: true, digits: 0 });
+      stack(drawn[id], spec);
+    } else {
+      drawn[id] = MS.stackedBar(id, axis, sets, unit, 0);
+      band(drawn[id], spec, axis);
+      nodata(drawn[id], spec, axis);
+      legend(drawn[id], sets);
+      upright(drawn[id], axis);
+    }
+    /* 図が描けなかったときは、**単位の文も連れて隠す**（anzen #193 と同じ）。 */
+    var note = document.getElementById("u-" + id);
+    if (note) { note.hidden = !drawn[id]; }
+    /* 対の注は、**隠したときだけ**出す（決定D8）。 */
+    var paired = document.getElementById("u-seg-" + id);
+    if (paired) { paired.hidden = !!drawn[id]; }
+    /* 段ごとに題と単位の文を書き換える（`_carry_captions` が `payload` へ運んでいる）。 */
+    var caption = document.getElementById("cap-" + id);
+    if (caption && spec.titles && spec.titles[current()]) { caption.textContent = spec.titles[current()]; }
+    if (note && spec.texts && spec.texts[current()]) { note.textContent = spec.texts[current()]; }
+  }
+
+  /* 表と注の行は、選択の鍵を持つものだけを出す。**id で引ける形にしてある**
+     ——身代わりの `querySelectorAll` は空を返すので、選択子では観測できない。 */
+  function rows(prefix, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var node = document.getElementById(prefix + keys[i]);
+      if (node) { node.hidden = keys[i] !== current(); }
+    }
+  }
+
+  /* 年の選択肢を組み直す。**綴りは `axis.p`（`平成17年`）から取る**——`axis.l` は
+     図の目盛の綴り（`H17`）であり、**選択肢に使うと略記が選択肢へ漏れる**（#235 の⑦）。
+     **年も `axis.px` から取る**——`axis.x` は穴に立てた「データなし」の列を含んでおり、
+     **選ばせると選んだ先が空になる**（#235 の⑩）。 */
+  function years() {
+    var picker = document.getElementById("year");
+    if (!picker || kind !== "segment") { return; }
+    var options = D.axis[state.seg];
+    if (!options) { return; }
+    var html = "";
+    for (var i = 0; i < options.px.length; i++) {
+      html += '<option value="' + options.px[i] + '"' +
+        (String(options.px[i]) === state.year ? " selected" : "") + ">" + options.p[i] + "</option>";
+    }
+    /* **選んでいた年がその段に無ければ、いちばん新しい年へ落とす。** */
+    if (options.px.map(String).indexOf(state.year) < 0) {
+      state.year = String(options.px[options.px.length - 1]);
+      html = html.replace(" selected", "");
+      html = html.replace('value="' + state.year + '"', 'value="' + state.year + '" selected');
+    }
+    picker.innerHTML = html;
+    picker.value = state.year;
+  }
+
+  function draw() {
+    years();
+    Object.keys(D.figures).forEach(function (id) { figure(id, D.figures[id]); });
+    if (kind === "segment") { rows("t-", D.pick.segs); }
+    if (kind === "time") { rows("t-", D.pick.times); }
+  }
+
+  function toHash() {
+    var parts = [];
+    if (kind === "segment") { parts.push("seg=" + encodeURIComponent(state.seg), "year=" + state.year); }
+    if (kind === "time") { parts.push("time=" + encodeURIComponent(state.time)); }
+    if (parts.length) { history.replaceState(null, "", "#" + parts.join("&")); }
+  }
+
+  function fromHash() {
+    location.hash.replace(/^#/, "").split("&").forEach(function (part) {
+      var pair = part.split("="), value = decodeURIComponent(pair[1] || "");
+      if (pair[0] === "seg" && kind === "segment" && D.pick.segs.indexOf(value) >= 0) { state.seg = value; }
+      if (pair[0] === "year" && kind === "segment") { state.year = value; }
+      if (pair[0] === "time" && kind === "time" && D.pick.times.indexOf(value) >= 0) { state.time = value; }
+    });
+  }
+
+  function listen(id, key) {
+    var picker = document.getElementById(id);
+    if (!picker) { return; }
+    picker.addEventListener("change", function () {
+      state[key] = document.getElementById(id).value;
+      draw();
+      toHash();
+    });
+  }
+
+  fromHash();
+  if (kind === "segment") {
+    var seg = document.getElementById("seg");
+    if (seg) { seg.value = state.seg; }
+    listen("seg", "seg");
+    listen("year", "year");
+  }
+  if (kind === "time") {
+    var time = document.getElementById("time");
+    if (time) { time.value = state.time; }
+    listen("time", "time");
+  }
+  draw();
+});
+</script>
+</body>
+</html>
