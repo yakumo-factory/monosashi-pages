@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.9.1">
+<title>JR — 松江市 運輸・通信レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* 「経年で見る」（h3）の下に並ぶ図の見出し（#348）。h3 の区切り線を持たない。 */
+.section h4{font-size:14.5px; margin:var(--sp3) 0 var(--sp1); color:var(--ink-2)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="運輸・通信レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 運輸・通信レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 運輸・通信レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<h3>動く手段を見る</h3>
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+<a href="01-bus.html" title="バス"><svg class="ic"><use href="#ic-bus"/></svg><span class="lbl">バス</span></a>
+<a href="02-ichibata.html" title="一畑電車"><svg class="ic"><use href="#ic-train"/></svg><span class="lbl">一畑電車</span></a>
+<a href="03-jr.html" aria-current="page" title="JR"><svg class="ic"><use href="#ic-train"/></svg><span class="lbl">JR</span></a>
+<a href="04-kuruma.html" title="クルマ"><svg class="ic"><use href="#ic-car"/></svg><span class="lbl">クルマ</span></a>
+<a href="05-minato.html" title="港"><svg class="ic"><use href="#ic-ship"/></svg><span class="lbl">港</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 運輸・通信レポート / JR</p>
+  <h1>JR</h1>
+  <p class="lede"><b>JR</b>の乗車人員を、駅ごとに見ます。</p>
+<noscript><div class="ns">図は JavaScript が有効なときだけ描かれます。数値はすべて下の表にあります。</div></noscript><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-bus" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="15" rx="2"/><path d="M5 11h14"/><path d="M8 18v3"/><path d="M16 18v3"/></symbol>
+<symbol id="ic-train" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="14" rx="3"/><path d="M6 11h12"/><path d="M8 21l2-4"/><path d="M16 21l-2-4"/></symbol>
+<symbol id="ic-car" viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></symbol>
+<symbol id="ic-ship" viewBox="0 0 24 24"><path d="M3 17l2 3h14l2-3z"/><path d="M6 17V9h12v8"/><path d="M12 9V4"/></symbol>
+</defs></svg>
+<style>.chartbox.small{height:230px}.chartbox.kind{height:520px}</style><div class="pick"><label for="screen">駅</label><select id="screen"><option value="総数" selected>総数</option><option value="松江駅">松江駅</option><option value="東松江駅">東松江駅</option><option value="揖屋駅">揖屋駅</option><option value="乃木駅">乃木駅</option><option value="玉造温泉駅">玉造温泉駅</option><option value="来待駅">来待駅</option><option value="宍道駅">宍道駅</option><option value="南宍道駅">南宍道駅</option></select></div>
+<section class="section" id="s-jr">
+  <h2><svg class="ic"><use href="#ic-train"/></svg>JR の乗車人員</h2>
+  <p class="sub" id="sub-jr">西日本旅客鉄道株式会社が数えた数です。</p>
+<div id="box-ch-trend"><h3 class="fig-only first" id="cap-ch-trend">経年で見る</h3>
+<div class="chartbox tall"><canvas id="ch-trend"></canvas></div>
+<p class="unit" id="u-ch-trend">単位——人。普通と定期を線で分けています。平成20年度（2008）までの表は「乗降人員」、平成21年度（2009）からの表は「乗車人員」です。数えるものが違うので、線を繋いでいません。平成22年度（2010）の表は、旧東出雲町が松江市と合併した平成23年（2011）8月1日より前の年度ですが、揖屋駅を載せており、総数にも入っています。足し引きはしていません。</p>
+</div>
+<h3 class="fig-lead" id="cap-ch-year">年度を選んで、駅ごとの内訳を見る</h3>
+<div id="box-ch-year">
+<div class="pick"><label for="pt-jr">年度</label><select id="pt-jr"><option value="2005">平成17年度（2005）</option><option value="2006">平成18年度（2006）</option><option value="2007">平成19年度（2007）</option><option value="2008">平成20年度（2008）</option><option value="2009">平成21年度（2009）</option><option value="2010">平成22年度（2010）</option><option value="2011">平成23年度（2011）</option><option value="2012">平成24年度（2012）</option><option value="2013">平成25年度（2013）</option><option value="2014">平成26年度（2014）</option><option value="2015">平成27年度（2015）</option><option value="2018">平成30年度（2018）</option><option value="2019">令和元年度（2019）</option><option value="2020">令和2年度（2020）</option><option value="2021">令和3年度（2021）</option><option value="2022" selected>令和4年度（2022）</option></select></div>
+<div class="chartbox kind"><canvas id="ch-year"></canvas></div>
+<p class="unit" id="u-ch-year">単位——人。並びはデータ元の表の順です。普通と定期は並べているだけで、足していません。</p>
+</div>
+<div id="t-jr-0-0" data-screen="総数">
+<h3>正確な値——総数</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">961,891</td><td class="n">1,264,925</td><td class="n">945,300</td><td class="n">1,264,925</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">962,918</td><td class="n">1,269,348</td><td class="n">939,227</td><td class="n">1,269,348</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">986,133</td><td class="n">1,299,388</td><td class="n">974,827</td><td class="n">1,299,388</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">1,000,445</td><td class="n">1,346,088</td><td class="n">993,440</td><td class="n">1,346,088</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">931,115</td><td class="n">1,360,720</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">995,656</td><td class="n">1,534,343</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">1,000,099</td><td class="n">1,550,309</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">1,009,677</td><td class="n">1,575,947</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">1,115,866</td><td class="n">1,670,858</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">1,008,593</td><td class="n">1,633,382</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">1,010,714</td><td class="n">1,663,522</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">972,700</td><td class="n">1,616,631</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">974,330</td><td class="n">1,573,183</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">487,992</td><td class="n">1,427,877</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">530,046</td><td class="n">1,417,501</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">694,607</td><td class="n">1,434,468</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+<p class="note">平成22年度（2010）の表は、旧東出雲町が松江市と合併した平成23年（2011）8月1日より前の年度ですが、揖屋駅を載せており、総数にも入っています。足し引きはしていません。</p>
+</div>
+<div id="t-jr-1-0" data-screen="松江駅">
+<h3>正確な値——松江駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">763,007</td><td class="n">791,612</td><td class="n">712,693</td><td class="n">791,612</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">760,959</td><td class="n">823,871</td><td class="n">710,339</td><td class="n">823,871</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">769,815</td><td class="n">861,829</td><td class="n">739,401</td><td class="n">861,829</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">777,305</td><td class="n">899,077</td><td class="n">747,341</td><td class="n">899,077</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">723,430</td><td class="n">906,295</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">716,192</td><td class="n">876,594</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">719,394</td><td class="n">878,250</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">723,495</td><td class="n">884,350</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">794,231</td><td class="n">929,467</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">719,564</td><td class="n">911,307</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">725,265</td><td class="n">929,864</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">684,526</td><td class="n">880,665</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">682,328</td><td class="n">850,109</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">319,377</td><td class="n">750,322</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">350,161</td><td class="n">744,806</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">480,775</td><td class="n">755,712</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+<div id="t-jr-2-0" data-screen="東松江駅">
+<h3>正確な値——東松江駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">3,148</td><td class="n">23,655</td><td class="n">6,635</td><td class="n">23,655</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">3,343</td><td class="n">22,397</td><td class="n">5,845</td><td class="n">22,397</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">11,272</td><td class="n">23,356</td><td class="n">11,283</td><td class="n">23,356</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">11,842</td><td class="n">29,143</td><td class="n">12,395</td><td class="n">29,143</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">11,315</td><td class="n">29,565</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">10,846</td><td class="n">29,860</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">10,861</td><td class="n">26,328</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">10,276</td><td class="n">26,077</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">9,963</td><td class="n">30,230</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">2,254</td><td class="n">28,723</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">2,346</td><td class="n">29,369</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">3,930</td><td class="n">27,810</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">5,163</td><td class="n">23,969</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">3,706</td><td class="n">21,325</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">3,916</td><td class="n">19,017</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">4,646</td><td class="n">21,303</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+<div id="t-jr-3-0" data-screen="揖屋駅">
+<h3>正確な値——揖屋駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">62,607</td><td class="n">173,018</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">63,451</td><td class="n">173,151</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">61,930</td><td class="n">179,895</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">62,318</td><td class="n">192,504</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">61,360</td><td class="n">186,794</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">61,474</td><td class="n">196,218</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">65,131</td><td class="n">199,008</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">66,491</td><td class="n">203,652</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">40,133</td><td class="n">188,316</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">41,764</td><td class="n">192,678</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">44,419</td><td class="n">192,384</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+<p class="note">平成22年度（2010）の表は、旧東出雲町が松江市と合併した平成23年（2011）8月1日より前の年度ですが、揖屋駅を載せており、総数にも入っています。足し引きはしていません。</p>
+</div>
+<div id="t-jr-4-0" data-screen="乃木駅">
+<h3>正確な値——乃木駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">65,403</td><td class="n">229,258</td><td class="n">66,618</td><td class="n">229,258</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">65,869</td><td class="n">210,334</td><td class="n">67,700</td><td class="n">210,334</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">67,771</td><td class="n">206,714</td><td class="n">74,278</td><td class="n">206,714</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">66,907</td><td class="n">212,983</td><td class="n">73,242</td><td class="n">212,983</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">63,875</td><td class="n">224,110</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">63,909</td><td class="n">231,539</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">61,867</td><td class="n">239,369</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">63,425</td><td class="n">242,193</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">62,857</td><td class="n">257,866</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">59,379</td><td class="n">252,329</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">62,375</td><td class="n">260,531</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">68,111</td><td class="n">274,956</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">68,232</td><td class="n">267,909</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">45,263</td><td class="n">252,706</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">48,014</td><td class="n">256,852</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">47,496</td><td class="n">258,290</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+<div id="t-jr-5-0" data-screen="玉造温泉駅">
+<h3>正確な値——玉造温泉駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">62,395</td><td class="n">37,794</td><td class="n">76,151</td><td class="n">37,794</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">65,900</td><td class="n">33,669</td><td class="n">75,911</td><td class="n">33,669</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">65,200</td><td class="n">31,469</td><td class="n">71,668</td><td class="n">31,469</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">71,576</td><td class="n">31,419</td><td class="n">80,803</td><td class="n">31,419</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">62,415</td><td class="n">29,930</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">67,831</td><td class="n">31,522</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">71,200</td><td class="n">32,938</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">76,123</td><td class="n">32,174</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">111,379</td><td class="n">39,270</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">97,593</td><td class="n">40,292</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">92,262</td><td class="n">38,324</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">81,677</td><td class="n">35,464</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">84,108</td><td class="n">33,808</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">38,656</td><td class="n">35,098</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">41,251</td><td class="n">36,026</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">64,069</td><td class="n">36,972</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+<div id="t-jr-6-0" data-screen="来待駅">
+<h3>正確な値——来待駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">5,222</td><td class="n">40,328</td><td class="n">13,248</td><td class="n">40,328</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">6,616</td><td class="n">45,261</td><td class="n">14,095</td><td class="n">45,261</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">13,175</td><td class="n">46,953</td><td class="n">15,144</td><td class="n">46,953</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">13,596</td><td class="n">41,668</td><td class="n">15,566</td><td class="n">41,668</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">13,870</td><td class="n">39,420</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">13,436</td><td class="n">34,117</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">13,058</td><td class="n">39,341</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">12,786</td><td class="n">41,609</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">15,377</td><td class="n">42,610</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">11,585</td><td class="n">39,277</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">11,481</td><td class="n">40,098</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">10,582</td><td class="n">37,399</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">10,704</td><td class="n">35,935</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">7,289</td><td class="n">34,925</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">7,904</td><td class="n">32,561</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">8,332</td><td class="n">30,707</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+<div id="t-jr-7-0" data-screen="宍道駅">
+<h3>正確な値——宍道駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">62,716</td><td class="n">142,278</td><td class="n">69,955</td><td class="n">142,278</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">60,231</td><td class="n">133,816</td><td class="n">65,337</td><td class="n">133,816</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">58,900</td><td class="n">129,067</td><td class="n">63,053</td><td class="n">129,067</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">59,219</td><td class="n">131,798</td><td class="n">64,093</td><td class="n">131,798</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">55,480</td><td class="n">129,210</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">60,486</td><td class="n">155,990</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">60,184</td><td class="n">159,405</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">61,593</td><td class="n">168,888</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">59,453</td><td class="n">177,937</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">56,824</td><td class="n">174,112</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">55,403</td><td class="n">168,294</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">58,708</td><td class="n">160,140</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">57,225</td><td class="n">156,734</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">33,544</td><td class="n">144,511</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">36,992</td><td class="n">134,462</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">44,815</td><td class="n">137,914</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+<div id="t-jr-8-0" data-screen="南宍道駅">
+<h3>正確な値——南宍道駅</h3>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">年度</th><th class="n">乗客・普通（人）</th><th class="n">乗客・定期（人）</th><th class="n">降客・普通（人）</th><th class="n">降客・定期（人）</th><th class="n">乗車・普通（人）</th><th class="n">乗車・定期（人）</th></tr></thead><tbody>
+<tr><th>平成17年度（2005）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成18年度（2006）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成19年度（2007）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成20年度（2008）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成21年度（2009）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">730</td><td class="n">2,190</td></tr>
+<tr><th>平成22年度（2010）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">349</td><td class="n">1,703</td></tr>
+<tr><th>平成23年度（2011）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">84</td><td class="n">1,527</td></tr>
+<tr><th>平成24年度（2012）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">49</td><td class="n">761</td></tr>
+<tr><th>平成25年度（2013）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">288</td><td class="n">974</td></tr>
+<tr><th>平成26年度（2014）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">34</td><td class="n">548</td></tr>
+<tr><th>平成27年度（2015）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">108</td><td class="n">824</td></tr>
+<tr><th>平成28年度（2016）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成29年度（2017）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><th>平成30年度（2018）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">35</td><td class="n">1,189</td></tr>
+<tr><th>令和元年度（2019）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">79</td><td class="n">1,067</td></tr>
+<tr><th>令和2年度（2020）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">24</td><td class="n">674</td></tr>
+<tr><th>令和3年度（2021）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">44</td><td class="n">1,099</td></tr>
+<tr><th>令和4年度（2022）</th><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">55</td><td class="n">1,186</td></tr>
+</tbody></table></div>
+<p class="note">資料：西日本旅客鉄道㈱米子支社<br>資料：西日本旅客鉄道㈱山陰支社</p>
+<p class="note">単位——人。</p>
+</div>
+</section>
+<section class="section" id="s-caution">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead><tbody>
+<tr><td>年度の区切り</td><td>すべて年度（4月から翌年3月）です。</td></tr>
+<tr><td>載せていない年度</td><td>平成28年度（2016）・平成29年度（2017）——データ元の表に「利用条件：商用利用は認められていません。」と書かれているため、このレポートには載せていません。</td></tr>
+<tr><td>乗降人員と乗車人員</td><td>平成17年度（2005）から平成20年度（2008）の表は、乗客と降客の両方を載せた「乗降人員」です。平成21年度（2009）からの表は「乗車人員」で、データ元の注記は「降客は含まない」です。ファイルの題が「乗降人員数」でも、中身が乗車人員の年度があります。</td></tr>
+</tbody></table></div>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年9月22日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"figures": {"ch-trend": {"axis": {"\u4e43\u6728\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u5357\u5b8d\u9053\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u5b8d\u9053\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u63d6\u5c4b\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u6765\u5f85\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u6771\u677e\u6c5f\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u677e\u6c5f\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}, "\u7dcf\u6570": {"l": ["H17", "H18", "H19", "H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "R1", "R2", "R3", "R4"], "t": "\u5e74\u5ea6", "x": [2005.0, 2006.0, 2007.0, 2008.0, 2009.0, 2010.0, 2011.0, 2012.0, 2013.0, 2014.0, 2015.0, 2016.0, 2017.0, 2018.0, 2019.0, 2020.0, 2021.0, 2022.0]}}, "keys": ["screen"], "kind": "line", "nodata": {"\u4e43\u6728\u99c5": [2016, 2017], "\u5357\u5b8d\u9053\u99c5": [2005, 2006, 2007, 2008, 2016, 2017], "\u5b8d\u9053\u99c5": [2016, 2017], "\u63d6\u5c4b\u99c5": [2005, 2006, 2007, 2008, 2009, 2016, 2017], "\u6765\u5f85\u99c5": [2016, 2017], "\u6771\u677e\u6c5f\u99c5": [2016, 2017], "\u677e\u6c5f\u99c5": [2016, 2017], "\u7389\u9020\u6e29\u6cc9\u99c5": [2016, 2017], "\u7dcf\u6570": [2016, 2017]}, "section": "jr", "segs": {"\u4e43\u6728\u99c5": true, "\u5357\u5b8d\u9053\u99c5": true, "\u5b8d\u9053\u99c5": true, "\u63d6\u5c4b\u99c5": true, "\u6765\u5f85\u99c5": true, "\u6771\u677e\u6c5f\u99c5": true, "\u677e\u6c5f\u99c5": true, "\u7389\u9020\u6e29\u6cc9\u99c5": true, "\u7dcf\u6570": true}, "series": {"\u4e43\u6728\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [65403.0, 65869.0, 67771.0, 66907.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [229258.0, 210334.0, 206714.0, 212983.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 63875.0, 63909.0, 61867.0, 63425.0, 62857.0, 59379.0, 62375.0, null, null, 68111.0, 68232.0, 45263.0, 48014.0, 47496.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 224110.0, 231539.0, 239369.0, 242193.0, 257866.0, 252329.0, 260531.0, null, null, 274956.0, 267909.0, 252706.0, 256852.0, 258290.0]}], "\u5357\u5b8d\u9053\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 730.0, 349.0, 84.0, 49.0, 288.0, 34.0, 108.0, null, null, 35.0, 79.0, 24.0, 44.0, 55.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 2190.0, 1703.0, 1527.0, 761.0, 974.0, 548.0, 824.0, null, null, 1189.0, 1067.0, 674.0, 1099.0, 1186.0]}], "\u5b8d\u9053\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [62716.0, 60231.0, 58900.0, 59219.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [142278.0, 133816.0, 129067.0, 131798.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 55480.0, 60486.0, 60184.0, 61593.0, 59453.0, 56824.0, 55403.0, null, null, 58708.0, 57225.0, 33544.0, 36992.0, 44815.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 129210.0, 155990.0, 159405.0, 168888.0, 177937.0, 174112.0, 168294.0, null, null, 160140.0, 156734.0, 144511.0, 134462.0, 137914.0]}], "\u63d6\u5c4b\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, null, 62607.0, 63451.0, 61930.0, 62318.0, 61360.0, 61474.0, null, null, 65131.0, 66491.0, 40133.0, 41764.0, 44419.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, null, 173018.0, 173151.0, 179895.0, 192504.0, 186794.0, 196218.0, null, null, 199008.0, 203652.0, 188316.0, 192678.0, 192384.0]}], "\u6765\u5f85\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [5222.0, 6616.0, 13175.0, 13596.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [40328.0, 45261.0, 46953.0, 41668.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 13870.0, 13436.0, 13058.0, 12786.0, 15377.0, 11585.0, 11481.0, null, null, 10582.0, 10704.0, 7289.0, 7904.0, 8332.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 39420.0, 34117.0, 39341.0, 41609.0, 42610.0, 39277.0, 40098.0, null, null, 37399.0, 35935.0, 34925.0, 32561.0, 30707.0]}], "\u6771\u677e\u6c5f\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [3148.0, 3343.0, 11272.0, 11842.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [23655.0, 22397.0, 23356.0, 29143.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 11315.0, 10846.0, 10861.0, 10276.0, 9963.0, 2254.0, 2346.0, null, null, 3930.0, 5163.0, 3706.0, 3916.0, 4646.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 29565.0, 29860.0, 26328.0, 26077.0, 30230.0, 28723.0, 29369.0, null, null, 27810.0, 23969.0, 21325.0, 19017.0, 21303.0]}], "\u677e\u6c5f\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [763007.0, 760959.0, 769815.0, 777305.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [791612.0, 823871.0, 861829.0, 899077.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 723430.0, 716192.0, 719394.0, 723495.0, 794231.0, 719564.0, 725265.0, null, null, 684526.0, 682328.0, 319377.0, 350161.0, 480775.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 906295.0, 876594.0, 878250.0, 884350.0, 929467.0, 911307.0, 929864.0, null, null, 880665.0, 850109.0, 750322.0, 744806.0, 755712.0]}], "\u7389\u9020\u6e29\u6cc9\u99c5": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [62395.0, 65900.0, 65200.0, 71576.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [37794.0, 33669.0, 31469.0, 31419.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 62415.0, 67831.0, 71200.0, 76123.0, 111379.0, 97593.0, 92262.0, null, null, 81677.0, 84108.0, 38656.0, 41251.0, 64069.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 29930.0, 31522.0, 32938.0, 32174.0, 39270.0, 40292.0, 38324.0, null, null, 35464.0, 33808.0, 35098.0, 36026.0, 36972.0]}], "\u7dcf\u6570": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [961891.0, 962918.0, 986133.0, 1000445.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [1264925.0, 1269348.0, 1299388.0, 1346088.0, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"color": "#f67d50", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [null, null, null, null, 931115.0, 995656.0, 1000099.0, 1009677.0, 1115866.0, 1008593.0, 1010714.0, null, null, 972700.0, 974330.0, 487992.0, 530046.0, 694607.0]}, {"color": "#9a3503", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [null, null, null, null, 1360720.0, 1534343.0, 1550309.0, 1575947.0, 1670858.0, 1633382.0, 1663522.0, null, null, 1616631.0, 1573183.0, 1427877.0, 1417501.0, 1434468.0]}]}, "texts": {"\u4e43\u6728\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002", "\u5357\u5b8d\u9053\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u300c\u5357\u5b8d\u9053\u99c5\u300d\u306e\u884c\u306f\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u306e\u8868\u304b\u3089\u3042\u308a\u307e\u3059\u3002", "\u5b8d\u9053\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002", "\u63d6\u5c4b\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u300c\u63d6\u5c4b\u99c5\u300d\u306e\u884c\u306f\u5e73\u621022\u5e74\u5ea6\uff082010\uff09\u306e\u8868\u304b\u3089\u3042\u308a\u307e\u3059\u3002\u5e73\u621022\u5e74\u5ea6\uff082010\uff09\u306e\u8868\u306f\u3001\u65e7\u6771\u51fa\u96f2\u753a\u304c\u677e\u6c5f\u5e02\u3068\u5408\u4f75\u3057\u305f\u5e73\u621023\u5e74\uff082011\uff098\u67081\u65e5\u3088\u308a\u524d\u306e\u5e74\u5ea6\u3067\u3059\u304c\u3001\u63d6\u5c4b\u99c5\u3092\u8f09\u305b\u3066\u304a\u308a\u3001\u7dcf\u6570\u306b\u3082\u5165\u3063\u3066\u3044\u307e\u3059\u3002\u8db3\u3057\u5f15\u304d\u306f\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "\u6765\u5f85\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002", "\u6771\u677e\u6c5f\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002", "\u677e\u6c5f\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002", "\u7389\u9020\u6e29\u6cc9\u99c5": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002", "\u7dcf\u6570": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u666e\u901a\u3068\u5b9a\u671f\u3092\u7dda\u3067\u5206\u3051\u3066\u3044\u307e\u3059\u3002\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u307e\u3067\u306e\u8868\u306f\u300c\u4e57\u964d\u4eba\u54e1\u300d\u3001\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u304b\u3089\u306e\u8868\u306f\u300c\u4e57\u8eca\u4eba\u54e1\u300d\u3067\u3059\u3002\u6570\u3048\u308b\u3082\u306e\u304c\u9055\u3046\u306e\u3067\u3001\u7dda\u3092\u7e4b\u3044\u3067\u3044\u307e\u305b\u3093\u3002\u5e73\u621022\u5e74\u5ea6\uff082010\uff09\u306e\u8868\u306f\u3001\u65e7\u6771\u51fa\u96f2\u753a\u304c\u677e\u6c5f\u5e02\u3068\u5408\u4f75\u3057\u305f\u5e73\u621023\u5e74\uff082011\uff098\u67081\u65e5\u3088\u308a\u524d\u306e\u5e74\u5ea6\u3067\u3059\u304c\u3001\u63d6\u5c4b\u99c5\u3092\u8f09\u305b\u3066\u304a\u308a\u3001\u7dcf\u6570\u306b\u3082\u5165\u3063\u3066\u3044\u307e\u3059\u3002\u8db3\u3057\u5f15\u304d\u306f\u3057\u3066\u3044\u307e\u305b\u3093\u3002"}, "titles": {"\u4e43\u6728\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u5357\u5b8d\u9053\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u5b8d\u9053\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u63d6\u5c4b\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u6765\u5f85\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u6771\u677e\u6c5f\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u677e\u6c5f\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u7389\u9020\u6e29\u6cc9\u99c5": "\u7d4c\u5e74\u3067\u898b\u308b", "\u7dcf\u6570": "\u7d4c\u5e74\u3067\u898b\u308b"}, "unit": {"\u4e43\u6728\u99c5": "\u4eba", "\u5357\u5b8d\u9053\u99c5": "\u4eba", "\u5b8d\u9053\u99c5": "\u4eba", "\u63d6\u5c4b\u99c5": "\u4eba", "\u6765\u5f85\u99c5": "\u4eba", "\u6771\u677e\u6c5f\u99c5": "\u4eba", "\u677e\u6c5f\u99c5": "\u4eba", "\u7389\u9020\u6e29\u6cc9\u99c5": "\u4eba", "\u7dcf\u6570": "\u4eba"}}, "ch-year": {"axis": {"\u4e43\u6728\u99c5": {"2005": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2006": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2007": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2008": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u5357\u5b8d\u9053\u99c5": {"2005": {"l": [], "t": "", "x": []}, "2006": {"l": [], "t": "", "x": []}, "2007": {"l": [], "t": "", "x": []}, "2008": {"l": [], "t": "", "x": []}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u5b8d\u9053\u99c5": {"2005": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2006": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2007": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2008": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u63d6\u5c4b\u99c5": {"2005": {"l": [], "t": "", "x": []}, "2006": {"l": [], "t": "", "x": []}, "2007": {"l": [], "t": "", "x": []}, "2008": {"l": [], "t": "", "x": []}, "2009": {"l": [], "t": "", "x": []}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u6765\u5f85\u99c5": {"2005": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2006": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2007": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2008": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u6771\u677e\u6c5f\u99c5": {"2005": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2006": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2007": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2008": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u677e\u6c5f\u99c5": {"2005": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2006": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2007": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2008": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2006": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2007": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2008": {"l": ["\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2009": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2010": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2011": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2012": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2013": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2014": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2015": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2018": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2019": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2020": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2021": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}, "2022": {"l": ["\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f"], "t": "", "x": [0, 1]}}, "\u7dcf\u6570": {"2005": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5]}, "2006": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5]}, "2007": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5]}, "2008": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5]}, "2009": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6]}, "2010": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2011": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2012": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2013": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2014": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2015": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2018": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2019": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2020": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2021": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}, "2022": {"l": ["\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"], "t": "", "x": [0, 1, 2, 3, 4, 5, 6, 7]}}}, "keys": ["screen", "point"], "kind": "categorical", "nodata": {"\u4e43\u6728\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u5357\u5b8d\u9053\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u5b8d\u9053\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u63d6\u5c4b\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u6765\u5f85\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u6771\u677e\u6c5f\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u677e\u6c5f\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}, "\u7dcf\u6570": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [], "2011": [], "2012": [], "2013": [], "2014": [], "2015": [], "2018": [], "2019": [], "2020": [], "2021": [], "2022": []}}, "section": "jr", "segs": {"\u4e43\u6728\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u5357\u5b8d\u9053\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u5b8d\u9053\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u63d6\u5c4b\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u6765\u5f85\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u6771\u677e\u6c5f\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u677e\u6c5f\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}, "\u7dcf\u6570": {"2005": true, "2006": true, "2007": true, "2008": true, "2009": true, "2010": true, "2011": true, "2012": true, "2013": true, "2014": true, "2015": true, "2018": true, "2019": true, "2020": true, "2021": true, "2022": true}}, "series": {"\u4e43\u6728\u99c5": {"2005": [{"color": "#61a6ff", "label": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "values": [65403.0, 229258.0]}], "2006": [{"color": "#61a6ff", "label": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "values": [65869.0, 210334.0]}], "2007": [{"color": "#61a6ff", "label": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "values": [67771.0, 206714.0]}], "2008": [{"color": "#61a6ff", "label": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "values": [66907.0, 212983.0]}], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [63875.0, 224110.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [63909.0, 231539.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [61867.0, 239369.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [63425.0, 242193.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [62857.0, 257866.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [59379.0, 252329.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [62375.0, 260531.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [68111.0, 274956.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [68232.0, 267909.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [45263.0, 252706.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [48014.0, 256852.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [47496.0, 258290.0]}]}, "\u5357\u5b8d\u9053\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [730.0, 2190.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [349.0, 1703.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [84.0, 1527.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [49.0, 761.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [288.0, 974.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [34.0, 548.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [108.0, 824.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [35.0, 1189.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [79.0, 1067.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [24.0, 674.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [44.0, 1099.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [55.0, 1186.0]}]}, "\u5b8d\u9053\u99c5": {"2005": [{"color": "#61a6ff", "label": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "values": [62716.0, 142278.0]}], "2006": [{"color": "#61a6ff", "label": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "values": [60231.0, 133816.0]}], "2007": [{"color": "#61a6ff", "label": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "values": [58900.0, 129067.0]}], "2008": [{"color": "#61a6ff", "label": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "values": [59219.0, 131798.0]}], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [55480.0, 129210.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [60486.0, 155990.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [60184.0, 159405.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [61593.0, 168888.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [59453.0, 177937.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [56824.0, 174112.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [55403.0, 168294.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [58708.0, 160140.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [57225.0, 156734.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [33544.0, 144511.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [36992.0, 134462.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [44815.0, 137914.0]}]}, "\u63d6\u5c4b\u99c5": {"2005": [], "2006": [], "2007": [], "2008": [], "2009": [], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [62607.0, 173018.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [63451.0, 173151.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [61930.0, 179895.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [62318.0, 192504.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [61360.0, 186794.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [61474.0, 196218.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [65131.0, 199008.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [66491.0, 203652.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [40133.0, 188316.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [41764.0, 192678.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [44419.0, 192384.0]}]}, "\u6765\u5f85\u99c5": {"2005": [{"color": "#61a6ff", "label": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "values": [5222.0, 40328.0]}], "2006": [{"color": "#61a6ff", "label": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "values": [6616.0, 45261.0]}], "2007": [{"color": "#61a6ff", "label": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "values": [13175.0, 46953.0]}], "2008": [{"color": "#61a6ff", "label": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "values": [13596.0, 41668.0]}], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [13870.0, 39420.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [13436.0, 34117.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [13058.0, 39341.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [12786.0, 41609.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [15377.0, 42610.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [11585.0, 39277.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [11481.0, 40098.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [10582.0, 37399.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [10704.0, 35935.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [7289.0, 34925.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [7904.0, 32561.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [8332.0, 30707.0]}]}, "\u6771\u677e\u6c5f\u99c5": {"2005": [{"color": "#61a6ff", "label": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "values": [3148.0, 23655.0]}], "2006": [{"color": "#61a6ff", "label": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "values": [3343.0, 22397.0]}], "2007": [{"color": "#61a6ff", "label": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "values": [11272.0, 23356.0]}], "2008": [{"color": "#61a6ff", "label": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "values": [11842.0, 29143.0]}], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [11315.0, 29565.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [10846.0, 29860.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [10861.0, 26328.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [10276.0, 26077.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [9963.0, 30230.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [2254.0, 28723.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [2346.0, 29369.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [3930.0, 27810.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [5163.0, 23969.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [3706.0, 21325.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [3916.0, 19017.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [4646.0, 21303.0]}]}, "\u677e\u6c5f\u99c5": {"2005": [{"color": "#61a6ff", "label": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "values": [763007.0, 791612.0]}], "2006": [{"color": "#61a6ff", "label": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "values": [760959.0, 823871.0]}], "2007": [{"color": "#61a6ff", "label": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "values": [769815.0, 861829.0]}], "2008": [{"color": "#61a6ff", "label": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "values": [777305.0, 899077.0]}], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [723430.0, 906295.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [716192.0, 876594.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [719394.0, 878250.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [723495.0, 884350.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [794231.0, 929467.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [719564.0, 911307.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [725265.0, 929864.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [684526.0, 880665.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [682328.0, 850109.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [319377.0, 750322.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [350161.0, 744806.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [480775.0, 755712.0]}]}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": [{"color": "#61a6ff", "label": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "values": [62395.0, 37794.0]}], "2006": [{"color": "#61a6ff", "label": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "values": [65900.0, 33669.0]}], "2007": [{"color": "#61a6ff", "label": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "values": [65200.0, 31469.0]}], "2008": [{"color": "#61a6ff", "label": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "values": [71576.0, 31419.0]}], "2009": [{"color": "#61a6ff", "label": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "values": [62415.0, 29930.0]}], "2010": [{"color": "#61a6ff", "label": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "values": [67831.0, 31522.0]}], "2011": [{"color": "#61a6ff", "label": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "values": [71200.0, 32938.0]}], "2012": [{"color": "#61a6ff", "label": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "values": [76123.0, 32174.0]}], "2013": [{"color": "#61a6ff", "label": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "values": [111379.0, 39270.0]}], "2014": [{"color": "#61a6ff", "label": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "values": [97593.0, 40292.0]}], "2015": [{"color": "#61a6ff", "label": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "values": [92262.0, 38324.0]}], "2018": [{"color": "#61a6ff", "label": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "values": [81677.0, 35464.0]}], "2019": [{"color": "#61a6ff", "label": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "values": [84108.0, 33808.0]}], "2020": [{"color": "#61a6ff", "label": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "values": [38656.0, 35098.0]}], "2021": [{"color": "#61a6ff", "label": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "values": [41251.0, 36026.0]}], "2022": [{"color": "#61a6ff", "label": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09", "values": [64069.0, 36972.0]}]}, "\u7dcf\u6570": {"2005": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [763007.0, 3148.0, 65403.0, 62395.0, 5222.0, 62716.0]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [791612.0, 23655.0, 229258.0, 37794.0, 40328.0, 142278.0]}], "2006": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [760959.0, 3343.0, 65869.0, 65900.0, 6616.0, 60231.0]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [823871.0, 22397.0, 210334.0, 33669.0, 45261.0, 133816.0]}], "2007": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [769815.0, 11272.0, 67771.0, 65200.0, 13175.0, 58900.0]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [861829.0, 23356.0, 206714.0, 31469.0, 46953.0, 129067.0]}], "2008": [{"color": "#61a6ff", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u666e\u901a", "values": [777305.0, 11842.0, 66907.0, 71576.0, 13596.0, 59219.0]}, {"color": "#0358af", "label": "\u4e57\u964d\u4eba\u54e1\u306e\u8868\u2014\u2014\u4e57\u5ba2\u30fb\u5b9a\u671f", "values": [899077.0, 29143.0, 212983.0, 31419.0, 41668.0, 131798.0]}], "2009": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [723430.0, 11315.0, 63875.0, 62415.0, 13870.0, 55480.0, 730.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [906295.0, 29565.0, 224110.0, 29930.0, 39420.0, 129210.0, 2190.0]}], "2010": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [716192.0, 10846.0, 62607.0, 63909.0, 67831.0, 13436.0, 60486.0, 349.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [876594.0, 29860.0, 173018.0, 231539.0, 31522.0, 34117.0, 155990.0, 1703.0]}], "2011": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [719394.0, 10861.0, 63451.0, 61867.0, 71200.0, 13058.0, 60184.0, 84.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [878250.0, 26328.0, 173151.0, 239369.0, 32938.0, 39341.0, 159405.0, 1527.0]}], "2012": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [723495.0, 10276.0, 61930.0, 63425.0, 76123.0, 12786.0, 61593.0, 49.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [884350.0, 26077.0, 179895.0, 242193.0, 32174.0, 41609.0, 168888.0, 761.0]}], "2013": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [794231.0, 9963.0, 62318.0, 62857.0, 111379.0, 15377.0, 59453.0, 288.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [929467.0, 30230.0, 192504.0, 257866.0, 39270.0, 42610.0, 177937.0, 974.0]}], "2014": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [719564.0, 2254.0, 61360.0, 59379.0, 97593.0, 11585.0, 56824.0, 34.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [911307.0, 28723.0, 186794.0, 252329.0, 40292.0, 39277.0, 174112.0, 548.0]}], "2015": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [725265.0, 2346.0, 61474.0, 62375.0, 92262.0, 11481.0, 55403.0, 108.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [929864.0, 29369.0, 196218.0, 260531.0, 38324.0, 40098.0, 168294.0, 824.0]}], "2018": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [684526.0, 3930.0, 65131.0, 68111.0, 81677.0, 10582.0, 58708.0, 35.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [880665.0, 27810.0, 199008.0, 274956.0, 35464.0, 37399.0, 160140.0, 1189.0]}], "2019": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [682328.0, 5163.0, 66491.0, 68232.0, 84108.0, 10704.0, 57225.0, 79.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [850109.0, 23969.0, 203652.0, 267909.0, 33808.0, 35935.0, 156734.0, 1067.0]}], "2020": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [319377.0, 3706.0, 40133.0, 45263.0, 38656.0, 7289.0, 33544.0, 24.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [750322.0, 21325.0, 188316.0, 252706.0, 35098.0, 34925.0, 144511.0, 674.0]}], "2021": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [350161.0, 3916.0, 41764.0, 48014.0, 41251.0, 7904.0, 36992.0, 44.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [744806.0, 19017.0, 192678.0, 256852.0, 36026.0, 32561.0, 134462.0, 1099.0]}], "2022": [{"color": "#61a6ff", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u666e\u901a", "values": [480775.0, 4646.0, 44419.0, 47496.0, 64069.0, 8332.0, 44815.0, 55.0]}, {"color": "#0358af", "label": "\u4e57\u8eca\u4eba\u54e1\u306e\u8868\u2014\u2014\u5b9a\u671f", "values": [755712.0, 21303.0, 192384.0, 258290.0, 36972.0, 30707.0, 137914.0, 1186.0]}]}}, "texts": {"\u4e43\u6728\u99c5": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u5357\u5b8d\u9053\u99c5": {"2005": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09\u306e\u8868\u306b\u300c\u5357\u5b8d\u9053\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2006": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09\u306e\u8868\u306b\u300c\u5357\u5b8d\u9053\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2007": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09\u306e\u8868\u306b\u300c\u5357\u5b8d\u9053\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2008": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u306e\u8868\u306b\u300c\u5357\u5b8d\u9053\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u5b8d\u9053\u99c5": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u63d6\u5c4b\u99c5": {"2005": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09\u306e\u8868\u306b\u300c\u63d6\u5c4b\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2006": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09\u306e\u8868\u306b\u300c\u63d6\u5c4b\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2007": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09\u306e\u8868\u306b\u300c\u63d6\u5c4b\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2008": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09\u306e\u8868\u306b\u300c\u63d6\u5c4b\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2009": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09\u306e\u8868\u306b\u300c\u63d6\u5c4b\u99c5\u300d\u306e\u884c\u306f\u3042\u308a\u307e\u305b\u3093\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u6765\u5f85\u99c5": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u6771\u677e\u6c5f\u99c5": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u677e\u6c5f\u99c5": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002"}, "\u7dcf\u6570": {"2005": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2006": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2007": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2008": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2009": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2010": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2011": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2012": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2013": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2014": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2015": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2018": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2019": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2020": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2021": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002", "2022": "\u5358\u4f4d\u2014\u2014\u4eba\u3002\u4e26\u3073\u306f\u30c7\u30fc\u30bf\u5143\u306e\u8868\u306e\u9806\u3067\u3059\u3002\u666e\u901a\u3068\u5b9a\u671f\u306f\u4e26\u3079\u3066\u3044\u308b\u3060\u3051\u3067\u3001\u8db3\u3057\u3066\u3044\u307e\u305b\u3093\u3002"}}, "titles": {"\u4e43\u6728\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u5357\u5b8d\u9053\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u5b8d\u9053\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u63d6\u5c4b\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u6765\u5f85\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u6771\u677e\u6c5f\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u677e\u6c5f\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u666e\u901a\u3068\u5b9a\u671f\u3092\u898b\u308b"}, "\u7dcf\u6570": {"2005": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2006": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2007": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2008": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2009": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2010": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2011": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2012": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2013": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2014": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2015": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2018": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2019": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2020": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2021": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b", "2022": "\u5e74\u5ea6\u3092\u9078\u3093\u3067\u3001\u99c5\u3054\u3068\u306e\u5185\u8a33\u3092\u898b\u308b"}}, "unit": {"\u4e43\u6728\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u5357\u5b8d\u9053\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u5b8d\u9053\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u63d6\u5c4b\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u6765\u5f85\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u6771\u677e\u6c5f\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u677e\u6c5f\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u7389\u9020\u6e29\u6cc9\u99c5": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}, "\u7dcf\u6570": {"2005": "\u4eba", "2006": "\u4eba", "2007": "\u4eba", "2008": "\u4eba", "2009": "\u4eba", "2010": "\u4eba", "2011": "\u4eba", "2012": "\u4eba", "2013": "\u4eba", "2014": "\u4eba", "2015": "\u4eba", "2018": "\u4eba", "2019": "\u4eba", "2020": "\u4eba", "2021": "\u4eba", "2022": "\u4eba"}}}}, "pick": {"screen": {"default": "\u7dcf\u6570", "labels": {"\u4e43\u6728\u99c5": "\u4e43\u6728\u99c5", "\u5357\u5b8d\u9053\u99c5": "\u5357\u5b8d\u9053\u99c5", "\u5b8d\u9053\u99c5": "\u5b8d\u9053\u99c5", "\u63d6\u5c4b\u99c5": "\u63d6\u5c4b\u99c5", "\u6765\u5f85\u99c5": "\u6765\u5f85\u99c5", "\u6771\u677e\u6c5f\u99c5": "\u6771\u677e\u6c5f\u99c5", "\u677e\u6c5f\u99c5": "\u677e\u6c5f\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5": "\u7389\u9020\u6e29\u6cc9\u99c5", "\u7dcf\u6570": "\u7dcf\u6570"}, "options": ["\u7dcf\u6570", "\u677e\u6c5f\u99c5", "\u6771\u677e\u6c5f\u99c5", "\u63d6\u5c4b\u99c5", "\u4e43\u6728\u99c5", "\u7389\u9020\u6e29\u6cc9\u99c5", "\u6765\u5f85\u99c5", "\u5b8d\u9053\u99c5", "\u5357\u5b8d\u9053\u99c5"]}, "sections": {"jr": {"default_point": "2022", "labels": {"2005": "\u5e73\u621017\u5e74\u5ea6\uff082005\uff09", "2006": "\u5e73\u621018\u5e74\u5ea6\uff082006\uff09", "2007": "\u5e73\u621019\u5e74\u5ea6\uff082007\uff09", "2008": "\u5e73\u621020\u5e74\u5ea6\uff082008\uff09", "2009": "\u5e73\u621021\u5e74\u5ea6\uff082009\uff09", "2010": "\u5e73\u621022\u5e74\u5ea6\uff082010\uff09", "2011": "\u5e73\u621023\u5e74\u5ea6\uff082011\uff09", "2012": "\u5e73\u621024\u5e74\u5ea6\uff082012\uff09", "2013": "\u5e73\u621025\u5e74\u5ea6\uff082013\uff09", "2014": "\u5e73\u621026\u5e74\u5ea6\uff082014\uff09", "2015": "\u5e73\u621027\u5e74\u5ea6\uff082015\uff09", "2018": "\u5e73\u621030\u5e74\u5ea6\uff082018\uff09", "2019": "\u4ee4\u548c\u5143\u5e74\u5ea6\uff082019\uff09", "2020": "\u4ee4\u548c2\u5e74\u5ea6\uff082020\uff09", "2021": "\u4ee4\u548c3\u5e74\u5ea6\uff082021\uff09", "2022": "\u4ee4\u548c4\u5e74\u5ea6\uff082022\uff09"}, "points": ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2018", "2019", "2020", "2021", "2022"], "word": "\u5e74\u5ea6"}}}}</script><script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。
+
+     ★**`<h4>` も見る**（#348・2026-10-03）。題材型の画面では「経年で見る」が `<h3>`
+       で立ち、その下の図の見出しは一段下げて `<h4>` にする——同じ段に並べると、
+       図の名前が「経年で見る」と並ぶ節の名前に読める。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && (head.tagName === "H3" || head.tagName === "H4") && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+/* Redraws every figure of the screen from one state: the screen key (station, port or area; ""
+   for a page without one) and, per section, its point. There are no toggles.
+   The `#hash` spells the same state: `s=<screen>&<section>.p=<point>`.
+
+   Every figure attribute (`series`, `segs`, `axis`, `unit`, `titles`, `texts`, `nodata`) nests by
+   `spec.keys` in that order, so one walk serves them all. Defaults come from the payload, never from
+   the first option.
+
+   A `line` figure's `series` is its list of bands, each drawn as
+   its own line in its own colour. Bands are never joined into one line: a rename or a change in
+   what is counted would read as a jump in the numbers.
+
+   ★**捕獲ハーネス（`scripts/ops/chart_capture.js`）の身代わりが持つ口だけで書く**——
+   `document.querySelector` と `window.addEventListener` を持たず、`change` を `this` 無しで呼ぶ。
+   **`document.querySelectorAll` は身代わりでは常に空を返す**ので、**隠すものは id で引く**。
+
+   ★**段が持たない項目は、空の系列を共有の描き手へ渡して隠す。** 共有の `frame()` が
+   枠と `h3.fig-only`／`h4.fig-only` をひとかたまりで隠すので、**こちらで枠を触らない**（`_charts.js` を
+   触らないため）。 */
+document.addEventListener("DOMContentLoaded", function () {
+  var D = JSON.parse(document.getElementById("d").textContent);
+  var SECTIONS = D.pick.sections;
+  var SCREENS = D.pick.screen ? D.pick.screen.options : [""];
+  var NODATA = "NO DATA";
+  var ATTRS = ["series", "segs", "axis", "unit", "titles", "texts", "nodata"];
+  var state = { screen: D.pick.screen ? D.pick.screen["default"] : "", sections: {} };
+  Object.keys(SECTIONS).forEach(function (id) {
+    state.sections[id] = { p: SECTIONS[id].default_point };
+  });
+  var drawn = {};
+  var held = {};
+
+  function has(node, key) {
+    return node !== null && typeof node === "object" && Object.prototype.hasOwnProperty.call(node, key);
+  }
+
+  function plugins(chart) {
+    if (!chart.options.plugins) { chart.options.plugins = {}; }
+    return chart.options.plugins;
+  }
+
+  /* The NO DATA band: a column per year (`years`, one tick wide) on the equal-width axis.
+
+     ★**共有の描き手は plugin を受ける引数を持たない。**
+     **`_charts.js` は触らない**と決めてあるので、**Chart.js の全体の plugin として1度だけ登録し、
+     図ごとの設定（`options.plugins.unfetchedBand`）で効かせる**。
+     捕獲ハーネスの `Chart` は `register` を持たないので、**登録は在るときだけ**行う。 */
+  var BAND = {
+    id: "unfetchedBand",
+    beforeDraw: function (chart) {
+      var conf = chart.options && chart.options.plugins && chart.options.plugins.unfetchedBand;
+      var scale = chart.scales && chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+      if (!conf || !scale || !area || !ctx) { return; }
+      var half = Math.max(4, area.width / Math.max(1, conf.span) / 2);
+      (conf.years || []).forEach(function (year) {
+        var at = scale.getPixelForValue(year);
+        ctx.save();
+        ctx.fillStyle = "rgba(118,125,140,0.14)";
+        ctx.fillRect(at - half, area.top, 2 * half, area.bottom - area.top);
+        ctx.fillStyle = "#767d8c";
+        ctx.font = "11px sans-serif";
+        /* **札は縦に書く**——**列の幅は軸の1目盛**しかないので、横に書くと**隣の列の札と重なる**。
+           **下から上へ読む向きにする**（`product.md` `fig-vertical-bottom-up`）——共有の描画が使う
+           Chart.js は、**左に置いた軸の表題を `-90°` で描く**ので、**同じ図の中で札と軸の表題が
+           同じ向きを向く**。`textAlign` は `right`——札の**終わりを図の上端に合わせる**。 */
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.translate(at, area.top + 6);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText(conf.word, 0, 0);
+        ctx.restore();
+      });
+    }
+  };
+  if (window.Chart && window.Chart.register) { window.Chart.register(BAND); }
+
+  function nodata(chart, years, axis) {
+    if (!chart || !years || !years.length) { return; }
+    plugins(chart).unfetchedBand = { years: years, span: axis.x.length, word: NODATA };
+  }
+
+  /* **段が1つの図は凡例を出さない**（`product.md` `fig-legend-one-band`）。
+     **積み上げ（段が複数）は残す**——どの帯がどれかは凡例でしか分からない。
+     **共有の `stackedBar` を直さない**——既定を変えると他のレポートの凡例まで動く。 */
+  function legend(chart, sets) {
+    if (!chart || sets.length > 1) { return; }
+    if (!plugins(chart).legend) { chart.options.plugins.legend = {}; }
+    chart.options.plugins.legend.display = false;
+  }
+
+  /* **時点の間隔が1年より短い軸は、目盛を立てる**——横に寝かせた綴りが重なる。
+     **間引かない**（`autoSkip: false`）——時点を落とすと、図に在る点が軸から消える。 */
+  function upright(chart, at) {
+    var scale = chart && chart.options.scales && chart.options.scales.x;
+    if (!scale || !scale.ticks || !at || at.length < 2) { return; }
+    for (var i = 1; i < at.length; i++) {
+      if (at[i] - at[i - 1] < 1) {
+        scale.ticks.maxRotation = 90;
+        scale.ticks.minRotation = 90;
+        scale.ticks.autoSkip = false;
+        return;
+      }
+    }
+  }
+
+  /* Walks every attribute down `spec.keys`. A point the chosen screen lacks falls back to the
+     screen's newest in `points` order, and the state follows, so the picker and the hash agree. */
+  function walk(spec) {
+    var mine = state.sections[spec.section], at = {};
+    ATTRS.forEach(function (name) { at[name] = spec[name]; });
+    spec.keys.forEach(function (key) {
+      var pick = key === "screen" ? state.screen : mine.p;
+      if (key === "point") {
+        held[spec.section] = SECTIONS[spec.section].points.filter(function (p) { return has(at.series, p); });
+        var points = held[spec.section];
+        if (points.indexOf(pick) < 0 && points.length) { pick = mine.p = points[points.length - 1]; }
+      }
+      ATTRS.forEach(function (name) { at[name] = has(at[name], pick) ? at[name][pick] : null; });
+    });
+    return at;
+  }
+
+  function figure(id, spec) {
+    if (drawn[id]) { drawn[id].destroy(); drawn[id] = null; }
+    var at = walk(spec);
+    var shown = !!at.segs;
+    /* **白名簿に無い段では空を渡す**——共有の `frame()` が枠と見出しを隠す。 */
+    var sets = shown && at.series ? at.series : [];
+    var axis = at.axis || { x: [], l: [], t: "" };
+    if (spec.kind === "categorical") {
+      drawn[id] = MS.categorical(id, "bar", axis.l, sets, at.unit || "", { horizontal: true, digits: 0 });
+    } else {
+      drawn[id] = spec.kind === "line" ? MS.line(id, axis, sets, at.unit || "", 0)
+        : MS.stackedBar(id, axis, sets, at.unit || "", 0);
+      nodata(drawn[id], at.nodata, axis);
+      legend(drawn[id], sets);
+      upright(drawn[id], axis.x);
+    }
+    if (drawn[id] && drawn[id].update) { drawn[id].update(); }
+    /* 図が描けなかったときは、**単位の文も連れて隠す**。 A choice without its row (`segs` set,
+       `series` empty) is the exception: its sentence says the row is missing, so it stays while
+       the frame goes. Hiding by "nothing drawn" alone would leave the reader an empty box. */
+    var absent = shown && Array.isArray(at.series) && at.series.length === 0;
+    var note = document.getElementById("u-" + id);
+    if (note) {
+      note.hidden = !drawn[id] && !absent;
+      if (typeof at.texts === "string") { note.textContent = at.texts; }
+    }
+    var caption = document.getElementById("cap-" + id);
+    if (caption) { if (typeof at.titles === "string") { caption.textContent = at.titles; } }
+    var box = document.getElementById("box-" + id);
+    if (box) { box.hidden = !shown; }
+    return shown;
+  }
+
+  /* The section's point options and its per-screen tables follow the state. */
+  function section(id) {
+    var spec = SECTIONS[id], mine = state.sections[id];
+    var picker = spec ? document.getElementById("pt-" + id) : null;
+    if (picker) {
+      picker.innerHTML = (held[id] || spec.points).map(function (p) {
+        return '<option value="' + p + '">' + spec.labels[p] + "</option>";
+      }).join("");
+      picker.value = mine.p;
+    }
+    SCREENS.forEach(function (option, i) {
+      /* Every table carries `data-screen`, so a node without it ends the run (the harness stub
+         answers every id with a node). */
+      for (var n = 0; ; n++) {
+        var table = document.getElementById("t-" + id + "-" + i + "-" + n);
+        if (!table || table.getAttribute("data-screen") === null) { break; }
+        table.hidden = option !== state.screen;
+      }
+    });
+  }
+
+  function draw() {
+    Object.keys(D.figures).forEach(function (id) { figure(id, D.figures[id]); });
+    var screen = document.getElementById("screen");
+    if (screen && D.pick.screen) { screen.value = state.screen; }
+    /* A section can choose a screen without choosing a point, so it is not listed in
+       `pick.sections`; the figures' keys name every section whose tables follow the screen. */
+    var hiding = Object.keys(SECTIONS);
+    Object.keys(D.figures).forEach(function (id) {
+      var spec = D.figures[id];
+      if (spec.keys.indexOf("screen") >= 0 && hiding.indexOf(spec.section) < 0) { hiding.push(spec.section); }
+    });
+    hiding.forEach(section);
+  }
+
+  function toHash() {
+    var parts = D.pick.screen ? ["s=" + encodeURIComponent(state.screen)] : [];
+    Object.keys(SECTIONS).forEach(function (id) {
+      parts.push(id + ".p=" + encodeURIComponent(state.sections[id].p));
+    });
+    history.replaceState(null, "", "#" + parts.join("&"));
+  }
+
+  function fromHash() {
+    location.hash.replace(/^#/, "").split("&").forEach(function (part) {
+      var pair = part.split("="), name = pair[0].split("."), value;
+      try { value = decodeURIComponent(pair[1] || ""); } catch (error) { return; }
+      if (pair[0] === "s" && D.pick.screen && SCREENS.indexOf(value) >= 0) { state.screen = value; }
+      if (name.length !== 2 || !has(SECTIONS, name[0])) { return; }
+      if (name[1] === "p" && SECTIONS[name[0]].points.indexOf(value) >= 0) { state.sections[name[0]].p = value; }
+    });
+  }
+
+  /* Every control is a `<select>`. The harness calls `change` without an event, so the value is
+     read back by id. */
+  function listen(id, set) {
+    var control = document.getElementById(id);
+    if (!control) { return; }
+    control.addEventListener("change", function () { set(document.getElementById(id).value); draw(); toHash(); });
+  }
+
+  fromHash();
+  if (D.pick.screen) { listen("screen", function (value) { state.screen = value; }); }
+  Object.keys(SECTIONS).forEach(function (id) {
+    var mine = state.sections[id];
+    listen("pt-" + id, function (value) { mine.p = value; });
+  });
+  draw();
+});
+</script>
+</body>
+</html>
