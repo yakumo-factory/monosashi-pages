@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.13.1">
+<title>都市計画区域と市街化区域 — 松江市 都市計画レポート</title>
+<style>
+:root{
+  --accent:#3a4a8c; --accent-soft:#eaedf6; --accent-deep:#2b3868; --accent-mid:#6b78ac;
+  --ink:#1c1f26; --ink-2:#4a5160; --ink-3:#767d8c;
+  --bg:#f6f7f9; --panel:#fff; --line:#d8dce4; --line-soft:#e9ecf1;
+  --up:#1f6f4a; --dn:#8c3a3a; --mute:#c3c8d2;
+  --sp1:6px; --sp2:12px; --sp3:20px; --sp4:32px; --sp5:48px;
+  --rail:60px; --side:236px;
+  --col-name:200px; --col-bar:150px; --col-num:78px; --col-sub:66px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+  font-family:"游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7; font-feature-settings:"palt" 1; font-size:15px;
+}
+.app{flex:1 1 auto; display:flex; min-height:0}
+
+/* ---- サイドバー外殻（折りたたみ式アイコンレール） ---- */
+.side{flex:0 0 var(--side); width:var(--side); background:var(--panel); border-right:1px solid var(--line);
+      display:flex; flex-direction:column; min-height:0; transition:width .16s, flex-basis .16s}
+body.rail .side{flex-basis:var(--rail); width:var(--rail)}
+.side .top{padding:var(--sp2); border-bottom:1px solid var(--line-soft); flex:0 0 auto}
+.brand{display:flex; align-items:center; gap:9px; color:var(--accent-deep); text-decoration:none; font-weight:700; font-size:14px; padding:6px 7px; border-radius:5px}
+.brand:hover{background:var(--accent-soft)}
+.report{display:flex; align-items:center; gap:9px; width:100%; margin-top:var(--sp1); padding:7px; border:1px solid var(--line);
+        border-radius:5px; background:var(--bg); color:var(--ink-2); font:inherit; font-size:13px; text-align:left; cursor:default}
+.side .nav{flex:1 1 auto; overflow-y:auto; min-height:0; padding:var(--sp2) var(--sp1) var(--sp3)}
+.grp{margin:0 0 var(--sp3)}
+.grp>h3{font-size:11px; letter-spacing:.09em; color:var(--ink-3); margin:0 0 var(--sp1); padding:0 8px; font-weight:700}
+.grp a{display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; font-size:13.5px; white-space:nowrap}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+.grp .sub{list-style:none; margin:2px 0 0; padding:0 0 0 30px}
+.grp .sub a{font-size:12.5px; padding:4px 8px; color:var(--ink-3)}
+.grp .sub a.on{color:var(--accent-deep); font-weight:700}
+.side .foot{flex:0 0 auto; border-top:1px solid var(--line-soft); padding:var(--sp1)}
+.toggle{display:flex; align-items:center; gap:10px; width:100%; padding:8px; border:0; background:none; color:var(--ink-3); font:inherit; font-size:12.5px; cursor:pointer; border-radius:5px}
+.toggle:hover{background:var(--accent-soft); color:var(--accent-deep)}
+body.rail .side .lbl,body.rail .grp>h3,body.rail .grp .sub,body.rail .report .lbl{display:none}
+body.rail .grp a,body.rail .brand,body.rail .toggle,body.rail .report{justify-content:center; padding-left:0; padding-right:0}
+svg.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.grp svg.ic{color:var(--accent)}
+
+/* ---- 本体 ---- */
+.main{flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto}
+.inner{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3) var(--sp5)}
+.crumb{font-size:12.5px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:27px; line-height:1.4; margin:0 0 var(--sp1)}
+.lede{color:var(--ink-2); margin:0 0 var(--sp4)}
+.section{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:var(--sp3) var(--sp3) var(--sp4); margin:0 0 var(--sp3); scroll-margin-top:var(--sp3)}
+.section>h2{font-size:19px; margin:0 0 var(--sp1); display:flex; align-items:center; gap:9px}
+.section>h2 svg.ic{color:var(--accent)}
+.section>.sub{color:var(--ink-3); font-size:13.5px; margin:0 0 var(--sp3)}
+.section h3{font-size:15.5px; margin:var(--sp4) 0 var(--sp2); padding-top:var(--sp3); border-top:1px solid var(--line-soft)}
+.section h3.first{border-top:0; padding-top:0; margin-top:var(--sp3)}
+/* 「経年で見る」（h3）の下に並ぶ図の見出し（#348）。h3 の区切り線を持たない。 */
+.section h4{font-size:14.5px; margin:var(--sp3) 0 var(--sp1); color:var(--ink-2)}
+/* ★ C3: `max-width:66ch` を外した。`ch` は半角「0」の幅（15px で 8.34px）で、
+   全角文字（14.78px）の 56% しかない。∴ 車座 §2 の「約70ch」を日本語へ当てると
+   34文字/行にしかならず、白い箱（800px＝54文字）の手前で折り返して右が
+   304px 余っていた（2026-08-20 実測）。日本語で行長を定めるなら em で表す。 */
+.note{font-size:12.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+a{color:var(--accent-deep)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.pick{display:flex; flex-wrap:wrap; gap:var(--sp2); align-items:center; padding:0 0 var(--sp3)}
+.pick label{font-size:13.5px; color:var(--ink-2)}
+select{font:inherit; font-size:14px; padding:7px 9px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); max-width:100%}
+.kpis{display:flex; flex-wrap:wrap; gap:var(--sp3); padding:0 0 var(--sp3); border-bottom:1px solid var(--line-soft); margin-bottom:var(--sp3)}
+.kpi{min-width:116px}
+.kpi .k{font-size:12px; color:var(--ink-3); display:block}
+.kpi .v{font-size:23px; font-weight:700; font-variant-numeric:tabular-nums}
+.kpi .v.up{color:var(--up)} .kpi .v.dn{color:var(--dn)}
+.chartbox{position:relative; height:290px; margin:var(--sp2) 0 0}
+.chartbox.tall{height:420px}
+/* ★ Chart.js は canvas へ px の inline style を書く。狭い画面でそれが残ると
+   ページ全体が横スクロールする（車座 §5「ページ全体は横スクロールさせない」）。
+   max-width は inline の width より強いので、これで頭を押さえる。 */
+canvas{max-width:100%}
+
+/* ★ #84: 右端で数が桁の途中で切れても、切れていることが読み手に見えない——
+   観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。原因は桁数ではなく、
+   画面の外へ出た列を容器が切っていること（#85 の9文字上限を守っていても切れる）。
+   ∴ 切れ目に影を**被せる**——目印ではなく、中途半端に見えている値を読めなくすることで
+   誤読の経路そのものを塞ぐ。端まで来ると影は消えるので、端に居ることも分かる。
+   仕組みは背景4層の重ね——覆い（`local`＝中身と一緒にスクロールし、端では影の上に
+   乗って消す）と影（`scroll`＝容器に留まる）。影の色は var(--ink)（#1c1f26）の22%。
+   **JS は足さない**（#84 本文）。 */
+.table-scroll{
+  overflow-x:auto; margin:var(--sp2) 0 0;
+  background:
+    linear-gradient(to right, var(--panel) 30%, rgba(255,255,255,0)) left center / 34px 100% no-repeat local,
+    linear-gradient(to left, var(--panel) 30%, rgba(255,255,255,0)) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) left center / 16px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(28,31,38,.22), rgba(28,31,38,0)) right center / 16px 100% no-repeat scroll;
+  background-color: var(--panel);
+}
+table{border-collapse:collapse; font-size:13.5px; table-layout:fixed}
+th,td{padding:7px 10px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:middle}
+thead th{font-size:12px; color:var(--ink-3); font-weight:700; border-bottom:1px solid var(--line); white-space:nowrap}
+tbody th{font-weight:400; word-break:break-word}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.p,th.p{text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+.up{color:var(--up)} .dn{color:var(--dn)}
+table.yr th.cnr{background:var(--accent-soft); color:var(--ink-2); font-weight:700}
+table.yr thead th{text-align:right}
+table.yr td{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.yr tbody th{white-space:nowrap; color:var(--ink-2)}
+col.c-name{width:var(--col-name)} col.c-bar{width:var(--col-bar)} col.c-num{width:var(--col-num)} col.c-sub{width:var(--col-sub)}
+.tbar{display:block; height:11px; background:var(--accent); border-radius:2px; min-width:1px}
+.dbar{display:block; height:11px; border-radius:2px; min-width:1px}
+.dbar.up{background:var(--up)} .dbar.dn{background:var(--dn)}
+/* ★ C2: `width:100%` は table-layout:fixed の列幅を比例縮小させ、
+   .table-scroll が働かないまま名称列を潰す（1440px で221px → 700px で157px）。
+   `min-width:100%` だけでも足りない——auto 幅の表は容器へ縮み、375px で名称列が
+   58px まで潰れた。`width:max-content` で列幅の合計を保たせ、余れば min-width で
+   伸ばす。足りなければ .table-scroll が横スクロールする（車座 §3.1／§5）。 */
+table.lst,table.yr,table.ag{width:max-content; min-width:100%}
+table.lst tbody tr[data-town]{cursor:pointer}
+table.lst tbody tr:hover{background:var(--accent-soft)}
+/* ★ #55・#64: 散文**だけ**を折り返す。数の列は触らない。
+   `width:max-content` はセルの中の文を折り返さないので、注記の散文がそのまま列幅に
+   なり、幅1280px で右が切れる。**横スクロールすれば読めるが、切れていることが
+   読み手に見えない**——観光 05 では `+160,531` が `+160` として読めていた（値の誤読）。
+   人口 `01-town-trend` の注記の表も**あふれ 399px**だった（2026-08-24 実測）。
+   `24em` は 1280px で全表があふれ0になる上限（26em で3px 出る）。
+   **`.n` を明示で戻すこと**——`.table-scroll table.lst td`（0,2,2）は `td.n`（0,1,1）
+   より強く、**並び順では決まらない**。折り返すと桁区切りの途中で改行して読めなくなる。
+   **#55 は観光専用の `_tables.css` へ逃がした**（共有を触ると人口7ページの凍結値が
+   動くため）。#64 で採り直しを1回払って**ここへ寄せ、あの断片は畳んだ**——
+   同じ規則を2箇所に持たない（`REPOSITORY_CONVENTIONS.md`）。 */
+.table-scroll table.lst td{white-space:normal}
+.table-scroll table.lst td.n{white-space:nowrap}
+.table-scroll table.lst td:not(.n){max-width:24em}
+/* 増減の欄に添える理由。**数の直後に置くので、折り返さないと列を押し広げる。** */
+.table-scroll table.lst td .pill{
+  white-space:normal; display:inline-block; max-width:9em;
+  text-align:left; margin-left:.4em; vertical-align:top;
+}
+
+details.dd{border:1px solid var(--line); border-radius:5px; background:var(--bg); margin:var(--sp3) 0 0}
+details.dd>summary{cursor:pointer; list-style:none; padding:10px 13px; font-size:13.5px; color:var(--accent-deep); display:flex; align-items:center; gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"";width:0;height:0;border-left:6px solid var(--accent);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;transition:transform .15s}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd[open]{background:var(--panel)}
+.ddc{padding:0 13px 13px}
+.gl{border-bottom:1px dotted var(--ink-3); cursor:help}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:var(--sp2); margin:var(--sp3) 0 0}
+.card{border:1px solid var(--line); border-radius:6px; padding:var(--sp3); background:var(--panel); text-decoration:none; color:inherit; display:block}
+.card:hover{border-color:var(--accent); background:var(--accent-soft)}
+.card h3{margin:var(--sp2) 0 var(--sp1); font-size:15.5px; border:0; padding:0}
+.card p{margin:0; font-size:13px; color:var(--ink-2)}
+.card .go{display:inline-block; margin-top:var(--sp2); font-size:12.5px; color:var(--accent-deep); font-weight:700}
+.card svg.ic{color:var(--accent); width:22px; height:22px}
+
+.unit{font-size:11.5px; color:var(--ink-3); margin:var(--sp2) 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:var(--sp2) 0 0}
+.seg button{font:inherit; font-size:12.5px; padding:6px 13px; border:0; background:var(--panel); color:var(--ink-2); cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent); color:#fff; font-weight:700}
+.pill{display:inline-block; font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:10px; padding:1px 7px; margin-left:6px; white-space:nowrap}
+.since{font-size:11.5px; color:var(--ink-3)}
+footer{background:var(--accent-deep); color:#dfe3f0}
+footer .in{max-width:880px; margin:0 auto; padding:var(--sp4) var(--sp3); font-size:12.5px}
+footer a{color:#fff}
+noscript .ns{background:#fff6e0; border:1px solid #e6cf94; border-radius:5px; padding:var(--sp2) var(--sp3); font-size:13px; color:#6b5518; margin:0 0 var(--sp3)}
+@media (max-width:860px){
+  .app{flex-direction:column; min-height:0}
+  .side{flex:0 0 auto; width:100%; border-right:0; border-bottom:1px solid var(--line)}
+  .side .nav{overflow:visible}
+  .grp .sub{display:none}
+  .side .foot{display:none}
+  .main{overflow:visible}
+  .inner{padding:var(--sp3) var(--sp2) var(--sp4); max-width:100%}
+  h1{font-size:22px}
+  :root{--col-name:164px; --col-bar:84px}
+  body,html{height:auto}
+}
+</style>
+<script src="assets/chart.umd.min.js" defer></script></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24"><path d="M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17h12"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8"/><path d="M3 21h18"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+<symbol id="ic-age" viewBox="0 0 24 24"><path d="M4 20V9"/><path d="M10 20V5"/><path d="M16 20v-8"/><path d="M22 20H2"/></symbol>
+<symbol id="ic-home2" viewBox="0 0 24 24"><path d="M4 20v-9l8-6 8 6v9"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></symbol>
+</defs></svg>
+
+<div class="app">
+<nav class="side" aria-label="レポートの中の移動">
+  <div class="top">
+    <a class="brand" href="index.html" title="都市計画レポート">
+      <svg class="ic"><use href="#ic-home"/></svg><span class="lbl">物差し</span></a>
+    <div class="report" title="松江市 都市計画レポート">
+      <svg class="ic"><use href="#ic-book"/></svg>
+      <span class="lbl">松江市 都市計画レポート</span></div>
+  </div>
+  <div class="nav">
+<div class="grp">
+<h3>まちの区域と土地</h3>
+<a href="index.html" title="このレポートについて"><svg class="ic"><use href="#ic-info"/></svg><span class="lbl">このレポートについて</span></a>
+<a href="01-yoto.html" title="用途地域"><svg class="ic"><use href="#ic-map"/></svg><span class="lbl">用途地域</span></a>
+<a href="02-kuiki.html" aria-current="page" title="都市計画区域と市街化区域"><svg class="ic"><use href="#ic-layers"/></svg><span class="lbl">都市計画区域と市街化区域</span></a>
+<a href="03-chimoku.html" title="土地の地目"><svg class="ic"><use href="#ic-field"/></svg><span class="lbl">土地の地目</span></a>
+<a href="04-koen.html" title="都市公園"><svg class="ic"><use href="#ic-tree"/></svg><span class="lbl">都市公園</span></a>
+</div>
+  </div>
+  <div class="foot">
+    <button class="toggle" id="railtoggle" type="button" aria-expanded="true" aria-label="サイドバーを畳む">
+      <svg class="ic"><use href="#ic-panel"/></svg><span class="lbl">畳む</span></button>
+  </div>
+</nav>
+
+<div class="main">
+<div class="inner">
+  <p class="crumb"><b>松江市</b> · 都市計画レポート / 都市計画区域と市街化区域</p>
+  <h1>都市計画区域と市街化区域</h1>
+  <p class="lede">都市計画区域・市街化区域・市街化調整区域の面積を、都市計画区域ごとに、告示の日などの日付ごとに見ます。</p>
+<noscript><div class="ns">図は JavaScript が有効なときだけ描かれます。数値はすべて下の表にあります。</div></noscript><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="ic-field" viewBox="0 0 24 24"><path d="M3 20c4-6 14-6 18 0"/><path d="M12 20V8"/><path d="M12 12c-2-3-5-3-6-2"/><path d="M12 10c2-3 5-3 6-2"/></symbol>
+<symbol id="ic-tree" viewBox="0 0 24 24"><path d="M12 3l6 8h-3l4 6H5l4-6H6z"/><path d="M12 17v4"/></symbol>
+</defs></svg>
+<style>
+.src-line{font-size:11.5px; color:var(--ink-3); margin:var(--sp1) 0 0}
+.chartbox.small{height:230px}
+.chartbox.kind{height:520px}
+.since{font-size:11.5px; color:var(--ink-3)}
+</style><div class="pick top"><label for="area">都市計画区域</label><select id="area"><option value="松江圏" selected>松江圏都市計画区域（松江市の部分）</option><option value="宍道">宍道都市計画区域</option></select></div>
+<section class="section" id="s-ic-layers">
+  <h2><svg class="ic"><use href="#ic-layers"/></svg>都市計画区域と市街化区域</h2>
+<h3 class="first fig-lead">経年で見る</h3><div class="chartbox tall"><canvas id="ch-trend"></canvas></div>
+<p class="unit" id="u-ch-trend">単位——ha。松江圏都市計画区域（松江市の部分）の数です。</p>
+<p class="note" id="u-h-ch-trend"></p>
+<p class="note">点は、告示の日と、松江圏の2005年3月31日・2011年8月1日（合併による再集計の日）と、2021年9月28日・2024年4月1日・2025年4月1日（別の表の基準日）です。次の点までは同じ面積として、階段の線で描いています。</p>
+<h3 class="fig-lead">告示の日を選んで、内訳を見る</h3>
+<div class="pick"><label for="date">告示の日</label><select id="date"><option value="1970-12-10">1970年12月10日</option><option value="1979-03-27">1979年3月27日</option><option value="1984-04-13">1984年4月13日</option><option value="1991-03-05">1991年3月5日</option><option value="1997-03-11">1997年3月11日</option><option value="1999-07-13">1999年7月13日</option><option value="2004-01-23">2004年1月23日</option><option value="2005-03-31">2005年3月31日</option><option value="2007-10-16">2007年10月16日</option><option value="2010-12-24">2010年12月24日</option><option value="2011-08-01">2011年8月1日</option><option value="2015-09-15">2015年9月15日</option><option value="2017-08-25">2017年8月25日</option><option value="2020-05-22">2020年5月22日</option><option value="2021-09-28">2021年9月28日（構成比の表）</option><option value="2024-04-01">2024年4月1日（構成比の表）</option><option value="2025-04-01" selected>2025年4月1日（構成比の表）</option></select></div><div class="chartbox small"><canvas id="ch-split"></canvas></div>
+<p class="unit" id="u-ch-split">単位——ha。松江圏都市計画区域（松江市の部分）の2025年4月1日の数です。</p>
+<p class="note" id="u-h-ch-split"></p>
+<h3>正確な値</h3>
+<div id="t-02-kuiki-1" data-screen="02-kuiki" data-area="松江圏">
+<h4>松江圏（松江市の部分）——区域の面積（ha）</h4>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">告示の日</th><th>告示</th><th class="n">行政区域（松江市）</th><th class="n">都市計画区域</th><th class="n">市街化区域</th><th class="n">市街化調整区域</th></tr></thead><tbody>
+<tr><th>1970年12月10日<span class="since">（昭和45年）</span></th><td>島根県告示第963号</td><td class="n">17,521</td><td class="n">14,284</td><td class="n">2,427</td><td class="n">11,875</td></tr>
+<tr><th>1979年3月27日<span class="since">（昭和54年）</span></th><td>島根県告示</td><td class="n">17,524</td><td class="n">14,284</td><td class="n">2,502</td><td class="n">11,782</td></tr>
+<tr><th>1984年4月13日<span class="since">（昭和59年）</span></th><td>島根県告示第467号</td><td class="n">17,528</td><td class="n">14,284</td><td class="n">2,548</td><td class="n">11,736</td></tr>
+<tr><th>1991年3月5日<span class="since">（平成3年）</span></th><td>島根県告示第228号</td><td class="n">17,614</td><td class="n">14,370</td><td class="n">2,572</td><td class="n">11,798</td></tr>
+<tr><th>1997年3月11日<span class="since">（平成9年）</span></th><td>島根県告示第236号</td><td class="n">22,138</td><td class="n">14,370</td><td class="n">2,636</td><td class="n">11,734</td></tr>
+<tr><th>1999年7月13日<span class="since">（平成11年）</span></th><td>島根県告示第547号</td><td class="n">22,138</td><td class="n">14,370</td><td class="n">2,649</td><td class="n">11,721</td></tr>
+<tr><th>2004年1月23日<span class="since">（平成16年）</span></th><td>島根県告示第62号</td><td class="n">22,138</td><td class="n">14,370</td><td class="n">2,656</td><td class="n">11,714</td></tr>
+<tr><th>2005年3月31日<span class="since">（平成17年）</span></th><td>※１</td><td class="n">53,021</td><td class="n">15,932</td><td class="n">2,840</td><td class="n">13,092</td></tr>
+<tr><th>2007年10月16日<span class="since">（平成19年）</span></th><td>島根県告示第834号</td><td class="n">53,027</td><td class="n">15,932</td><td class="n">2,848</td><td class="n">13,084</td></tr>
+<tr><th>2010年12月24日<span class="since">（平成22年）</span></th><td>島根県告示第755号</td><td class="n">53,034</td><td class="n">15,932</td><td class="n">2,865</td><td class="n">13,067</td></tr>
+<tr><th>2011年8月1日<span class="since">（平成23年）</span></th><td>※２</td><td class="n">57,300</td><td class="n">17,845</td><td class="n">3,269</td><td class="n">14,576</td></tr>
+<tr><th>2015年9月15日<span class="since">（平成27年）</span></th><td>島根県告示第637号</td><td class="n">57,299</td><td class="n">17,845</td><td class="n">3,272</td><td class="n">14,573</td></tr>
+<tr><th>2017年8月25日<span class="since">（平成29年）</span></th><td>島根県告示第479号</td><td class="n">57,299</td><td class="n">17,845</td><td class="n">3,277</td><td class="n">14,568</td></tr>
+<tr><th>2020年5月22日<span class="since">（令和2年）</span></th><td>島根県告示第355号</td><td class="n">57,299</td><td class="n">17,845</td><td class="n">3,278</td><td class="n">14,567</td></tr>
+</tbody></table></div>
+<p class="src-line">市街化区域・市街化調整区域面積の推移——「資料」の行がありません</p>
+</div>
+<div id="t-02-kuiki-2" data-screen="02-kuiki" data-area="松江圏">
+<h4>松江圏（松江市の部分）——2021年9月28日・2024年4月1日・2025年4月1日の表「都市計画用途別面積と構成比」（ha）</h4>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">基準日</th><th class="n">行政区域（松江市）</th><th class="n">都市計画区域</th><th class="n">市街化区域</th><th class="n">市街化調整区域</th></tr></thead><tbody>
+<tr><th>2021年9月28日</th><td class="n">—</td><td class="n">17,845</td><td class="n">3,293</td><td class="n">14,552</td></tr>
+<tr><th>2024年4月1日</th><td class="n">—</td><td class="n">17,845</td><td class="n">3,293</td><td class="n">14,552</td></tr>
+<tr><th>2025年4月1日</th><td class="n">—</td><td class="n">17,878</td><td class="n">3,326</td><td class="n">14,552</td></tr>
+</tbody></table></div>
+<p class="src-line">2021年・2024〜2025年の数——資料：市都市政策課</p>
+</div>
+<div id="t-02-kuiki-3" data-screen="02-kuiki" data-area="宍道">
+<h4>宍道——区域の面積（ha）</h4>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">告示の日</th><th>告示</th><th class="n">都市計画区域</th><th class="n">用途地域内</th><th class="n">用途地域外</th></tr></thead><tbody>
+<tr><th>1978年11月14日<span class="since">（昭和53年）</span></th><td>島根県告示第915号</td><td class="n">2,000</td><td class="n">164.5</td><td class="n">1,835.5</td></tr>
+<tr><th>1996年6月21日<span class="since">（平成8年）</span></th><td>宍道町告示第40号</td><td class="n">2,000</td><td class="n">218.5</td><td class="n">1,781.5</td></tr>
+<tr><th>2011年9月28日<span class="since">（平成23年）</span></th><td>松江市告示第419号</td><td class="n">2,000</td><td class="n">237</td><td class="n">1,762.5</td></tr>
+</tbody></table></div>
+<p class="src-line">市街化区域・市街化調整区域面積の推移——「資料」の行がありません</p>
+</div>
+<div id="t-02-kuiki-4" data-screen="02-kuiki" data-area="宍道">
+<h4>宍道——2021年9月28日・2024年4月1日・2025年4月1日の表「都市計画用途別面積と構成比」（ha）</h4>
+<div class="table-scroll"><table class="yr"><thead><tr><th class="cnr">基準日</th><th class="n">都市計画区域</th><th class="n">用途地域内</th><th class="n">用途地域外</th></tr></thead><tbody>
+<tr><th>2021年9月28日</th><td class="n">2,000</td><td class="n">237</td><td class="n">—</td></tr>
+<tr><th>2024年4月1日</th><td class="n">2,000</td><td class="n">237</td><td class="n">—</td></tr>
+<tr><th>2025年4月1日</th><td class="n">2,000</td><td class="n">237</td><td class="n">—</td></tr>
+</tbody></table></div>
+<p class="src-line">2021年・2024〜2025年の数——資料：市都市政策課</p>
+</div>
+<p class="note">表の「—」は、その表に値が無いことを示します。</p>
+</section>
+<section class="section" id="s-caution">
+  <h2><svg class="ic"><use href="#ic-globe"/></svg>読むときに気をつけること</h2>
+  <div class="table-scroll"><table class="lst"><thead><tr><th>どこ</th><th>何が起きているか</th></tr></thead><tbody>
+<tr><td>松江圏都市計画区域</td><td>松江圏都市計画区域は安来市にもかかっています。この画面の松江圏都市計画区域の数は、そのうち松江市の区域の部分です（島根県「松江圏都市計画区域の整備、開発及び保全の方針」）。<br>2005年3月31日より前は旧松江市の部分で、2011年8月1日より前は東出雲町の部分を含みません。<br>データ元の表の見出しは「松江圏」とだけ書いています。</td></tr>
+<tr><td>告示の日</td><td>データ元の表は、年ごとではなく、告示の日などの日付ごとに面積を並べています。点は、告示の日と、松江圏の2005年3月31日・2011年8月1日（合併による再集計の日）と、2021年9月28日・2024年4月1日・2025年4月1日（別の表の基準日）です。次の点までは同じ面積として、階段の線で描いています。</td></tr>
+<tr><td>2005年3月31日・2011年8月1日</td><td>データ元の表の注記です。<br>「H17.3.31の市町村合併に伴い、旧松江市と旧玉湯町における都市計画区域・市街化区域・市街化調整区域の各面積を再集計した値である。区域の変更がないため、告示は行っていない。」<br>「H23.8.1の合併に伴い、旧松江市と旧東出雲町における都市計画区域・市街化区域・市街化調整区域の各面積を再集計した値である。区域の変更がないため、告示は行っていない。」</td></tr>
+<tr><td>行政区域の1991年3月5日から1997年3月11日</td><td>この間の線の動きについて、データ元の表は理由を書いていません。</td></tr>
+<tr><td>1970年12月10日（松江圏）</td><td>表の「都市計画区域」は14,284ですが、市街化区域と市街化調整区域を足すと14,302です。表に注記はありません。</td></tr>
+<tr><td>宍道の2011年9月28日</td><td>用途地域内と用途地域外を足すと1,999.5で、都市計画区域の2,000と合いません。表に注記はありません。</td></tr>
+<tr><td>2020年5月22日より後</td><td>2020年5月22日より後の点は、別の表「都市計画用途別面積と構成比」の数で、線を繋いでいます。<br>この表には「行政区域」「用途地域外」の行がありません。</td></tr>
+<tr><td>2025年4月1日（松江圏）</td><td>島根県「都市計画資料」（2026年4月1日現在）は、松江市の松江圏都市計画区域を17,845ha、市街化調整区域を約14,519haとしています。データ元の表の2025年4月1日の値（都市計画区域17,878ha・市街化調整区域14,552ha）と違います。データ元の表は理由を書いていません。</td></tr>
+<tr><td>宍道の行の名前</td><td>宍道都市計画区域は市街化区域と市街化調整区域を分けていません。データ元の表は、宍道の行を「用途地域内」「用途地域外」と書いています。</td></tr>
+</tbody></table></div>
+</section>
+<section class="section" id="s-glossary">
+  <h2><svg class="ic"><use href="#ic-book"/></svg>専門用語</h2>
+  <p class="sub">この画面に出てくる言葉です。クリックすると開きます。</p>
+  <details class="dd"><summary>都市計画区域</summary><div class="ddc">都市計画を定める区域として指定された区域です。</div></details>
+  <details class="dd"><summary>松江圏都市計画区域</summary><div class="ddc">松江市と安来市にまたがる都市計画区域です。このレポートの松江圏都市計画区域の数は、そのうち松江市の区域の部分です。</div></details>
+  <details class="dd"><summary>告示</summary><div class="ddc">都市計画の決定や変更を、国・県・市町村が公に知らせることです。</div></details>
+  <details class="dd"><summary>市街化区域</summary><div class="ddc">都市計画区域のうち、市街地として整備を進める区域です。</div></details>
+  <details class="dd"><summary>市街化調整区域</summary><div class="ddc">都市計画区域のうち、市街化を抑える区域です。</div></details>
+  <details class="dd"><summary>行政区域</summary><div class="ddc">市の区域です。</div></details>
+</section>
+</div>
+<footer><div class="in">
+  出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年11月4日
+</div></footer>
+</div>
+</div>
+
+<script type="application/json" id="d">{"figures": {"ch-split": {"axis": {"\u5b8d\u9053": {"1978-11-14": {"f": [], "l": ["\u7528\u9014\u5730\u57df\u5185", "\u7528\u9014\u5730\u57df\u5916"], "x": []}, "1996-06-21": {"f": [], "l": ["\u7528\u9014\u5730\u57df\u5185", "\u7528\u9014\u5730\u57df\u5916"], "x": []}, "2011-09-28": {"f": [], "l": ["\u7528\u9014\u5730\u57df\u5185", "\u7528\u9014\u5730\u57df\u5916"], "x": []}, "2021-09-28": {"f": [], "l": ["\u7528\u9014\u5730\u57df\u5185"], "x": []}, "2024-04-01": {"f": [], "l": ["\u7528\u9014\u5730\u57df\u5185"], "x": []}, "2025-04-01": {"f": [], "l": ["\u7528\u9014\u5730\u57df\u5185"], "x": []}}, "\u677e\u6c5f\u570f": {"1970-12-10": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "1979-03-27": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "1984-04-13": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "1991-03-05": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "1997-03-11": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "1999-07-13": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2004-01-23": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2005-03-31": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2007-10-16": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2010-12-24": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2011-08-01": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2015-09-15": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2017-08-25": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2020-05-22": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2021-09-28": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2024-04-01": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}, "2025-04-01": {"f": [], "l": ["\u5e02\u8857\u5316\u533a\u57df", "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df"], "x": []}}}, "bands": {"\u5b8d\u9053": {"1978-11-14": [], "1996-06-21": [], "2011-09-28": [], "2021-09-28": [], "2024-04-01": [], "2025-04-01": []}, "\u677e\u6c5f\u570f": {"1970-12-10": [], "1979-03-27": [], "1984-04-13": [], "1991-03-05": [], "1997-03-11": [], "1999-07-13": [], "2004-01-23": [], "2005-03-31": [], "2007-10-16": [], "2010-12-24": [], "2011-08-01": [], "2015-09-15": [], "2017-08-25": [], "2020-05-22": [], "2021-09-28": [], "2024-04-01": [], "2025-04-01": []}}, "colors": {"\u5b8d\u9053": {"1978-11-14": ["#0358af"], "1996-06-21": ["#0358af"], "2011-09-28": ["#0358af"], "2021-09-28": ["#0358af"], "2024-04-01": ["#0358af"], "2025-04-01": ["#0358af"]}, "\u677e\u6c5f\u570f": {"1970-12-10": ["#0358af"], "1979-03-27": ["#0358af"], "1984-04-13": ["#0358af"], "1991-03-05": ["#0358af"], "1997-03-11": ["#0358af"], "1999-07-13": ["#0358af"], "2004-01-23": ["#0358af"], "2005-03-31": ["#0358af"], "2007-10-16": ["#0358af"], "2010-12-24": ["#0358af"], "2011-08-01": ["#0358af"], "2015-09-15": ["#0358af"], "2017-08-25": ["#0358af"], "2020-05-22": ["#0358af"], "2021-09-28": ["#0358af"], "2024-04-01": ["#0358af"], "2025-04-01": ["#0358af"]}}, "digits": {"\u5b8d\u9053": {"1978-11-14": 0, "1996-06-21": 0, "2011-09-28": 0, "2021-09-28": 0, "2024-04-01": 0, "2025-04-01": 0}, "\u677e\u6c5f\u570f": {"1970-12-10": 0, "1979-03-27": 0, "1984-04-13": 0, "1991-03-05": 0, "1997-03-11": 0, "1999-07-13": 0, "2004-01-23": 0, "2005-03-31": 0, "2007-10-16": 0, "2010-12-24": 0, "2011-08-01": 0, "2015-09-15": 0, "2017-08-25": 0, "2020-05-22": 0, "2021-09-28": 0, "2024-04-01": 0, "2025-04-01": 0}}, "hide": {"\u5b8d\u9053": {"1978-11-14": "", "1996-06-21": "", "2011-09-28": "", "2021-09-28": "", "2024-04-01": "", "2025-04-01": ""}, "\u677e\u6c5f\u570f": {"1970-12-10": "", "1979-03-27": "", "1984-04-13": "", "1991-03-05": "", "1997-03-11": "", "1999-07-13": "", "2004-01-23": "", "2005-03-31": "", "2007-10-16": "", "2010-12-24": "", "2011-08-01": "", "2015-09-15": "", "2017-08-25": "", "2020-05-22": "", "2021-09-28": "", "2024-04-01": "", "2025-04-01": ""}}, "keys": ["area", "date"], "kind": {"\u5b8d\u9053": {"1978-11-14": "categorical", "1996-06-21": "categorical", "2011-09-28": "categorical", "2021-09-28": "categorical", "2024-04-01": "categorical", "2025-04-01": "categorical"}, "\u677e\u6c5f\u570f": {"1970-12-10": "categorical", "1979-03-27": "categorical", "1984-04-13": "categorical", "1991-03-05": "categorical", "1997-03-11": "categorical", "1999-07-13": "categorical", "2004-01-23": "categorical", "2005-03-31": "categorical", "2007-10-16": "categorical", "2010-12-24": "categorical", "2011-08-01": "categorical", "2015-09-15": "categorical", "2017-08-25": "categorical", "2020-05-22": "categorical", "2021-09-28": "categorical", "2024-04-01": "categorical", "2025-04-01": "categorical"}}, "series": {"\u5b8d\u9053": {"1978-11-14": [{"label": "\u9762\u7a4d", "values": [164.5, 1835.5]}], "1996-06-21": [{"label": "\u9762\u7a4d", "values": [218.5, 1781.5]}], "2011-09-28": [{"label": "\u9762\u7a4d", "values": [237.0, 1762.5]}], "2021-09-28": [{"label": "\u9762\u7a4d", "values": [237.0]}], "2024-04-01": [{"label": "\u9762\u7a4d", "values": [237.0]}], "2025-04-01": [{"label": "\u9762\u7a4d", "values": [237.0]}]}, "\u677e\u6c5f\u570f": {"1970-12-10": [{"label": "\u9762\u7a4d", "values": [2427.0, 11875.0]}], "1979-03-27": [{"label": "\u9762\u7a4d", "values": [2502.0, 11782.0]}], "1984-04-13": [{"label": "\u9762\u7a4d", "values": [2548.0, 11736.0]}], "1991-03-05": [{"label": "\u9762\u7a4d", "values": [2572.0, 11798.0]}], "1997-03-11": [{"label": "\u9762\u7a4d", "values": [2636.0, 11734.0]}], "1999-07-13": [{"label": "\u9762\u7a4d", "values": [2649.0, 11721.0]}], "2004-01-23": [{"label": "\u9762\u7a4d", "values": [2656.0, 11714.0]}], "2005-03-31": [{"label": "\u9762\u7a4d", "values": [2840.0, 13092.0]}], "2007-10-16": [{"label": "\u9762\u7a4d", "values": [2848.0, 13084.0]}], "2010-12-24": [{"label": "\u9762\u7a4d", "values": [2865.0, 13067.0]}], "2011-08-01": [{"label": "\u9762\u7a4d", "values": [3269.0, 14576.0]}], "2015-09-15": [{"label": "\u9762\u7a4d", "values": [3272.0, 14573.0]}], "2017-08-25": [{"label": "\u9762\u7a4d", "values": [3277.0, 14568.0]}], "2020-05-22": [{"label": "\u9762\u7a4d", "values": [3278.0, 14567.0]}], "2021-09-28": [{"label": "\u9762\u7a4d", "values": [3293.0, 14552.0]}], "2024-04-01": [{"label": "\u9762\u7a4d", "values": [3293.0, 14552.0]}], "2025-04-01": [{"label": "\u9762\u7a4d", "values": [3326.0, 14552.0]}]}}, "stepped": false, "texts": {"\u5b8d\u9053": {"1978-11-14": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e1978\u5e7411\u670814\u65e5\u306e\u6570\u3067\u3059\u3002", "1996-06-21": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e1996\u5e746\u670821\u65e5\u306e\u6570\u3067\u3059\u3002", "2011-09-28": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e2011\u5e749\u670828\u65e5\u306e\u6570\u3067\u3059\u3002", "2021-09-28": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e2021\u5e749\u670828\u65e5\u306e\u6570\u3067\u3059\u3002", "2024-04-01": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e2024\u5e744\u67081\u65e5\u306e\u6570\u3067\u3059\u3002", "2025-04-01": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e2025\u5e744\u67081\u65e5\u306e\u6570\u3067\u3059\u3002"}, "\u677e\u6c5f\u570f": {"1970-12-10": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e1970\u5e7412\u670810\u65e5\u306e\u6570\u3067\u3059\u3002", "1979-03-27": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e1979\u5e743\u670827\u65e5\u306e\u6570\u3067\u3059\u3002", "1984-04-13": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e1984\u5e744\u670813\u65e5\u306e\u6570\u3067\u3059\u3002", "1991-03-05": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e1991\u5e743\u67085\u65e5\u306e\u6570\u3067\u3059\u3002", "1997-03-11": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e1997\u5e743\u670811\u65e5\u306e\u6570\u3067\u3059\u3002", "1999-07-13": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e1999\u5e747\u670813\u65e5\u306e\u6570\u3067\u3059\u3002", "2004-01-23": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2004\u5e741\u670823\u65e5\u306e\u6570\u3067\u3059\u3002", "2005-03-31": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2005\u5e743\u670831\u65e5\u306e\u6570\u3067\u3059\u3002", "2007-10-16": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2007\u5e7410\u670816\u65e5\u306e\u6570\u3067\u3059\u3002", "2010-12-24": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2010\u5e7412\u670824\u65e5\u306e\u6570\u3067\u3059\u3002", "2011-08-01": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2011\u5e748\u67081\u65e5\u306e\u6570\u3067\u3059\u3002", "2015-09-15": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2015\u5e749\u670815\u65e5\u306e\u6570\u3067\u3059\u3002", "2017-08-25": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2017\u5e748\u670825\u65e5\u306e\u6570\u3067\u3059\u3002", "2020-05-22": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2020\u5e745\u670822\u65e5\u306e\u6570\u3067\u3059\u3002", "2021-09-28": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2021\u5e749\u670828\u65e5\u306e\u6570\u3067\u3059\u3002", "2024-04-01": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2024\u5e744\u67081\u65e5\u306e\u6570\u3067\u3059\u3002", "2025-04-01": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e2025\u5e744\u67081\u65e5\u306e\u6570\u3067\u3059\u3002"}}, "unit": {"\u5b8d\u9053": {"1978-11-14": "ha", "1996-06-21": "ha", "2011-09-28": "ha", "2021-09-28": "ha", "2024-04-01": "ha", "2025-04-01": "ha"}, "\u677e\u6c5f\u570f": {"1970-12-10": "ha", "1979-03-27": "ha", "1984-04-13": "ha", "1991-03-05": "ha", "1997-03-11": "ha", "1999-07-13": "ha", "2004-01-23": "ha", "2005-03-31": "ha", "2007-10-16": "ha", "2010-12-24": "ha", "2011-08-01": "ha", "2015-09-15": "ha", "2017-08-25": "ha", "2020-05-22": "ha", "2021-09-28": "ha", "2024-04-01": "ha", "2025-04-01": "ha"}}}, "ch-trend": {"axis": {"\u5b8d\u9053": {"f": ["1978\u5e7411\u670814\u65e5", "1996\u5e746\u670821\u65e5", "2011\u5e749\u670828\u65e5", "2021\u5e749\u670828\u65e5", "2024\u5e744\u67081\u65e5", "2025\u5e744\u67081\u65e5"], "l": ["1978", "1996", "2011", "2021", "", "2025"], "x": [1978.8685, 1996.4699, 2011.7397, 2021.7397, 2024.2486, 2025.2466]}, "\u677e\u6c5f\u570f": {"f": ["1970\u5e7412\u670810\u65e5", "1979\u5e743\u670827\u65e5", "1984\u5e744\u670813\u65e5", "1991\u5e743\u67085\u65e5", "1997\u5e743\u670811\u65e5", "1999\u5e747\u670813\u65e5", "2004\u5e741\u670823\u65e5", "2005\u5e743\u670831\u65e5", "2007\u5e7410\u670816\u65e5", "2010\u5e7412\u670824\u65e5", "2011\u5e748\u67081\u65e5", "2015\u5e749\u670815\u65e5", "2017\u5e748\u670825\u65e5", "2020\u5e745\u670822\u65e5", "2021\u5e749\u670828\u65e5", "2024\u5e744\u67081\u65e5", "2025\u5e744\u67081\u65e5"], "l": ["1970", "1979", "1984", "1991", "1997", "", "2004", "", "", "2010", "", "2015", "", "2020", "", "", "2025"], "x": [1970.9397, 1979.2329, 1984.2814, 1991.1726, 1997.189, 1999.5288, 2004.0601, 2005.2438, 2007.789, 2010.9781, 2011.5808, 2015.7041, 2017.6466, 2020.388, 2021.7397, 2024.2486, 2025.2466]}}, "bands": {"\u5b8d\u9053": [], "\u677e\u6c5f\u570f": []}, "colors": {"\u5b8d\u9053": ["#61a6ff", "#0358af", "#f67d50"], "\u677e\u6c5f\u570f": ["#61a6ff", "#0358af", "#f67d50", "#0cc286"]}, "digits": {"\u5b8d\u9053": 0, "\u677e\u6c5f\u570f": 0}, "hide": {"\u5b8d\u9053": "", "\u677e\u6c5f\u570f": ""}, "keys": ["area"], "kind": {"\u5b8d\u9053": "line", "\u677e\u6c5f\u570f": "line"}, "series": {"\u5b8d\u9053": [{"label": "\u90fd\u5e02\u8a08\u753b\u533a\u57df", "values": [2000.0, 2000.0, 2000.0, 2000.0, 2000.0, 2000.0]}, {"label": "\u7528\u9014\u5730\u57df\u5185", "values": [164.5, 218.5, 237.0, 237.0, 237.0, 237.0]}, {"label": "\u7528\u9014\u5730\u57df\u5916", "values": [1835.5, 1781.5, 1762.5, null, null, null]}], "\u677e\u6c5f\u570f": [{"label": "\u884c\u653f\u533a\u57df\uff08\u677e\u6c5f\u5e02\uff09", "values": [17521.0, 17524.0, 17528.0, 17614.0, 22138.0, 22138.0, 22138.0, 53021.0, 53027.0, 53034.0, 57300.0, 57299.0, 57299.0, 57299.0, null, null, null]}, {"label": "\u90fd\u5e02\u8a08\u753b\u533a\u57df", "values": [14284.0, 14284.0, 14284.0, 14370.0, 14370.0, 14370.0, 14370.0, 15932.0, 15932.0, 15932.0, 17845.0, 17845.0, 17845.0, 17845.0, 17845.0, 17845.0, 17878.0]}, {"label": "\u5e02\u8857\u5316\u533a\u57df", "values": [2427.0, 2502.0, 2548.0, 2572.0, 2636.0, 2649.0, 2656.0, 2840.0, 2848.0, 2865.0, 3269.0, 3272.0, 3277.0, 3278.0, 3293.0, 3293.0, 3326.0]}, {"label": "\u5e02\u8857\u5316\u8abf\u6574\u533a\u57df", "values": [11875.0, 11782.0, 11736.0, 11798.0, 11734.0, 11721.0, 11714.0, 13092.0, 13084.0, 13067.0, 14576.0, 14573.0, 14568.0, 14567.0, 14552.0, 14552.0, 14552.0]}]}, "stepped": true, "texts": {"\u5b8d\u9053": "\u5358\u4f4d\u2014\u2014ha\u3002\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df\u306e\u6570\u3067\u3059\u3002", "\u677e\u6c5f\u570f": "\u5358\u4f4d\u2014\u2014ha\u3002\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09\u306e\u6570\u3067\u3059\u3002"}, "unit": {"\u5b8d\u9053": "ha", "\u677e\u6c5f\u570f": "ha"}}}, "pick": {"defaults": {"area": "\u677e\u6c5f\u570f", "date": "2025-04-01"}, "depends": {"date": "area"}, "keys": ["area", "date"], "latest": ["date"], "options": {"area": [{"label": "\u677e\u6c5f\u570f\u90fd\u5e02\u8a08\u753b\u533a\u57df\uff08\u677e\u6c5f\u5e02\u306e\u90e8\u5206\uff09", "value": "\u677e\u6c5f\u570f"}, {"label": "\u5b8d\u9053\u90fd\u5e02\u8a08\u753b\u533a\u57df", "value": "\u5b8d\u9053"}], "date": {"\u5b8d\u9053": [{"label": "1978\u5e7411\u670814\u65e5", "value": "1978-11-14"}, {"label": "1996\u5e746\u670821\u65e5", "value": "1996-06-21"}, {"label": "2011\u5e749\u670828\u65e5", "value": "2011-09-28"}, {"label": "2021\u5e749\u670828\u65e5\uff08\u69cb\u6210\u6bd4\u306e\u8868\uff09", "value": "2021-09-28"}, {"label": "2024\u5e744\u67081\u65e5\uff08\u69cb\u6210\u6bd4\u306e\u8868\uff09", "value": "2024-04-01"}, {"label": "2025\u5e744\u67081\u65e5\uff08\u69cb\u6210\u6bd4\u306e\u8868\uff09", "value": "2025-04-01"}], "\u677e\u6c5f\u570f": [{"label": "1970\u5e7412\u670810\u65e5", "value": "1970-12-10"}, {"label": "1979\u5e743\u670827\u65e5", "value": "1979-03-27"}, {"label": "1984\u5e744\u670813\u65e5", "value": "1984-04-13"}, {"label": "1991\u5e743\u67085\u65e5", "value": "1991-03-05"}, {"label": "1997\u5e743\u670811\u65e5", "value": "1997-03-11"}, {"label": "1999\u5e747\u670813\u65e5", "value": "1999-07-13"}, {"label": "2004\u5e741\u670823\u65e5", "value": "2004-01-23"}, {"label": "2005\u5e743\u670831\u65e5", "value": "2005-03-31"}, {"label": "2007\u5e7410\u670816\u65e5", "value": "2007-10-16"}, {"label": "2010\u5e7412\u670824\u65e5", "value": "2010-12-24"}, {"label": "2011\u5e748\u67081\u65e5", "value": "2011-08-01"}, {"label": "2015\u5e749\u670815\u65e5", "value": "2015-09-15"}, {"label": "2017\u5e748\u670825\u65e5", "value": "2017-08-25"}, {"label": "2020\u5e745\u670822\u65e5", "value": "2020-05-22"}, {"label": "2021\u5e749\u670828\u65e5\uff08\u69cb\u6210\u6bd4\u306e\u8868\uff09", "value": "2021-09-28"}, {"label": "2024\u5e744\u67081\u65e5\uff08\u69cb\u6210\u6bd4\u306e\u8868\uff09", "value": "2024-04-01"}, {"label": "2025\u5e744\u67081\u65e5\uff08\u69cb\u6210\u6bd4\u306e\u8868\uff09", "value": "2025-04-01"}]}}}}</script><script>
+(function(){
+  var b=document.body, t=document.getElementById("railtoggle");
+  if(t) t.addEventListener("click", function(){
+    var railed=b.classList.toggle("rail");
+    t.setAttribute("aria-expanded", String(!railed));
+    t.setAttribute("aria-label", railed?"サイドバーを開く":"サイドバーを畳む");
+  });
+})();
+</script>
+<script>
+/* 図の共通の道具（tasks.md 6.4）。**外部を指す読み込みを書かない**
+   ——Chart.js は同梱した資産から読む（research.md Decision 3）。
+
+   ★ 横軸は時間で取る（要件 6.3）。Chart.js の `time` 目盛りは日付を扱う別の
+     ライブラリを要するため使わない。代わりに**月の通し番号を linear の目盛りへ
+     載せる**——点の間隔がそのまま期間の長さに比例し、同梱するものは1つで済む。
+     末尾の区間（各年4月末 → 最新月）だけが15か月あり、等間隔に並べると
+     その区間の傾きだけが実際と違って見える。
+
+   ★ 図に数値ラベルを載せない（要件 11.1）。正確な値は併置した数表が持つ。
+     ∴ 点の上へ数を書く差し込み（Chart.js の data labels 系の追加ライブラリ）を
+     使わない。同梱するのは Chart.js 本体だけである。
+
+   ★ 値が無い点を 0 として描かない（要件 4.3）。`null` のまま渡し、`spanGaps` を
+     偽にして線を切る。0 で埋めると、記録の無い月が「0人だった月」に見える。 */
+window.MS = (function () {
+  var css = getComputedStyle(document.documentElement);
+  var v = function (name) { return css.getPropertyValue(name).trim(); };
+  var P = {
+    accent: v("--accent"), deep: v("--accent-deep"), mid: v("--accent-mid"),
+    mute: v("--mute"), up: v("--up"), dn: v("--dn"),
+    grid: v("--line-soft"), ink: v("--ink-3")
+  };
+  var SERIES = [P.deep, P.mid, "#b9c1dc"];
+
+  var na = function (x) { return x === null || x === undefined; };
+  var nf = function (x) { return na(x) ? "—" : x.toLocaleString("ja-JP"); };
+  var dc = function (x, d) { return na(x) ? "—" : x.toFixed(d === undefined ? 2 : d); };
+  var sg = function (x) {
+    return na(x) ? "—" : (x > 0 ? "+" : (x < 0 ? "-" : "±")) + Math.abs(x).toLocaleString("ja-JP");
+  };
+  var num = function (x, d) { return d ? dc(x, d) : nf(x); };
+
+  function labelsOf(axis) {
+    var map = {};
+    axis.x.forEach(function (x, i) { map[x] = axis.l[i]; });
+    return map;
+  }
+
+  /* 最新月の点だけを大きく描く（要件 6.2「現在」として示す）。 */
+  function radii(axis) {
+    return axis.x.map(function (_, i) { return i === axis.x.length - 1 ? 5 : 2; });
+  }
+
+  function points(axis, values) {
+    return axis.x.map(function (x, i) {
+      return { x: x, y: na(values[i]) ? null : values[i] };
+    });
+  }
+
+  /* 時間軸。`extra` は scaleY と同じ口である——**片側にだけ口が無いと、
+     呼ぶ側が戻り値を手で書き換える形になり、渡し忘れが起きる**
+     （2026-08-21・積み上げ棒の破れの原因がこれだった）。 */
+  function scaleX(axis, extra) {
+    var map = labelsOf(axis);
+    var x = {
+      type: "linear", bounds: "data", grid: { display: false },
+      afterBuildTicks: function (a) {
+        a.ticks = axis.x.map(function (x) { return { value: x }; });
+      },
+      ticks: {
+        autoSkip: true, maxRotation: 0, font: { size: 10.5 },
+        callback: function (value) { return map[value] || ""; }
+      },
+      title: { display: true, text: axis.t, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { x[k] = extra[k]; }); }
+    return x;
+  }
+
+  /* 2つの指定を重ねた**新しい**辞書を返す。**元を書き換えない。** */
+  function merge(a, b) {
+    var out = {};
+    [a, b].forEach(function (src) {
+      if (src) { Object.keys(src).forEach(function (k) { out[k] = src[k]; }); }
+    });
+    return out;
+  }
+
+  /* 値が1つでも在るか。**空の図を描かないための判定**（#53）。 */
+  function anyValue(sets) {
+    return sets.some(function (s) {
+      return (s.values || []).some(function (x) { return !na(x); });
+    });
+  }
+
+  /* 図の枠（`.chartbox`）と、**その見出し**を出し入れする。
+
+     ★値が1つも無い図は、**枠ごと隠す**（#53・2026-08-23）。空の枠だけが残ると、
+       「0だった」とも「描けなかった」とも読める——人口0の町で「1世帯あたりの
+       人数」が `0.00〜1.00` の目盛りだけを引いて線が1本も無い、という形で
+       v0.1.0 から出ていた（`docs/validation/first-publish-v0.2.0.md`）。
+       理由は数表の側が書いているので、図は出さない。
+
+     ★**見出しも同じ関数が持つ**（#63・2026-08-25）。枠だけ隠すと、**下に何も
+       無い `<h3>` が残る**——全月0人の町6件で「1世帯あたりの人数（人）」が
+       実際にそうなっていた。#53 の決定が `<h3>` まで届いていなかっただけであり、
+       **新しく決めたのではなく、#53 を完成させている**。
+
+     ★**ここに寄せる理由**。同じことを画面の側が3箇所で手で書いていた
+       （`ageBox` ・ `bandsBox` ・ `upBox`/`dnBox`）。**作法にすると1箇所の
+       書き忘れで抜ける**——実際に「1世帯あたりの人数」の1箇所だけ抜けていた。
+       ∴ 図を作る唯一の場所が、枠の出し入れも持つ。
+
+     ★**しかし「直前の `<h3>`」を無条件には隠せない**（#63 の実測・2026-08-25）。
+       `.chartbox` の直前が `</h3>` なのは生成物で7箇所あり、そのうち
+       `02-town-change` の「増えた町」「減った町」は**図だけでなく直下の表も
+       束ねている**。増えた町が0件のとき図は消えるが表は残るので、見出しまで
+       消すと**その表が見出しを失う**——#63 が直す欠陥の裏返しを作ることになる。
+
+     ★**構造では切り分けられない。** `01-town-trend` の3つ目（1世帯あたり）も、
+       直後に軸の注記と数表が続く形は「増えた町」と同じである。違いは意味の側
+       ——数表が3指標**共通**か、その見出し**専用**か——にある。
+       ∴ **画面の側に、二択のどちらかを必ず名乗らせる**——`fig-only`（その図だけを
+       指す見出し。図と一緒に消す）か `fig-lead`（図の下の内容も束ねる見出し。残す）。
+
+       **既定を持たせない。** 既定があると、書き忘れが「既定の側の振る舞い」として
+       黙って通る。∴ どちらも名乗らない見出しは**関門が落とす**
+       （`tests/report_common/test_shared_contract.py::Test図の見出しは申告を持つ`）。
+       #53 が「画面の側で書くと書き忘れる」と言ったことは正しく、**書き忘れを
+       機械が見る**ことでその弱点を塞いでいる。
+
+     ★**`<h4>` も見る**（#348・2026-10-03）。題材型の画面では「経年で見る」が `<h3>`
+       で立ち、その下の図の見出しは一段下げて `<h4>` にする——同じ段に並べると、
+       図の名前が「経年で見る」と並ぶ節の名前に読める。 */
+  function frame(node, on) {
+    var box = node.closest ? node.closest(".chartbox") : null;
+    if (!box) { return on; }
+    box.style.display = on ? "" : "none";
+    var head = box.previousElementSibling;
+    if (head && (head.tagName === "H3" || head.tagName === "H4") && head.classList
+        && head.classList.contains("fig-only")) {
+      head.style.display = on ? "" : "none";
+    }
+    return on;
+  }
+
+  /* 数えるものの目盛りに**負を出さない**ための足し前（#53・2026-08-23）。
+
+     ★人・世帯に負はありえない。それでも `-1` が出ていた——Chart.js は
+       **値の幅が0のとき上下へ広げる**ためである（全月0人の町が6件・世帯数が
+       0で固定の町も在る）。`precision: 0` はそれを整数へ丸めているだけで、
+       負そのものは止めない（`first-publish-v0.2.0.md`「ここで初めて分かったこと 1」）。
+
+     ★**幅が0のときだけ**効かせる。`beginAtZero` を数えるもの全部へ掛けると、
+       人口5,000人前後で動く町の図が0から描かれ、**推移が平らに潰れる**
+       ——「まちの推移を市民が読める形に落とす」を自分で壊す。
+       幅が0でないときは、Chart.js の下限が値の最小値であり、
+       **元から負にならない**。
+
+     Args:
+       sets: 系列（`{values: [...]}` の並び）。
+       d: 小数の桁数。**0（偽）が「数えるもの」を意味する**。
+
+     Returns:
+       `scaleY` の `extra` へ足す指定。効かせないときは空。 */
+  function zeroFloor(sets, d) {
+    if (d) { return {}; }
+    var seen = [];
+    sets.forEach(function (s) {
+      (s.values || []).forEach(function (x) { if (!na(x)) { seen.push(x); } });
+    });
+    if (!seen.length) { return {}; }
+    var lo = Math.min.apply(null, seen);
+    var hi = Math.max.apply(null, seen);
+    if (lo < 0 || lo !== hi) { return {}; }
+    return { beginAtZero: true };
+  }
+
+  /* 値の目盛り。`d` は小数の桁数で、**0 は「数えるもの」を意味する**（人・世帯）。
+
+     ★数えるものの目盛りに小数を出さない（#30・2026-08-22）。`d` が 0 のとき
+       整形は `toLocaleString` を通るが、**これは整数へ丸めない**——目盛りの値が
+       小数で来れば `0.5人` と出る。実データには**全月0人の町が6件・最大8人の町が
+       1件**在り、この幅では Chart.js が小数の目盛りを作りうる。
+       ∴ `precision: 0` で**Chart.js の側に整数の目盛りだけを作らせる**。
+       整形の側で丸めると、`0` が2つ並ぶ目盛りができる（値が違うのに同じ札になる）。 */
+  function scaleY(unit, d, extra) {
+    var ticks = { callback: function (value) { return num(value, d); } };
+    if (!d) { ticks.precision = 0; }
+    var y = {
+      ticks: ticks,
+      grid: { color: P.grid },
+      title: { display: true, text: unit, color: P.ink, font: { size: 11 } }
+    };
+    if (extra) { Object.keys(extra).forEach(function (k) { y[k] = extra[k]; }); }
+    return y;
+  }
+
+  function tooltip(axis, unit, d) {
+    var map = labelsOf(axis);
+    return {
+      callbacks: {
+        title: function (items) { return map[items[0].parsed.x] || ""; },
+        label: function (c) {
+          return (c.dataset.label ? c.dataset.label + " " : "") + num(c.parsed.y, d) + " " + unit;
+        }
+      }
+    };
+  }
+
+  /* 折れ線。sets = [{label, values, color, dash}] */
+  function line(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            borderColor: s.color || SERIES[i % SERIES.length],
+            backgroundColor: "transparent",
+            borderWidth: 2.2, tension: 0.25,
+            pointRadius: radii(axis), pointHoverRadius: 6,
+            borderDash: s.dash || [], spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  /* 区分の並び（年齢帯・町名）を軸に取る棒。時間軸ではない。 */
+  function categorical(id, type, labels, sets, unit, options) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    var opts = options || {};
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: s.values,
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        indexAxis: opts.horizontal ? "y" : "x",
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: sets.length > 1, position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: function (c) {
+                var value = opts.horizontal ? c.parsed.x : c.parsed.y;
+                return (c.dataset.label ? c.dataset.label + " " : "") + num(value, opts.digits) + " " + unit;
+              }
+            }
+          }
+        },
+        scales: opts.horizontal
+          ? { x: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)), y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } }
+          : { x: { grid: { display: false }, ticks: { font: { size: 10.5 } } }, y: scaleY(unit, opts.digits, zeroFloor(sets, opts.digits)) }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ棒。**x と y の両方へ stacked を置く唯一の場所**である。
+
+     Chart.js の積み上げ棒は値軸だけでは成立しない——y にだけ stacked を置くと、
+     値は積み上がるのに棒の横位置が系列ごとに別スロットへ割り振られ、
+     段違いの細い棒になる（2026-08-21・#4 の 8.1 で人の目視により発覚）。
+     ∴ 呼ぶ側に軸を組ませない。scaleX / scaleY を直に渡す形へ戻さないこと。 */
+  function stackedBar(id, axis, sets, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var x = scaleX(axis, { stacked: true });
+    var y = scaleY(unit, d, merge(zeroFloor(sets, d), { stacked: true }));
+    return new Chart(node, {
+      type: "bar",
+      data: {
+        datasets: sets.map(function (s, i) {
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: s.color || SERIES[i % SERIES.length],
+            borderWidth: 0
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: x, y: y }
+      }
+    });
+  }
+
+  /* 時間軸の積み上げ面。**y にだけ stacked を置く**のが正しい。
+
+     stackedBar と対称にしないこと——x の `stacked` は**棒のスロット割り当て**の
+     話であり、線には掛からない。「積み上げなら両軸」と読み替えると、
+     線の x に無意味な指定が乗る。∴ ここでも「呼ぶ側に軸を組ませない」形は
+     同じだが、置く場所は y だけである。
+
+     `extra` は y の目盛りへ足す指定（`{min, max}` など）。**`stacked` は最後に
+     上書きするので、呼ぶ側から外せない。** */
+  function stackedArea(id, axis, sets, unit, d, extra) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    var e = zeroFloor(sets, d);
+    if (extra) { Object.keys(extra).forEach(function (k) { e[k] = extra[k]; }); }
+    e.stacked = true;
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s, i) {
+          var color = s.color || SERIES[i % SERIES.length];
+          return {
+            label: s.label || "",
+            data: points(axis, s.values),
+            backgroundColor: color, borderColor: color,
+            borderWidth: 1, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, e) }
+      }
+    });
+  }
+
+  /* 全系列を薄く描き、選ばれた1本だけを強調する線（町どうしの比較）。
+
+     ★強調は**色・太さ・点・重ね順の4つが揃って**初めて意味を持つ。1つ落としても
+     図は描けてしまい、「選んだ線が他の線の下に隠れる」「選んでいない線に点が付く」
+     といった形で崩れる。∴ 4つを1箇所に束ね、呼ぶ側には「どれを選んだか」だけを
+     渡させる。 */
+  function highlightLine(id, axis, sets, selected, unit, d) {
+    var node = document.getElementById(id);
+    if (!node) { return null; }
+    if (!frame(node, anyValue(sets))) { return null; }
+    return new Chart(node, {
+      type: "line",
+      data: {
+        datasets: sets.map(function (s) {
+          var on = (s.label === selected);
+          return {
+            label: s.label,
+            data: points(axis, s.values),
+            borderColor: on ? P.accent : P.mute,
+            backgroundColor: "transparent",
+            borderWidth: on ? 2.6 : 1.2,
+            pointRadius: on ? radii(axis) : 0,
+            pointHoverRadius: 6,
+            tension: 0.25, order: on ? 0 : 1, spanGaps: false
+          };
+        })
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 2, font: { size: 11 } } },
+          tooltip: tooltip(axis, unit, d)
+        },
+        scales: { x: scaleX(axis), y: scaleY(unit, d, zeroFloor(sets, d)) }
+      }
+    });
+  }
+
+  function cells(values, fmt) {
+    return values.map(function (v) { return "<td>" + fmt(v) + "</td>"; }).join("");
+  }
+
+  function put(id, text) {
+    var node = document.getElementById(id);
+    if (node) { node.textContent = text; }
+  }
+
+  return {
+    P: P, SERIES: SERIES, na: na, nf: nf, dc: dc, sg: sg, num: num,
+    labelsOf: labelsOf, points: points, radii: radii,
+    anyValue: anyValue, frame: frame, zeroFloor: zeroFloor, merge: merge,
+    scaleX: scaleX, scaleY: scaleY, tooltip: tooltip,
+    line: line, categorical: categorical, stackedBar: stackedBar,
+    stackedArea: stackedArea, highlightLine: highlightLine, cells: cells, put: put
+  };
+})();
+</script>
+<script>
+/* The pickers redraw every figure and show the value tables matching the state (design E3 to E6).
+
+   The state holds only the keys in `D.pick.keys`; every figure attribute is nested by the figure's own `keys`, so one
+   walk serves every figure and no screen or key is named here. A key in `D.pick.depends` offers the options of its
+   parent's value, and its `<select>` is rebuilt when the parent changes.
+
+   Written only against what the capture harness (`scripts/ops/chart_capture.js`) fakes: no
+   `document.querySelector(All)` or `window.addEventListener`, every node is looked up by id, and `change` is called
+   without `this`. The table ids are therefore written in by Jinja from the context, not found in the page. */
+document.addEventListener("DOMContentLoaded", function () {
+  var D = JSON.parse(document.getElementById("d").textContent);
+  var KEYS = D.pick.keys, OPTIONS = D.pick.options, DEFAULTS = D.pick.defaults;
+  var DEPENDS = D.pick.depends, LATEST = D.pick.latest;
+  var TABLES = ["t-02-kuiki-1", "t-02-kuiki-2", "t-02-kuiki-3", "t-02-kuiki-4"];
+  var state = {};
+  KEYS.forEach(function (key) { state[key] = DEFAULTS[key]; });
+  var drawn = {};
+
+  function offered(key) {
+    return Object.prototype.hasOwnProperty.call(DEPENDS, key) ? OPTIONS[key][state[DEPENDS[key]]] : OPTIONS[key];
+  }
+
+  function walk(figure, attr) {
+    var node = figure[attr];
+    figure.keys.forEach(function (key) {
+      node = node && Object.prototype.hasOwnProperty.call(node, state[key]) ? node[state[key]] : null;
+    });
+    return node;
+  }
+
+  /* A value the list no longer offers falls back: a moment to the latest, anything else to the first. Parents come
+     first in `KEYS`, so a dependent key settles against its parent's settled value. */
+  function settle() {
+    KEYS.forEach(function (key) {
+      var values = (offered(key) || []).map(function (o) { return o.value; });
+      if (values.indexOf(state[key]) < 0) {
+        state[key] = LATEST.indexOf(key) >= 0 ? values[values.length - 1] : values[0];
+      }
+    });
+  }
+
+  function esc(text) {
+    return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  }
+
+  function pickers() {
+    KEYS.forEach(function (key) {
+      var picker = document.getElementById(key);
+      if (!picker) { return; }
+      if (Object.prototype.hasOwnProperty.call(DEPENDS, key)) {
+        picker.innerHTML = offered(key).map(function (o) {
+          return '<option value="' + esc(o.value) + '"' + (o.value === state[key] ? " selected" : "") + ">" +
+            esc(o.label) + "</option>";
+        }).join("");
+      }
+      picker.value = state[key];
+    });
+  }
+
+  /* Bands carry their own word (`bands: [{years, word}]`), so one plugin draws every kind of band. The shared drawers
+     take no plugin argument and `_charts.js` stays as is, hence the global registration, made only where
+     `Chart.register` exists (the harness has none). */
+  var BAND = {
+    id: "unfetchedBand",
+    beforeDraw: function (chart) {
+      var conf = chart.options && chart.options.plugins && chart.options.plugins.unfetchedBand;
+      var scale = chart.scales && chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+      if (!conf || !conf.bands || !scale || !area || !ctx) { return; }
+      var half = Math.max(4, area.width / Math.max(1, conf.span) / 2);
+      conf.bands.forEach(function (band) {
+        band.years.forEach(function (year) {
+          var at = scale.getPixelForValue(year);
+          ctx.save();
+          ctx.fillStyle = "rgba(118,125,140,0.14)";
+          ctx.fillRect(at - half, area.top, half * 2, area.bottom - area.top);
+          /* Upright, read bottom to top like the left axis title (`product.md` `fig-vertical-bottom-up`); turned,
+             a one-character "－" would read as a bar. */
+          ctx.fillStyle = "#767d8c";
+          ctx.font = "11px sans-serif";
+          ctx.textAlign = band.word.length === 1 ? "center" : "right";
+          ctx.textBaseline = band.word.length === 1 ? "top" : "middle";
+          ctx.translate(at, area.top + 6);
+          if (band.word.length !== 1) { ctx.rotate(-Math.PI / 2); }
+          ctx.fillText(band.word, 0, 0);
+          ctx.restore();
+        });
+      });
+    }
+  };
+  if (window.Chart && window.Chart.register) { window.Chart.register(BAND); }
+
+  /* The shared `line` draws smooth lines and titles a tooltip with the tick, and the shared drawers are frozen with
+     the published reports. So the steps and the dated title are set on what it returns, as the bands are (design E3,
+     E4). The harness's fake `Chart` hands back only `options`, hence the guard on `data`. */
+  function shape(chart, spec, axis) {
+    if (chart.data && chart.data.datasets) {
+      chart.data.datasets.forEach(function (set) {
+        set.tension = 0;
+        if (spec.stepped) { set.stepped = "before"; }
+      });
+    }
+    var tooltip = chart.options.plugins && chart.options.plugins.tooltip;
+    if (tooltip && tooltip.callbacks && axis.f && axis.f.length) {
+      var full = {};
+      axis.x.forEach(function (x, i) { full[x] = axis.f[i]; });
+      tooltip.callbacks.title = function (items) { return full[items[0].parsed.x] || ""; };
+    }
+  }
+
+  function figure(id, spec) {
+    if (drawn[id]) { drawn[id].destroy(); drawn[id] = null; }
+    var hide = walk(spec, "hide") || "", series = walk(spec, "series") || [], colors = walk(spec, "colors") || [];
+    var axis = walk(spec, "axis") || { x: [], l: [], f: [] }, unit = walk(spec, "unit") || "";
+    var digits = walk(spec, "digits") || 0, bands = walk(spec, "bands") || [];
+    /* An empty set list lets the shared `frame()` hide the box and its heading together. */
+    var sets = hide ? [] : series.map(function (r, i) { return { label: r.label, values: r.values, color: colors[i] }; });
+    var isLine = walk(spec, "kind") === "line";
+    var chart = isLine ? MS.line(id, axis, sets, unit, digits)
+      : MS.categorical(id, "bar", axis.l, sets, unit, { horizontal: true, digits: digits });
+    drawn[id] = chart;
+    if (chart && isLine) {
+      shape(chart, spec, axis);
+      if (bands.length) {
+        if (!chart.options.plugins) { chart.options.plugins = {}; }
+        chart.options.plugins.unfetchedBand = { bands: bands, span: axis.x.length };
+      }
+      if (chart.update) { chart.update(); }
+    }
+    var note = document.getElementById("u-" + id), paired = document.getElementById("u-h-" + id);
+    if (note) { note.hidden = !chart; note.textContent = walk(spec, "texts") || ""; }
+    if (paired) { paired.hidden = !!chart; paired.textContent = chart ? "" : hide; }
+  }
+
+  /* Every table is written visible so a reader without JavaScript sees them all; a table stays when each state key it
+     names (`data-<key>`) holds its value, and one naming none stays always. */
+  function tables() {
+    TABLES.forEach(function (id) {
+      var node = document.getElementById(id);
+      node.hidden = KEYS.some(function (key) {
+        var value = node.getAttribute("data-" + key);
+        return value !== null && value !== state[key];
+      });
+    });
+  }
+
+  function draw() {
+    settle();
+    pickers();
+    Object.keys(D.figures).forEach(function (id) { figure(id, D.figures[id]); });
+    tables();
+  }
+
+  /* Values are encoded so one holding "&", "=" or "%" survives the split below. */
+  function toHash() {
+    var parts = KEYS.map(function (key) { return key + "=" + encodeURIComponent(state[key]); });
+    history.replaceState(null, "", "#" + parts.join("&"));
+  }
+
+  /* A value no list offers is settled by `settle()`. */
+  function fromHash() {
+    location.hash.replace(/^#/, "").split("&").forEach(function (part) {
+      var at = part.indexOf("=");
+      if (at < 0) { return; }
+      var key = part.slice(0, at), value;
+      /* A malformed escape must cost only its own pair, not the whole set-up. */
+      try { value = decodeURIComponent(part.slice(at + 1)); } catch (error) { return; }
+      if (KEYS.indexOf(key) >= 0) { state[key] = value; }
+    });
+  }
+
+  KEYS.forEach(function (key) {
+    var picker = document.getElementById(key);
+    if (!picker) { return; }
+    picker.addEventListener("change", function () {
+      state[key] = document.getElementById(key).value;
+      draw();
+      toHash();
+    });
+  });
+  fromHash();
+  draw();
+});
+</script>
+</body>
+</html>
