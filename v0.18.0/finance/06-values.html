@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.18.0">
+<title>値の一覧 — 松江市 金融レポート</title>
+<script>document.documentElement.classList.add("js")</script>
+<style>
+:root{
+  --bg:#f6f7fb; --panel:#ffffff;
+  --edge:rgba(20,24,40,.28);
+  --ink:#1b1e27; --ink-2:#444b5e; --ink-3:#5d6477;
+  --line:#d9dde8; --line-soft:#ebeef4; --grid:#e4e7ef;
+  --accent:#3a4a8c; --accent-deep:#27336a; --accent-soft:#eceff9; --accent-mid:#8591c4; --accent-faint:#c9cfe8;
+  --nodata:#eef0f5; --nodata-ink:#5d6477;
+  --note-bg:#fbf7ea; --note-line:#e4d49a; --note-ink:#51430f;
+  --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px; --sp5:24px; --sp6:40px; --sp7:64px;
+  --radius:12px; --radius-s:8px;
+  --font:"Yu Gothic UI","游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  --col-name:13em; --col-num:8.5em; --col-val:9em; --col-when:9em; --col-chg:11em; --col-link:10em;
+  --s1:#6789ff; --s2:#4256b5; --s3:#171c77;
+  --s4:#1d7a72; --s5:#8a6417; --s6:#b3315f; --s7:#4f8a1d; --s8:#7a3fa8; --s9:#df6838; --s10:#b16957; --s11:#279e66; --s12:#cf54b3;
+  --l2:#1d7a72; --l3:#8a6417; --l4:#b3315f; --l5:#4f8a1d; --l6:#7a3fa8;
+  --k-male:#61a6ff; --k-female:#f67d50; --k-city:var(--accent); --k-pref:#0cc286; --k-nation:#9a3503;
+  --k-hue1:#61a6ff; --k-hue2:#f67d50; --k-hue3:#0cc286; --k-other:#9aa3b4;
+  --o1:#9fb3ff; --o2:#899de7; --o3:#7387d0; --o4:#5f72ba; --o5:#4b5da3; --o6:#38498d; --o7:#263578; --o8:#152163; --o9:#080c4e;
+  --dim:#8390b4; --mark-faint:#808ec9;
+  --fs:16px; --lh:1.8; --cap:45em; --page:58rem; --side:248px; --bar:52px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13151c; --panel:#1b1e28; --ink:#eceef5; --ink-2:#c3c8d8; --ink-3:#a0a7bb;
+    --line:#343949; --line-soft:#272b38; --grid:#2d3140;
+    --accent:#9fb0f0; --accent-deep:#c9d3ff; --accent-soft:#252b45; --accent-mid:#6f7fc4; --accent-faint:#3b4470;
+    --s1:#5768ae; --s2:#7385d6; --s3:#c3cfff; --s4:#6fcfc7; --s5:#e0bb6c; --s6:#f08fb5; --s7:#9fd36a; --s8:#c9a0f0; --s9:#ff8350; --s10:#faab96; --s11:#49ba7f; --s12:#f678d7; --l2:#6fcfc7; --l3:#e0bb6c; --l4:#f08fb5; --l5:#9fd36a; --l6:#c9a0f0; --dim:#626b89; --mark-faint:#5a68a8;
+    --k-male:#4f94f0; --k-female:#e8643a; --k-pref:#1fa56f; --k-nation:#d9783a; --k-hue1:#4f94f0; --k-hue2:#e8643a; --k-hue3:#1fa56f; --k-other:#6b7385;
+    --o1:#465492; --o2:#5967a0; --o3:#6d7bae; --o4:#828fbb; --o5:#98a3c9; --o6:#aeb8d7; --o7:#c5cce4; --o8:#dce2f2; --o9:#f4f7ff;
+    --nodata:#242836; --nodata-ink:#a0a7bb;
+    --edge:rgba(0,0,0,.6);
+    --note-bg:#2a2616; --note-line:#6b5a22; --note-ink:#e8dcae;
+      color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-padding-top:calc(var(--bar) + 12px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:var(--fs);
+  line-height:var(--lh); font-feature-settings:"palt" 1; overflow-wrap:anywhere}
+[hidden]{display:none!important}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible,.scroll:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+.shell{display:flex; align-items:flex-start}
+.side{position:sticky; top:0; width:var(--side); flex:none; height:100vh; overflow-y:auto; background:var(--panel);
+  border-right:1px solid var(--line); font-size:14px; line-height:1.5}
+.side .bar{display:flex; align-items:center; gap:var(--sp3); padding:var(--sp4) var(--sp4) var(--sp2)}
+.brand{display:inline-flex; align-items:center; gap:var(--sp2); font-weight:700; font-size:16px; color:var(--accent-deep); text-decoration:none; letter-spacing:.04em}
+.brand svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.here,.menubtn{display:none}
+.navbody{padding:0 var(--sp3) var(--sp5)}
+.navlink{display:block; padding:8px var(--sp3); border-radius:var(--radius-s); color:var(--ink-2); text-decoration:none; font-weight:600}
+.navlink:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.navlink[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep)}
+.rep{margin:var(--sp4) var(--sp2) var(--sp2); padding:var(--sp2) var(--sp3); border:1px solid var(--line); border-radius:var(--radius-s); font-weight:700; color:var(--ink)}
+.grp h3{margin:var(--sp4) var(--sp3) 2px; font-size:12px; letter-spacing:.08em; color:var(--ink-3); font-weight:700}
+.grp a{display:block; padding:6px var(--sp3); border-radius:var(--radius-s); color:var(--ink-2); text-decoration:none}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+details.others{margin:var(--sp4) var(--sp2) 0; border-top:1px solid var(--line-soft); padding-top:var(--sp3)}
+details.others>summary{cursor:pointer; padding:6px var(--sp2); color:var(--ink-2); font-weight:600; list-style:none; display:flex; justify-content:space-between; align-items:center; border-radius:var(--radius-s)}
+details.others>summary::-webkit-details-marker{display:none}
+details.others>summary::after{content:""; width:8px; height:8px; border-right:2px solid var(--ink-3); border-bottom:2px solid var(--ink-3); transform:rotate(45deg) translate(-2px,-2px); transition:transform .15s}
+details.others[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details.others .area{margin:var(--sp3) var(--sp2) 2px; font-size:12px; color:var(--ink-3); font-weight:700; letter-spacing:.06em}
+details.others a{display:block; padding:5px var(--sp3); border-radius:var(--radius-s); color:var(--ink-2); text-decoration:none}
+details.others a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+
+.main{flex:1; min-width:0}
+.page{max-width:var(--page); margin:0 auto; padding:var(--sp6) var(--sp5) var(--sp7)}
+.crumb{font-size:13px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:30px; line-height:1.4; margin:0 0 var(--sp3); letter-spacing:.01em}
+.lede{max-width:var(--cap); color:var(--ink-2); margin:0 0 var(--sp5)}
+
+.chooser{position:static; display:flex; flex-wrap:wrap; align-items:flex-end; gap:var(--sp3) var(--sp4); background:var(--panel); border:1px solid var(--line);
+  border-radius:var(--radius); padding:var(--sp4); margin:0 0 var(--sp6); box-shadow:0 1px 2px rgba(20,24,40,.04)}
+.chooser .pick{display:flex; flex-direction:column; align-items:stretch; gap:var(--sp2); min-width:0}
+.chooser label{font-weight:700}
+.chooser select{font:inherit; color:var(--ink); background:var(--panel); border:1.5px solid var(--accent-mid); border-radius:var(--radius-s); padding:9px 36px 9px 12px; min-height:44px; min-width:min(100%,16em);
+  appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%; background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+.chooser .hint{flex-basis:100%; margin:0; font-size:13px; color:var(--ink-3)}
+.when{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent-deep); background:var(--accent-soft); border-radius:999px; padding:2px 12px; margin:0 0 var(--sp3)}
+
+.frame{margin:0 0 var(--sp7)}
+.frame>h2{font-size:21px; line-height:1.45; margin:0 0 var(--sp2); padding-left:var(--sp3); border-left:5px solid var(--accent)}
+.frame h3{font-size:16px; margin:var(--sp5) 0 var(--sp2); color:var(--ink)}
+.sub{max-width:var(--cap); color:var(--ink-2); margin:0 0 var(--sp4); font-size:15px}
+.unit{max-width:var(--cap); color:var(--ink-3); font-size:13px; line-height:1.7; margin:var(--sp2) 0 0}
+.data{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp4); margin:0 0 var(--sp4); box-shadow:0 1px 2px rgba(20,24,40,.04)}
+.data>h3{margin:0 0 var(--sp2)}
+
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(9.5em,1fr)); gap:var(--sp3); margin:0 0 var(--sp4)}
+.kpi{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp3) var(--sp4)}
+.kpi .k{display:block; font-size:13px; color:var(--ink-3); line-height:1.5}
+.kpi .v{display:block; font-size:24px; font-weight:700; line-height:1.35; font-variant-numeric:tabular-nums; letter-spacing:.01em}
+.kpi .v small{font-size:13px; font-weight:600; color:var(--ink-3); margin-left:2px}
+.kpi .s{display:block; font-size:13px; color:var(--ink-3); font-variant-numeric:tabular-nums}
+
+.grid2{display:grid; grid-template-columns:1fr; gap:var(--sp4)}
+@media (min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
+
+.chart{max-width:720px}
+.chart .n{display:none}
+.chart svg{display:block; width:100%; height:auto; overflow:visible}
+.chart .n svg{max-width:340px}
+.chart{container-type:inline-size}
+@container (max-width:579px){.chart .w{display:none}.chart .n{display:block}}
+svg text{font-family:var(--font); fill:var(--ink-3)}
+svg .tk{font-size:12.5px}
+svg .tk-n{font-size:14px}
+svg .lab{fill:var(--ink-2)}
+svg .gridl{stroke:var(--grid); stroke-width:1}
+svg .axis{stroke:var(--line); stroke-width:1}
+svg .ln{fill:none; stroke:var(--accent); stroke-width:2.6; stroke-linejoin:round; stroke-linecap:round}
+svg .dot{fill:var(--panel); stroke:var(--accent); stroke-width:2}
+svg .last{fill:var(--accent); stroke:var(--panel); stroke-width:2.5}
+svg .mk{stroke:var(--ink-3); stroke-width:1.2; stroke-dasharray:3 3}
+svg .mkn{fill:var(--ink-2); font-weight:700}
+svg .band{fill:url(#ms-hatch)}
+svg .bandt{fill:var(--nodata-ink); font-weight:600}
+svg .b1{fill:var(--mark-faint)} svg .b2{fill:var(--accent)}
+svg .b3{fill:var(--accent-deep)}
+svg .ln.c2,svg .dot.c2{stroke:var(--l2)} svg .ln.c2{stroke-dasharray:7 4} svg .dot.c2{fill:var(--panel)}
+svg .ln.c3,svg .dot.c3{stroke:var(--l3)} svg .ln.c3{stroke-dasharray:2 4} svg .dot.c3{fill:var(--panel)}
+svg .ln.c4,svg .dot.c4{stroke:var(--l4)} svg .ln.c4{stroke-dasharray:10 3 2 3} svg .dot.c4{fill:var(--panel)}
+svg .ln.c5,svg .dot.c5{stroke:var(--l5)} svg .ln.c5{stroke-dasharray:14 5} svg .dot.c5{fill:var(--panel)}
+svg .ln.c6,svg .dot.c6{stroke:var(--l6)} svg .ln.c6{stroke-dasharray:5 3} svg .dot.c6{fill:var(--panel)}
+svg .ln.dim{stroke:var(--dim); stroke-width:1.3}
+svg .ln.hl{stroke-width:3.2}
+svg .dot.hl{stroke:var(--accent)}
+svg .rowsep{stroke:var(--line-soft)}
+.legend{display:flex; flex-wrap:wrap; gap:var(--sp1) var(--sp4); margin:0 0 var(--sp3); font-size:13.5px; color:var(--ink-2)}
+.legend i{display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+.legend i.b1{background:var(--mark-faint)} .legend i.b2{background:var(--accent)}
+.legend i.b3{background:var(--accent-deep)}
+.legend i.l1{background:var(--accent)} .legend i.l2{background:var(--l2)} .legend i.l3{background:var(--l3)} .legend i.l4{background:var(--l4)} .legend i.l5{background:var(--l5)} .legend i.l6{background:var(--l6)}
+.legend i.dim{background:var(--dim)}
+
+.hbars{list-style:none; margin:0; padding:0}
+.hbars li{display:grid; grid-template-columns:minmax(0,11em) minmax(0,1fr) 4.2em; align-items:center; gap:var(--sp3); padding:7px 0; border-top:1px solid var(--line-soft)}
+.hbars li:first-child{border-top:0}
+.hbars .nm{font-size:14px; line-height:1.45}
+.hbars .tr{height:12px; background:var(--accent-soft); border-radius:3px; overflow:hidden}
+.hbars .tr b{display:block; height:100%; width:var(--w); min-width:3px; background:var(--accent); border-radius:3px}
+.hbars .nu{text-align:right; font-variant-numeric:tabular-nums; font-weight:700}
+@media (max-width:560px){.hbars li{grid-template-columns:1fr 3.6em; row-gap:4px}.hbars .tr{grid-column:1/-1;grid-row:2}.hbars .nu{grid-row:1;grid-column:2}}
+.band1{display:flex; height:22px; border-radius:6px; overflow:hidden; background:var(--line-soft); gap:2px}
+.band1 span{display:block; width:var(--w); min-width:3px}
+.sw{display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+.c1{background:#27336a}.c2{background:#5a6bb0}.c3{background:#9aa6d6}.c4{background:#8d93a3}.c5{background:#cfd3de}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .c1{background:#c9d3ff}:root:not([data-theme="light"]) .c2{background:#9fb0f0}:root:not([data-theme="light"]) .c3{background:#6f7fc4}:root:not([data-theme="light"]) .c4{background:#868ca0}:root:not([data-theme="light"]) .c5{background:#4a4f60}}
+.band1 .c1{background:var(--accent-deep)}
+.parts{list-style:none; margin:var(--sp3) 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(10em,1fr)); gap:var(--sp2) var(--sp4); font-size:14px}
+.parts li{display:flex; justify-content:space-between; gap:var(--sp2); border-top:1px solid var(--line-soft); padding-top:6px}
+.parts b{font-variant-numeric:tabular-nums}
+
+.scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:var(--radius-s)}
+.scroll{background:linear-gradient(to left,var(--panel) 30%,rgba(0,0,0,0)) right center/28px 100% no-repeat local,radial-gradient(farthest-side at 100% 50%,var(--edge),rgba(0,0,0,0)) right center/12px 100% no-repeat scroll}
+table.t{width:100%; border-collapse:collapse; font-size:14.5px; font-variant-numeric:tabular-nums}
+.t caption{text-align:left; font-weight:700; padding:0 0 var(--sp2); font-size:15px}
+.t th,.t td{padding:8px 12px; border-bottom:1px solid var(--line-soft); text-align:right; white-space:nowrap}
+.t thead th{font-size:13px; color:var(--ink-3); font-weight:600; border-bottom:1.5px solid var(--line); background:var(--panel)}
+.t th:first-child,.t td:first-child{text-align:left}
+.t tbody th{font-weight:600; text-align:left; background:var(--panel)}
+.t tbody tr:last-child>*{border-bottom:0}
+.t tr.latest>*{font-weight:700; background:var(--accent-soft)}
+.t .z{color:var(--ink-3)}
+.t.txt th,.t.txt td{text-align:left; white-space:normal; vertical-align:top}
+.t td.tx{text-align:left; white-space:normal}
+.t .since{display:block; font-size:12px; font-weight:400; color:var(--ink-3)}
+.t td.wrapname,.t th.wrapname{white-space:normal; min-width:11em}
+.t .sticky{position:sticky; left:0; z-index:1}
+
+.notes{display:grid; gap:var(--sp3); margin:0; padding:0; list-style:none}
+.notes li{background:var(--note-bg); border:1px solid var(--note-line); border-radius:var(--radius); padding:var(--sp3) var(--sp4); color:var(--note-ink); font-size:15px; line-height:1.75; max-width:var(--cap)}
+.notes li b{display:block; font-size:15px; margin-bottom:2px}
+.notes .no{display:inline-block; min-width:1.5em; text-align:center; font-weight:700}
+.notes.plain li{background:var(--panel); border-color:var(--line); color:var(--ink-2)}
+
+.foot{background:var(--panel); border-top:1px solid var(--line); color:var(--ink-3); font-size:13px; line-height:1.7; padding:var(--sp4) var(--sp5)}
+.foot .in{max-width:var(--page); margin:0 auto}
+
+
+table.t.fixed{table-layout:fixed; width:calc(var(--col-name) + var(--n,3)*var(--col-num)); min-width:calc(var(--col-name) + var(--n,3)*var(--col-num))}
+col.c-name{width:var(--col-name)} col.c-num{width:var(--col-num)} col.c-val{width:var(--col-val)}
+col.c-when{width:var(--col-when)} col.c-chg{width:var(--col-chg)} col.c-link{width:var(--col-link)}
+.t.fixed th,.t.fixed td{overflow-wrap:anywhere}
+.t.fixed thead th{white-space:normal; vertical-align:bottom}
+.tolink{display:flex; flex-direction:column; gap:2px; max-width:var(--cap); padding:var(--sp4); background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); text-decoration:none; color:var(--ink)}
+.tolink strong{color:var(--accent-deep); font-size:17px}
+.tolink span{color:var(--ink-2); font-size:14.5px}
+.tolink:hover{border-color:var(--accent-mid)}
+svg .s1{fill:var(--s1)} svg .s2{fill:var(--s2)} svg .s3{fill:var(--s3)} svg .s4{fill:var(--s4)} svg .s5{fill:var(--s5)} svg .s6{fill:var(--s6)} svg .s7{fill:var(--s7)} svg .s8{fill:var(--s8)} svg .s9{fill:var(--s9)} svg .s10{fill:var(--s10)} svg .s11{fill:var(--s11)} svg .s12{fill:var(--s12)}
+.legend i.s1{background:var(--s1)} .legend i.s2{background:var(--s2)} .legend i.s3{background:var(--s3)}
+svg rect.k-male,svg path.k-male:not(.ln){fill:var(--k-male)} svg rect.k-female,svg path.k-female:not(.ln){fill:var(--k-female)} svg rect.k-city,svg path.k-city:not(.ln){fill:var(--k-city)} svg rect.k-pref,svg path.k-pref:not(.ln){fill:var(--k-pref)} svg rect.k-nation,svg path.k-nation:not(.ln){fill:var(--k-nation)} svg rect.k-accent,svg path.k-accent:not(.ln){fill:var(--accent)} svg rect.k-hue1,svg path.k-hue1:not(.ln){fill:var(--k-hue1)} svg rect.k-hue2,svg path.k-hue2:not(.ln){fill:var(--k-hue2)} svg rect.k-other,svg path.k-other:not(.ln){fill:var(--k-other)} svg rect.k-hue3,svg path.k-hue3:not(.ln){fill:var(--k-hue3)} svg rect.k-o1,svg path.k-o1:not(.ln){fill:var(--o1)} svg rect.k-o2,svg path.k-o2:not(.ln){fill:var(--o2)} svg rect.k-o3,svg path.k-o3:not(.ln){fill:var(--o3)} svg rect.k-o4,svg path.k-o4:not(.ln){fill:var(--o4)} svg rect.k-o5,svg path.k-o5:not(.ln){fill:var(--o5)} svg rect.k-o6,svg path.k-o6:not(.ln){fill:var(--o6)} svg rect.k-o7,svg path.k-o7:not(.ln){fill:var(--o7)} svg rect.k-o8,svg path.k-o8:not(.ln){fill:var(--o8)} svg rect.k-o9,svg path.k-o9:not(.ln){fill:var(--o9)}
+svg .ln.k-male,svg .dot.k-male{stroke:var(--k-male)} svg .ln.k-female,svg .dot.k-female{stroke:var(--k-female)} svg .ln.k-city,svg .dot.k-city{stroke:var(--k-city)} svg .ln.k-pref,svg .dot.k-pref{stroke:var(--k-pref)} svg .ln.k-nation,svg .dot.k-nation{stroke:var(--k-nation)} svg .ln.k-accent,svg .dot.k-accent{stroke:var(--accent)} svg .ln.k-hue1,svg .dot.k-hue1{stroke:var(--k-hue1)} svg .ln.k-hue2,svg .dot.k-hue2{stroke:var(--k-hue2)} svg .ln.k-hue3,svg .dot.k-hue3{stroke:var(--k-hue3)} svg .ln.k-o1,svg .dot.k-o1{stroke:var(--o1)} svg .ln.k-o2,svg .dot.k-o2{stroke:var(--o2)} svg .ln.k-o3,svg .dot.k-o3{stroke:var(--o3)} svg .ln.k-o4,svg .dot.k-o4{stroke:var(--o4)} svg .ln.k-o5,svg .dot.k-o5{stroke:var(--o5)} svg .ln.k-o6,svg .dot.k-o6{stroke:var(--o6)} svg .ln.k-o7,svg .dot.k-o7{stroke:var(--o7)} svg .ln.k-o8,svg .dot.k-o8{stroke:var(--o8)} svg .ln.k-o9,svg .dot.k-o9{stroke:var(--o9)} svg .ln.k-other,svg .dot.k-other{stroke:var(--k-other)}
+svg .ln.k-o1{stroke-dasharray:7 4} svg .ln.k-female{stroke-dasharray:7 4} svg .ln.k-pref{stroke-dasharray:7 4} svg .ln.k-nation{stroke-dasharray:2 4}
+svg .dot.k-hue3,svg .dot.k-o1,svg .dot.k-o2,svg .dot.k-o3,svg .dot.k-o4,svg .dot.k-o5,svg .dot.k-o6,svg .dot.k-o7,svg .dot.k-o8,svg .dot.k-o9{fill:var(--panel)}
+svg .dot.k-male,svg .dot.k-female,svg .dot.k-city,svg .dot.k-pref,svg .dot.k-nation,svg .dot.k-accent,svg .dot.k-hue1,svg .dot.k-hue2,svg .dot.k-other{fill:var(--panel)}
+.legend i.k-male{background:var(--k-male)} .legend i.k-female{background:var(--k-female)} .legend i.k-city{background:var(--k-city)} .legend i.k-pref{background:var(--k-pref)} .legend i.k-nation{background:var(--k-nation)} .legend i.k-accent{background:var(--accent)} .legend i.k-hue1{background:var(--k-hue1)} .legend i.k-hue2{background:var(--k-hue2)} .legend i.k-hue3{background:var(--k-hue3)} .legend i.k-o1{background:var(--o1)} .legend i.k-o2{background:var(--o2)} .legend i.k-o3{background:var(--o3)} .legend i.k-o4{background:var(--o4)} .legend i.k-o5{background:var(--o5)} .legend i.k-o6{background:var(--o6)} .legend i.k-o7{background:var(--o7)} .legend i.k-o8{background:var(--o8)} .legend i.k-o9{background:var(--o9)} .legend i.k-other{background:var(--k-other)}
+svg .sa{stroke:var(--panel); stroke-width:1; stroke-linejoin:round} svg .sa[fill]{stroke:none}
+svg .pt{stroke:var(--panel); stroke-width:1.6; stroke-opacity:.85} svg .ptf{fill:var(--panel); fill-opacity:.85}
+.legend i.s4{background-color:var(--s4); background-image:repeating-linear-gradient(135deg,transparent 0 2px,var(--panel) 2px 3.4px)}
+.legend i.s5{background-color:var(--s5); background-image:radial-gradient(var(--panel) 1.1px,transparent 1.5px); background-size:4.5px 4.5px}
+.legend i.s6{background-color:var(--s6); background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--panel) 2px 3.4px)}
+.legend i.s7{background-color:var(--s7); background-image:repeating-linear-gradient(0deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s8{background-color:var(--s8); background-image:repeating-linear-gradient(90deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s9{background-color:var(--s9); background-image:repeating-linear-gradient(0deg,transparent 0 2px,var(--panel) 2px 3.2px),repeating-linear-gradient(90deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s10{background-color:var(--s10); background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--panel) 2px 3.2px),repeating-linear-gradient(135deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s11{background-color:var(--s11); background-image:radial-gradient(var(--panel) 2px,transparent 2.4px); background-size:7px 7px}
+.legend i.s12{background-color:var(--s12); background-image:repeating-linear-gradient(135deg,transparent 0 3px,var(--panel) 3px 6.5px)}
+.stat{font-size:13px; color:var(--ink-3)}
+
+@media (max-width:860px){
+  .shell{display:block}
+  .side{position:sticky; top:0; z-index:30; width:auto; height:auto; overflow:visible; border-right:0; border-bottom:1px solid var(--line)}
+  .side .bar{height:var(--bar); padding:0 var(--sp4)}
+  .here{display:block; flex:1; min-width:0; font-size:14px; font-weight:600; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .menubtn{display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 var(--sp3); font:inherit; font-size:14px; font-weight:600; color:var(--accent-deep); background:var(--accent-soft); border:0; border-radius:var(--radius-s); cursor:pointer}
+  .js .navbody{display:none; max-height:calc(100vh - var(--bar)); overflow-y:auto; padding-top:var(--sp2)}
+  .js .side.open .navbody{display:block}
+  html:not(.js) .side{position:static}
+  .page{padding:var(--sp5) var(--sp4) var(--sp6)}
+  h1{font-size:25px}
+  .frame{margin-bottom:var(--sp6)}
+  .frame>h2{font-size:19px}
+  .foot{padding:var(--sp4)}
+  .data{padding:var(--sp3)}
+  .chooser{padding:var(--sp3)}
+  .chooser .pick{flex:1 1 100%}
+  .chooser select{width:100%}
+}
+@media (max-width:560px){.kpis .kpi:last-child:nth-child(odd){grid-column:1/-1}}
+
+.chips{display:flex; flex-wrap:wrap; gap:var(--sp2); margin:0 0 var(--sp6); padding:0; list-style:none}
+.chips a{display:inline-block; padding:6px 14px; min-height:36px; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink-2); font-size:14px; text-decoration:none}
+.chips a:hover{border-color:var(--accent-mid); color:var(--accent-deep); background:var(--accent-soft)}
+.area{margin:var(--sp6) 0 var(--sp2); font-size:13px; font-weight:700; letter-spacing:.08em; color:var(--accent-deep)}
+.area:first-of-type{margin-top:0}
+.rep-block{margin:0 0 var(--sp5); scroll-margin-top:calc(var(--bar) + 12px)}
+.rep-block>header{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:2px var(--sp4); margin:0 0 var(--sp2)}
+.rep-block h2{font-size:19px; margin:0; padding-left:var(--sp3); border-left:5px solid var(--accent); line-height:1.45}
+.rep-block .meta{font-size:13px; color:var(--ink-3)}
+.list{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
+.list th,.list td{text-align:left; white-space:normal; padding:12px 12px; vertical-align:top}
+.list thead th{white-space:nowrap}
+.list td.val{font-size:19px; font-weight:700; white-space:nowrap}
+.list td.val small,.list td.chg small{display:block; font-size:12.5px; font-weight:400; color:var(--ink-3)}
+.list td.val small{display:inline; margin-left:4px; font-weight:600}
+.list td.chg{white-space:normal}
+.list td.chg .ar{display:inline-block; width:1.1em; color:var(--ink-3); font-size:12px}
+.list td.go a{white-space:nowrap}
+.list tr.ph>*{color:var(--ink-3); background:repeating-linear-gradient(135deg,transparent 0 8px,var(--nodata) 8px 16px)}
+.tag{display:inline-block; margin-left:8px; padding:0 8px; font-size:12px; font-weight:700; color:var(--note-ink); background:var(--note-bg); border:1px solid var(--note-line); border-radius:999px; vertical-align:1px}
+.listbox{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto}
+table.t.list.fixed{width:calc(var(--col-name) + var(--col-val) + var(--col-when) + var(--col-chg) + var(--col-link)); min-width:0}
+.list tbody tr+tr>*{border-top:1px solid var(--line-soft)}
+@media (max-width:1100px){
+  table.t.list.fixed{width:100%; min-width:0; table-layout:auto}
+  .list colgroup{display:none}
+  .list thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+  .list,.list tbody,.list tr,.list th,.list td{display:block}
+  .list tbody tr{padding:12px 4px; border-top:1px solid var(--line-soft)}
+  .list tbody tr:first-child{border-top:0}
+  .list tbody tr+tr>*{border-top:0}
+  .list th,.list td{padding:2px 12px}
+  .list tbody th{font-size:15.5px}
+  .list td.val{font-size:22px}
+  .list td[data-l]::before{content:attr(data-l) "　"; font-size:12.5px; font-weight:600; color:var(--ink-3)}
+  .list td.val::before{display:none}
+  .list td.go{padding-top:6px}
+}
+
+.hero{margin:0 0 var(--sp6)}
+.hero h1{font-size:34px}
+.cta{display:flex; flex-direction:column; gap:4px; background:var(--accent); color:#fff; border-radius:var(--radius); padding:var(--sp5); text-decoration:none; margin:0 0 var(--sp6); box-shadow:0 8px 24px -14px rgba(39,51,106,.7)}
+.cta:hover{background:var(--accent-deep)}
+.cta strong{font-size:21px; line-height:1.4}
+.cta span{font-size:15px; opacity:.92; max-width:var(--cap)}
+.cta em{font-style:normal; font-weight:700; margin-top:var(--sp2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cta{color:#0f1220; background:var(--accent)} :root:not([data-theme="light"]) .cta:hover{background:#b9c6ff}}
+.areas h2{font-size:15px; letter-spacing:.08em; color:var(--accent-deep); margin:var(--sp6) 0 var(--sp3)}
+.areas h2:first-child{margin-top:0}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:var(--sp3)}
+.card{display:flex; flex-direction:column; gap:6px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp4); color:var(--ink); text-decoration:none; min-height:100px}
+.card:hover{border-color:var(--accent-mid); box-shadow:0 6px 20px -14px rgba(39,51,106,.55)}
+.card h3,.card h4{margin:0; font-size:17px; line-height:1.45; color:var(--accent-deep)}
+.card p{margin:0; font-size:14px; line-height:1.65; color:var(--ink-2)}
+.card .go{margin-top:auto; font-size:13px; font-weight:700; color:var(--accent)}
+.neutral{max-width:var(--cap); margin:var(--sp7) 0 0; padding:var(--sp4) var(--sp5); border-left:5px solid var(--accent-faint); background:var(--panel); border-radius:0 var(--radius) var(--radius) 0; color:var(--ink-2); font-size:15px}
+.neutral h2{font-size:15px; margin:0 0 4px; color:var(--ink)}
+.neutral p{margin:0}
+
+.dd{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-s); margin:0 0 var(--sp2); max-width:var(--cap)}
+.dd>summary{cursor:pointer; padding:var(--sp3) var(--sp4); font-weight:600; color:var(--ink-2)}
+.dd .ddc{padding:0 var(--sp4) var(--sp3); color:var(--ink-2); font-size:15px; line-height:1.75}
+
+svg .ms-hit{fill:transparent}
+svg .ms-cur{stroke:var(--ink-3); stroke-width:1; pointer-events:none}
+.ms-tip{position:fixed; z-index:30; max-width:min(18em,calc(100vw - 16px)); padding:var(--sp2) var(--sp3); background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:var(--radius-s); box-shadow:0 2px 10px rgb(0 0 0/.18); font-size:13.5px; line-height:1.5; pointer-events:none}
+.ms-tip .ms-h{display:block; margin-bottom:2px}
+.ms-tip .ms-r{display:flex; justify-content:space-between; gap:var(--sp3)}
+.ms-tip .ms-n{color:var(--ink-2)}
+.ms-tip .ms-v{font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap}
+.legend [data-k]{cursor:pointer; padding:2px 0}
+.legend [data-k]:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+.legend [data-k].ms-off{opacity:.45}
+.legend [data-k].ms-on{font-weight:700}
+svg .ms-off{opacity:.25}
+svg .ln.ms-on{stroke-width:4.6}
+svg .dot.ms-on{stroke-width:3}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="ms-brand" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="1.5"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></symbol>
+<defs><pattern id="ms-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" style="fill:var(--nodata)"/><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--line);stroke-width:2"/></pattern></defs>
+</svg>
+<div class="shell">
+<nav class="side" id="sidenav" aria-label="ページの移動">
+<div class="bar"><a class="brand" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ms-brand"/></svg>物差し</a>
+<span class="here">値の一覧</span>
+<button class="menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="navbody">メニュー</button></div>
+<div class="navbody" id="navbody">
+<a class="navlink" href="../latest.html">最新の一覧</a>
+<div class="rep">松江市 金融レポート</div>
+<div class="grp">
+<a href="index.html">このレポートについて</a>
+</div>
+<div class="grp">
+<h3>松江市内の金融機関</h3>
+<a href="01-yokin.html">預金と貸出</a>
+<a href="02-tenpo.html">店舗の数</a>
+</div>
+<div class="grp">
+<h3>手形交換</h3>
+<a href="03-tegata.html">手形交換</a>
+</div>
+<div class="grp">
+<h3>島根県全体の数</h3>
+<a href="04-kennai.html">県内の金融機関</a>
+</div>
+<div class="grp">
+<h3>参照</h3>
+<a href="06-values.html" aria-current="page">値の一覧</a>
+</div>
+<details class="others"><summary>レポートを切り替える</summary>
+<p class="area">人とくらし</p>
+<a href="../chocho/index.html">町丁別人口レポート</a>
+<a href="../fukushi/index.html">福祉・労働レポート</a>
+<a href="../hoken/index.html">保健・環境レポート</a>
+<a href="../anzen/index.html">安全レポート</a>
+<a href="../kyoiku/index.html">教育レポート</a>
+<p class="area">まち・交通・住まい</p>
+<a href="../kensetsu/index.html">建設・住宅レポート</a>
+<a href="../unyu/index.html">運輸・通信レポート</a>
+<a href="../toshikeikaku/index.html">都市計画レポート</a>
+<a href="../lifeline/index.html">ライフラインレポート</a>
+<p class="area">しごと・経済・お金</p>
+<a href="../kanko/index.html">観光レポート</a>
+<a href="../keizai/index.html">市民所得・物価・消費レポート</a>
+<a href="../finance/index.html" aria-current="page">金融レポート</a>
+<a href="../zaisei/index.html">財政レポート</a>
+<p class="area">議会と行政</p>
+<a href="../gikai/index.html">議会・行政・選挙レポート</a>
+</details>
+</div></nav>
+<div class="main">
+<main class="page" id="main">
+<p class="crumb">松江市 · 金融レポート</p>
+<h1>値の一覧</h1>
+<p class="lede">このレポートの図の正確な値を、画面ごとにまとめています。画面を選ぶと、その画面の表だけが出ます。</p>
+<noscript><p class="unit">画面と量・区分の切り替えは JavaScript で動きます。無効の環境では、すべての画面の表が続けて出ます。</p></noscript>
+<div class="chooser"><div class="pick"><label for="screen">画面を選ぶ</label>
+<select id="screen"><option value="01-yokin" selected>預金と貸出</option><option value="02-tenpo">店舗の数</option><option value="03-tegata">手形交換</option><option value="04-kennai">県内の金融機関</option></select></div>
+
+<p class="hint">選ぶと、その画面の図の正確な値が出ます。</p>
+</div>
+
+
+<div data-pick-scope>
+<section class="frame" id="s-01-yokin" data-screen="01-yokin" aria-labelledby="h-s-01-yokin">
+<h2 id="h-s-01-yokin">預金と貸出</h2>
+<div class="chooser"><div class="pick"><label for="yokin_kind">業態</label>
+<select id="yokin_kind"><option value="all" selected>すべての業態を比べる</option><option value="銀行">銀行</option><option value="第二地方銀行">第二地方銀行</option><option value="信農連">信用農業協同組合連合会</option><option value="農業協同組合">農業協同組合</option><option value="信用金庫">信用金庫</option><option value="信漁連">信用漁業協同組合連合会</option><option value="漁業協同組合">漁業協同組合JFしまね</option><option value="信用組合">信用組合</option><option value="労働金庫">労働金庫</option></select></div>
+
+<p class="hint">選ぶと、その業態の表が出ます。</p>
+</div>
+
+<div class="chooser" id="p-yokin_measure"><div class="pick"><label for="yokin_measure">測るもの</label>
+<select id="yokin_measure"><option value="預金残" selected>預金残</option><option value="貸出残">貸出残</option></select></div>
+
+<p class="hint">選ぶと、その量の表が出ます。</p>
+</div>
+
+<p class="unit">表の「x」は、データ元の表のとおりです。データ元の表に、「x」の説明の注はありません。</p>
+<p class="unit">表の「－」は、データ元の表のとおりです。0 かどうかは、データ元の表に書かれていません。図には描いていません。</p>
+<p class="unit">表の「欄なし」は、その年の表にこの欄が無い、または欄が空です。</p>
+<div data-yokin_kind="all" data-yokin_measure="預金残">
+<h3>業態ごとの預金残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="業態ごとの預金残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>業態ごとの預金残（百万円）</caption><thead><tr><th scope="col">業態</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">銀行</th><td>669,335</td><td>689,190</td><td>679,501</td><td>674,523</td><td>762,779</td><td>728,524</td><td>797,840</td><td>782,391</td><td>771,259</td><td>721,693</td><td>728,569</td><td>778,550</td><td>810,516</td><td>838,649</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">第二地方銀行</th><td>107,637</td><td>123,157</td><td>104,979</td><td>108,153</td><td>113,323</td><td>139,495</td><td>141,418</td><td>147,829</td><td>143,082</td><td>137,792</td><td>144,966</td><td>146,323</td><td>144,964</td><td>148,128</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">信用農業協同組合連合会</th><td>517,497</td><td>493,868</td><td>511,097</td><td>503,272</td><td>505,025</td><td>527,324</td><td>537,675</td><td>529,059</td><td>579,922</td><td>646,345</td><td>0</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">農業協同組合</th><td>102,475</td><td>111,476</td><td>114,901</td><td>106,916</td><td>108,622</td><td>110,820</td><td>123,776</td><td>125,055</td><td>129,043</td><td>132,524</td><td>179,845</td><td>180,473</td><td>166,396</td><td>160,736</td><td>162,577</td><td>158,817</td><td>160,063</td><td>157,885</td><td>155,214</td></tr>
+<tr><th scope="row">信用金庫</th><td>46,153</td><td>51,367</td><td>51,349</td><td>52,432</td><td>54,133</td><td>53,075</td><td>64,234</td><td>63,596</td><td>65,603</td><td>45,148</td><td>48,535</td><td>53,159</td><td>57,090</td><td>60,480</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">信用漁業協同組合連合会</th><td>20,650</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合JFしまね</th><td>欄なし</td><td>16,509</td><td>16,700</td><td>18,252</td><td>42,287</td><td>40,732</td><td>39,569</td><td>40,440</td><td>39,440</td><td>40,391</td><td>39,470</td><td>42,352</td><td>44,367</td><td>41,182</td><td>38,647</td><td>38,823</td><td>36,121</td><td>35,097</td><td>32,429</td></tr>
+<tr><th scope="row">信用組合</th><td>7,963</td><td>2,483</td><td>2,619</td><td>1,480</td><td>－</td><td>－</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">労働金庫</th><td>44,062</td><td>44,332</td><td>44,676</td><td>45,510</td><td>48,677</td><td>49,587</td><td>49,571</td><td>51,500</td><td>52,317</td><td>50,974</td><td>49,810</td><td>50,871</td><td>50,863</td><td>51,563</td><td>53,879</td><td>53,919</td><td>54,814</td><td>55,143</td><td>54,818</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="all" data-yokin_measure="貸出残">
+<h3>業態ごとの貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="業態ごとの貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>業態ごとの貸出残（百万円）</caption><thead><tr><th scope="col">業態</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">銀行</th><td>426,370</td><td>412,986</td><td>417,340</td><td>410,838</td><td>421,577</td><td>413,511</td><td>434,755</td><td>455,445</td><td>449,629</td><td>421,477</td><td>446,233</td><td>480,178</td><td>508,254</td><td>518,508</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">第二地方銀行</th><td>118,218</td><td>104,450</td><td>130,233</td><td>132,719</td><td>132,296</td><td>119,918</td><td>126,449</td><td>130,225</td><td>138,414</td><td>148,795</td><td>155,059</td><td>154,600</td><td>160,800</td><td>175,907</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">信用農業協同組合連合会</th><td>64,536</td><td>58,025</td><td>53,127</td><td>53,813</td><td>50,297</td><td>45,563</td><td>43,875</td><td>41,056</td><td>38,246</td><td>31,491</td><td>0</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">農業協同組合</th><td>44,428</td><td>52,196</td><td>53,654</td><td>48,973</td><td>51,713</td><td>51,346</td><td>57,053</td><td>56,311</td><td>55,716</td><td>53,826</td><td>79,566</td><td>84,669</td><td>84,259</td><td>77,286</td><td>71,769</td><td>70,843</td><td>70,882</td><td>72,133</td><td>77,855</td></tr>
+<tr><th scope="row">信用金庫</th><td>37,513</td><td>45,829</td><td>35,753</td><td>47,129</td><td>47,618</td><td>47,236</td><td>54,039</td><td>53,878</td><td>54,426</td><td>35,419</td><td>37,819</td><td>38,604</td><td>44,425</td><td>48,333</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">信用漁業協同組合連合会</th><td>4,023</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合JFしまね</th><td>欄なし</td><td>2,771</td><td>2,431</td><td>2,899</td><td>9,165</td><td>8,601</td><td>7,691</td><td>7,192</td><td>6,659</td><td>6,081</td><td>5,502</td><td>4,979</td><td>4,488</td><td>4,444</td><td>3,984</td><td>3,888</td><td>5,027</td><td>4,694</td><td>5,351</td></tr>
+<tr><th scope="row">信用組合</th><td>9,154</td><td>670</td><td>726</td><td>435</td><td>－</td><td>－</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">労働金庫</th><td>30,253</td><td>30,827</td><td>30,737</td><td>32,824</td><td>32,429</td><td>32,133</td><td>31,774</td><td>32,036</td><td>32,262</td><td>31,697</td><td>29,834</td><td>27,734</td><td>27,290</td><td>27,327</td><td>27,199</td><td>27,150</td><td>27,222</td><td>26,897</td><td>26,594</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="銀行">
+<h3>銀行の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="銀行の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>銀行の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>669,335</td><td>689,190</td><td>679,501</td><td>674,523</td><td>762,779</td><td>728,524</td><td>797,840</td><td>782,391</td><td>771,259</td><td>721,693</td><td>728,569</td><td>778,550</td><td>810,516</td><td>838,649</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">貸出残</th><td>426,370</td><td>412,986</td><td>417,340</td><td>410,838</td><td>421,577</td><td>413,511</td><td>434,755</td><td>455,445</td><td>449,629</td><td>421,477</td><td>446,233</td><td>480,178</td><td>508,254</td><td>518,508</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="第二地方銀行">
+<h3>第二地方銀行の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="第二地方銀行の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>第二地方銀行の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>107,637</td><td>123,157</td><td>104,979</td><td>108,153</td><td>113,323</td><td>139,495</td><td>141,418</td><td>147,829</td><td>143,082</td><td>137,792</td><td>144,966</td><td>146,323</td><td>144,964</td><td>148,128</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">貸出残</th><td>118,218</td><td>104,450</td><td>130,233</td><td>132,719</td><td>132,296</td><td>119,918</td><td>126,449</td><td>130,225</td><td>138,414</td><td>148,795</td><td>155,059</td><td>154,600</td><td>160,800</td><td>175,907</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="信農連">
+<h3>信用農業協同組合連合会の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="信用農業協同組合連合会の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>信用農業協同組合連合会の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>517,497</td><td>493,868</td><td>511,097</td><td>503,272</td><td>505,025</td><td>527,324</td><td>537,675</td><td>529,059</td><td>579,922</td><td>646,345</td><td>0</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">貸出残</th><td>64,536</td><td>58,025</td><td>53,127</td><td>53,813</td><td>50,297</td><td>45,563</td><td>43,875</td><td>41,056</td><td>38,246</td><td>31,491</td><td>0</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="農業協同組合">
+<h3>農業協同組合の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="農業協同組合の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>農業協同組合の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>102,475</td><td>111,476</td><td>114,901</td><td>106,916</td><td>108,622</td><td>110,820</td><td>123,776</td><td>125,055</td><td>129,043</td><td>132,524</td><td>179,845</td><td>180,473</td><td>166,396</td><td>160,736</td><td>162,577</td><td>158,817</td><td>160,063</td><td>157,885</td><td>155,214</td></tr>
+<tr><th scope="row">貸出残</th><td>44,428</td><td>52,196</td><td>53,654</td><td>48,973</td><td>51,713</td><td>51,346</td><td>57,053</td><td>56,311</td><td>55,716</td><td>53,826</td><td>79,566</td><td>84,669</td><td>84,259</td><td>77,286</td><td>71,769</td><td>70,843</td><td>70,882</td><td>72,133</td><td>77,855</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="信用金庫">
+<h3>信用金庫の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="信用金庫の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>信用金庫の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>46,153</td><td>51,367</td><td>51,349</td><td>52,432</td><td>54,133</td><td>53,075</td><td>64,234</td><td>63,596</td><td>65,603</td><td>45,148</td><td>48,535</td><td>53,159</td><td>57,090</td><td>60,480</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+<tr><th scope="row">貸出残</th><td>37,513</td><td>45,829</td><td>35,753</td><td>47,129</td><td>47,618</td><td>47,236</td><td>54,039</td><td>53,878</td><td>54,426</td><td>35,419</td><td>37,819</td><td>38,604</td><td>44,425</td><td>48,333</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="信漁連">
+<h3>信用漁業協同組合連合会の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="信用漁業協同組合連合会の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>信用漁業協同組合連合会の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>20,650</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">貸出残</th><td>4,023</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="漁業協同組合">
+<h3>漁業協同組合JFしまねの預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="漁業協同組合JFしまねの預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>漁業協同組合JFしまねの預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>欄なし</td><td>16,509</td><td>16,700</td><td>18,252</td><td>42,287</td><td>40,732</td><td>39,569</td><td>40,440</td><td>39,440</td><td>40,391</td><td>39,470</td><td>42,352</td><td>44,367</td><td>41,182</td><td>38,647</td><td>38,823</td><td>36,121</td><td>35,097</td><td>32,429</td></tr>
+<tr><th scope="row">貸出残</th><td>欄なし</td><td>2,771</td><td>2,431</td><td>2,899</td><td>9,165</td><td>8,601</td><td>7,691</td><td>7,192</td><td>6,659</td><td>6,081</td><td>5,502</td><td>4,979</td><td>4,488</td><td>4,444</td><td>3,984</td><td>3,888</td><td>5,027</td><td>4,694</td><td>5,351</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="信用組合">
+<h3>信用組合の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="信用組合の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>信用組合の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>7,963</td><td>2,483</td><td>2,619</td><td>1,480</td><td>－</td><td>－</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">貸出残</th><td>9,154</td><td>670</td><td>726</td><td>435</td><td>－</td><td>－</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+<div data-yokin_kind="労働金庫">
+<h3>労働金庫の預金残と貸出残（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="労働金庫の預金残と貸出残（百万円）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>労働金庫の預金残と貸出残（百万円）</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">2005年度</th><th scope="col" class="n">2006年度</th><th scope="col" class="n">2007年度</th><th scope="col" class="n">2008年度</th><th scope="col" class="n">2009年度</th><th scope="col" class="n">2010年度</th><th scope="col" class="n">2011年度</th><th scope="col" class="n">2012年度</th><th scope="col" class="n">2013年度</th><th scope="col" class="n">2014年度</th><th scope="col" class="n">2015年度</th><th scope="col" class="n">2016年度</th><th scope="col" class="n">2017年度</th><th scope="col" class="n">2018年度</th><th scope="col" class="n">2019年度</th><th scope="col" class="n">2020年度</th><th scope="col" class="n">2021年度</th><th scope="col" class="n">2022年度</th><th scope="col" class="n">2023年度</th></tr></thead><tbody>
+<tr><th scope="row">預金残</th><td>44,062</td><td>44,332</td><td>44,676</td><td>45,510</td><td>48,677</td><td>49,587</td><td>49,571</td><td>51,500</td><td>52,317</td><td>50,974</td><td>49,810</td><td>50,871</td><td>50,863</td><td>51,563</td><td>53,879</td><td>53,919</td><td>54,814</td><td>55,143</td><td>54,818</td></tr>
+<tr><th scope="row">貸出残</th><td>30,253</td><td>30,827</td><td>30,737</td><td>32,824</td><td>32,429</td><td>32,133</td><td>31,774</td><td>32,036</td><td>32,262</td><td>31,697</td><td>29,834</td><td>27,734</td><td>27,290</td><td>27,327</td><td>27,199</td><td>27,150</td><td>27,222</td><td>26,897</td><td>26,594</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005〜2006年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）<br>2007年度・2010〜2012年度の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、くにびき農業協同組合<br>2008〜2009年度の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信漁連）、くにびき農業協同組合<br>2013年度の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、島根県農業協同組合<br>2014〜2020年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金金庫<br>2021〜2023年度の数——資料：中国財務局松江財務事務所、島根県農業協同組合、漁業協同組合ＪＦしまね、中国労働金庫</p>
+</div>
+
+
+</section>
+<section class="frame" id="s-02-tenpo" data-screen="02-tenpo" aria-labelledby="h-s-02-tenpo">
+<h2 id="h-s-02-tenpo">店舗の数</h2>
+<p class="unit">表の「－」は、データ元の表のとおりです。0 かどうかは、データ元の表に書かれていません。図には描いていません。</p>
+<p class="unit">表の「欄なし」は、その年の表にこの欄が無い、または欄が空です。</p>
+<div>
+<h3>業態ごとの店舗の数（店）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="業態ごとの店舗の数（店）"><table class="t fixed" style="--n:19"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>業態ごとの店舗の数（店）</caption><thead><tr><th scope="col">業態・区分</th><th scope="col" class="n">2005年</th><th scope="col" class="n">2006年</th><th scope="col" class="n">2007年</th><th scope="col" class="n">2008年</th><th scope="col" class="n">2009年</th><th scope="col" class="n">2010年</th><th scope="col" class="n">2011年</th><th scope="col" class="n">2012年</th><th scope="col" class="n">2013年</th><th scope="col" class="n">2014年</th><th scope="col" class="n">2015年</th><th scope="col" class="n">2016年</th><th scope="col" class="n">2017年</th><th scope="col" class="n">2018年</th><th scope="col" class="n">2019年</th><th scope="col" class="n">2020年</th><th scope="col" class="n">2021年</th><th scope="col" class="n">2022年</th><th scope="col" class="n">2023年</th></tr></thead><tbody>
+<tr><th scope="row">地方銀行・本店</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">地方銀行・支店</th><td>14</td><td>14</td><td>14</td><td>14</td><td>13</td><td>13</td><td>14</td><td>13</td><td>13</td><td>13</td><td>10</td><td>10</td><td>9</td><td>9</td><td>9</td><td>9</td><td>7</td><td>7</td><td>7</td></tr>
+<tr><th scope="row">地方銀行・支店の括弧内</th><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">地方銀行・出張所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>4</td><td>8</td><td>5</td><td>5</td><td>6</td><td>5</td><td>5</td><td>9</td><td>9</td><td>9</td><td>11</td><td>11</td><td>11</td></tr>
+<tr><th scope="row">第二地方銀行・本店</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">第二地方銀行・支店</th><td>9</td><td>9</td><td>9</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>5</td><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><th scope="row">第二地方銀行・支店の括弧内</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>2</td><td>2</td><td>2</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">第二地方銀行・出張所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>2</td><td>3</td><td>2</td><td>2</td><td>3</td><td>3</td><td>3</td><td>4</td><td>4</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+<tr><th scope="row">信用金庫・本店</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">信用金庫・支店</th><td>7</td><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td><td>10</td><td>10</td><td>10</td><td>10</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td></tr>
+<tr><th scope="row">農業協同組合・支店</th><td>1</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td><td>13</td></tr>
+<tr><th scope="row">農業協同組合・支店の括弧内</th><td>13</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">農業協同組合・本店</th><td>欄なし</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">農業協同組合・出張所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>0</td><td>0</td><td>0</td><td>－</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>－</td><td>－</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">漁業協同組合・店舗数</th><td>－</td><td>欄なし</td><td>欄なし</td><td>2</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合・店舗数（上段）</th><td>欄なし</td><td>1</td><td>1</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合・店舗数（中段）</th><td>欄なし</td><td>－</td><td>－</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合・店舗数の括弧内</th><td>欄なし</td><td>1</td><td>1</td><td>1</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合・本所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">漁業協同組合・支所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>3</td><td>6</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><th scope="row">漁業協同組合・支所の括弧内</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>3</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">漁業協同組合・出張所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>3</td><td>3</td><td>3</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>－</td></tr>
+<tr><th scope="row">労働金庫・本店</th><td>－</td><td>－</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">労働金庫・支店</th><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">労働金庫・支店の括弧内</th><td>欄なし</td><td>欄なし</td><td>1</td><td>1</td><td>1</td><td>1</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">労働金庫・出張所</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>1</td><td>－</td><td>－</td><td>－</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>－</td><td>－</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">郵便局・普通局</th><td>1</td><td>1</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">郵便局・特定局</th><td>39</td><td>39</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">郵便局・簡易郵便局</th><td>13</td><td>15</td><td>13</td><td>13</td><td>欄なし</td><td>欄なし</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td></tr>
+<tr><th scope="row">郵便局・郵便局</th><td>欄なし</td><td>欄なし</td><td>40</td><td>40</td><td>40</td><td>40</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td><td>43</td></tr>
+<tr><th scope="row">郵便局・分室</th><td>欄なし</td><td>欄なし</td><td>－</td><td>－</td><td>13</td><td>0</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">郵便局・郵便局の括弧内</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>13</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005年の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね（旧信魚連）、松江中央郵便局<br>2006年の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね、松江中央郵便局、くにびき農業協同組合<br>2007年の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね、郵便事業会社、くにびき農業協同組合<br>2008年の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、郵便局株式会社中国支社、くにびき農業協同組合<br>2009〜2010年の数——資料：中国財務局松江財務事務所理財課、信農連、漁業協同組合ＪＦしまね、郵便事業株式会社、くにびき農業協同組合<br>2011〜2012年の数——資料：中国財務局松江財務事務所、信農連、漁業協同組合ＪＦしまね、日本郵便株式会社中国支社、くにびき農業協同組合<br>2013〜2014年の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、日本郵便株式会社中国支社、島根県農業協同組合<br>2015〜2023年の数——資料：中国財務局松江財務事務所、漁業協同組合ＪＦしまね、日本郵便株式会社中国支社、島根県農業協同組合、中国労働金庫</p>
+</div>
+
+
+</section>
+<section class="frame" id="s-03-tegata" data-screen="03-tegata" aria-labelledby="h-s-03-tegata">
+<h2 id="h-s-03-tegata">手形交換</h2>
+<div class="chooser"><div class="pick"><label for="tegata_year">月ごとの年</label>
+<select id="tegata_year"><option value="2022" selected>2022年（令和4年）</option><option value="2021">2021年（令和3年）</option><option value="2020">2020年（令和2年）</option><option value="2019">2019年（令和元年）</option><option value="2016">2016年（平成28年）</option><option value="2011">2011年（平成23年）</option><option value="2005">2005年（平成17年）</option></select></div>
+
+<p class="hint">選ぶと、その年の月ごとの表が出ます。年ごとの表は、いつも出ます。</p>
+</div>
+
+<p class="unit">表の「－」は、データ元の表のとおりです。2015〜2020年の表の注は「- 皆無または該当数値が無いもの。」です。2001〜2004年・2006〜2014年・2021〜2022年の表には、この注がありません。</p>
+<p class="unit">表の「欄なし」は、その年の表にこの欄が無い、または欄が空です。</p>
+<p class="unit">交換高の金額は百万円に丸めて表示しています。月の値を足しても、丸めのため年の値と一致しないことがあります。不渡手形と取引停止分の金額は千円のままです。</p>
+<p class="unit">2022年の行は、松江手形交換所が廃止された年の数です。11・12月は 0 と書かれています。</p>
+<div>
+<h3>年ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="年ごと"><table class="t fixed" style="--n:6"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>年ごと</caption><thead><tr><th scope="col">年</th><th scope="col" class="n">交換高（枚数）（枚）</th><th scope="col" class="n">交換高（金額）（百万円）</th><th scope="col" class="n">不渡手形（枚数）（枚）</th><th scope="col" class="n">不渡手形（金額）（千円）</th><th scope="col" class="n">取引停止分（枚数）（枚）</th><th scope="col" class="n">取引停止分（金額）（千円）</th></tr></thead><tbody>
+<tr><th scope="row">2001年（平成13年）</th><td>215,928</td><td>257,143</td><td>139</td><td>154,760</td><td>41</td><td>31,980</td></tr>
+<tr><th scope="row">2002年（平成14年）</th><td>199,945</td><td>208,132</td><td>107</td><td>96,611</td><td>42</td><td>19,992</td></tr>
+<tr><th scope="row">2003年（平成15年）</th><td>184,082</td><td>179,356</td><td>188</td><td>86,637</td><td>79</td><td>23,624</td></tr>
+<tr><th scope="row">2004年（平成16年）</th><td>171,226</td><td>148,574</td><td>87</td><td>171,356</td><td>31</td><td>92,330</td></tr>
+<tr><th scope="row">2005年（平成17年）</th><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td><td>欄なし</td></tr>
+<tr><th scope="row">2006年（平成18年）</th><td>143,555</td><td>124,191</td><td>115</td><td>107,070</td><td>48</td><td>60,800</td></tr>
+<tr><th scope="row">2007年（平成19年）</th><td>229,814</td><td>179,961</td><td>215</td><td>326,737</td><td>121</td><td>249,559</td></tr>
+<tr><th scope="row">2008年（平成20年）</th><td>233,516</td><td>193,154</td><td>331</td><td>211,367</td><td>108</td><td>60,936</td></tr>
+<tr><th scope="row">2009年（平成21年）</th><td>198,083</td><td>150,213</td><td>143</td><td>58,294</td><td>48</td><td>19,407</td></tr>
+<tr><th scope="row">2010年（平成22年）</th><td>179,232</td><td>138,915</td><td>109</td><td>133,724</td><td>39</td><td>35,211</td></tr>
+<tr><th scope="row">2011年（平成23年）</th><td>165,970</td><td>128,191</td><td>114</td><td>85,437</td><td>35</td><td>28,241</td></tr>
+<tr><th scope="row">2012年（平成24年）</th><td>151,634</td><td>119,303</td><td>91</td><td>61,731</td><td>39</td><td>32,505</td></tr>
+<tr><th scope="row">2013年（平成25年）</th><td>140,130</td><td>115,860</td><td>33</td><td>19,514</td><td>11</td><td>3,677</td></tr>
+<tr><th scope="row">2014年（平成26年）</th><td>128,042</td><td>113,842</td><td>74</td><td>49,935</td><td>26</td><td>11,419</td></tr>
+<tr><th scope="row">2015年（平成27年）</th><td>113,810</td><td>101,518</td><td>66</td><td>66,367</td><td>34</td><td>33,035</td></tr>
+<tr><th scope="row">2016年（平成28年）</th><td>105,406</td><td>100,054</td><td>85</td><td>26,753</td><td>32</td><td>11,466</td></tr>
+<tr><th scope="row">2017年（平成29年）</th><td>99,717</td><td>95,604</td><td>28</td><td>49,038</td><td>1</td><td>27</td></tr>
+<tr><th scope="row">2018年（平成30年）</th><td>91,566</td><td>91,957</td><td>33</td><td>41,131</td><td>12</td><td>16,435</td></tr>
+<tr><th scope="row">2019年（令和元年）</th><td>86,005</td><td>89,050</td><td>17</td><td>16,053</td><td>4</td><td>1,314</td></tr>
+<tr><th scope="row">2020年（令和2年）</th><td>75,600</td><td>79,243</td><td>9</td><td>17,333</td><td>8</td><td>17,023</td></tr>
+<tr><th scope="row">2021年（令和3年）</th><td>55,518</td><td>68,241</td><td>45</td><td>17,625</td><td>45</td><td>17,625</td></tr>
+<tr><th scope="row">2022年（令和4年）</th><td>37,847</td><td>50,445</td><td>15</td><td>4,968,981</td><td>1</td><td>528,737</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2001〜2004年・2006〜2022年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2005">
+<h3>2005年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2005年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2005年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>13,527</td><td>13,019</td><td>14,196</td><td>11,582</td><td>14,798</td><td>13,018</td><td>13,871</td><td>14,417</td><td>11,333</td><td>13,596</td><td>11,746</td><td>14,093</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>11,479</td><td>9,487</td><td>21,359</td><td>9,914</td><td>12,266</td><td>10,270</td><td>7,775</td><td>11,405</td><td>16,937</td><td>9,292</td><td>8,624</td><td>8,764</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>3</td><td>5</td><td>17</td><td>8</td><td>13</td><td>1</td><td>7</td><td>2</td><td>4</td><td>4</td><td>2</td><td>0</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>4,031</td><td>2,490</td><td>10,292</td><td>16,358</td><td>11,188</td><td>400</td><td>2,696</td><td>6,811</td><td>3,633</td><td>3,633</td><td>1,254</td><td>0</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>－</td><td>5</td><td>4</td><td>4</td><td>1</td><td>－</td><td>1</td><td>2</td><td>1</td><td>1</td><td>2</td><td>0</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>－</td><td>2,490</td><td>2,734</td><td>5,524</td><td>811</td><td>－</td><td>280</td><td>6,811</td><td>400</td><td>400</td><td>1,254</td><td>0</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2005年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2011">
+<h3>2011年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2011年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2011年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>15,151</td><td>13,436</td><td>14,711</td><td>11,561</td><td>15,774</td><td>14,038</td><td>13,210</td><td>15,949</td><td>13,031</td><td>12,769</td><td>12,821</td><td>13,519</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>12,282</td><td>10,333</td><td>12,388</td><td>9,545</td><td>12,833</td><td>11,181</td><td>8,446</td><td>13,698</td><td>9,685</td><td>9,006</td><td>9,418</td><td>9,377</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>2</td><td>1</td><td>4</td><td>8</td><td>9</td><td>6</td><td>4</td><td>10</td><td>10</td><td>31</td><td>19</td><td>10</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>2,883</td><td>928</td><td>1,816</td><td>7,917</td><td>6,257</td><td>5,847</td><td>7,006</td><td>3,788</td><td>5,395</td><td>15,132</td><td>14,904</td><td>13,564</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>0</td><td>1</td><td>1</td><td>0</td><td>5</td><td>3</td><td>1</td><td>3</td><td>3</td><td>7</td><td>1</td><td>10</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>0</td><td>928</td><td>668</td><td>0</td><td>4,027</td><td>2,221</td><td>556</td><td>800</td><td>1,612</td><td>3,211</td><td>654</td><td>13,564</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2011年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2016">
+<h3>2016年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2016年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2016年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>8,381</td><td>10,148</td><td>9,099</td><td>7,548</td><td>9,965</td><td>9,312</td><td>8,263</td><td>10,017</td><td>8,214</td><td>8,030</td><td>8,078</td><td>8,351</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>7,820</td><td>9,680</td><td>8,929</td><td>8,892</td><td>11,129</td><td>8,212</td><td>6,739</td><td>9,613</td><td>7,590</td><td>7,672</td><td>6,969</td><td>6,808</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>3</td><td>1</td><td>10</td><td>6</td><td>31</td><td>4</td><td>8</td><td>15</td><td>5</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>580</td><td>50</td><td>2,706</td><td>1,183</td><td>11,861</td><td>342</td><td>3,718</td><td>4,349</td><td>1,802</td><td>0</td><td>100</td><td>62</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>3</td><td>1</td><td>1</td><td>5</td><td>14</td><td>0</td><td>1</td><td>3</td><td>4</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>580</td><td>50</td><td>650</td><td>1,083</td><td>5,496</td><td>0</td><td>1,236</td><td>645</td><td>1,726</td><td>0</td><td>0</td><td>0</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2016年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2019">
+<h3>2019年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2019年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2019年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>8,239</td><td>6,855</td><td>6,186</td><td>6,892</td><td>8,648</td><td>6,112</td><td>9,371</td><td>5,866</td><td>7,647</td><td>6,892</td><td>5,588</td><td>7,709</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>8,886</td><td>7,198</td><td>6,773</td><td>7,864</td><td>8,995</td><td>5,661</td><td>9,978</td><td>5,573</td><td>8,328</td><td>7,195</td><td>5,348</td><td>7,252</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>4</td><td>－</td><td>1</td><td>1</td><td>2</td><td>3</td><td>－</td><td>1</td><td>3</td><td>－</td><td>2</td><td>－</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>5,906</td><td>－</td><td>295</td><td>320</td><td>496</td><td>2,104</td><td>－</td><td>1,047</td><td>3,670</td><td>－</td><td>2,215</td><td>－</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>－</td><td>－</td><td>－</td><td>－</td><td>1</td><td>1</td><td>－</td><td>－</td><td>1</td><td>－</td><td>1</td><td>－</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>－</td><td>－</td><td>－</td><td>－</td><td>320</td><td>104</td><td>－</td><td>－</td><td>790</td><td>－</td><td>100</td><td>－</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2019年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2020">
+<h3>2020年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2020年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2020年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>7,266</td><td>5,361</td><td>7,643</td><td>6,433</td><td>4,975</td><td>7,585</td><td>7,127</td><td>5,939</td><td>5,803</td><td>4,950</td><td>6,588</td><td>5,930</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>8,036</td><td>5,828</td><td>9,315</td><td>7,601</td><td>4,863</td><td>8,181</td><td>7,365</td><td>5,943</td><td>5,684</td><td>4,523</td><td>6,984</td><td>4,918</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>－</td><td>－</td><td>1</td><td>7</td><td>－</td><td>－</td><td>－</td><td>1</td><td>－</td><td>－</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>－</td><td>－</td><td>1,479</td><td>15,544</td><td>－</td><td>－</td><td>－</td><td>310</td><td>－</td><td>－</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>－</td><td>－</td><td>1</td><td>7</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>－</td><td>－</td><td>1,479</td><td>15,544</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2020年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2021">
+<h3>2021年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2021年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2021年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>5,163</td><td>5,236</td><td>7,086</td><td>4,461</td><td>4,176</td><td>4,624</td><td>3,893</td><td>5,103</td><td>3,968</td><td>3,022</td><td>4,735</td><td>4,051</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>4,828</td><td>5,560</td><td>8,048</td><td>6,261</td><td>5,838</td><td>6,621</td><td>4,615</td><td>6,994</td><td>4,967</td><td>3,678</td><td>5,939</td><td>4,893</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>23</td><td>22</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>9,051</td><td>8,574</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>23</td><td>22</td><td>－</td><td>－</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>－</td><td>9,051</td><td>8,574</td><td>－</td><td>－</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2021年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-tegata_year="2022">
+<h3>2022年——月ごと</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="2022年——月ごと"><table class="t fixed" style="--n:12"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>2022年——月ごと</caption><thead><tr><th scope="col">測るもの</th><th scope="col" class="n">1月</th><th scope="col" class="n">2月</th><th scope="col" class="n">3月</th><th scope="col" class="n">4月</th><th scope="col" class="n">5月</th><th scope="col" class="n">6月</th><th scope="col" class="n">7月</th><th scope="col" class="n">8月</th><th scope="col" class="n">9月</th><th scope="col" class="n">10月</th><th scope="col" class="n">11月</th><th scope="col" class="n">12月</th></tr></thead><tbody>
+<tr><th scope="row">交換高（枚数）（枚）</th><td>4,460</td><td>3,688</td><td>3,999</td><td>2,965</td><td>4,466</td><td>3,950</td><td>3,325</td><td>4,336</td><td>3,368</td><td>3,290</td><td>0</td><td>0</td></tr>
+<tr><th scope="row">交換高（金額）（百万円）</th><td>5,534</td><td>5,484</td><td>5,551</td><td>3,882</td><td>5,916</td><td>5,707</td><td>3,511</td><td>6,302</td><td>4,381</td><td>4,176</td><td>0</td><td>0</td></tr>
+<tr><th scope="row">不渡手形（枚数）（枚）</th><td>11</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><th scope="row">不渡手形（金額）（千円）</th><td>4,966,233</td><td>0</td><td>2,048</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>700</td><td>0</td><td>0</td></tr>
+<tr><th scope="row">取引停止分（枚数）（枚）</th><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th scope="row">取引停止分（金額）（千円）</th><td>528,737</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2022年の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+
+
+</section>
+<section class="frame" id="s-04-kennai" data-screen="04-kennai" aria-labelledby="h-s-04-kennai">
+<h2 id="h-s-04-kennai">県内の金融機関</h2>
+<div class="chooser"><div class="pick"><label for="kennai_measure">測るもの</label>
+<select id="kennai_measure"><option value="預金残" selected>預金残</option><option value="貸出残">貸出残</option></select></div>
+
+<p class="hint">選ぶと、その量の表が出ます。</p>
+</div>
+
+<p class="unit">表の「欄なし」は、その年の表にこの欄が無い、または欄が空です。</p>
+<div data-kennai_measure="預金残">
+<h3>預金残高（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="預金残高（百万円）"><table class="t fixed" style="--n:6"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>預金残高（百万円）</caption><thead><tr><th scope="col">年度</th><th scope="col" class="n">総額</th><th scope="col" class="n">国内銀行</th><th scope="col" class="n">信用金庫</th><th scope="col" class="n">労働金庫・信用組合</th><th scope="col" class="n">農業協同組合</th><th scope="col" class="n">その他</th></tr></thead><tbody>
+<tr><th scope="row">2000年度</th><td>3,219,685</td><td>1,826,683</td><td>329,733</td><td>224,399</td><td>767,368</td><td>71,502</td></tr>
+<tr><th scope="row">2001年度</th><td>3,271,456</td><td>1,872,281</td><td>334,266</td><td>227,334</td><td>771,804</td><td>65,771</td></tr>
+<tr><th scope="row">2002年度</th><td>3,316,628</td><td>1,903,366</td><td>334,825</td><td>234,731</td><td>778,461</td><td>65,245</td></tr>
+<tr><th scope="row">2003年度</th><td>3,333,567</td><td>1,901,764</td><td>338,158</td><td>235,940</td><td>789,915</td><td>67,790</td></tr>
+<tr><th scope="row">2004年度</th><td>3,331,739</td><td>1,898,675</td><td>337,693</td><td>236,430</td><td>796,306</td><td>62,635</td></tr>
+<tr><th scope="row">2005年度</th><td>3,354,812</td><td>1,921,475</td><td>339,620</td><td>237,865</td><td>797,373</td><td>58,479</td></tr>
+<tr><th scope="row">2006年度</th><td>3,386,817</td><td>1,960,885</td><td>411,684</td><td>144,450</td><td>812,133</td><td>57,665</td></tr>
+<tr><th scope="row">2007年度</th><td>3,395,367</td><td>1,956,712</td><td>402,952</td><td>147,410</td><td>828,713</td><td>59,580</td></tr>
+<tr><th scope="row">2008年度</th><td>3,430,142</td><td>1,977,985</td><td>397,637</td><td>150,683</td><td>841,165</td><td>62,672</td></tr>
+<tr><th scope="row">2009年度</th><td>3,558,114</td><td>2,082,936</td><td>399,122</td><td>161,816</td><td>850,231</td><td>64,009</td></tr>
+<tr><th scope="row">2010年度</th><td>3,630,219</td><td>2,131,742</td><td>398,909</td><td>164,634</td><td>871,491</td><td>63,443</td></tr>
+<tr><th scope="row">2011年度</th><td>3,715,308</td><td>2,197,301</td><td>402,977</td><td>166,059</td><td>885,207</td><td>63,764</td></tr>
+<tr><th scope="row">2012年度</th><td>3,768,805</td><td>2,247,908</td><td>404,814</td><td>168,249</td><td>882,366</td><td>65,468</td></tr>
+<tr><th scope="row">2013年度</th><td>3,798,624</td><td>2,264,306</td><td>410,697</td><td>160,172</td><td>896,724</td><td>66,725</td></tr>
+<tr><th scope="row">2014年度</th><td>3,834,145</td><td>2,269,936</td><td>415,383</td><td>166,436</td><td>912,892</td><td>69,498</td></tr>
+<tr><th scope="row">2015年度</th><td>3,929,463</td><td>2,302,611</td><td>416,038</td><td>163,872</td><td>978,184</td><td>68,758</td></tr>
+<tr><th scope="row">2016年度</th><td>4,010,302</td><td>2,342,324</td><td>435,904</td><td>165,075</td><td>994,008</td><td>72,991</td></tr>
+<tr><th scope="row">2017年度</th><td>4,091,901</td><td>2,416,459</td><td>452,139</td><td>165,996</td><td>984,693</td><td>72,614</td></tr>
+<tr><th scope="row">2018年度</th><td>4,140,415</td><td>2,462,562</td><td>465,011</td><td>167,048</td><td>977,671</td><td>68,123</td></tr>
+<tr><th scope="row">2019年度</th><td>4,230,284</td><td>2,539,013</td><td>477,202</td><td>171,347</td><td>976,762</td><td>65,960</td></tr>
+<tr><th scope="row">2020年度</th><td>4,514,460</td><td>2,769,714</td><td>506,876</td><td>176,518</td><td>996,444</td><td>64,908</td></tr>
+<tr><th scope="row">2021年度</th><td>4,621,786</td><td>2,837,278</td><td>527,680</td><td>180,830</td><td>1,011,170</td><td>64,828</td></tr>
+<tr><th scope="row">2022年度</th><td>4,653,698</td><td>2,858,133</td><td>543,784</td><td>181,260</td><td>1,009,875</td><td>60,646</td></tr>
+<tr><th scope="row">2023年度</th><td>4,708,208</td><td>2,918,184</td><td>548,161</td><td>179,806</td><td>1,002,957</td><td>59,100</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2000〜2023年度の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+<div data-kennai_measure="貸出残">
+<h3>貸出残高（百万円）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="貸出残高（百万円）"><table class="t fixed" style="--n:7"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>貸出残高（百万円）</caption><thead><tr><th scope="col">年度</th><th scope="col" class="n">総額</th><th scope="col" class="n">国内銀行</th><th scope="col" class="n">信用金庫</th><th scope="col" class="n">労働金庫・信用組合</th><th scope="col" class="n">農業協同組合</th><th scope="col" class="n">農林漁業金融公庫</th><th scope="col" class="n">その他</th></tr></thead><tbody>
+<tr><th scope="row">2000年度</th><td>1,991,572</td><td>1,012,263</td><td>224,723</td><td>153,509</td><td>298,386</td><td>81,367</td><td>221,324</td></tr>
+<tr><th scope="row">2001年度</th><td>1,954,354</td><td>984,534</td><td>220,827</td><td>156,417</td><td>301,687</td><td>78,084</td><td>212,805</td></tr>
+<tr><th scope="row">2002年度</th><td>1,951,615</td><td>1,000,661</td><td>217,541</td><td>161,817</td><td>292,421</td><td>75,975</td><td>203,200</td></tr>
+<tr><th scope="row">2003年度</th><td>1,940,703</td><td>1,003,019</td><td>214,556</td><td>157,918</td><td>299,313</td><td>72,103</td><td>193,794</td></tr>
+<tr><th scope="row">2004年度</th><td>1,930,632</td><td>1,021,088</td><td>214,357</td><td>158,501</td><td>291,338</td><td>68,382</td><td>176,966</td></tr>
+<tr><th scope="row">2005年度</th><td>1,931,064</td><td>1,025,792</td><td>218,417</td><td>161,135</td><td>291,971</td><td>欄なし</td><td>233,749</td></tr>
+<tr><th scope="row">2006年度</th><td>1,878,900</td><td>990,957</td><td>272,774</td><td>88,953</td><td>305,047</td><td>欄なし</td><td>221,169</td></tr>
+<tr><th scope="row">2007年度</th><td>1,855,774</td><td>984,556</td><td>259,205</td><td>89,728</td><td>316,004</td><td>欄なし</td><td>206,281</td></tr>
+<tr><th scope="row">2008年度</th><td>1,818,584</td><td>977,614</td><td>264,449</td><td>92,271</td><td>320,234</td><td>欄なし</td><td>164,016</td></tr>
+<tr><th scope="row">2009年度</th><td>1,841,254</td><td>989,457</td><td>260,457</td><td>92,146</td><td>330,423</td><td>欄なし</td><td>168,771</td></tr>
+<tr><th scope="row">2010年度</th><td>1,836,754</td><td>998,262</td><td>254,119</td><td>92,168</td><td>326,267</td><td>欄なし</td><td>165,938</td></tr>
+<tr><th scope="row">2011年度</th><td>1,843,281</td><td>1,014,051</td><td>253,082</td><td>92,183</td><td>321,930</td><td>欄なし</td><td>162,531</td></tr>
+<tr><th scope="row">2012年度</th><td>1,867,068</td><td>1,049,135</td><td>251,910</td><td>92,926</td><td>316,051</td><td>欄なし</td><td>157,046</td></tr>
+<tr><th scope="row">2013年度</th><td>1,868,745</td><td>1,062,906</td><td>250,900</td><td>93,656</td><td>308,565</td><td>欄なし</td><td>152,718</td></tr>
+<tr><th scope="row">2014年度</th><td>1,900,775</td><td>1,112,861</td><td>249,418</td><td>94,708</td><td>294,489</td><td>欄なし</td><td>149,299</td></tr>
+<tr><th scope="row">2015年度</th><td>1,953,232</td><td>1,161,556</td><td>249,387</td><td>90,170</td><td>308,273</td><td>欄なし</td><td>143,846</td></tr>
+<tr><th scope="row">2016年度</th><td>2,021,764</td><td>1,223,683</td><td>255,855</td><td>86,265</td><td>308,453</td><td>欄なし</td><td>147,508</td></tr>
+<tr><th scope="row">2017年度</th><td>2,070,064</td><td>1,279,361</td><td>267,496</td><td>86,451</td><td>300,056</td><td>欄なし</td><td>136,700</td></tr>
+<tr><th scope="row">2018年度</th><td>2,109,621</td><td>1,317,946</td><td>273,473</td><td>87,151</td><td>298,858</td><td>欄なし</td><td>132,193</td></tr>
+<tr><th scope="row">2019年度</th><td>2,154,918</td><td>1,340,837</td><td>278,341</td><td>88,260</td><td>286,466</td><td>欄なし</td><td>161,014</td></tr>
+<tr><th scope="row">2020年度</th><td>2,198,287</td><td>1,340,576</td><td>293,876</td><td>88,405</td><td>283,689</td><td>欄なし</td><td>191,741</td></tr>
+<tr><th scope="row">2021年度</th><td>2,234,326</td><td>1,376,715</td><td>300,030</td><td>88,120</td><td>279,399</td><td>欄なし</td><td>190,062</td></tr>
+<tr><th scope="row">2022年度</th><td>2,250,350</td><td>1,378,461</td><td>310,383</td><td>88,185</td><td>281,940</td><td>欄なし</td><td>191,381</td></tr>
+<tr><th scope="row">2023年度</th><td>2,285,606</td><td>1,405,957</td><td>315,486</td><td>89,772</td><td>290,993</td><td>欄なし</td><td>183,398</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">2000〜2023年度の数——資料：島根県政策企画局統計調査課「島根の統計」</p>
+</div>
+
+
+</section>
+</div>
+</main>
+<footer class="foot"><div class="in">出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年11月12日</div></footer>
+</div>
+</div>
+<script type="application/json" id="pick">{"defaults": {"kennai_measure": "\u9810\u91d1\u6b8b", "screen": "01-yokin", "tegata_year": "2022", "yokin_kind": "all", "yokin_measure": "\u9810\u91d1\u6b8b"}, "depends": {}, "keys": ["screen", "yokin_kind", "yokin_measure", "tegata_year", "kennai_measure"], "latest": ["tegata_year"], "options": {"kennai_measure": [{"label": "\u9810\u91d1\u6b8b", "value": "\u9810\u91d1\u6b8b"}, {"label": "\u8cb8\u51fa\u6b8b", "value": "\u8cb8\u51fa\u6b8b"}], "screen": [{"label": "\u9810\u91d1\u3068\u8cb8\u51fa", "value": "01-yokin"}, {"label": "\u5e97\u8217\u306e\u6570", "value": "02-tenpo"}, {"label": "\u624b\u5f62\u4ea4\u63db", "value": "03-tegata"}, {"label": "\u770c\u5185\u306e\u91d1\u878d\u6a5f\u95a2", "value": "04-kennai"}], "tegata_year": [{"label": "2022\u5e74\uff08\u4ee4\u548c4\u5e74\uff09", "value": "2022"}, {"label": "2021\u5e74\uff08\u4ee4\u548c3\u5e74\uff09", "value": "2021"}, {"label": "2020\u5e74\uff08\u4ee4\u548c2\u5e74\uff09", "value": "2020"}, {"label": "2019\u5e74\uff08\u4ee4\u548c\u5143\u5e74\uff09", "value": "2019"}, {"label": "2016\u5e74\uff08\u5e73\u621028\u5e74\uff09", "value": "2016"}, {"label": "2011\u5e74\uff08\u5e73\u621023\u5e74\uff09", "value": "2011"}, {"label": "2005\u5e74\uff08\u5e73\u621017\u5e74\uff09", "value": "2005"}], "yokin_kind": [{"label": "\u3059\u3079\u3066\u306e\u696d\u614b\u3092\u6bd4\u3079\u308b", "value": "all"}, {"label": "\u9280\u884c", "value": "\u9280\u884c"}, {"label": "\u7b2c\u4e8c\u5730\u65b9\u9280\u884c", "value": "\u7b2c\u4e8c\u5730\u65b9\u9280\u884c"}, {"label": "\u4fe1\u7528\u8fb2\u696d\u5354\u540c\u7d44\u5408\u9023\u5408\u4f1a", "value": "\u4fe1\u8fb2\u9023"}, {"label": "\u8fb2\u696d\u5354\u540c\u7d44\u5408", "value": "\u8fb2\u696d\u5354\u540c\u7d44\u5408"}, {"label": "\u4fe1\u7528\u91d1\u5eab", "value": "\u4fe1\u7528\u91d1\u5eab"}, {"label": "\u4fe1\u7528\u6f01\u696d\u5354\u540c\u7d44\u5408\u9023\u5408\u4f1a", "value": "\u4fe1\u6f01\u9023"}, {"label": "\u6f01\u696d\u5354\u540c\u7d44\u5408JF\u3057\u307e\u306d", "value": "\u6f01\u696d\u5354\u540c\u7d44\u5408"}, {"label": "\u4fe1\u7528\u7d44\u5408", "value": "\u4fe1\u7528\u7d44\u5408"}, {"label": "\u52b4\u50cd\u91d1\u5eab", "value": "\u52b4\u50cd\u91d1\u5eab"}], "yokin_measure": [{"label": "\u9810\u91d1\u6b8b", "value": "\u9810\u91d1\u6b8b"}, {"label": "\u8cb8\u51fa\u6b8b", "value": "\u8cb8\u51fa\u6b8b"}]}, "visible": {"yokin_measure": ["yokin_kind", "all"]}}</script>
+<script>
+(function(){
+  var b=document.getElementById("menubtn"), s=document.getElementById("sidenav");
+  if(b&&s){b.addEventListener("click",function(){var o=s.classList.toggle("open"); b.setAttribute("aria-expanded",String(o));});}
+})();
+</script>
+<script>
+(function () {
+  var uid = 0;
+  var KINDS = ["k-male", "k-female", "k-city", "k-pref", "k-nation", "k-accent", "k-hue1", "k-hue2", "k-hue3", "k-other",
+    "k-o1", "k-o2", "k-o3", "k-o4", "k-o5", "k-o6", "k-o7", "k-o8", "k-o9"];
+  var LADDER = 9;
+  var SOLID_HUES = ["k-hue1", "k-hue2", "k-hue3"];
+  var REGISTRY = { "男": "k-male", "女": "k-female", "市全体": "k-city", "県": "k-pref", "国": "k-nation" };
+  var ALIASES = { "市": "市全体", "松江市": "市全体", "島根県": "県", "全国": "国" };
+  var CATCH_ALL = ["その他", "不明", "その他管外", "※その他"];
+  var HUE_ROLES = ["k-hue1", "k-hue2"];
+  var HUE_TAKEN = { "k-male": "k-hue1", "k-female": "k-hue2" };
+  var ROLE_PLACE = { "k-city": "c1" };
+  var BOOK = {};
+  var LINE_PLACE_ROLES = ["c1", "c2", "c3", "c4", "c5", "c6"];
+  function registerNames(map) {
+    BOOK = {};
+    Object.keys(map).forEach(function (name) {
+      var role = map[name];
+      if (KINDS.indexOf(role) < 0 && LINE_PLACE_ROLES.indexOf(role) < 0) { throw new RangeError("unknown role: " + role); }
+      BOOK[name] = role;
+    });
+  }
+  function roleOf(label) { return REGISTRY[ALIASES[label] || label] || (KINDS.indexOf(BOOK[label]) >= 0 ? BOOK[label] : null) || null; }
+  function lineRoleOf(label) { return REGISTRY[ALIASES[label] || label] || BOOK[label] || null; }
+  function holds(r, h) { return HUE_TAKEN[r] === h || r === h; }
+  function distinctRoles(named) {
+    var seen = {};
+    named.forEach(function (r) {
+      if (r) {
+        if (seen[r]) { throw new RangeError("two series name one division"); }
+        seen[r] = true;
+      }
+    });
+  }
+  function pairRoles(labels, values) {
+    if (labels.length !== 2) { return null; }
+    if (values && values.length === 2 && values[0].every(function (v, i) { return typeof v !== "number" || typeof values[1][i] !== "number"; })) { return null; }
+    var catches = labels.map(function (l) { return CATCH_ALL.indexOf(l) >= 0; });
+    if (catches[0] && catches[1]) { return null; }
+    if (catches[0] || catches[1]) {
+      return labels.map(function (l, i) { return catches[i] ? "k-other" : (roleOf(l) || "k-accent"); });
+    }
+    var named = labels.map(roleOf);
+    distinctRoles(named);
+    var free = HUE_ROLES.filter(function (h) { return named.every(function (r) { return !holds(r, h); }); }), j = 0;
+    return named.map(function (r) { return r || free[j++]; });
+  }
+  function orderedRoles(labels) {
+    var plain = labels.filter(function (l) { return CATCH_ALL.indexOf(l) < 0; }), n = plain.length, at = 0;
+    if (n < 2) { return null; }
+    if (n > LADDER) { throw new RangeError("ordered: more than " + LADDER + " steps"); }
+    return labels.map(function (l) {
+      if (CATCH_ALL.indexOf(l) >= 0) { return "k-other"; }
+      return "k-o" + (1 + Math.round(at++ * (LADDER - 1) / (n - 1)));
+    });
+  }
+  function nominalRoles(labels) {
+    var named = labels.map(roleOf);
+    distinctRoles(named);
+    var free = SOLID_HUES.filter(function (h) { return named.every(function (r) { return !holds(r, h); }); }), j = 0;
+    return labels.map(function (l, i) {
+      if (CATCH_ALL.indexOf(l) >= 0) { return "k-other"; }
+      return named[i] || free[j++] || null;
+    });
+  }
+  function seriesRoles(labels, values, ordered, pairable) {
+    if (labels.length < 2) { return null; }
+    if (labels.length === 2) { return !ordered && pairable ? pairRoles(labels, values) : null; }
+    return ordered ? orderedRoles(labels) : nominalRoles(labels);
+  }
+  function lineRoles(labels, places) {
+    var named = labels.map(lineRoleOf), used = {};
+    labels.forEach(function (l, i) { if (named[i] && REGISTRY[ALIASES[l] || l]) { used[named[i]] = true; } });
+    named = named.map(function (r, i) {
+      if (!r || REGISTRY[ALIASES[labels[i]] || labels[i]]) { return r; }
+      if (used[r]) { return null; }
+      used[r] = true;
+      return r;
+    });
+    if (!named.some(Boolean)) { return null; }
+    if (labels.length < 2 && !REGISTRY[ALIASES[labels[0]] || labels[0]]) { return null; }
+    distinctRoles(named);
+    var taken = named.map(function (r) { return ROLE_PLACE[r] || (places.indexOf(r) >= 0 ? r : undefined); });
+    var free = places.filter(function (c) { return taken.indexOf(c) < 0; }), j = 0;
+    return named.map(function (r) { return r || free[j++]; });
+  }
+  function kind(roles, k, place) {
+    var r = roles && roles[k];
+    if (!r) { return place; }
+    if (KINDS.indexOf(r) < 0) { throw new RangeError("unknown role: " + r); }
+    return r;
+  }
+  var MAX_STACK = 3;
+  var MAX_STACK_AREA = 12;
+
+  function nf(n, d) {
+    return n.toLocaleString("ja-JP", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
+  }
+  function sgn(n, d) {
+    return n === 0 ? "±0" : (n > 0 ? "+" : "−") + nf(Math.abs(n), d || 0);
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function nice(lo, hi, n, whole) {
+    if (hi === lo) { hi = lo + 1; }
+    var raw = (hi - lo) / n;
+    function ticks(cands, floor) {
+      var mag = Math.max(floor, Math.pow(10, Math.floor(Math.log10(raw)))), st = mag;
+      cands.some(function (m) { st = m * mag; return raw <= st; });
+      var a = Math.floor(lo / st) * st, b = Math.ceil(hi / st) * st, t = [];
+      for (var v = a; v <= b + st * 1e-9; v += st) { t.push(Math.round(v * 1e6) / 1e6); }
+      return t;
+    }
+    var t = ticks([1, 2, 2.5, 5, 10], 0);
+    return whole && !t.every(function (v) { return v === Math.round(v); }) ? ticks([1, 2, 5, 10], 1) : t;
+  }
+
+  function evenTicks(xs, labels, every, clear) {
+    var ticks = [], end = xs.length - 1;
+    for (var i = 0; i < end; i += every) {
+      if (xs[end] - xs[i] > (clear || 0)) { ticks.push([xs[i], labels[i]]); }
+    }
+    return { ticks: ticks, last: [xs[end], labels[end]] };
+  }
+
+  function svgHead(w, h, id, title, desc, readout, ordered) {
+    return '<svg viewBox="0 0 ' + w + " " + h + '"' + (ordered ? ' data-ordered="1"' : "") + (readout ? ' data-n="' + readout.n + '" data-tip="' + esc(JSON.stringify(readout.tip)) + '"' : "") +
+      ' role="img" aria-labelledby="' + id + "-t " + id + '-d"><title id="' +
+      id + '-t">' + esc(title) + '</title><desc id="' + id + '-d">' + esc(desc) + "</desc>";
+  }
+
+  var NONE = "記録なし";
+  function pos1(n) { return Math.round(n * 10) / 10; }
+  function readoutOf(axis, at, ext, heads, rows, unit, n) {
+    return { n: n, tip: { a: axis, p: at.map(pos1), e: ext.map(pos1), h: heads, s: rows, u: unit || "" } };
+  }
+  function valText(v, d) { return v === null || v === undefined ? NONE : nf(v, d || 0); }
+  function hitRect(o, x, y, w, h) {
+    o.push('<rect class="ms-hit" x="' + pos1(x) + '" y="' + pos1(y) + '" width="' + pos1(w) + '" height="' + pos1(h) + '"><title></title></rect>' +
+      '<line class="ms-cur" hidden="" x1="0" x2="0" y1="0" y2="0"/>');
+  }
+
+  function axisTicks(o, X, axis, geo) {
+    if (typeof axis === "function") { axis = axis(geo.tk === "tk-n"); }
+    var y = geo.h - geo.b + 18, ticks = axis.ticks || [];
+    ticks.forEach(function (t) {
+      var x = X(t[0]).toFixed(1);
+      o.push('<text class="' + geo.tk + '" x="' + x + '" y="' + y + '" text-anchor="middle">' + esc(t[1]) +
+        '</text><line class="axis" x1="' + x + '" x2="' + x + '" y1="' + (geo.h - geo.b) + '" y2="' + (geo.h - geo.b + 4) + '"/>');
+    });
+    (axis.marks || []).forEach(function (m) {
+      var mx = X(m).toFixed(1);
+      o.push('<line class="axis" x1="' + mx + '" x2="' + mx + '" y1="' + (geo.h - geo.b) + '" y2="' + (geo.h - geo.b + 4) + '"/>');
+    });
+    if (axis.last) {
+      o.push('<text class="' + geo.tk + '" x="' + (X(axis.last[0]) + 4).toFixed(1) + '" y="' + y +
+        '" text-anchor="end">' + esc(axis.last[1]) + "</text>");
+    }
+  }
+
+  function labelWidth(s, em) {
+    var w = 0;
+    String(s).split("").forEach(function (c) { w += /[0-9]/.test(c) ? 0.53 : /[,.]/.test(c) ? 0.28 : 0.6; });
+    return w * em;
+  }
+
+  function geometry(narrow, left, top, labels) {
+    var em = narrow ? 14 : 12.5, base = narrow ? 58 : left, need = 0;
+    (labels || []).forEach(function (s) { need = Math.max(need, labelWidth(s, em)); });
+    return { w: narrow ? 300 : 600, h: narrow ? 230 : 260, l: Math.max(base, Math.ceil(need) + 9), r: 14, t: top, b: 34,
+      tk: narrow ? "tk-n" : "tk" };
+  }
+  function axisLabels(tcks, decimals) {
+    return tcks.map(function (t) { return nf(t, decimals); });
+  }
+  function axisDec(opts) {
+    return typeof opts.axisDecimals === "number" ? opts.axisDecimals : opts.decimals;
+  }
+  function isWhole(v) { return Math.abs(v - Math.round(v)) < 1e-9; }
+  function digitsFor(ticks, from) {
+    var d = from;
+    while (d < 6 && ticks.some(function (t) { return Math.abs(t * Math.pow(10, d) - Math.round(t * Math.pow(10, d))) > 1e-9; })) { d += 1; }
+    return d;
+  }
+
+  function line(opts) {
+    var id = "m" + (++uid), xs = opts.xs, ys = opts.ys;
+    var vals = ys.filter(function (v) { return v !== null; });
+    if (!vals.length) { return ""; }
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    var pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.05 || 1, lo2 = lo - pad;
+    if (lo >= 0 && lo2 < 0) { lo2 = 0; }
+    var tcks = nice(lo2, hi + pad, 4);
+    if (lo >= 0) { tcks = tcks.filter(function (t) { return t >= 0; }); }
+    var g = geometry(opts.narrow, 62, 22, axisLabels(tcks, axisDec(opts)));
+    var ylo = tcks[0], yhi = tcks[tcks.length - 1], x0 = xs[0], x1 = xs[xs.length - 1];
+    function X(v) { return g.l + (v - x0) / (x1 - x0) * (g.w - g.l - g.r); }
+    function Y(v) { return g.t + (yhi - v) / (yhi - ylo) * (g.h - g.t - g.b); }
+    var tip = typeof opts.unit === "string"
+      ? readoutOf("x", xs.map(X), [g.t, g.h - g.b], xs.map(function (x, i) { return opts.tips ? String(opts.tips[i]) : String(x); }),
+        [{ n: "", k: 0, v: ys.map(function (v) { return valText(v, opts.decimals); }) }], opts.unit, 1)
+      : null, dk = tip ? ' data-k="0"' : "";
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc, tip, opts.ordered)];
+    tcks.forEach(function (t) {
+      var y = Y(t).toFixed(1);
+      o.push('<line class="gridl" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + y + '" y2="' + y + '"/><text class="' +
+        g.tk + '" x="' + (g.l - 8) + '" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + nf(t, axisDec(opts)) + "</text>");
+    });
+    o.push('<line class="axis" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + (g.h - g.b) + '" y2="' + (g.h - g.b) + '"/>');
+    axisTicks(o, X, opts.axis || {}, g);
+    var nod = opts.nodataTo;
+    if (nod !== null && nod !== undefined && nod > x0) {
+      var bx = X(nod);
+      o.push('<rect class="band" x="' + g.l + '" y="' + g.t + '" width="' + (bx - g.l).toFixed(1) + '" height="' +
+        (g.h - g.t - g.b) + '"/><text class="bandt ' + g.tk + '" x="' + ((g.l + bx) / 2).toFixed(1) + '" y="' +
+        (g.t + (g.h - g.t - g.b) / 2) + '" text-anchor="middle">記録なし</text>');
+    }
+    (opts.marks || []).forEach(function (m, k) {
+      if (m[0] >= x0 && m[0] <= x1) {
+        var mx = X(m[0]).toFixed(1);
+        o.push('<line class="mk" x1="' + mx + '" x2="' + mx + '" y1="' + (g.t - 4) + '" y2="' + (g.h - g.b) +
+          '"/><text class="mkn ' + g.tk + '" x="' + (X(m[0]) + (k ? 8 : -7)).toFixed(1) + '" y="' + (g.t - 7) +
+          '" text-anchor="middle">' + esc(m[1]) + "</text>");
+      }
+    });
+    var d = "", pen = false;
+    xs.forEach(function (x, i) {
+      var v = ys[i];
+      if (v === null) { pen = false; return; }
+      d += (pen ? "L" : "M") + X(x).toFixed(1) + " " + Y(v).toFixed(1) + " ";
+      pen = true;
+    });
+    o.push('<path class="ln" d="' + d.trim() + '"' + dk + "/>");
+    xs.forEach(function (x, i) {
+      if (i < xs.length - 1 && ys[i] !== null) {
+        o.push('<circle class="dot" cx="' + X(x).toFixed(1) + '" cy="' + Y(ys[i]).toFixed(1) + '" r="' + (opts.narrow ? 2.3 : 2.6) + '"' + dk + "/>");
+      }
+    });
+    var lv = ys[ys.length - 1];
+    if (lv !== null) { o.push('<circle class="last" cx="' + X(x1).toFixed(1) + '" cy="' + Y(lv).toFixed(1) + '" r="5.5"/>'); }
+    if (tip) { hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b); }
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function medianGap(xs) {
+    var g = [];
+    for (var i = 1; i < xs.length; i++) { if (xs[i] > xs[i - 1]) { g.push(xs[i] - xs[i - 1]); } }
+    g.sort(function (a, b) { return a - b; });
+    return g.length ? g[(g.length - 1) >> 1] : 1;
+  }
+
+  function nullRuns(rows) {
+    var runs = [];
+    rows.forEach(function (r, i) {
+      if (r) { return; }
+      var last = runs[runs.length - 1];
+      if (last && last[1] === i - 1) { last[1] = i; } else { runs.push([i, i]); }
+    });
+    return runs;
+  }
+
+  var BAND_WORD = "NO DATA";
+  function bandWord(word) { if (word) { BAND_WORD = String(word); } return BAND_WORD; }
+  function nodataBand(o, g, left, right) {
+    var w = right - left, cx = (left + right) / 2, cy = g.t + (g.h - g.t - g.b) / 2, h = g.h - g.t - g.b;
+    o.push('<rect class="band" x="' + left.toFixed(1) + '" y="' + g.t + '" width="' + w.toFixed(1) + '" height="' + h + '"/>' +
+      '<text class="bandt ' + g.tk + '" x="' + cx.toFixed(1) + '" y="' + cy.toFixed(1) + '" text-anchor="middle" ' +
+      'dominant-baseline="middle"' + (w < 70 ? ' transform="rotate(-90 ' + cx.toFixed(1) + " " + cy.toFixed(1) + ')"' : "") +
+      ">" + esc(BAND_WORD) + "</text>");
+  }
+
+  function stackReadout(opts, at, g) {
+    var n = opts.rows.reduce(function (a, r) { return Math.max(a, r ? r.length : 0); }, 0), rows = [];
+    for (var k = 0; k < n; k++) {
+      rows.push({ n: (opts.names && opts.names[k]) || "", k: k, v: opts.rows.map(function (r) { return valText(r ? r[k] : null, opts.decimals); }) });
+    }
+    return readoutOf("x", at, [g.t, g.h - g.b], opts.xs.map(function (x, i) { return opts.tips ? String(opts.tips[i]) : String(x); }), rows, opts.unit, n);
+  }
+
+  function stackTicks(mx, opts) {
+    var cap = typeof opts.yMax === "number" ? Math.max(opts.yMax, mx) : null;
+    var whole = typeof opts.axisDecimals === "number" ? opts.axisDecimals === 0 : opts.axisDecimals !== "auto";
+    var ts = nice(0, cap !== null ? cap : mx, 4, whole);
+    if (cap === null) { return { tcks: ts, top: ts[ts.length - 1] }; }
+    ts = ts.filter(function (v) { return v <= cap + 1e-9; });
+    return { tcks: ts.length ? ts : [0, cap], top: cap };
+  }
+
+  function stack(opts) {
+    var id = "m" + (++uid), xs = opts.xs, rows = opts.rows, mx = 0;
+    rows.forEach(function (r) {
+      if (r) {
+        if (r.length > MAX_STACK) { throw new RangeError("stack: more than " + MAX_STACK + " bands"); }
+        var s = r.reduce(function (a, b) { return a + b; }, 0);
+        if (s > mx) { mx = s; }
+      }
+    });
+    var tk0 = stackTicks(mx, opts), tcks = tk0.tcks, top = tk0.top, x0 = xs[0], x1 = xs[xs.length - 1];
+    var ad = opts.axisDecimals === "auto" ? digitsFor(tcks, 0) : (typeof opts.axisDecimals === "number" ? opts.axisDecimals : 0);
+    var g = geometry(opts.narrow, 62, opts.marks && opts.marks.length ? 22 : 14, axisLabels(tcks, ad));
+    var span = (x1 - x0) || 1, plotW = g.w - g.l - g.r, med = medianGap(xs), ratio = med / span;
+    var half = 0.31 * ratio * plotW / (1 + 0.62 * ratio);
+    function halfOf(i) {
+      var near = med;
+      if (i > 0 && xs[i] > xs[i - 1]) { near = Math.min(near, xs[i] - xs[i - 1]); }
+      if (i < xs.length - 1 && xs[i + 1] > xs[i]) { near = Math.min(near, xs[i + 1] - xs[i]); }
+      return half * near / med;
+    }
+    function X(v) { return g.l + half + (v - x0) / span * (plotW - 2 * half); }
+    function Y(v) { return g.t + (top - v) / top * (g.h - g.t - g.b); }
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc, stackReadout(opts, xs.map(X), g), opts.ordered)];
+    tcks.forEach(function (t) {
+      var y = Y(t).toFixed(1);
+      o.push('<line class="gridl" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + y + '" y2="' + y + '"/><text class="' +
+        g.tk + '" x="' + (g.l - 8) + '" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + nf(t, ad) + "</text>");
+    });
+    o.push('<line class="axis" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + (g.h - g.b) + '" y2="' + (g.h - g.b) + '"/>');
+    axisTicks(o, X, opts.axis || {}, g);
+    drawMarks(o, g, X, opts.marks, x0, x1);
+    var roles = opts.roles || (rows.every(function (r) { return !r || r.length === 1; }) ? ["k-accent"] : null);
+    nullRuns(rows).forEach(function (run) {
+      nodataBand(o, g, X(xs[run[0]]) - halfOf(run[0]), X(xs[run[1]]) + halfOf(run[1]));
+    });
+    rows.forEach(function (r, i) {
+      if (!r) { return; }
+      var base = 0, cx = X(xs[i]), hw = halfOf(i);
+      r.forEach(function (v, k) {
+        var y1 = Y(base + v), y0 = Y(base);
+        o.push('<rect class="' + kind(roles, k, "s" + (k + 1)) + '" x="' + (cx - hw).toFixed(1) + '" y="' + y1.toFixed(1) + '" width="' +
+          (hw * 2).toFixed(1) + '" height="' + Math.max(y0 - y1, 0).toFixed(1) + '" data-k="' + k + '"/>');
+        base += v;
+      });
+    });
+    hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function pairBars(opts) {
+    var narrow = opts.narrow, w = narrow ? 300 : 600, row = 26, t = 6, b = 30, lb = narrow ? 58 : 66, r = 12;
+    var n = opts.labels.length, h = t + row * n + b, id = "m" + (++uid), tk = narrow ? "tk-n" : "tk";
+    var mx = Math.max(Math.max.apply(null, opts.a), Math.max.apply(null, opts.b)), tcks = nice(0, mx, 4);
+    var top = tcks[tcks.length - 1];
+    function X(v) { return lb + v / top * (w - lb - r); }
+    var o = [svgHead(w, h, id, opts.title, opts.desc, null, opts.ordered)];
+    tcks.forEach(function (v) {
+      var x = X(v).toFixed(1);
+      o.push('<line class="gridl" x1="' + x + '" x2="' + x + '" y1="' + t + '" y2="' + (h - b) + '"/><text class="' + tk +
+        '" x="' + x + '" y="' + (h - b + 18) + '" text-anchor="middle">' + nf(v) + "</text>");
+    });
+    opts.labels.forEach(function (lab, i) {
+      var y = t + i * row;
+      o.push('<text class="' + tk + ' lab" x="' + (lb - 8) + '" y="' + (y + row / 2).toFixed(1) +
+        '" text-anchor="end" dominant-baseline="middle">' + esc(lab) + '</text><rect class="' + kind(opts.roles, 0, "b1") + '" x="' + lb + '" y="' + (y + 3) +
+        '" width="' + Math.max(X(opts.a[i]) - lb, 0).toFixed(1) + '" height="8" rx="1.5"/><rect class="' + kind(opts.roles, 1, "b2") + '" x="' + lb +
+        '" y="' + (y + 12) + '" width="' + Math.max(X(opts.b[i]) - lb, 0).toFixed(1) + '" height="8" rx="1.5"/>');
+    });
+    o.push('<line class="axis" x1="' + lb + '" x2="' + lb + '" y1="' + t + '" y2="' + (h - b) + '"/></svg>');
+    return o.join("");
+  }
+
+  function bars(items) {
+    var mx = Math.max.apply(null, items.map(function (i) { return i.value; })) || 1;
+    return '<ul class="hbars">' + items.map(function (i) {
+      var pct = Math.max(i.value, 0) / mx * 100;
+      return '<li><span class="nm">' + esc(i.label) + '</span><span class="tr"><b style="--w:' + pct.toFixed(1) +
+        '%"></b></span><span class="nu">' + esc(i.text === undefined ? nf(i.value) : i.text) + "</span></li>";
+    }).join("") + "</ul>";
+  }
+
+
+  function textWidth(s, em) {
+    var w = 0;
+    for (var i = 0; i < s.length; i++) { w += (s.charCodeAt(i) > 255 ? 1 : 0.6) * em; }
+    return w;
+  }
+
+  function autoTicks(xs, labels, narrow, text, unit) {
+    var n = xs.length, end = n - 1, plot = narrow ? 228 : 524, em = narrow ? 14 : 12.5, pad = 8;
+    var span = (xs[end] - xs[0]) || 1;
+    function px(dx) { return dx / span * plot; }
+    var shown = labels.map(function (l) { return text ? text(l) : l; });
+    var wid = shown.map(function (l) { return textWidth(l, em); });
+    var lastW = textWidth(labels[end], em);
+    var each = unit || 1, every = Math.max(1, Math.ceil(n / (narrow ? 5 : 8) / each)) * each;
+    function clear(step) {
+      for (var i = 0; i + step < end; i += step) {
+        if (px(xs[i + step] - xs[i]) < (wid[i] + wid[i + step]) / 2 + pad) { return false; }
+      }
+      return true;
+    }
+    while (every < end && !clear(every)) { every += each; }
+    var ticks = [], marks = [];
+    for (var j = 0; j < end; j += every) {
+      if (px(xs[end] - xs[j]) >= wid[j] / 2 + lastW - 4 + pad) { ticks.push([xs[j], shown[j]]); }
+      else if (every === 1) { marks.push(xs[j]); }
+    }
+    return { ticks: ticks, last: [xs[end], labels[end]], marks: marks };
+  }
+
+  function legend(items) {
+    var press = !items.some(function (i) { return i.cls === "dim"; });
+    return '<p class="legend">' + items.map(function (i, k) {
+      return "<span" + (press ? ' role="button" tabindex="0" aria-pressed="false" data-k="' + k + '"' : "") + '><i class="' + esc(i.cls) + '"></i>' + esc(i.label) + "</span>";
+    }).join("") + "</p>";
+  }
+
+  function yAxis(o, g, tcks, Y, decimals) {
+    tcks.forEach(function (t) {
+      var y = Y(t).toFixed(1);
+      o.push('<line class="gridl" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + y + '" y2="' + y + '"/><text class="' +
+        g.tk + '" x="' + (g.l - 8) + '" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + nf(t, decimals) + "</text>");
+    });
+    o.push('<line class="axis" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + (g.h - g.b) + '" y2="' + (g.h - g.b) + '"/>');
+  }
+
+  function drawMarks(o, g, X, marks, x0, x1) {
+    (marks || []).forEach(function (m, k) {
+      if (m[0] >= x0 && m[0] <= x1) {
+        var mx = X(m[0]).toFixed(1);
+        o.push('<line class="mk" x1="' + mx + '" x2="' + mx + '" y1="' + (g.t - 4) + '" y2="' + (g.h - g.b) +
+          '"/><text class="mkn ' + g.tk + '" x="' + (X(m[0]) + (k ? 8 : -7)).toFixed(1) + '" y="' + (g.t - 7) +
+          '" text-anchor="middle">' + esc(m[1]) + "</text>");
+      }
+    });
+  }
+
+  function decades(lo, hi) {
+    var a = Math.floor(Math.log10(lo)), b = Math.ceil(Math.log10(hi)), t = [];
+    if (b === a) { b = a + 1; }
+    for (var e = a; e <= b; e++) { t.push(Math.pow(10, e)); }
+    return t;
+  }
+
+  function lines(opts) {
+    var id = "m" + (++uid), xs = opts.xs, all = [], lg = !!opts.log;
+    function drawn(v) { return v !== null && (!lg || v > 0); }
+    opts.series.forEach(function (s) { s.ys.forEach(function (v) { if (drawn(v)) { all.push(v); } }); });
+    if (!all.length) { return ""; }
+    var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+    var pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.05 || 1, lo2 = lo - pad;
+    if (lo >= 0 && lo2 < 0) { lo2 = 0; }
+    var top = !lg && typeof opts.yMax === "number" ? Math.max(opts.yMax, hi) : null;
+    var bot = !lg && typeof opts.yMin === "number" ? Math.min(opts.yMin, lo) : null;
+    function fit(ts) {
+      if (lo >= 0 && !lg) { ts = ts.filter(function (t) { return t >= 0; }); }
+      if (top !== null) { ts = ts.filter(function (t) { return t <= top + 1e-9; }); }
+      if (bot !== null) { ts = ts.filter(function (t) { return t >= bot - 1e-9; }); }
+      return ts.length ? ts : [bot !== null ? bot : lo, top !== null ? top : hi];
+    }
+    var from = bot !== null ? bot : lo2, to = top !== null ? top : hi + pad;
+    var tcks = fit(lg ? decades(lo, hi) : nice(from, to, 4));
+    var auto = !lg && opts.axisDecimals === "auto";
+    if (auto && !opts.decimals && all.every(isWhole) && !tcks.every(isWhole)) {
+      tcks = [];
+      for (var wv = Math.floor(from + 1e-9); wv <= Math.ceil(to - 1e-9); wv++) { tcks.push(wv); }
+      tcks = fit(tcks);
+    }
+    var wholeAxis = !lg && !opts.decimals && tcks.every(function (t) { return Math.abs(t - Math.round(t)) < 1e-9; });
+    var ydec = lg ? (tcks[0] < 1 ? Math.ceil(-Math.log10(tcks[0])) : 0) : wholeAxis ? 0 : auto ? digitsFor(tcks, opts.decimals || 0) : axisDec(opts);
+    var g = geometry(opts.narrow, 62, 22, axisLabels(tcks, ydec));
+    var ylo = bot !== null ? bot : tcks[0], yhi = top !== null ? top : tcks[tcks.length - 1], x0 = xs[0], x1 = xs[xs.length - 1];
+    function T(v) { return lg ? Math.log10(v) : v; }
+    function X(v) { return g.l + (x1 === x0 ? 0.5 : (v - x0) / (x1 - x0)) * (g.w - g.l - g.r); }
+    function Y(v) { return g.t + (T(yhi) - T(v)) / (T(yhi) - T(ylo)) * (g.h - g.t - g.b); }
+    var shown = [];
+    opts.series.forEach(function (s, k) {
+      if (s.role !== "dim") {
+        shown.push({ name: s.label || "", k: k, v: xs.map(function (_x, i) { return valText(drawn(s.ys[i]) ? s.ys[i] : null, opts.decimals); }) });
+      }
+    });
+    var heads = xs.map(function (x, i) { return opts.tips ? String(opts.tips[i]) : String(x); });
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc,
+      readoutOf("x", xs.map(X), [g.t, g.h - g.b], heads, shown.map(function (r) { return { n: r.name, k: r.k, v: r.v }; }), opts.unit, opts.series.length), opts.ordered)];
+    yAxis(o, g, tcks, Y, ydec);
+    axisTicks(o, X, opts.axis || {}, g);
+    drawMarks(o, g, X, opts.marks, x0, x1);
+    var empty = xs.map(function (x, i) {
+      return opts.series.every(function (s) { return s.ys[i] === null || s.ys[i] === undefined; }) ? null : [0];
+    });
+    var step = medianGap(xs) / ((x1 - x0) || 1) * (g.w - g.l - g.r);
+    nullRuns(empty).forEach(function (run) {
+      var a = run[0] > 0 ? X(xs[run[0] - 1]) : Math.max(g.l, X(xs[run[0]]) - step / 2);
+      var b = run[1] < xs.length - 1 ? X(xs[run[1] + 1]) : Math.min(g.w - g.r, X(xs[run[1]]) + step / 2);
+      nodataBand(o, g, a, b);
+    });
+    var order = opts.series.slice().sort(function (a, b) { return (a.role === "hl") - (b.role === "hl"); });
+    order.forEach(function (s) {
+      var d = "", pen = false, role = s.role || "c1";
+      xs.forEach(function (x, i) {
+        var v = s.ys[i];
+        if (!drawn(v)) { pen = false; return; }
+        d += (pen ? "L" : "M") + X(x).toFixed(1) + " " + Y(v).toFixed(1) + " ";
+        pen = true;
+      });
+      o.push('<path class="ln ' + role + '" d="' + d.trim() + '" data-k="' + opts.series.indexOf(s) + '"/>');
+      if (role === "dim") { return; }
+      xs.forEach(function (x, i) {
+        var v = s.ys[i];
+        if (!drawn(v)) { return; }
+        o.push('<circle class="dot ' + role + '" cx="' + X(x).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="' + (opts.narrow ? 2.3 : 2.6) + '" data-k="' + opts.series.indexOf(s) + '"/>');
+      });
+    });
+    hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  var HATCH = [
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="pt" x1="0" y1="0" x2="0" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><circle class="ptf" cx="3" cy="3" r="1.25"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line class="pt" x1="0" y1="0" x2="0" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><line class="pt" x1="0" y1="3" x2="6" y2="3"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><line class="pt" x1="3" y1="0" x2="3" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><line class="pt" x1="0" y1="3" x2="6" y2="3"/><line class="pt" x1="3" y1="0" x2="3" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="pt" x1="0" y1="3" x2="6" y2="3"/><line class="pt" x1="3" y1="0" x2="3" y2="6"/></pattern>',
+    '<pattern id="ID" width="10" height="10" patternUnits="userSpaceOnUse"><circle class="ptf" cx="5" cy="5" r="2.4"/></pattern>',
+    '<pattern id="ID" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="ptf" x="0" y="0" width="10" height="3.6"/></pattern>'
+  ];
+
+  function stackArea(opts) {
+    var id = "m" + (++uid), xs = opts.xs, rows = opts.rows, mx = 0;
+    rows.forEach(function (r) {
+      if (r) {
+        if (r.length > MAX_STACK_AREA) { throw new RangeError("stackArea: more than " + MAX_STACK_AREA + " bands"); }
+        var s = r.reduce(function (a, b) { return a + b; }, 0);
+        if (s > mx) { mx = s; }
+      }
+    });
+    var tk0 = stackTicks(mx, opts), tcks = tk0.tcks, top = tk0.top, x0 = xs[0], x1 = xs[xs.length - 1];
+    var g = geometry(opts.narrow, 62, opts.marks && opts.marks.length ? 22 : 14, axisLabels(tcks, axisDec(opts)));
+    function X(v) { return g.l + (x1 === x0 ? 0.5 : (v - x0) / (x1 - x0)) * (g.w - g.l - g.r); }
+    function Y(v) { return g.t + (top - v) / top * (g.h - g.t - g.b); }
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc, stackReadout(opts, xs.map(X), g), opts.ordered)];
+    yAxis(o, g, tcks, Y, axisDec(opts));
+    axisTicks(o, X, opts.axis || {}, g);
+    drawMarks(o, g, X, opts.marks, x0, x1);
+    var step = medianGap(xs) / ((x1 - x0) || 1) * (g.w - g.l - g.r);
+    nullRuns(rows).forEach(function (run) {
+      var a = run[0] > 0 ? X(xs[run[0] - 1]) : Math.max(g.l, X(xs[run[0]]) - step / 2);
+      var b = run[1] < xs.length - 1 ? X(xs[run[1] + 1]) : Math.min(g.w - g.r, X(xs[run[1]]) + step / 2);
+      nodataBand(o, g, a, b);
+    });
+    var bands = rows.reduce(function (a, r) { return Math.max(a, r ? r.length : 0); }, 0);
+    if (bands > MAX_STACK) {
+      o.push("<defs>" + HATCH.slice(0, bands - MAX_STACK).map(function (p, j) { return p.replace("ID", id + "-h" + (j + MAX_STACK + 1)); }).join("") + "</defs>");
+    }
+    for (var k = 0; k < bands; k++) {
+      var run = [];
+      var flush = function () {
+        if (run.length > 1) {
+          var up = run.map(function (p) { return X(p.x).toFixed(1) + " " + Y(p.hi).toFixed(1); });
+          var dn = run.slice().reverse().map(function (p) { return X(p.x).toFixed(1) + " " + Y(p.lo).toFixed(1); });
+          var d = "M" + up.join(" L") + " L" + dn.join(" L") + " Z";
+          o.push('<path class="sa ' + kind(opts.roles, k, "s" + (k + 1)) + '" d="' + d + '" data-k="' + k + '"/>');
+          if (k >= MAX_STACK) { o.push('<path class="sa" fill="url(#' + id + "-h" + (k + 1) + ')" d="' + d + '" data-k="' + k + '"/>'); }
+        }
+        run = [];
+      };
+      rows.forEach(function (r, i) {
+        if (!r) { flush(); return; }
+        var lo = 0;
+        for (var j = 0; j < k; j++) { lo += r[j]; }
+        run.push({ x: xs[i], lo: lo, hi: lo + r[k] });
+      });
+      flush();
+    }
+    hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function wrapName(name, limit) {
+    var chars = Array.from(String(name)), lines = [];
+    if (!limit || chars.length <= limit) { return [String(name)]; }
+    for (var i = 0; i < chars.length; i += limit) { lines.push(chars.slice(i, i + limit).join("")); }
+    return lines;
+  }
+
+  function groupBars(opts) {
+    var narrow = opts.narrow, w = narrow ? 300 : 600, k = opts.series.length, bar = 8, gap = 1, t = 6, b = 30;
+    var row = k * (bar + gap) + 10, lb = narrow ? 76 : 110, r = 12, n = opts.labels.length;
+    var limit = Math.max(1, Math.floor((lb - 8) / (narrow ? 14 : 12.5))), lh = 1.2 * (narrow ? 14 : 12.5);
+    var names = opts.labels.map(function (lab) { return wrapName(lab, limit); });
+    var hs = names.map(function (parts) { return parts.length > 1 ? Math.max(row, parts.length * lh + 4) : row; }), tops = [], acc = t;
+    hs.forEach(function (hh) { tops.push(acc); acc += hh; });
+    var h = acc + b, id = "m" + (++uid), tk = narrow ? "tk-n" : "tk", lo = 0, hi = 0;
+    opts.series.forEach(function (s) {
+      s.values.forEach(function (v) { if (v !== null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } });
+    });
+    var tcks = nice(lo, hi || 1, 4, !opts.decimals), a = tcks[0], z = tcks[tcks.length - 1];
+    var half = Math.ceil(labelWidth(nf(z, opts.decimals), narrow ? 14 : 12.5) / 2);
+    if (half > r) { r = half + 1; }
+    function X(v) { return lb + (v - a) / (z - a) * (w - lb - r); }
+    var rows = opts.series.map(function (s, j) {
+      return { n: (opts.names && opts.names[j]) || s.label || "", k: j, v: s.values.map(function (v) { return valText(v, opts.decimals); }) };
+    });
+    var o = [svgHead(w, h, id, opts.title, opts.desc,
+      readoutOf("y", opts.labels.map(function (_l, i) { return tops[i] + hs[i] / 2; }), [lb, w - r], opts.labels.map(String), rows, opts.unit, k), opts.ordered)];
+    var cls = (k === 1 ? ["b2"] : ["b1", "b2", "b3"]).map(function (c, j) { return kind(opts.roles, j, c); });
+    tcks.forEach(function (v) {
+      var x = X(v).toFixed(1);
+      o.push('<line class="gridl" x1="' + x + '" x2="' + x + '" y1="' + t + '" y2="' + (h - b) + '"/><text class="' + tk +
+        '" x="' + x + '" y="' + (h - b + 18) + '" text-anchor="middle">' + nf(v, opts.decimals) + "</text>");
+    });
+    opts.labels.forEach(function (lab, i) {
+      var y = tops[i], parts = names[i];
+      o.push('<text class="' + tk + ' lab" x="' + (lb - 8) + '" y="' + (y + hs[i] / 2).toFixed(1) +
+        '" text-anchor="end" dominant-baseline="middle">' + (parts.length === 1 ? esc(parts[0]) : parts.map(function (line, n) {
+          return '<tspan x="' + (lb - 8) + '" dy="' + (n === 0 ? (-0.6 * (parts.length - 1)).toFixed(1) : "1.2") + 'em">' + esc(line) + "</tspan>";
+        }).join("")) + "</text>");
+      opts.series.forEach(function (s, j) {
+        var v = s.values[i];
+        if (v === null || v === undefined) { return; }
+        var x0 = Math.min(X(0), X(v)), wd = Math.abs(X(v) - X(0));
+        o.push('<rect class="' + cls[j] + '" x="' + x0.toFixed(1) + '" y="' + (y + 5 + (hs[i] - row) / 2 + j * (bar + gap)) + '" width="' +
+          wd.toFixed(1) + '" height="' + bar + '" rx="1.5" data-k="' + j + '"/>');
+      });
+    });
+    o.push('<line class="axis" x1="' + X(0).toFixed(1) + '" x2="' + X(0).toFixed(1) + '" y1="' + t + '" y2="' + (h - b) + '"/>');
+    hitRect(o, lb, t, w - lb - r, h - t - b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function dual(fn, opts) {
+    var wide = {}, narrow = {};
+    Object.keys(opts).forEach(function (k) { wide[k] = narrow[k] = opts[k]; });
+    wide.narrow = false;
+    narrow.narrow = true;
+    return '<div class="chart"><div class="w">' + fn(wide) + '</div><div class="n">' + fn(narrow) + "</div></div>";
+  }
+
+  function mount(id, html) {
+    var e = document.getElementById(id);
+    if (e) {
+      clearEmphasis(e.closest ? e.closest(".data") : null);
+      e.innerHTML = html;
+    }
+  }
+
+  var ROLES = ["c1", "c2", "c3", "c4", "c5", "c6"], SWATCH = ["l1", "l2", "l3", "l4", "l5", "l6"];
+  function barFig(id, axis, sets, o) {
+    var rows = axis.x.map(function (_x, i) { return sets[0].values[i] === null || sets[0].values[i] === undefined ? null : [sets[0].values[i]]; });
+    var h = document.querySelector("#box-" + id + " h3"), names = o.title || (h ? h.textContent : id);
+    MS.mount("l-" + id, "");
+    MS.mount("f-" + id, MS.dual(MS.stack, { xs: axis.x, rows: rows, names: [sets[0].label], decimals: o.decimals || 0, axisDecimals: o.axisDecimals, unit: o.unit, tips: axis.l, yMax: o.yMax,
+      axis: function (narrow) { return MS.autoTicks(axis.x, axis.l, narrow, o.tick); },
+      title: names + "（" + o.unit + "）の推移", desc: names + "の" + axis.t + "ごとの推移。" }));
+  }
+  function lineFig(id, axis, sets, o) {
+    if (o.bars && sets.length === 1) { barFig(id, axis, sets, o); return; }
+    if (sets.length > ROLES.length) { throw new RangeError("a figure holds at most " + ROLES.length + " lines: " + id); }
+    var labels = sets.map(function (s) { return s.label; });
+    var roles = o.roles || (o.ordered ? orderedRoles(labels) : null) || lineRoles(labels, ROLES) || ROLES;
+    var series = sets.map(function (s, k) { return { label: s.label, ys: s.values, role: roles[k] }; });
+    MS.mount("l-" + id, sets.length > 1 ? MS.legend(sets.map(function (s, k) { return { cls: KINDS.indexOf(roles[k]) >= 0 ? roles[k] : SWATCH[ROLES.indexOf(roles[k])], label: s.label }; })) : "");
+    var h = document.querySelector("#box-" + id + " h3"), names = o.title || (h ? h.textContent : id);
+    MS.mount("f-" + id, MS.dual(MS.lines, { xs: axis.x, series: series, log: !!o.log, decimals: o.decimals || 0, unit: o.unit, axisDecimals: o.axisDecimals, yMax: o.yMax, yMin: o.yMin, tips: axis.l, ordered: o.ordered,
+      axis: function (narrow) { return MS.autoTicks(axis.x, axis.l, narrow, o.tick); },
+      title: names + "（" + o.unit + "）の推移", desc: names + "の" + axis.t + "ごとの推移。" }));
+  }
+
+
+  function clearEmphasis(box) {
+    if (!box || !box.querySelectorAll || !box.removeAttribute) { return; }
+    box.removeAttribute("data-em");
+    [].forEach.call(box.querySelectorAll("[data-k]"), function (n) {
+      n.classList.remove("ms-on");
+      n.classList.remove("ms-off");
+      if (n.getAttribute("aria-pressed") !== null) { n.setAttribute("aria-pressed", "false"); }
+    });
+  }
+  function pressLegend(button) {
+    var legend = button.closest(".legend"), box = legend && legend.parentNode;
+    while (box && box.querySelector && !box.querySelector(".chart")) { box = box.parentNode; }
+    if (!box || !box.querySelector) { return; }
+    var figure = box.querySelector(".chart svg[data-n]"), items = legend.querySelectorAll("[data-k]");
+    if (!figure || +figure.getAttribute("data-n") !== items.length) { return; }
+    var k = button.getAttribute("data-k"), again = box.getAttribute("data-em") === k;
+    clearEmphasis(box);
+    if (again) { return; }
+    box.setAttribute("data-em", k);
+    [].forEach.call(box.querySelectorAll("[data-k]"), function (n) {
+      var on = n.getAttribute("data-k") === k;
+      n.classList.add(on ? "ms-on" : "ms-off");
+      if (n.getAttribute("aria-pressed") !== null) { n.setAttribute("aria-pressed", on ? "true" : "false"); }
+    });
+  }
+
+  function readout() {
+    var box = null, held = null;
+    function data(svg) {
+      if (svg.__ms === undefined) {
+        try { svg.__ms = JSON.parse(svg.getAttribute("data-tip")); } catch (e) { svg.__ms = null; }
+      }
+      return svg.__ms;
+    }
+    function hide() {
+      if (box) { box.hidden = true; }
+      var shown = held && held.querySelector(".ms-cur");
+      if (shown) { shown.setAttribute("hidden", ""); }
+      held = null;
+    }
+    function text(t, at) {
+      var out = '<b class="ms-h">' + esc(t.h[at]) + "</b>";
+      t.s.forEach(function (r) {
+        var v = r.v[at];
+        out += '<span class="ms-r"><span class="ms-n">' + esc(r.n) + '</span><span class="ms-v">' + esc(v) + (v === NONE || !t.u ? "" : " " + esc(t.u)) + "</span></span>";
+      });
+      return out;
+    }
+    function show(svg, e) {
+      var t = data(svg);
+      if (!t || !t.p || !t.p.length) { return hide(); }
+      var r = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+      if (!r.width || !r.height) { return hide(); }
+      var at = t.a === "y" ? (e.clientY - r.top) * vb.height / r.height : (e.clientX - r.left) * vb.width / r.width, best = 0;
+      t.p.forEach(function (p, i) { if (Math.abs(p - at) < Math.abs(t.p[best] - at)) { best = i; } });
+      if (!box) {
+        box = document.createElement("div");
+        box.className = "ms-tip";
+        box.setAttribute("role", "status");
+        document.body.appendChild(box);
+      }
+      box.innerHTML = text(t, best);
+      box.hidden = false;
+      var w = box.offsetWidth, h = box.offsetHeight, vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+      var left = e.clientX + 14, top = e.clientY + 14;
+      if (left + w > vw - 4) { left = e.clientX - w - 14; }
+      if (top + h > vh - 4) { top = e.clientY - h - 14; }
+      box.style.left = Math.max(4, left) + "px";
+      box.style.top = Math.max(4, top) + "px";
+      if (held && held !== svg) { hide(); box.hidden = false; }
+      var guide = svg.querySelector(".ms-cur");
+      if (!guide) { held = svg; return; }
+      guide.removeAttribute("hidden");
+      if (t.a === "y") {
+        guide.setAttribute("x1", t.e[0]); guide.setAttribute("x2", t.e[1]);
+        guide.setAttribute("y1", t.p[best]); guide.setAttribute("y2", t.p[best]);
+      } else {
+        guide.setAttribute("y1", t.e[0]); guide.setAttribute("y2", t.e[1]);
+        guide.setAttribute("x1", t.p[best]); guide.setAttribute("x2", t.p[best]);
+      }
+      held = svg;
+    }
+    function figureOf(target) {
+      return target && target.closest ? target.closest("svg[data-tip]") : null;
+    }
+    document.addEventListener("pointermove", function (e) {
+      var svg = figureOf(e.target);
+      if (svg) { if (e.pointerType !== "touch" || e.buttons) { show(svg, e); } } else if (held && e.pointerType !== "touch") { hide(); }
+    });
+    document.addEventListener("pointerdown", function (e) {
+      var svg = figureOf(e.target);
+      if (svg) { show(svg, e); } else { hide(); }
+    });
+    document.addEventListener("scroll", hide, true);
+  }
+
+  function legendPress() {
+    document.addEventListener("click", function (e) {
+      var b = e.target && e.target.closest ? e.target.closest(".legend [data-k]") : null;
+      if (b) { pressLegend(b); }
+    });
+    document.addEventListener("keydown", function (e) {
+      var b = e.target && e.target.closest ? e.target.closest(".legend [data-k]") : null;
+      if (b && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pressLegend(b); }
+    });
+  }
+  if (typeof document !== "undefined" && document.addEventListener) { readout(); legendPress(); }
+
+  var pickCore = {
+    offered: function (config, state, key) {
+      var o = config.options[key];
+      return config.depends && Object.prototype.hasOwnProperty.call(config.depends, key) ? (o[state[config.depends[key]]] || []) : o;
+    },
+    initial: function (config) {
+      var state = {};
+      config.keys.forEach(function (k) { state[k] = config.defaults[k]; });
+      return state;
+    },
+    settle: function (config, state) {
+      config.keys.forEach(function (k) {
+        var values = pickCore.offered(config, state, k).map(function (o) { return o.value; });
+        if (values.indexOf(state[k]) < 0) { state[k] = values[0]; }
+      });
+      return state;
+    },
+    toHash: function (config, state) {
+      if (config.keys.length === 1) { return "#" + encodeURIComponent(state[config.keys[0]]); }
+      return "#" + config.keys.map(function (k) { return k + "=" + encodeURIComponent(state[k]); }).join("&");
+    },
+    fromHash: function (config, hash, state) {
+      var text = String(hash || "").replace(/^#/, "");
+      if (!text) { return state; }
+      if (config.keys.length === 1 && text.indexOf("=") < 0) { text = config.keys[0] + "=" + text; }
+      text.split("&").forEach(function (part) {
+        var at = part.indexOf("=");
+        if (at < 0) { return; }
+        var key = part.slice(0, at), value;
+        try { value = decodeURIComponent(part.slice(at + 1)); } catch (e) { return; }
+        if (config.keys.indexOf(key) >= 0) { state[key] = value; }
+      });
+      return state;
+    }
+  };
+
+  function pick(config, render) {
+    var state = pickCore.initial(config);
+    pickCore.fromHash(config, location.hash, state);
+
+    function sync() {
+      pickCore.settle(config, state);
+      config.keys.forEach(function (k) {
+        var sel = document.getElementById(k);
+        if (!sel) { return; }
+        if (config.depends && Object.prototype.hasOwnProperty.call(config.depends, k)) {
+          sel.innerHTML = pickCore.offered(config, state, k).map(function (o) {
+            return '<option value="' + esc(o.value) + '"' + (o.value === state[k] ? " selected" : "") + ">" + esc(o.label) + "</option>";
+          }).join("");
+        }
+        sel.value = state[k];
+        var wrap = document.getElementById("p-" + k), vis = config.visible || {};
+        if (wrap && Object.prototype.hasOwnProperty.call(vis, k)) { wrap.hidden = state[vis[k][0]] !== vis[k][1]; }
+      });
+      [].forEach.call(document.querySelectorAll("[data-pick-scope] *"), function (node) {
+        var named = config.keys.filter(function (k) { return node.getAttribute("data-" + k) !== null; });
+        if (!named.length) { return; }
+        node.hidden = named.some(function (k) { return node.getAttribute("data-" + k) !== state[k]; });
+      });
+    }
+    function draw() {
+      sync();
+      try { history.replaceState(null, "", pickCore.toHash(config, state)); } catch (e) {  }
+      if (render) { render(state); }
+    }
+    config.keys.forEach(function (k) {
+      var sel = document.getElementById(k);
+      if (sel) { sel.addEventListener("change", function () { state[k] = sel.value; draw(); }); }
+    });
+    draw();
+    return { state: state, set: function (k, v) { state[k] = v; draw(); } };
+  }
+
+  window.MS = { nf: nf, sgn: sgn, esc: esc, nice: nice, evenTicks: evenTicks, line: line, stack: stack,
+    pairBars: pairBars, kinds: KINDS, pairRoles: pairRoles, registerNames: registerNames, orderedRoles: orderedRoles, nominalRoles: nominalRoles, seriesRoles: seriesRoles, lineRoles: function (labels) { return lineRoles(labels, ROLES); },
+    registry: { roles: REGISTRY, aliases: ALIASES, catchAll: CATCH_ALL, hues: HUE_ROLES, rolePlace: ROLE_PLACE, ladder: LADDER, solidHues: SOLID_HUES }, bars: bars, lines: lines, stackArea: stackArea, groupBars: groupBars,
+    bandWord: bandWord, autoTicks: autoTicks, legend: legend, dual: dual, mount: mount, lineFig: lineFig, pickCore: pickCore, pick: pick };
+})();
+</script>
+<script>MS.registerNames({"\u4fe1\u7528\u8fb2\u696d\u5354\u540c\u7d44\u5408\u9023\u5408\u4f1a": "c3", "\u4fe1\u7528\u91d1\u5eab": "c5", "\u7b2c\u4e8c\u5730\u65b9\u9280\u884c": "c2", "\u8fb2\u696d\u5354\u540c\u7d44\u5408": "c4", "\u9280\u884c": "c1"});</script>
+<script>
+MS.pick(JSON.parse(document.getElementById("pick").textContent));
+</script>
+</body>
+</html>

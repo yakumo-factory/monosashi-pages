@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>松江市の統計を読む</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="物差し">
+<meta property="og:title" content="松江市の統計を読む — 物差し">
+<meta property="og:description" content="松江市が公開する統計を、市民が自分で読める形に分野ごとに並べています。測る道具は渡す、当てる先は市民が決める。">
+<meta property="og:url" content="https://yakumo-factory.github.io/monosashi-pages/">
+<meta property="og:image" content="https://yakumo-factory.github.io/monosashi-pages/ogp-monosashi.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+
+:root{
+  --bg:#f6f7fb; --panel:#ffffff;
+  --ink:#1b1e27; --ink-2:#444b5e; --ink-3:#5d6477;
+  --line:#d9dde8; --line-soft:#ebeef4;
+  --accent:#3a4a8c; --accent-deep:#27336a; --accent-soft:#eceff9; --accent-mid:#8591c4; --accent-faint:#c9cfe8;
+  --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px; --sp5:24px; --sp6:40px; --sp7:64px;
+  --radius:12px; --radius-s:8px;
+  --font:"Yu Gothic UI","游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  --fs:16px; --lh:1.8; --cap:45em; --page:58rem;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13151c; --panel:#1b1e28; --ink:#eceef5; --ink-2:#c3c8d8; --ink-3:#a0a7bb;
+    --line:#343949; --line-soft:#272b38;
+    --accent:#9fb0f0; --accent-deep:#c9d3ff; --accent-soft:#252b45; --accent-mid:#6f7fc4; --accent-faint:#3b4470;
+    color-scheme:dark;
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:var(--fs); line-height:var(--lh);
+  font-feature-settings:"palt" 1; overflow-wrap:anywhere}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+.wrap{max-width:var(--page); margin:0 auto; padding:var(--sp6) var(--sp5) var(--sp7)}
+.brand{display:inline-flex; align-items:center; gap:var(--sp2); margin:0 0 var(--sp2); font-weight:700; font-size:16px; color:var(--accent-deep); letter-spacing:.04em}
+.brand svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.hero{margin:0 0 var(--sp6)}
+h1{font-size:34px; line-height:1.4; margin:0 0 var(--sp3); letter-spacing:.01em}
+.lede{max-width:var(--cap); color:var(--ink-2); margin:0}
+
+.cta{display:flex; flex-direction:column; gap:4px; background:var(--accent); color:#fff; border-radius:var(--radius); padding:var(--sp5); text-decoration:none; margin:0 0 var(--sp6); box-shadow:0 8px 24px -14px rgba(39,51,106,.7)}
+.cta:hover{background:var(--accent-deep)}
+.cta strong{font-size:21px; line-height:1.4}
+.cta span{font-size:15px; opacity:.92; max-width:var(--cap)}
+.cta em{font-style:normal; font-weight:700; margin-top:var(--sp2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cta{color:#0f1220; background:var(--accent)} :root:not([data-theme="light"]) .cta:hover{background:#b9c6ff}}
+
+.areas h2{font-size:15px; letter-spacing:.08em; color:var(--accent-deep); margin:var(--sp6) 0 var(--sp3)}
+.areas h2:first-child{margin-top:0}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr)); gap:var(--sp3)}
+.card{display:flex; flex-direction:column; gap:6px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp4); color:var(--ink); text-decoration:none; min-height:100px}
+.card:hover{border-color:var(--accent-mid); box-shadow:0 6px 20px -14px rgba(39,51,106,.55)}
+.card h3{margin:0; font-size:17px; line-height:1.45; color:var(--accent-deep)}
+.card p{margin:0; font-size:14px; line-height:1.65; color:var(--ink-2)}
+.card .unit{font-size:13px; color:var(--ink-3)}
+.card .unit b{color:var(--ink-2)}
+.card .go{margin-top:auto; font-size:13px; font-weight:700; color:var(--accent)}
+
+.neutral{max-width:var(--cap); margin:var(--sp6) 0 0; padding:var(--sp4) var(--sp5); border-left:5px solid var(--accent-faint); background:var(--panel); border-radius:0 var(--radius) var(--radius) 0; color:var(--ink-2); font-size:15px}
+.areas+.neutral{margin-top:var(--sp7)}
+.neutral h2{font-size:15px; margin:0 0 4px; color:var(--ink)}
+.neutral p{margin:0}
+.neutral p+p{margin-top:var(--sp2)}
+.neutral .makers{margin:var(--sp2) 0 0; padding-left:1.2em}
+
+footer{background:var(--panel); border-top:1px solid var(--line); color:var(--ink-3); font-size:13px; line-height:1.7; padding:var(--sp4) var(--sp5)}
+footer .in{max-width:var(--page); margin:0 auto}
+
+@media (max-width:860px){
+  .wrap{padding:var(--sp5) var(--sp4) var(--sp6)}
+  h1{font-size:27px}
+  .cta{padding:var(--sp4)}
+  .neutral{padding:var(--sp3) var(--sp4)}
+  footer{padding:var(--sp4)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<main>
+
+<div class="hero">
+<p class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="8" rx="1.5"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></svg>物差し</p>
+<h1>松江市の統計を読む</h1>
+<p class="lede">公開されている統計を、市民が自分で読める形に並べたものです。どこから読んでもかまいません。</p>
+</div>
+
+<a class="cta" href="latest.html"><strong>最新の一覧</strong><span>各レポートの代表の指標について、いちばん新しい値を一覧で見られます。</span><em>一覧をひらく →</em></a>
+
+<section class="areas" aria-label="レポートから読む">
+<h2>人とくらし</h2>
+<div class="cards">
+<a class="card" href="chocho/index.html"><h3>町丁別人口レポート</h3><p>自分の町の人口と世帯数が、どう動いてきたか。松江市のすべての町から選べます。</p><p class="unit">数える単位 <b>町</b>（町丁）</p><span class="go">ひらく →</span></a>
+<a class="card" href="fukushi/index.html"><h3>福祉・労働レポート</h3><p>松江市の福祉と労働を、公開されている統計から読める形にしたものです。支える仕組みが何人を支えているかと、働く場がどう動いたかが読めます。</p><p class="unit">数える単位 <b>仕組み</b>（制度と産業）</p><span class="go">ひらく →</span></a>
+<a class="card" href="hoken/index.html"><h3>保健・環境レポート</h3><p>松江市の保健と環境を、公開されている統計から読める形にしたものです。水やごみ、医療と保険、いのちの数字がどう動いてきたかが読めます。</p><p class="unit">数える単位 <b>分野</b>（環境と医療と保健）</p><span class="go">ひらく →</span></a>
+<a class="card" href="anzen/index.html"><h3>安全レポート</h3><p>松江市の火事・救急・交通・犯罪を、データ元が公表している数のまま並べたレポートです。</p><p class="unit">数える単位 <b>領域</b>（火事と救急と交通と犯罪）</p><span class="go">ひらく →</span></a>
+<a class="card" href="kyoiku/index.html"><h3>教育レポート</h3><p>松江市の学校・進路・公民館・図書館と文化財を、データ元が公表している数のまま並べたレポートです。</p><p class="unit">数える単位 <b>領域</b>（学校・卒業者・館・件——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+</div>
+<h2>まち・交通・住まい</h2>
+<div class="cards">
+<a class="card" href="kensetsu/index.html"><h3>建設・住宅レポート</h3><p>松江市で建て始めた建築物と住宅、建っている家屋、道路・橋・農道と林道を、年・年度・時点ごとに並べたレポートです。</p><p class="unit">数える単位 <b>領域</b>（建築物・住宅・家屋・道路・橋・農林道——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+<a class="card" href="unyu/index.html"><h3>運輸・通信レポート</h3><p>松江市の市営バス・一畑電車・JR の乗車人員、クルマの台数、港に入った船と運んだ貨物を、年ごとに並べたレポートです。</p><p class="unit">数える単位 <b>手段</b>（バス・一畑電車・JR・クルマ・港——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+<a class="card" href="toshikeikaku/index.html"><h3>都市計画レポート</h3><p>松江市の用途地域・都市計画区域・土地の地目・都市公園の数を、経年で見ます。</p><p class="unit">数える単位 <b>画面</b>（用途地域と区域の面積・地目の面積・都市公園の数と面積——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+<a class="card" href="lifeline/index.html"><h3>ライフラインレポート</h3><p>松江市統計情報データベースに載っている数から、都市ガス・上水道・汚水処理が、どれだけの家や人に使われているかを見るレポートです。</p><p class="unit">数える単位 <b>画面</b>（ガスの契約戸数と供給量・上水道の給水人口と給水量・企業団の給水・汚水処理人口と普及率——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+</div>
+<h2>しごと・経済・お金</h2>
+<div class="cards">
+<a class="card" href="kanko/index.html"><h3>観光レポート</h3><p>松江市の観光客数が、どう動いてきたか。行ったことのある場所ごとに見られます。</p><p class="unit">数える単位 <b>場所</b>（観光施設）</p><span class="go">ひらく →</span></a>
+<a class="card" href="keizai/index.html"><h3>市民所得・物価・消費レポート</h3><p>松江市統計情報データベースに載っている数から、まちの中でどれだけ生み出され、誰の所得になり、物と土地の値段がどうだったかを見るレポートです。名前の「消費」はデータ元の分野名で、家計の消費支出は扱っていません。</p><p class="unit">数える単位 <b>画面</b>（市内総生産・市民所得の種類ごとの額・費目ごとの物価指数・ほかの都市との物価の比・用途地域ごとの公示地価——画面ごとに数えているものが違う）</p><span class="go">ひらく →</span></a>
+<a class="card" href="finance/index.html"><h3>金融レポート</h3><p>松江市内の金融機関の預金と貸出、店舗の数、松江手形交換所の手形交換を、経年で見ます。</p><p class="unit">数える単位 <b>画面</b>（松江市の預金残と貸出残・店舗の数・手形の交換高と不渡（島根県内の預金残と貸出残は別の画面）——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+<a class="card" href="zaisei/index.html"><h3>財政レポート</h3><p>松江市のお金がどこから入り、何に使われたかを、年度ごとに並べたレポートです。</p><p class="unit">数える単位 <b>会計</b>（一般会計・特別会計・企業会計——画面ごとに数える会計が違う）</p><span class="go">ひらく →</span></a>
+</div>
+<h2>議会と行政</h2>
+<div class="cards">
+<a class="card" href="gikai/index.html"><h3>議会・行政・選挙レポート</h3><p>松江市の選挙・行政・議会について、公開されている数を、経年で見ます。</p><p class="unit">数える単位 <b>画面</b>（選挙人名簿の登録者・投票区と投票所・選挙ごとの投票者・部局ごとの市職員・公文書の公開請求・本会議の開催——画面ごとに数えるものが違う）</p><span class="go">ひらく →</span></a>
+</div>
+</section>
+
+<aside class="neutral">
+<h2>足し合わせられません</h2>
+<p>同じ「松江市」を扱っていますが、数えているものが違います。
+町丁別人口レポートは<b>町</b>を、福祉・労働レポートは<b>仕組み</b>を、保健・環境レポートは<b>分野</b>を、安全レポートは<b>領域</b>を、観光レポートは<b>場所</b>を数えています。
+教育レポート、建設・住宅レポート、運輸・通信レポート、都市計画レポート、ライフラインレポート、市民所得・物価・消費レポート、金融レポート、財政レポート、議会・行政・選挙レポートは、画面ごとに数えるものが違います（各カードの「数える単位」に書いてあります）。
+町ごとの観光客数はデータ元が公開していないため、町丁別人口レポートの町ごとの人口と、観光レポートの観光客数を並べて比べることはできません。</p>
+<p>読んでいるファイルはいずれも松江市のものですが、数字を作った主体はレポートごとに違います。取得した日もレポートごとに違います。</p>
+<ul class="makers">
+<li>町丁別人口レポート——松江市（住民基本台帳）</li>
+<li>福祉・労働レポート——系列ごとに違う（各画面の表のすぐ下）</li>
+<li>保健・環境レポート——系列ごとに違う（各画面の表のすぐ下）</li>
+<li>安全レポート——系列ごとに違う（各画面の表のすぐ下）</li>
+<li>教育レポート——系列ごとに違う（教育レポートの「このレポートについて」にある「数えている人が、画面ごとに違う」）</li>
+<li>建設・住宅レポート——系列ごとに違う（国土交通省・島根県・松江市）</li>
+<li>運輸・通信レポート——系列ごとに違う（松江市交通局・一畑電車株式会社・西日本旅客鉄道株式会社・中国運輸局・島根県・松江市）</li>
+<li>都市計画レポート——市都市政策課・市固定資産税課・市公園緑地課（松江市統計情報データベース）</li>
+<li>ライフラインレポート——市ガス局・松江市ガス局・組織戦略課ガス事業承継室・市水道局・市上下水道局・斐川宍道水道企業団（松江市統計情報データベース）</li>
+<li>観光レポート——島根県（観光動態調査）</li>
+<li>市民所得・物価・消費レポート——島根県政策企画局統計調査課・総務省統計局・国土交通省土地鑑定委員会・市管財入札課・市管財課（松江市統計情報データベース）</li>
+<li>金融レポート——中国財務局松江財務事務所理財課・中国財務局松江財務事務所・島根県政策企画局統計調査課「島根の統計」（松江市統計情報データベース。各系列のほかの機関は、各画面の表の下にある資料の行に書いています）</li>
+<li>財政レポート——松江市（市財政課）</li>
+<li>議会・行政・選挙レポート——市選挙管理委員会・市議会事務局・市人事課（松江市統計情報データベース。各画面の資料は、表の下にある資料の行に書いています）</li>
+</ul>
+</aside>
+
+<aside class="neutral">
+<h2>このサイトについて</h2>
+<p>松江市が公開している統計ファイルを機械で読み、図と表に並べています。値の判断や意味づけはしていません——増えたことが良いか悪いかは書いていません。それぞれのレポートの「このレポートについて」に、作り方と気をつけることを書いています。</p>
+<p>数字そのものはデータ元が正本です。食い違いを見つけたときは、<a href="https://ntoukei2.city.matsue.shimane.jp/">松江市統計情報データベース</a>を確かめてください。</p>
+</aside>
+
+</main>
+</div>
+
+<footer><div class="in">出典と取得時点は、各レポートの末尾に書いています。<br>出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工</div></footer>
+
+</body>
+</html>
