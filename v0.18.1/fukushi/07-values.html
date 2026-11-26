@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="物差し v0.18.1">
+<title>値の一覧 — 松江市 福祉・労働レポート</title>
+<script>document.documentElement.classList.add("js")</script>
+<style>
+:root{
+  --bg:#f6f7fb; --panel:#ffffff;
+  --edge:rgba(20,24,40,.28);
+  --ink:#1b1e27; --ink-2:#444b5e; --ink-3:#5d6477;
+  --line:#d9dde8; --line-soft:#ebeef4; --grid:#e4e7ef;
+  --accent:#3a4a8c; --accent-deep:#27336a; --accent-soft:#eceff9; --accent-mid:#8591c4; --accent-faint:#c9cfe8;
+  --nodata:#eef0f5; --nodata-ink:#5d6477;
+  --note-bg:#fbf7ea; --note-line:#e4d49a; --note-ink:#51430f;
+  --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px; --sp5:24px; --sp6:40px; --sp7:64px;
+  --radius:12px; --radius-s:8px;
+  --font:"Yu Gothic UI","游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  --col-name:13em; --col-num:8.5em; --col-val:9em; --col-when:9em; --col-chg:11em; --col-link:10em;
+  --s1:#6789ff; --s2:#4256b5; --s3:#171c77;
+  --s4:#1d7a72; --s5:#8a6417; --s6:#b3315f; --s7:#4f8a1d; --s8:#7a3fa8; --s9:#df6838; --s10:#b16957; --s11:#279e66; --s12:#cf54b3;
+  --l2:#1d7a72; --l3:#8a6417; --l4:#b3315f; --l5:#4f8a1d; --l6:#7a3fa8;
+  --k-male:#61a6ff; --k-female:#f67d50; --k-city:var(--accent); --k-pref:#0cc286; --k-nation:#9a3503;
+  --k-hue1:#61a6ff; --k-hue2:#f67d50; --k-hue3:#0cc286; --k-other:#9aa3b4;
+  --o1:#9fb3ff; --o2:#899de7; --o3:#7387d0; --o4:#5f72ba; --o5:#4b5da3; --o6:#38498d; --o7:#263578; --o8:#152163; --o9:#080c4e;
+  --dim:#8390b4; --mark-faint:#808ec9;
+  --fs:16px; --lh:1.8; --cap:45em; --page:58rem; --side:248px; --bar:52px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13151c; --panel:#1b1e28; --ink:#eceef5; --ink-2:#c3c8d8; --ink-3:#a0a7bb;
+    --line:#343949; --line-soft:#272b38; --grid:#2d3140;
+    --accent:#9fb0f0; --accent-deep:#c9d3ff; --accent-soft:#252b45; --accent-mid:#6f7fc4; --accent-faint:#3b4470;
+    --s1:#5768ae; --s2:#7385d6; --s3:#c3cfff; --s4:#6fcfc7; --s5:#e0bb6c; --s6:#f08fb5; --s7:#9fd36a; --s8:#c9a0f0; --s9:#ff8350; --s10:#faab96; --s11:#49ba7f; --s12:#f678d7; --l2:#6fcfc7; --l3:#e0bb6c; --l4:#f08fb5; --l5:#9fd36a; --l6:#c9a0f0; --dim:#626b89; --mark-faint:#5a68a8;
+    --k-male:#4f94f0; --k-female:#e8643a; --k-pref:#1fa56f; --k-nation:#d9783a; --k-hue1:#4f94f0; --k-hue2:#e8643a; --k-hue3:#1fa56f; --k-other:#6b7385;
+    --o1:#465492; --o2:#5967a0; --o3:#6d7bae; --o4:#828fbb; --o5:#98a3c9; --o6:#aeb8d7; --o7:#c5cce4; --o8:#dce2f2; --o9:#f4f7ff;
+    --nodata:#242836; --nodata-ink:#a0a7bb;
+    --edge:rgba(0,0,0,.6);
+    --note-bg:#2a2616; --note-line:#6b5a22; --note-ink:#e8dcae;
+      color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-padding-top:calc(var(--bar) + 12px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:var(--fs);
+  line-height:var(--lh); font-feature-settings:"palt" 1; overflow-wrap:anywhere}
+[hidden]{display:none!important}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible,.scroll:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+.shell{display:flex; align-items:flex-start}
+.side{position:sticky; top:0; width:var(--side); flex:none; height:100vh; overflow-y:auto; background:var(--panel);
+  border-right:1px solid var(--line); font-size:14px; line-height:1.5}
+.side .bar{display:flex; align-items:center; gap:var(--sp3); padding:var(--sp4) var(--sp4) var(--sp2)}
+.brand{display:inline-flex; align-items:center; gap:var(--sp2); font-weight:700; font-size:16px; color:var(--accent-deep); text-decoration:none; letter-spacing:.04em}
+.brand svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.here,.menubtn{display:none}
+.navbody{padding:0 var(--sp3) var(--sp5)}
+.navlink{display:block; padding:8px var(--sp3); border-radius:var(--radius-s); color:var(--ink-2); text-decoration:none; font-weight:600}
+.navlink:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.navlink[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep)}
+.rep{margin:var(--sp4) var(--sp2) var(--sp2); padding:var(--sp2) var(--sp3); border:1px solid var(--line); border-radius:var(--radius-s); font-weight:700; color:var(--ink)}
+.grp h3{margin:var(--sp4) var(--sp3) 2px; font-size:12px; letter-spacing:.08em; color:var(--ink-3); font-weight:700}
+.grp a{display:block; padding:6px var(--sp3); border-radius:var(--radius-s); color:var(--ink-2); text-decoration:none}
+.grp a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+.grp a[aria-current=page]{background:var(--accent-soft); color:var(--accent-deep); font-weight:700}
+details.others{margin:var(--sp4) var(--sp2) 0; border-top:1px solid var(--line-soft); padding-top:var(--sp3)}
+details.others>summary{cursor:pointer; padding:6px var(--sp2); color:var(--ink-2); font-weight:600; list-style:none; display:flex; justify-content:space-between; align-items:center; border-radius:var(--radius-s)}
+details.others>summary::-webkit-details-marker{display:none}
+details.others>summary::after{content:""; width:8px; height:8px; border-right:2px solid var(--ink-3); border-bottom:2px solid var(--ink-3); transform:rotate(45deg) translate(-2px,-2px); transition:transform .15s}
+details.others[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details.others .area{margin:var(--sp3) var(--sp2) 2px; font-size:12px; color:var(--ink-3); font-weight:700; letter-spacing:.06em}
+details.others a{display:block; padding:5px var(--sp3); border-radius:var(--radius-s); color:var(--ink-2); text-decoration:none}
+details.others a:hover{background:var(--accent-soft); color:var(--accent-deep)}
+
+.main{flex:1; min-width:0}
+.page{max-width:var(--page); margin:0 auto; padding:var(--sp6) var(--sp5) var(--sp7)}
+.crumb{font-size:13px; color:var(--ink-3); margin:0 0 var(--sp2)}
+h1{font-size:30px; line-height:1.4; margin:0 0 var(--sp3); letter-spacing:.01em}
+.lede{max-width:var(--cap); color:var(--ink-2); margin:0 0 var(--sp5)}
+
+.chooser{position:static; display:flex; flex-wrap:wrap; align-items:flex-end; gap:var(--sp3) var(--sp4); background:var(--panel); border:1px solid var(--line);
+  border-radius:var(--radius); padding:var(--sp4); margin:0 0 var(--sp6); box-shadow:0 1px 2px rgba(20,24,40,.04)}
+.chooser .pick{display:flex; flex-direction:column; align-items:stretch; gap:var(--sp2); min-width:0}
+.chooser label{font-weight:700}
+.chooser select{font:inherit; color:var(--ink); background:var(--panel); border:1.5px solid var(--accent-mid); border-radius:var(--radius-s); padding:9px 36px 9px 12px; min-height:44px; min-width:min(100%,16em);
+  appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%; background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+.chooser .hint{flex-basis:100%; margin:0; font-size:13px; color:var(--ink-3)}
+.when{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent-deep); background:var(--accent-soft); border-radius:999px; padding:2px 12px; margin:0 0 var(--sp3)}
+
+.frame{margin:0 0 var(--sp7)}
+.frame>h2{font-size:21px; line-height:1.45; margin:0 0 var(--sp2); padding-left:var(--sp3); border-left:5px solid var(--accent)}
+.frame h3{font-size:16px; margin:var(--sp5) 0 var(--sp2); color:var(--ink)}
+.sub{max-width:var(--cap); color:var(--ink-2); margin:0 0 var(--sp4); font-size:15px}
+.unit{max-width:var(--cap); color:var(--ink-3); font-size:13px; line-height:1.7; margin:var(--sp2) 0 0}
+.data{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp4); margin:0 0 var(--sp4); box-shadow:0 1px 2px rgba(20,24,40,.04)}
+.data>h3{margin:0 0 var(--sp2)}
+
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(9.5em,1fr)); gap:var(--sp3); margin:0 0 var(--sp4)}
+.kpi{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp3) var(--sp4)}
+.kpi .k{display:block; font-size:13px; color:var(--ink-3); line-height:1.5}
+.kpi .v{display:block; font-size:24px; font-weight:700; line-height:1.35; font-variant-numeric:tabular-nums; letter-spacing:.01em}
+.kpi .v small{font-size:13px; font-weight:600; color:var(--ink-3); margin-left:2px}
+.kpi .s{display:block; font-size:13px; color:var(--ink-3); font-variant-numeric:tabular-nums}
+
+.grid2{display:grid; grid-template-columns:1fr; gap:var(--sp4)}
+@media (min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
+
+.chart{max-width:720px}
+.chart .n{display:none}
+.chart svg{display:block; width:100%; height:auto; overflow:visible}
+.chart .n svg{max-width:340px}
+.chart{container-type:inline-size}
+@container (max-width:579px){.chart .w{display:none}.chart .n{display:block}}
+svg text{font-family:var(--font); fill:var(--ink-3)}
+svg .tk{font-size:12.5px}
+svg .tk-n{font-size:14px}
+svg .lab{fill:var(--ink-2)}
+svg .gridl{stroke:var(--grid); stroke-width:1}
+svg .axis{stroke:var(--line); stroke-width:1}
+svg .ln{fill:none; stroke:var(--accent); stroke-width:2.6; stroke-linejoin:round; stroke-linecap:round}
+svg .dot{fill:var(--panel); stroke:var(--accent); stroke-width:2}
+svg .last{fill:var(--accent); stroke:var(--panel); stroke-width:2.5}
+svg .mk{stroke:var(--ink-3); stroke-width:1.2; stroke-dasharray:3 3}
+svg .mkn{fill:var(--ink-2); font-weight:700}
+svg .band{fill:url(#ms-hatch)}
+svg .bandt{fill:var(--nodata-ink); font-weight:600}
+svg .b1{fill:var(--mark-faint)} svg .b2{fill:var(--accent)}
+svg .b3{fill:var(--accent-deep)}
+svg .ln.c2,svg .dot.c2{stroke:var(--l2)} svg .ln.c2{stroke-dasharray:7 4} svg .dot.c2{fill:var(--panel)}
+svg .ln.c3,svg .dot.c3{stroke:var(--l3)} svg .ln.c3{stroke-dasharray:2 4} svg .dot.c3{fill:var(--panel)}
+svg .ln.c4,svg .dot.c4{stroke:var(--l4)} svg .ln.c4{stroke-dasharray:10 3 2 3} svg .dot.c4{fill:var(--panel)}
+svg .ln.c5,svg .dot.c5{stroke:var(--l5)} svg .ln.c5{stroke-dasharray:14 5} svg .dot.c5{fill:var(--panel)}
+svg .ln.c6,svg .dot.c6{stroke:var(--l6)} svg .ln.c6{stroke-dasharray:5 3} svg .dot.c6{fill:var(--panel)}
+svg .ln.dim{stroke:var(--dim); stroke-width:1.3}
+svg .ln.hl{stroke-width:3.2}
+svg .dot.hl{stroke:var(--accent)}
+svg .rowsep{stroke:var(--line-soft)}
+.legend{display:flex; flex-wrap:wrap; gap:var(--sp1) var(--sp4); margin:0 0 var(--sp3); font-size:13.5px; color:var(--ink-2)}
+.legend i{display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+.legend i.b1{background:var(--mark-faint)} .legend i.b2{background:var(--accent)}
+.legend i.b3{background:var(--accent-deep)}
+.legend i.l1{background:var(--accent)} .legend i.l2{background:var(--l2)} .legend i.l3{background:var(--l3)} .legend i.l4{background:var(--l4)} .legend i.l5{background:var(--l5)} .legend i.l6{background:var(--l6)}
+.legend i.dim{background:var(--dim)}
+
+.hbars{list-style:none; margin:0; padding:0}
+.hbars li{display:grid; grid-template-columns:minmax(0,11em) minmax(0,1fr) 4.2em; align-items:center; gap:var(--sp3); padding:7px 0; border-top:1px solid var(--line-soft)}
+.hbars li:first-child{border-top:0}
+.hbars .nm{font-size:14px; line-height:1.45}
+.hbars .tr{height:12px; background:var(--accent-soft); border-radius:3px; overflow:hidden}
+.hbars .tr b{display:block; height:100%; width:var(--w); min-width:3px; background:var(--accent); border-radius:3px}
+.hbars .nu{text-align:right; font-variant-numeric:tabular-nums; font-weight:700}
+@media (max-width:560px){.hbars li{grid-template-columns:1fr 3.6em; row-gap:4px}.hbars .tr{grid-column:1/-1;grid-row:2}.hbars .nu{grid-row:1;grid-column:2}}
+.band1{display:flex; height:22px; border-radius:6px; overflow:hidden; background:var(--line-soft); gap:2px}
+.band1 span{display:block; width:var(--w); min-width:3px}
+.sw{display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+.c1{background:#27336a}.c2{background:#5a6bb0}.c3{background:#9aa6d6}.c4{background:#8d93a3}.c5{background:#cfd3de}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .c1{background:#c9d3ff}:root:not([data-theme="light"]) .c2{background:#9fb0f0}:root:not([data-theme="light"]) .c3{background:#6f7fc4}:root:not([data-theme="light"]) .c4{background:#868ca0}:root:not([data-theme="light"]) .c5{background:#4a4f60}}
+.band1 .c1{background:var(--accent-deep)}
+.parts{list-style:none; margin:var(--sp3) 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(10em,1fr)); gap:var(--sp2) var(--sp4); font-size:14px}
+.parts li{display:flex; justify-content:space-between; gap:var(--sp2); border-top:1px solid var(--line-soft); padding-top:6px}
+.parts b{font-variant-numeric:tabular-nums}
+
+.scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:var(--radius-s)}
+.scroll{background:linear-gradient(to left,var(--panel) 30%,rgba(0,0,0,0)) right center/28px 100% no-repeat local,radial-gradient(farthest-side at 100% 50%,var(--edge),rgba(0,0,0,0)) right center/12px 100% no-repeat scroll}
+table.t{width:100%; border-collapse:collapse; font-size:14.5px; font-variant-numeric:tabular-nums}
+.t caption{text-align:left; font-weight:700; padding:0 0 var(--sp2); font-size:15px}
+.t th,.t td{padding:8px 12px; border-bottom:1px solid var(--line-soft); text-align:right; white-space:nowrap}
+.t thead th{font-size:13px; color:var(--ink-3); font-weight:600; border-bottom:1.5px solid var(--line); background:var(--panel)}
+.t th:first-child,.t td:first-child{text-align:left}
+.t tbody th{font-weight:600; text-align:left; background:var(--panel)}
+.t tbody tr:last-child>*{border-bottom:0}
+.t tr.latest>*{font-weight:700; background:var(--accent-soft)}
+.t .z{color:var(--ink-3)}
+.t.txt th,.t.txt td{text-align:left; white-space:normal; vertical-align:top}
+.t td.tx{text-align:left; white-space:normal}
+.t .since{display:block; font-size:12px; font-weight:400; color:var(--ink-3)}
+.t td.wrapname,.t th.wrapname{white-space:normal; min-width:11em}
+.t .sticky{position:sticky; left:0; z-index:1}
+
+.notes{display:grid; gap:var(--sp3); margin:0; padding:0; list-style:none}
+.notes li{background:var(--note-bg); border:1px solid var(--note-line); border-radius:var(--radius); padding:var(--sp3) var(--sp4); color:var(--note-ink); font-size:15px; line-height:1.75; max-width:var(--cap)}
+.notes li b{display:block; font-size:15px; margin-bottom:2px}
+.notes .no{display:inline-block; min-width:1.5em; text-align:center; font-weight:700}
+.notes.plain li{background:var(--panel); border-color:var(--line); color:var(--ink-2)}
+
+.foot{background:var(--panel); border-top:1px solid var(--line); color:var(--ink-3); font-size:13px; line-height:1.7; padding:var(--sp4) var(--sp5)}
+.foot .in{max-width:var(--page); margin:0 auto}
+
+
+table.t.fixed{table-layout:fixed; width:calc(var(--col-name) + var(--n,3)*var(--col-num)); min-width:calc(var(--col-name) + var(--n,3)*var(--col-num))}
+col.c-name{width:var(--col-name)} col.c-num{width:var(--col-num)} col.c-val{width:var(--col-val)}
+col.c-when{width:var(--col-when)} col.c-chg{width:var(--col-chg)} col.c-link{width:var(--col-link)}
+.t.fixed th,.t.fixed td{overflow-wrap:anywhere}
+.t.fixed thead th{white-space:normal; vertical-align:bottom}
+.tolink{display:flex; flex-direction:column; gap:2px; max-width:var(--cap); padding:var(--sp4); background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); text-decoration:none; color:var(--ink)}
+.tolink strong{color:var(--accent-deep); font-size:17px}
+.tolink span{color:var(--ink-2); font-size:14.5px}
+.tolink:hover{border-color:var(--accent-mid)}
+svg .s1{fill:var(--s1)} svg .s2{fill:var(--s2)} svg .s3{fill:var(--s3)} svg .s4{fill:var(--s4)} svg .s5{fill:var(--s5)} svg .s6{fill:var(--s6)} svg .s7{fill:var(--s7)} svg .s8{fill:var(--s8)} svg .s9{fill:var(--s9)} svg .s10{fill:var(--s10)} svg .s11{fill:var(--s11)} svg .s12{fill:var(--s12)}
+.legend i.s1{background:var(--s1)} .legend i.s2{background:var(--s2)} .legend i.s3{background:var(--s3)}
+svg rect.k-male,svg path.k-male:not(.ln){fill:var(--k-male)} svg rect.k-female,svg path.k-female:not(.ln){fill:var(--k-female)} svg rect.k-city,svg path.k-city:not(.ln){fill:var(--k-city)} svg rect.k-pref,svg path.k-pref:not(.ln){fill:var(--k-pref)} svg rect.k-nation,svg path.k-nation:not(.ln){fill:var(--k-nation)} svg rect.k-accent,svg path.k-accent:not(.ln){fill:var(--accent)} svg rect.k-hue1,svg path.k-hue1:not(.ln){fill:var(--k-hue1)} svg rect.k-hue2,svg path.k-hue2:not(.ln){fill:var(--k-hue2)} svg rect.k-other,svg path.k-other:not(.ln){fill:var(--k-other)} svg rect.k-hue3,svg path.k-hue3:not(.ln){fill:var(--k-hue3)} svg rect.k-o1,svg path.k-o1:not(.ln){fill:var(--o1)} svg rect.k-o2,svg path.k-o2:not(.ln){fill:var(--o2)} svg rect.k-o3,svg path.k-o3:not(.ln){fill:var(--o3)} svg rect.k-o4,svg path.k-o4:not(.ln){fill:var(--o4)} svg rect.k-o5,svg path.k-o5:not(.ln){fill:var(--o5)} svg rect.k-o6,svg path.k-o6:not(.ln){fill:var(--o6)} svg rect.k-o7,svg path.k-o7:not(.ln){fill:var(--o7)} svg rect.k-o8,svg path.k-o8:not(.ln){fill:var(--o8)} svg rect.k-o9,svg path.k-o9:not(.ln){fill:var(--o9)}
+svg .ln.k-male,svg .dot.k-male{stroke:var(--k-male)} svg .ln.k-female,svg .dot.k-female{stroke:var(--k-female)} svg .ln.k-city,svg .dot.k-city{stroke:var(--k-city)} svg .ln.k-pref,svg .dot.k-pref{stroke:var(--k-pref)} svg .ln.k-nation,svg .dot.k-nation{stroke:var(--k-nation)} svg .ln.k-accent,svg .dot.k-accent{stroke:var(--accent)} svg .ln.k-hue1,svg .dot.k-hue1{stroke:var(--k-hue1)} svg .ln.k-hue2,svg .dot.k-hue2{stroke:var(--k-hue2)} svg .ln.k-hue3,svg .dot.k-hue3{stroke:var(--k-hue3)} svg .ln.k-o1,svg .dot.k-o1{stroke:var(--o1)} svg .ln.k-o2,svg .dot.k-o2{stroke:var(--o2)} svg .ln.k-o3,svg .dot.k-o3{stroke:var(--o3)} svg .ln.k-o4,svg .dot.k-o4{stroke:var(--o4)} svg .ln.k-o5,svg .dot.k-o5{stroke:var(--o5)} svg .ln.k-o6,svg .dot.k-o6{stroke:var(--o6)} svg .ln.k-o7,svg .dot.k-o7{stroke:var(--o7)} svg .ln.k-o8,svg .dot.k-o8{stroke:var(--o8)} svg .ln.k-o9,svg .dot.k-o9{stroke:var(--o9)} svg .ln.k-other,svg .dot.k-other{stroke:var(--k-other)}
+svg .ln.k-o1{stroke-dasharray:7 4} svg .ln.k-female{stroke-dasharray:7 4} svg .ln.k-pref{stroke-dasharray:7 4} svg .ln.k-nation{stroke-dasharray:2 4}
+svg .dot.k-hue3,svg .dot.k-o1,svg .dot.k-o2,svg .dot.k-o3,svg .dot.k-o4,svg .dot.k-o5,svg .dot.k-o6,svg .dot.k-o7,svg .dot.k-o8,svg .dot.k-o9{fill:var(--panel)}
+svg .dot.k-male,svg .dot.k-female,svg .dot.k-city,svg .dot.k-pref,svg .dot.k-nation,svg .dot.k-accent,svg .dot.k-hue1,svg .dot.k-hue2,svg .dot.k-other{fill:var(--panel)}
+.legend i.k-male{background:var(--k-male)} .legend i.k-female{background:var(--k-female)} .legend i.k-city{background:var(--k-city)} .legend i.k-pref{background:var(--k-pref)} .legend i.k-nation{background:var(--k-nation)} .legend i.k-accent{background:var(--accent)} .legend i.k-hue1{background:var(--k-hue1)} .legend i.k-hue2{background:var(--k-hue2)} .legend i.k-hue3{background:var(--k-hue3)} .legend i.k-o1{background:var(--o1)} .legend i.k-o2{background:var(--o2)} .legend i.k-o3{background:var(--o3)} .legend i.k-o4{background:var(--o4)} .legend i.k-o5{background:var(--o5)} .legend i.k-o6{background:var(--o6)} .legend i.k-o7{background:var(--o7)} .legend i.k-o8{background:var(--o8)} .legend i.k-o9{background:var(--o9)} .legend i.k-other{background:var(--k-other)}
+svg .sa{stroke:var(--panel); stroke-width:1; stroke-linejoin:round} svg .sa[fill]{stroke:none}
+svg .pt{stroke:var(--panel); stroke-width:1.6; stroke-opacity:.85} svg .ptf{fill:var(--panel); fill-opacity:.85}
+.legend i.s4{background-color:var(--s4); background-image:repeating-linear-gradient(135deg,transparent 0 2px,var(--panel) 2px 3.4px)}
+.legend i.s5{background-color:var(--s5); background-image:radial-gradient(var(--panel) 1.1px,transparent 1.5px); background-size:4.5px 4.5px}
+.legend i.s6{background-color:var(--s6); background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--panel) 2px 3.4px)}
+.legend i.s7{background-color:var(--s7); background-image:repeating-linear-gradient(0deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s8{background-color:var(--s8); background-image:repeating-linear-gradient(90deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s9{background-color:var(--s9); background-image:repeating-linear-gradient(0deg,transparent 0 2px,var(--panel) 2px 3.2px),repeating-linear-gradient(90deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s10{background-color:var(--s10); background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--panel) 2px 3.2px),repeating-linear-gradient(135deg,transparent 0 2px,var(--panel) 2px 3.2px)}
+.legend i.s11{background-color:var(--s11); background-image:radial-gradient(var(--panel) 2px,transparent 2.4px); background-size:7px 7px}
+.legend i.s12{background-color:var(--s12); background-image:repeating-linear-gradient(135deg,transparent 0 3px,var(--panel) 3px 6.5px)}
+.stat{font-size:13px; color:var(--ink-3)}
+
+@media (max-width:860px){
+  .shell{display:block}
+  .side{position:sticky; top:0; z-index:30; width:auto; height:auto; overflow:visible; border-right:0; border-bottom:1px solid var(--line)}
+  .side .bar{height:var(--bar); padding:0 var(--sp4)}
+  .here{display:block; flex:1; min-width:0; font-size:14px; font-weight:600; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .menubtn{display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 var(--sp3); font:inherit; font-size:14px; font-weight:600; color:var(--accent-deep); background:var(--accent-soft); border:0; border-radius:var(--radius-s); cursor:pointer}
+  .js .navbody{display:none; max-height:calc(100vh - var(--bar)); overflow-y:auto; padding-top:var(--sp2)}
+  .js .side.open .navbody{display:block}
+  html:not(.js) .side{position:static}
+  .page{padding:var(--sp5) var(--sp4) var(--sp6)}
+  h1{font-size:25px}
+  .frame{margin-bottom:var(--sp6)}
+  .frame>h2{font-size:19px}
+  .foot{padding:var(--sp4)}
+  .data{padding:var(--sp3)}
+  .chooser{padding:var(--sp3)}
+  .chooser .pick{flex:1 1 100%}
+  .chooser select{width:100%}
+}
+@media (max-width:560px){.kpis .kpi:last-child:nth-child(odd){grid-column:1/-1}}
+
+.chips{display:flex; flex-wrap:wrap; gap:var(--sp2); margin:0 0 var(--sp6); padding:0; list-style:none}
+.chips a{display:inline-block; padding:6px 14px; min-height:36px; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink-2); font-size:14px; text-decoration:none}
+.chips a:hover{border-color:var(--accent-mid); color:var(--accent-deep); background:var(--accent-soft)}
+.area{margin:var(--sp6) 0 var(--sp2); font-size:13px; font-weight:700; letter-spacing:.08em; color:var(--accent-deep)}
+.area:first-of-type{margin-top:0}
+.rep-block{margin:0 0 var(--sp5); scroll-margin-top:calc(var(--bar) + 12px)}
+.rep-block>header{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:2px var(--sp4); margin:0 0 var(--sp2)}
+.rep-block h2{font-size:19px; margin:0; padding-left:var(--sp3); border-left:5px solid var(--accent); line-height:1.45}
+.rep-block .meta{font-size:13px; color:var(--ink-3)}
+.list{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
+.list th,.list td{text-align:left; white-space:normal; padding:12px 12px; vertical-align:top}
+.list thead th{white-space:nowrap}
+.list td.val{font-size:19px; font-weight:700; white-space:nowrap}
+.list td.val small,.list td.chg small{display:block; font-size:12.5px; font-weight:400; color:var(--ink-3)}
+.list td.val small{display:inline; margin-left:4px; font-weight:600}
+.list td.chg{white-space:normal}
+.list td.chg .ar{display:inline-block; width:1.1em; color:var(--ink-3); font-size:12px}
+.list td.go a{white-space:nowrap}
+.list tr.ph>*{color:var(--ink-3); background:repeating-linear-gradient(135deg,transparent 0 8px,var(--nodata) 8px 16px)}
+.tag{display:inline-block; margin-left:8px; padding:0 8px; font-size:12px; font-weight:700; color:var(--note-ink); background:var(--note-bg); border:1px solid var(--note-line); border-radius:999px; vertical-align:1px}
+.listbox{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto}
+table.t.list.fixed{width:calc(var(--col-name) + var(--col-val) + var(--col-when) + var(--col-chg) + var(--col-link)); min-width:0}
+.list tbody tr+tr>*{border-top:1px solid var(--line-soft)}
+@media (max-width:1100px){
+  table.t.list.fixed{width:100%; min-width:0; table-layout:auto}
+  .list colgroup{display:none}
+  .list thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+  .list,.list tbody,.list tr,.list th,.list td{display:block}
+  .list tbody tr{padding:12px 4px; border-top:1px solid var(--line-soft)}
+  .list tbody tr:first-child{border-top:0}
+  .list tbody tr+tr>*{border-top:0}
+  .list th,.list td{padding:2px 12px}
+  .list tbody th{font-size:15.5px}
+  .list td.val{font-size:22px}
+  .list td[data-l]::before{content:attr(data-l) "　"; font-size:12.5px; font-weight:600; color:var(--ink-3)}
+  .list td.val::before{display:none}
+  .list td.go{padding-top:6px}
+}
+
+.hero{margin:0 0 var(--sp6)}
+.hero h1{font-size:34px}
+.cta{display:flex; flex-direction:column; gap:4px; background:var(--accent); color:#fff; border-radius:var(--radius); padding:var(--sp5); text-decoration:none; margin:0 0 var(--sp6); box-shadow:0 8px 24px -14px rgba(39,51,106,.7)}
+.cta:hover{background:var(--accent-deep)}
+.cta strong{font-size:21px; line-height:1.4}
+.cta span{font-size:15px; opacity:.92; max-width:var(--cap)}
+.cta em{font-style:normal; font-weight:700; margin-top:var(--sp2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cta{color:#0f1220; background:var(--accent)} :root:not([data-theme="light"]) .cta:hover{background:#b9c6ff}}
+.areas h2{font-size:15px; letter-spacing:.08em; color:var(--accent-deep); margin:var(--sp6) 0 var(--sp3)}
+.areas h2:first-child{margin-top:0}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:var(--sp3)}
+.card{display:flex; flex-direction:column; gap:6px; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp4); color:var(--ink); text-decoration:none; min-height:100px}
+.card:hover{border-color:var(--accent-mid); box-shadow:0 6px 20px -14px rgba(39,51,106,.55)}
+.card h3,.card h4{margin:0; font-size:17px; line-height:1.45; color:var(--accent-deep)}
+.card p{margin:0; font-size:14px; line-height:1.65; color:var(--ink-2)}
+.card .go{margin-top:auto; font-size:13px; font-weight:700; color:var(--accent)}
+.neutral{max-width:var(--cap); margin:var(--sp7) 0 0; padding:var(--sp4) var(--sp5); border-left:5px solid var(--accent-faint); background:var(--panel); border-radius:0 var(--radius) var(--radius) 0; color:var(--ink-2); font-size:15px}
+.neutral h2{font-size:15px; margin:0 0 4px; color:var(--ink)}
+.neutral p{margin:0}
+
+.dd{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-s); margin:0 0 var(--sp2); max-width:var(--cap)}
+.dd>summary{cursor:pointer; padding:var(--sp3) var(--sp4); font-weight:600; color:var(--ink-2)}
+.dd .ddc{padding:0 var(--sp4) var(--sp3); color:var(--ink-2); font-size:15px; line-height:1.75}
+
+svg .ms-hit{fill:transparent}
+svg .ms-cur{stroke:var(--ink-3); stroke-width:1; pointer-events:none}
+.ms-tip{position:fixed; z-index:30; max-width:min(18em,calc(100vw - 16px)); padding:var(--sp2) var(--sp3); background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:var(--radius-s); box-shadow:0 2px 10px rgb(0 0 0/.18); font-size:13.5px; line-height:1.5; pointer-events:none}
+.ms-tip .ms-h{display:block; margin-bottom:2px}
+.ms-tip .ms-r{display:flex; justify-content:space-between; gap:var(--sp3)}
+.ms-tip .ms-n{color:var(--ink-2)}
+.ms-tip .ms-v{font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap}
+.legend [data-k]{cursor:pointer; padding:2px 0}
+.legend [data-k]:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+.legend [data-k].ms-off{opacity:.45}
+.legend [data-k].ms-on{font-weight:700}
+svg .ms-off{opacity:.25}
+svg .ln.ms-on{stroke-width:4.6}
+svg .dot.ms-on{stroke-width:3}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="ms-brand" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="1.5"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></symbol>
+<defs><pattern id="ms-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" style="fill:var(--nodata)"/><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--line);stroke-width:2"/></pattern></defs>
+</svg>
+<div class="shell">
+<nav class="side" id="sidenav" aria-label="ページの移動">
+<div class="bar"><a class="brand" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ms-brand"/></svg>物差し</a>
+<span class="here">値の一覧</span>
+<button class="menubtn" id="menubtn" type="button" aria-expanded="false" aria-controls="navbody">メニュー</button></div>
+<div class="navbody" id="navbody">
+<a class="navlink" href="../latest.html">最新の一覧</a>
+<div class="rep">松江市 福祉・労働レポート</div>
+<div class="grp">
+<a href="index.html">このレポートについて</a>
+</div>
+<div class="grp">
+<h3>支える仕組みを見る</h3>
+<a href="01-hogo.html">生活保護を受けている人と世帯</a>
+<a href="02-shikyu.html">生活保護の支給額</a>
+<a href="03-shogai.html">障がい者手帳と手当</a>
+</div>
+<div class="grp">
+<h3>働く場を見る</h3>
+<a href="04-kyujin.html">産業ごとの新規求人数</a>
+<a href="05-shisu.html">賃金と雇用の指数</a>
+</div>
+<div class="grp">
+<h3>地区で見る</h3>
+<a href="06-chiku.html">地区ごとの高齢化</a>
+</div>
+<div class="grp">
+<h3>参照</h3>
+<a href="07-values.html" aria-current="page">値の一覧</a>
+</div>
+<details class="others"><summary>レポートを切り替える</summary>
+<p class="area">人とくらし</p>
+<a href="../chocho/index.html">町丁別人口レポート</a>
+<a href="../fukushi/index.html" aria-current="page">福祉・労働レポート</a>
+<a href="../hoken/index.html">保健・環境レポート</a>
+<a href="../anzen/index.html">安全レポート</a>
+<a href="../kyoiku/index.html">教育レポート</a>
+<p class="area">まち・交通・住まい</p>
+<a href="../kensetsu/index.html">建設・住宅レポート</a>
+<a href="../unyu/index.html">運輸・通信レポート</a>
+<a href="../toshikeikaku/index.html">都市計画レポート</a>
+<a href="../lifeline/index.html">ライフラインレポート</a>
+<p class="area">しごと・経済・お金</p>
+<a href="../kanko/index.html">観光レポート</a>
+<a href="../keizai/index.html">市民所得・物価・消費レポート</a>
+<a href="../finance/index.html">金融レポート</a>
+<a href="../zaisei/index.html">財政レポート</a>
+<p class="area">議会と行政</p>
+<a href="../gikai/index.html">議会・行政・選挙レポート</a>
+</details>
+</div></nav>
+<div class="main">
+<main class="page" id="main">
+<p class="crumb">松江市 · 福祉・労働レポート</p>
+<h1>値の一覧</h1>
+<p class="lede">このレポートの図の正確な値を、画面ごとにまとめています。画面を選ぶと、その画面の表だけが出ます。</p>
+<noscript><p class="unit">画面と地区の切り替えは JavaScript で動きます。無効の環境では、画面は切り替わらず、すべての画面の表が続けて出ます。地区ごとの表は既定の地区のものだけが読めます。</p></noscript>
+<div class="chooser"><div class="pick"><label for="screen">画面を選ぶ</label>
+<select id="screen"><option value="01-hogo" selected>生活保護を受けている人と世帯</option><option value="02-shikyu">生活保護の支給額</option><option value="03-shogai">障がい者手帳と手当</option><option value="04-kyujin">産業ごとの新規求人数</option><option value="05-shisu">賃金と雇用の指数</option><option value="06-chiku">地区ごとの高齢化</option></select></div>
+
+<p class="hint">選ぶと、その画面の図の正確な値が出ます。</p>
+</div>
+
+
+<div data-pick-scope>
+<section class="frame" id="s-01-hogo" data-screen="01-hogo" aria-labelledby="h-s-01-hogo">
+<h2 id="h-s-01-hogo">生活保護を受けている人と世帯</h2>
+<h3>概要</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="概要"><table class="t fixed" style="--n:8"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>概要</caption><thead><tr><th scope="col">年度</th><th scope="col">延世帯数（世帯・延べ）</th><th scope="col">延人員（人・延べ）</th><th scope="col">保護率（松江市）（人口千人につき何人か）</th><th scope="col">保護率（島根県）（人口千人につき何人か）</th><th scope="col">保護率（全国）（人口千人につき何人か）</th><th scope="col">保護費の支給総額（千円）</th><th scope="col">1人当りの給付額（円）</th><th scope="col">1人1月当たりの給付額（データ元の見出しは円・途中で千円に変わる）</th></tr></thead><tbody>
+<tr><th scope="row">2001年度（平成13年度）</th><td>8,987</td><td>12,260</td><td>7.1</td><td>4.5</td><td>8.5</td><td>1,801,154</td><td>146,914</td><td class="z">—</td></tr>
+<tr><th scope="row">2002年度（平成14年度）</th><td>9,636</td><td>13,363</td><td>7.7</td><td>4.7</td><td>9.7</td><td>1,949,057</td><td>145,855</td><td class="z">—</td></tr>
+<tr><th scope="row">2003年度（平成15年度）</th><td>10,311</td><td>14,235</td><td>8.2</td><td>5.0</td><td>10.7</td><td>2,198,212</td><td>154,423</td><td class="z">—</td></tr>
+<tr><th scope="row">2004年度（平成16年度）</th><td>11,037</td><td>15,420</td><td>8.3</td><td>5.2</td><td>11.1</td><td>2,304,890</td><td>149,474</td><td class="z">—</td></tr>
+<tr><th scope="row">2005年度（平成17年度）</th><td>13,333</td><td>18,468</td><td>7.8</td><td>5.5</td><td>11.6</td><td>2,891,647</td><td>156,576</td><td class="z">—</td></tr>
+<tr><th scope="row">2006年度（平成18年度）</th><td>14,666</td><td>20,047</td><td>8.5</td><td>5.8</td><td>11.9</td><td>2,954,245</td><td>147,366</td><td class="z">—</td></tr>
+<tr><th scope="row">2007年度（平成19年度）</th><td>15,352</td><td>21,009</td><td>9.0</td><td>6.1</td><td>12.1</td><td>3,043,833</td><td>144,882</td><td class="z">—</td></tr>
+<tr><th scope="row">2008年度（平成20年度）</th><td>16,180</td><td>22,136</td><td>9.5</td><td>6.3</td><td>12.4</td><td>3,094,564</td><td>139,798</td><td class="z">—</td></tr>
+<tr><th scope="row">2009年度（平成21年度）</th><td>17,767</td><td>24,386</td><td>10.5</td><td>6.8</td><td>13.8</td><td>3,352,381</td><td>137,472</td><td class="z">—</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>20,065</td><td>27,854</td><td>12.0</td><td>7.6</td><td>15.3</td><td>3,747,512</td><td>134,541</td><td class="z">—</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>22,540</td><td>31,576</td><td>12.6</td><td>8.1</td><td>16.2</td><td>4,359,522</td><td>138,064</td><td>138,064</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>23,811</td><td>33,254</td><td>13.4</td><td>8.6</td><td>16.7</td><td>4,444,533</td><td>133,654</td><td>133,654</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>24,686</td><td>33,870</td><td>13.7</td><td>8.7</td><td>17.0</td><td>4,538,060</td><td>133,985</td><td>133,985</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>25,012</td><td>33,942</td><td>13.7</td><td>8.8</td><td>17.1</td><td>4,464,866</td><td>131,544</td><td>131,544</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>25,385</td><td>34,139</td><td>13.8</td><td>8.8</td><td>17.1</td><td>4,453,885</td><td>130,463</td><td>130,463</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>25,653</td><td>33,803</td><td>13.7</td><td>8.6</td><td>16.9</td><td>4,437,929</td><td>131,288</td><td>131,288</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>25,670</td><td>33,428</td><td>13.6</td><td>8.6</td><td>16.7</td><td>4,347,758</td><td>130,063</td><td>130,063</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>25,141</td><td>32,768</td><td>13.4</td><td>8.4</td><td>16.6</td><td>4,203,405</td><td>128,278</td><td>128,278</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>24,783</td><td>32,124</td><td>13.0</td><td>8.4</td><td>16.6</td><td>4,129,986</td><td>128,564</td><td>128,564</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>24,699</td><td>31,682</td><td>13.2</td><td>8.2</td><td>16.3</td><td>4,098,513</td><td>129,364</td><td>129,364</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>24,912</td><td>31,736</td><td>13.1</td><td>8.2</td><td>16.3</td><td>4,117,058</td><td>129,728</td><td>129,728</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>25,173</td><td>31,561</td><td>13.1</td><td>8.1</td><td>16.2</td><td>4,069,067</td><td>128,927</td><td>128,927</td></tr>
+<tr><th scope="row">2023年度（令和5年度）</th><td>25,536</td><td>31,574</td><td>13.1</td><td>8.1</td><td>16.3</td><td>4,229,737</td><td class="z">—</td><td>133.96</td></tr>
+<tr class="latest"><th scope="row">2024年度（令和6年度）</th><td>25,793</td><td>31,636</td><td>13.3</td><td>8.2</td><td>16.2</td><td>4,230,902</td><td class="z">—</td><td>133.74</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>一次資料——市生活福祉課</b>。「—」は、数として得られなかったことを示します。</p>
+<h3>扶助の種類ごとの人員</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="扶助の種類ごとの人員"><table class="t fixed" style="--n:10"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>扶助の種類ごとの人員</caption><thead><tr><th scope="col">年度</th><th scope="col">生活扶助（人・延べ）</th><th scope="col">住宅扶助（人・延べ）</th><th scope="col">医療扶助（人・延べ）</th><th scope="col">介護扶助（人・延べ）</th><th scope="col">教育扶助（人・延べ）</th><th scope="col">生業扶助（人・延べ）</th><th scope="col">葬祭扶助（人・延べ）</th><th scope="col">就労自立給付金（人・延べ）</th><th scope="col">進学準備給付金（人・延べ）</th><th scope="col">出産扶助（人・延べ）</th></tr></thead><tbody>
+<tr><th scope="row">2001年度（平成13年度）</th><td>10,861</td><td>9,396</td><td>10,529</td><td>1,231</td><td>684</td><td>3</td><td>7</td><td class="z">—</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2002年度（平成14年度）</th><td>12,009</td><td>10,244</td><td>11,640</td><td>1,257</td><td>908</td><td>15</td><td>12</td><td class="z">—</td><td class="z">—</td><td>1</td></tr>
+<tr><th scope="row">2003年度（平成15年度）</th><td>12,862</td><td>10,622</td><td>12,464</td><td>1,289</td><td>935</td><td>15</td><td>11</td><td class="z">—</td><td class="z">—</td><td>1</td></tr>
+<tr><th scope="row">2004年度（平成16年度）</th><td>14,037</td><td>11,618</td><td>13,608</td><td>1,731</td><td>1,025</td><td>27</td><td>19</td><td class="z">—</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2005年度（平成17年度）</th><td>16,762</td><td>12,778</td><td>16,302</td><td>2,258</td><td>1,149</td><td>329</td><td>18</td><td class="z">—</td><td class="z">—</td><td>1</td></tr>
+<tr><th scope="row">2006年度（平成18年度）</th><td>18,145</td><td>13,779</td><td>17,566</td><td>2,368</td><td>1,375</td><td>309</td><td>20</td><td class="z">—</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2007年度（平成19年度）</th><td>18,647</td><td>14,898</td><td>17,934</td><td>2,524</td><td>1,575</td><td>428</td><td>31</td><td class="z">—</td><td class="z">—</td><td>3</td></tr>
+<tr><th scope="row">2008年度（平成20年度）</th><td>19,607</td><td>16,296</td><td>18,543</td><td>2,617</td><td>1,689</td><td>455</td><td>19</td><td class="z">—</td><td class="z">—</td><td>1</td></tr>
+<tr><th scope="row">2009年度（平成21年度）</th><td>21,938</td><td>18,202</td><td>19,944</td><td>2,523</td><td>1,745</td><td>557</td><td>35</td><td class="z">—</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>25,484</td><td>21,086</td><td>22,071</td><td>2,878</td><td>2,150</td><td>920</td><td>41</td><td class="z">—</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>27,509</td><td>24,131</td><td>22,640</td><td>4,241</td><td>2,523</td><td>831</td><td>35</td><td class="z">—</td><td class="z">—</td><td>1</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>28,270</td><td>25,693</td><td>23,951</td><td>4,586</td><td>2,520</td><td>984</td><td>31</td><td class="z">—</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>27,959</td><td>25,688</td><td>23,264</td><td>4,782</td><td>2,499</td><td>769</td><td>58</td><td class="z">—</td><td class="z">—</td><td>1</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>28,130</td><td>26,198</td><td>23,926</td><td>5,215</td><td>2,463</td><td>793</td><td>64</td><td>11</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>28,281</td><td>26,856</td><td>24,629</td><td>5,756</td><td>2,539</td><td>800</td><td>51</td><td>17</td><td class="z">—</td><td>3</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>27,846</td><td>26,685</td><td>25,187</td><td>6,173</td><td>2,481</td><td>808</td><td>53</td><td>26</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>27,331</td><td>26,286</td><td>25,138</td><td>6,393</td><td>2,578</td><td>747</td><td>23</td><td>19</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>26,831</td><td>25,775</td><td>24,816</td><td>6,613</td><td>2,503</td><td>784</td><td>9</td><td>23</td><td>7</td><td class="z">—</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>26,162</td><td>25,416</td><td>24,223</td><td>6,432</td><td>2,263</td><td>740</td><td>33</td><td>33</td><td>5</td><td class="z">—</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>25,452</td><td>25,223</td><td>24,045</td><td>6,476</td><td>2,027</td><td>875</td><td>35</td><td>14</td><td>6</td><td>1</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>25,354</td><td>25,521</td><td>24,159</td><td>6,392</td><td>2,037</td><td>810</td><td>28</td><td>20</td><td>6</td><td class="z">—</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>25,175</td><td>25,353</td><td>24,388</td><td>6,444</td><td>1,771</td><td>819</td><td>18</td><td>31</td><td>11</td><td>1</td></tr>
+<tr><th scope="row">2023年度（令和5年度）</th><td>24,881</td><td>25,268</td><td>24,657</td><td>7,010</td><td>1,580</td><td>487</td><td>27</td><td>27</td><td>4</td><td>1</td></tr>
+<tr class="latest"><th scope="row">2024年度（令和6年度）</th><td>25,164</td><td>25,421</td><td>25,020</td><td>7,271</td><td>1,328</td><td>631</td><td>23</td><td>22</td><td>11</td><td>1</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>一次資料——市生活福祉課</b>。単位は人・延べ。</p>
+<h3>最初の年度と最後の年度</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="最初の年度と最後の年度"><table class="t fixed" style="--n:17"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>最初の年度と最後の年度</caption><thead><tr><th scope="col">何を</th><th scope="col">延世帯数（世帯・延べ）</th><th scope="col">延人員（人・延べ）</th><th scope="col">保護率（松江市）（人口千人につき何人か）</th><th scope="col">保護率（島根県）（人口千人につき何人か）</th><th scope="col">保護率（全国）（人口千人につき何人か）</th><th scope="col">保護費の支給総額（千円）</th><th scope="col">1人当りの給付額（円）</th><th scope="col">生活扶助（人・延べ）</th><th scope="col">住宅扶助（人・延べ）</th><th scope="col">医療扶助（人・延べ）</th><th scope="col">介護扶助（人・延べ）</th><th scope="col">教育扶助（人・延べ）</th><th scope="col">生業扶助（人・延べ）</th><th scope="col">葬祭扶助（人・延べ）</th><th scope="col">就労自立給付金（人・延べ）</th><th scope="col">進学準備給付金（人・延べ）</th><th scope="col">出産扶助（人・延べ）</th></tr></thead><tbody>
+<tr><th scope="row">最初の年度</th><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2014年度（平成26年度）</td><td>2018年度（平成30年度）</td><td>2002年度（平成14年度）</td></tr>
+<tr><th scope="row">最初の値</th><td>8,987</td><td>12,260</td><td>7.1</td><td>4.5</td><td>8.5</td><td>1,801,154</td><td>146,914</td><td>10,861</td><td>9,396</td><td>10,529</td><td>1,231</td><td>684</td><td>3</td><td>7</td><td>11</td><td>7</td><td>1</td></tr>
+<tr><th scope="row">最後の年度</th><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2022年度（令和4年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td></tr>
+<tr><th scope="row">最後の値</th><td>25,793</td><td>31,636</td><td>13.3</td><td>8.2</td><td>16.2</td><td>4,230,902</td><td>128,927</td><td>25,164</td><td>25,421</td><td>25,020</td><td>7,271</td><td>1,328</td><td>631</td><td>23</td><td>22</td><td>11</td><td>1</td></tr>
+<tr class="latest"><th scope="row">変化</th><td>+16,806</td><td>+19,376</td><td>+6.2</td><td>+3.7</td><td>+7.7</td><td>+2,429,748</td><td>−17,987</td><td>+14,303</td><td>+16,025</td><td>+14,491</td><td>+6,040</td><td>+644</td><td>+628</td><td>+16</td><td>+11</td><td>+4</td><td>±0</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>変化は、この表に出ている2つの値の差です。</b>丸める前の値どうしの差ではありません。<b>行ごとに最初の年度が違います</b>——値のある最初の年度を採っています。単位が途中で変わっている列は、差を出していません。</p>
+
+
+</section>
+<section class="frame" id="s-02-shikyu" data-screen="02-shikyu" aria-labelledby="h-s-02-shikyu">
+<h2 id="h-s-02-shikyu">生活保護の支給額</h2>
+<h3>扶助の種類ごとの支給額</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="扶助の種類ごとの支給額"><table class="t fixed" style="--n:11"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>扶助の種類ごとの支給額</caption><thead><tr><th scope="col">年度</th><th scope="col">医療扶助（千円）</th><th scope="col">生活扶助（千円）</th><th scope="col">住宅扶助（千円）</th><th scope="col">介護扶助（千円）</th><th scope="col">教育扶助（千円）</th><th scope="col">生業扶助（千円）</th><th scope="col">葬祭扶助（千円）</th><th scope="col">進学準備給付金（千円）</th><th scope="col">就労自立給付金（千円）</th><th scope="col">出産扶助（千円）</th><th scope="col">合計（千円）</th></tr></thead><tbody>
+<tr><th scope="row">2001年度（平成13年度）</th><td>956,143</td><td>575,614</td><td>143,483</td><td>24,017</td><td>5,732</td><td>341</td><td>562</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,705,892</td></tr>
+<tr><th scope="row">2002年度（平成14年度）</th><td>999,288</td><td>648,052</td><td>161,141</td><td>23,144</td><td>6,781</td><td>1,432</td><td>934</td><td class="z">—</td><td class="z">—</td><td>185</td><td>1,840,957</td></tr>
+<tr><th scope="row">2003年度（平成15年度）</th><td>1,205,267</td><td>677,448</td><td>170,855</td><td>25,930</td><td>6,747</td><td>1,188</td><td>1,117</td><td class="z">—</td><td class="z">—</td><td>84</td><td>2,088,636</td></tr>
+<tr><th scope="row">2004年度（平成16年度）</th><td>1,245,379</td><td>709,843</td><td>193,957</td><td>23,885</td><td>7,066</td><td>2,928</td><td>2,981</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>2,186,039</td></tr>
+<tr><th scope="row">2005年度（平成17年度）</th><td>1,644,829</td><td>826,754</td><td>233,361</td><td>35,291</td><td>8,444</td><td>6,874</td><td>2,453</td><td class="z">—</td><td class="z">—</td><td>349</td><td>2,758,355</td></tr>
+<tr><th scope="row">2006年度（平成18年度）</th><td>1,578,619</td><td>914,530</td><td>274,591</td><td>37,128</td><td>11,027</td><td>7,917</td><td>3,492</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>2,827,304</td></tr>
+<tr><th scope="row">2007年度（平成19年度）</th><td>1,607,665</td><td>941,244</td><td>294,891</td><td>45,533</td><td>12,297</td><td>9,945</td><td>5,230</td><td class="z">—</td><td class="z">—</td><td>140</td><td>2,916,945</td></tr>
+<tr><th scope="row">2008年度（平成20年度）</th><td>1,585,047</td><td>985,171</td><td>327,382</td><td>50,491</td><td>13,339</td><td>9,950</td><td>3,111</td><td class="z">—</td><td class="z">—</td><td>83</td><td>2,974,574</td></tr>
+<tr><th scope="row">2009年度（平成21年度）</th><td>1,642,713</td><td>1,096,395</td><td>386,105</td><td>66,872</td><td>18,371</td><td>12,232</td><td>4,968</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>3,227,656</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>1,777,053</td><td>1,272,454</td><td>446,672</td><td>69,279</td><td>24,281</td><td>15,046</td><td>7,068</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>3,611,853</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>2,194,604</td><td>1,392,364</td><td>500,088</td><td>76,854</td><td>28,718</td><td>14,901</td><td>3,847</td><td class="z">—</td><td class="z">—</td><td>158</td><td>4,211,534</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>2,175,861</td><td>1,442,955</td><td>537,271</td><td>78,149</td><td>28,158</td><td>16,503</td><td>4,509</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>4,283,406</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>2,188,580</td><td>1,450,494</td><td>578,621</td><td>101,949</td><td>28,150</td><td>13,049</td><td>7,202</td><td class="z">—</td><td class="z">—</td><td>180</td><td>4,368,225</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>2,093,794</td><td>1,458,138</td><td>583,074</td><td>110,938</td><td>28,415</td><td>12,276</td><td>6,474</td><td class="z">—</td><td>946</td><td class="z">—</td><td>4,294,055</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>2,101,066</td><td>1,411,803</td><td>597,796</td><td>126,692</td><td>29,136</td><td>15,044</td><td>5,066</td><td class="z">—</td><td>934</td><td>530</td><td>4,288,067</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>2,106,468</td><td>1,384,703</td><td>601,396</td><td>139,116</td><td>29,961</td><td>14,158</td><td>6,205</td><td class="z">—</td><td>1,328</td><td class="z">—</td><td>4,283,335</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>2,060,988</td><td>1,344,199</td><td>605,866</td><td>147,393</td><td>30,859</td><td>13,176</td><td>3,657</td><td class="z">—</td><td>1,318</td><td class="z">—</td><td>4,207,456</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>2,020,429</td><td>1,261,805</td><td>595,920</td><td>148,191</td><td>26,471</td><td>13,632</td><td>5,166</td><td>1,100</td><td>932</td><td class="z">—</td><td>4,073,646</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>2,023,371</td><td>1,211,047</td><td>585,742</td><td>135,816</td><td>21,488</td><td>11,819</td><td>5,224</td><td>1,300</td><td>1,266</td><td class="z">—</td><td>3,997,073</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>2,019,944</td><td>1,170,222</td><td>588,337</td><td>141,444</td><td>19,668</td><td>13,634</td><td>5,067</td><td>1,800</td><td>939</td><td>5</td><td>3,961,060</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>2,052,192</td><td>1,156,112</td><td>591,083</td><td>131,854</td><td>20,206</td><td>11,628</td><td>5,226</td><td>1,200</td><td>1,144</td><td class="z">—</td><td>3,970,645</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>1,967,610</td><td>1,180,089</td><td>607,535</td><td>123,603</td><td>17,433</td><td>13,273</td><td>2,628</td><td>2,100</td><td>1,533</td><td>8</td><td>3,915,812</td></tr>
+<tr><th scope="row">2023年度（令和5年度）</th><td>2,108,620</td><td>1,179,036</td><td>617,066</td><td>125,750</td><td>16,243</td><td>10,157</td><td>4,063</td><td>1,200</td><td>1,161</td><td>212</td><td>4,063,508</td></tr>
+<tr class="latest"><th scope="row">2024年度（令和6年度）</th><td>2,049,793</td><td>1,191,860</td><td>624,299</td><td>137,015</td><td>14,053</td><td>10,864</td><td>3,691</td><td>3,200</td><td>966</td><td>22</td><td>4,035,763</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>一次資料——市生活福祉課</b>。「—」は、数として得られなかったことを示します。<b>合計は、この表に出ている値をこちらで足したもの</b>で、データ元の値ではありません。横棒の年度は足していません。</p>
+<h3>最初の年度と最後の年度</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="最初の年度と最後の年度"><table class="t fixed" style="--n:11"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>最初の年度と最後の年度</caption><thead><tr><th scope="col">何を</th><th scope="col">医療扶助（千円）</th><th scope="col">生活扶助（千円）</th><th scope="col">住宅扶助（千円）</th><th scope="col">介護扶助（千円）</th><th scope="col">教育扶助（千円）</th><th scope="col">生業扶助（千円）</th><th scope="col">葬祭扶助（千円）</th><th scope="col">進学準備給付金（千円）</th><th scope="col">就労自立給付金（千円）</th><th scope="col">出産扶助（千円）</th><th scope="col">合計（千円）</th></tr></thead><tbody>
+<tr><th scope="row">最初の年度</th><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2018年度（平成30年度）</td><td>2014年度（平成26年度）</td><td>2002年度（平成14年度）</td><td>2001年度（平成13年度）</td></tr>
+<tr><th scope="row">最初の値</th><td>956,143</td><td>575,614</td><td>143,483</td><td>24,017</td><td>5,732</td><td>341</td><td>562</td><td>1,100</td><td>946</td><td>185</td><td>1,705,892</td></tr>
+<tr><th scope="row">最後の年度</th><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td></tr>
+<tr><th scope="row">最後の値</th><td>2,049,793</td><td>1,191,860</td><td>624,299</td><td>137,015</td><td>14,053</td><td>10,864</td><td>3,691</td><td>3,200</td><td>966</td><td>22</td><td>4,035,763</td></tr>
+<tr class="latest"><th scope="row">変化</th><td>+1,093,650</td><td>+616,246</td><td>+480,816</td><td>+112,998</td><td>+8,321</td><td>+10,523</td><td>+3,129</td><td>+2,100</td><td>+20</td><td>−163</td><td>+2,329,871</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>変化は、この表に出ている2つの値の差です。</b>丸める前の値どうしの差ではありません。<b>行ごとに最初の年度が違います</b>——値のある最初の年度を採っています。単位が途中で変わっている列は、差を出していません。</p>
+
+
+</section>
+<section class="frame" id="s-03-shogai" data-screen="03-shogai" aria-labelledby="h-s-03-shogai">
+<h2 id="h-s-03-shogai">障がい者手帳と手当</h2>
+<h3>手帳の所持者数と手当の受給者数</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="手帳の所持者数と手当の受給者数"><table class="t fixed" style="--n:6"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>手帳の所持者数と手当の受給者数</caption><thead><tr><th scope="col">年度</th><th scope="col">身体障がい者手帳所持者（人）</th><th scope="col">精神障がい者保健福祉手帳所持者（人）</th><th scope="col">療育手帳所持者（人）</th><th scope="col">特別障がい者手当受給者（人）</th><th scope="col">障がい児福祉手当受給者（人）</th><th scope="col">福祉手当受給者(経過的措置分)（人）</th></tr></thead><tbody>
+<tr><th scope="row">2001年度（平成13年度）</th><td>5,650</td><td>363</td><td>869</td><td>293</td><td>129</td><td>19</td></tr>
+<tr><th scope="row">2002年度（平成14年度）</th><td>5,815</td><td>441</td><td>912</td><td>302</td><td>132</td><td>17</td></tr>
+<tr><th scope="row">2003年度（平成15年度）</th><td>5,903</td><td>458</td><td>966</td><td>270</td><td>129</td><td>14</td></tr>
+<tr><th scope="row">2004年度（平成16年度）</th><td>8,385</td><td>640</td><td>1,359</td><td>399</td><td>154</td><td>17</td></tr>
+<tr><th scope="row">2005年度（平成17年度）</th><td>8,568</td><td>687</td><td>1,421</td><td>415</td><td>149</td><td>17</td></tr>
+<tr><th scope="row">2006年度（平成18年度）</th><td>8,536</td><td>688</td><td>1,462</td><td>392</td><td>149</td><td>16</td></tr>
+<tr><th scope="row">2007年度（平成19年度）</th><td>8,730</td><td>817</td><td>1,541</td><td>368</td><td>146</td><td>15</td></tr>
+<tr><th scope="row">2008年度（平成20年度）</th><td>8,658</td><td>935</td><td>1,599</td><td>363</td><td>147</td><td>14</td></tr>
+<tr><th scope="row">2009年度（平成21年度）</th><td>8,778</td><td>997</td><td>1,616</td><td>361</td><td>145</td><td>13</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>8,532</td><td>1,074</td><td>1,651</td><td>335</td><td>154</td><td>11</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>9,045</td><td>1,233</td><td>1,820</td><td>343</td><td>160</td><td>11</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>9,061</td><td>1,353</td><td>1,882</td><td>358</td><td>176</td><td>9</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>9,142</td><td>1,460</td><td>1,936</td><td>345</td><td>172</td><td>7</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>9,078</td><td>1,672</td><td>2,003</td><td>340</td><td>168</td><td>5</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>9,019</td><td>1,795</td><td>2,084</td><td>332</td><td>167</td><td>5</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>8,797</td><td>1,916</td><td>2,137</td><td>333</td><td>167</td><td>5</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>8,500</td><td>2,074</td><td>2,170</td><td>330</td><td>163</td><td>5</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>8,361</td><td>2,237</td><td>2,207</td><td>332</td><td>162</td><td>4</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>8,357</td><td>2,407</td><td>2,247</td><td>335</td><td>157</td><td>4</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>8,303</td><td>2,672</td><td>2,280</td><td>320</td><td>157</td><td>4</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>8,074</td><td>2,696</td><td>2,312</td><td>321</td><td>138</td><td>4</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>7,887</td><td>2,888</td><td>2,334</td><td>335</td><td>122</td><td>4</td></tr>
+<tr><th scope="row">2023年度（令和5年度）</th><td>7,851</td><td>3,085</td><td>2,352</td><td>344</td><td>124</td><td>3</td></tr>
+<tr class="latest"><th scope="row">2024年度（令和6年度）</th><td>7,570</td><td>3,302</td><td>2,390</td><td>344</td><td>115</td><td>2</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit">単位——人。<b>一次資料——市障がい者福祉課</b>。「—」は、数として得られなかったことを示します。</p>
+<h3>最初の年度と最後の年度</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="最初の年度と最後の年度"><table class="t fixed" style="--n:6"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>最初の年度と最後の年度</caption><thead><tr><th scope="col">何を</th><th scope="col">身体障がい者手帳所持者（人）</th><th scope="col">精神障がい者保健福祉手帳所持者（人）</th><th scope="col">療育手帳所持者（人）</th><th scope="col">特別障がい者手当受給者（人）</th><th scope="col">障がい児福祉手当受給者（人）</th><th scope="col">福祉手当受給者(経過的措置分)（人）</th></tr></thead><tbody>
+<tr><th scope="row">最初の年度</th><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td><td>2001年度（平成13年度）</td></tr>
+<tr><th scope="row">最初の値</th><td>5,650</td><td>363</td><td>869</td><td>293</td><td>129</td><td>19</td></tr>
+<tr><th scope="row">最後の年度</th><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td><td>2024年度（令和6年度）</td></tr>
+<tr><th scope="row">最後の値</th><td>7,570</td><td>3,302</td><td>2,390</td><td>344</td><td>115</td><td>2</td></tr>
+<tr class="latest"><th scope="row">変化</th><td>+1,920</td><td>+2,939</td><td>+1,521</td><td>+51</td><td>−14</td><td>−17</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>変化は、この表に出ている2つの値の差です。</b>丸める前の値どうしの差ではありません。<b>行ごとに最初の年度が違います</b>——値のある最初の年度を採っています。</p>
+
+
+</section>
+<section class="frame" id="s-04-kyujin" data-screen="04-kyujin" aria-labelledby="h-s-04-kyujin">
+<h2 id="h-s-04-kyujin">産業ごとの新規求人数</h2>
+<h3>産業ごとの新規求人数</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="産業ごとの新規求人数"><table class="t fixed" style="--n:23"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>産業ごとの新規求人数</caption><thead><tr><th scope="col">年度</th><th scope="col">総数（人）</th><th scope="col">サービス業（人）</th><th scope="col">医療福祉（人）</th><th scope="col">サービス業学術研究生活関連サービス教育学習支援（人）</th><th scope="col">卸売小売業飲食店（人）</th><th scope="col">卸売小売業（人）</th><th scope="col">飲食業宿泊業（人）</th><th scope="col">情報通信業（人）</th><th scope="col">通信運搬業（人）</th><th scope="col">卸売・小売業（人）</th><th scope="col">建設業（人）</th><th scope="col">宿泊業飲食業（人）</th><th scope="col">飲食店宿泊業（人）</th><th scope="col">運輸通信業（人）</th><th scope="col">公務その他（人）</th><th scope="col">製造業（人）</th><th scope="col">運輸業（人）</th><th scope="col">運輸業郵便業（人）</th><th scope="col">金融保険不動産業（人）</th><th scope="col">金融保険不動産・物品賃貸業（人）</th><th scope="col">農林漁業（人）</th><th scope="col">鉱業（人）</th><th scope="col">電気ガス熱供給水道業（人）</th></tr></thead><tbody>
+<tr><th scope="row">2001年度（平成13年度）</th><td>14,502</td><td>5,781</td><td class="z">—</td><td class="z">—</td><td>3,953</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,636</td><td class="z">—</td><td class="z">—</td><td>963</td><td>136</td><td>1,342</td><td class="z">—</td><td class="z">—</td><td>565</td><td class="z">—</td><td>116</td><td>7</td><td>3</td></tr>
+<tr><th scope="row">2002年度（平成14年度）</th><td>15,904</td><td>6,667</td><td class="z">—</td><td class="z">—</td><td>4,227</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,403</td><td class="z">—</td><td class="z">—</td><td>1,001</td><td>257</td><td>1,578</td><td class="z">—</td><td class="z">—</td><td>621</td><td class="z">—</td><td>143</td><td>4</td><td>3</td></tr>
+<tr><th scope="row">2003年度（平成15年度）</th><td>15,899</td><td>6,380</td><td class="z">—</td><td class="z">—</td><td>5,094</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,372</td><td class="z">—</td><td class="z">—</td><td>915</td><td>150</td><td>1,341</td><td class="z">—</td><td class="z">—</td><td>506</td><td class="z">—</td><td>134</td><td>6</td><td>1</td></tr>
+<tr><th scope="row">2004年度（平成16年度）</th><td>14,731</td><td>6,383</td><td class="z">—</td><td class="z">—</td><td>4,239</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,311</td><td class="z">—</td><td class="z">—</td><td>858</td><td>178</td><td>1,222</td><td class="z">—</td><td class="z">—</td><td>411</td><td class="z">—</td><td>114</td><td>14</td><td>1</td></tr>
+<tr><th scope="row">2005年度（平成17年度）</th><td>17,494</td><td>6,882</td><td class="z">—</td><td class="z">—</td><td>5,032</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,544</td><td class="z">—</td><td class="z">—</td><td>1,862</td><td>237</td><td>1,266</td><td class="z">—</td><td class="z">—</td><td>504</td><td class="z">—</td><td>149</td><td>15</td><td>3</td></tr>
+<tr><th scope="row">2006年度（平成18年度）</th><td>19,178</td><td>9,837</td><td class="z">—</td><td class="z">—</td><td>3,649</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,434</td><td class="z">—</td><td class="z">—</td><td>1,791</td><td>285</td><td>1,548</td><td class="z">—</td><td class="z">—</td><td>357</td><td class="z">—</td><td>266</td><td>9</td><td>2</td></tr>
+<tr><th scope="row">2007年度（平成19年度）</th><td>18,698</td><td>5,390</td><td>2,529</td><td>5,390</td><td class="z">—</td><td>2,830</td><td>2,379</td><td>1,019</td><td>1,019</td><td>2,830</td><td>1,434</td><td>2,379</td><td>2,379</td><td class="z">—</td><td>252</td><td>1,316</td><td>881</td><td>881</td><td>387</td><td>387</td><td>266</td><td>13</td><td>2</td></tr>
+<tr><th scope="row">2008年度（平成20年度）</th><td>18,187</td><td>5,424</td><td>2,554</td><td>5,424</td><td class="z">—</td><td>2,720</td><td>2,081</td><td>1,373</td><td>1,373</td><td class="z">—</td><td>1,090</td><td>2,081</td><td>2,081</td><td class="z">—</td><td>622</td><td>883</td><td>798</td><td>798</td><td>326</td><td>326</td><td>300</td><td>13</td><td>3</td></tr>
+<tr><th scope="row">2009年度（平成21年度）</th><td>16,097</td><td>5,019</td><td>2,590</td><td>5,019</td><td class="z">—</td><td>2,141</td><td>1,992</td><td>553</td><td>553</td><td class="z">—</td><td>1,049</td><td>1,992</td><td>1,992</td><td class="z">—</td><td>710</td><td>676</td><td>719</td><td>719</td><td>371</td><td>371</td><td>273</td><td>1</td><td>3</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>18,510</td><td>5,619</td><td>3,024</td><td>5,619</td><td class="z">—</td><td>2,490</td><td>2,305</td><td>882</td><td>882</td><td class="z">—</td><td>1,114</td><td>2,305</td><td class="z">—</td><td class="z">—</td><td>710</td><td>931</td><td>844</td><td>844</td><td>449</td><td>449</td><td>142</td><td class="z">—</td><td class="z">—</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>22,938</td><td>7,031</td><td>3,526</td><td class="z">—</td><td class="z">—</td><td>3,211</td><td>3,012</td><td class="z">—</td><td>1,288</td><td class="z">—</td><td>1,393</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>787</td><td>816</td><td>1,167</td><td class="z">—</td><td>505</td><td class="z">—</td><td>198</td><td class="z">—</td><td>4</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>24,034</td><td>5,530</td><td>4,149</td><td class="z">—</td><td class="z">—</td><td>3,915</td><td>3,368</td><td class="z">—</td><td>1,649</td><td class="z">—</td><td>1,599</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>903</td><td>955</td><td>1,243</td><td class="z">—</td><td>585</td><td class="z">—</td><td>135</td><td>3</td><td class="z">—</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>25,127</td><td>5,628</td><td>4,179</td><td class="z">—</td><td class="z">—</td><td>4,219</td><td>2,861</td><td class="z">—</td><td>2,263</td><td class="z">—</td><td>1,768</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>943</td><td>1,198</td><td>1,336</td><td class="z">—</td><td>566</td><td class="z">—</td><td>154</td><td>8</td><td>4</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>23,385</td><td>6,150</td><td>4,147</td><td class="z">—</td><td class="z">—</td><td>3,286</td><td>2,469</td><td class="z">—</td><td>1,529</td><td class="z">—</td><td>1,539</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,006</td><td>1,134</td><td>1,421</td><td class="z">—</td><td>528</td><td class="z">—</td><td>169</td><td>1</td><td>6</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>26,428</td><td>7,020</td><td>4,793</td><td class="z">—</td><td class="z">—</td><td>3,750</td><td>2,769</td><td class="z">—</td><td>2,202</td><td class="z">—</td><td>1,701</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>935</td><td>1,233</td><td>1,398</td><td class="z">—</td><td>468</td><td class="z">—</td><td>153</td><td class="z">—</td><td>6</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>29,531</td><td>7,983</td><td>5,526</td><td class="z">—</td><td class="z">—</td><td>4,126</td><td>3,081</td><td class="z">—</td><td>2,793</td><td class="z">—</td><td>1,614</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,053</td><td>1,201</td><td>1,314</td><td class="z">—</td><td>667</td><td class="z">—</td><td>160</td><td>2</td><td>11</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>31,121</td><td>8,741</td><td>6,000</td><td class="z">—</td><td class="z">—</td><td>3,872</td><td>3,024</td><td class="z">—</td><td>2,746</td><td class="z">—</td><td>2,020</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,135</td><td>1,472</td><td>1,375</td><td class="z">—</td><td>568</td><td class="z">—</td><td>164</td><td class="z">—</td><td>4</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>31,867</td><td>8,940</td><td>5,923</td><td class="z">—</td><td class="z">—</td><td>3,703</td><td>2,946</td><td>2,999</td><td>2,999</td><td class="z">—</td><td>2,368</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,377</td><td>1,462</td><td>1,334</td><td class="z">—</td><td>646</td><td class="z">—</td><td>162</td><td>5</td><td>2</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>30,470</td><td>8,374</td><td>5,869</td><td class="z">—</td><td class="z">—</td><td>3,471</td><td>2,916</td><td>2,817</td><td>2,817</td><td class="z">—</td><td>2,298</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,423</td><td>1,297</td><td>1,231</td><td class="z">—</td><td>544</td><td class="z">—</td><td>219</td><td>7</td><td>4</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>27,478</td><td>9,716</td><td>5,470</td><td class="z">—</td><td class="z">—</td><td>3,024</td><td>1,740</td><td>821</td><td>821</td><td class="z">—</td><td>2,570</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,067</td><td>1,124</td><td>1,135</td><td class="z">—</td><td>541</td><td class="z">—</td><td>266</td><td>2</td><td>2</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>28,937</td><td>10,281</td><td>5,911</td><td class="z">—</td><td class="z">—</td><td>3,047</td><td>1,948</td><td>803</td><td>803</td><td class="z">—</td><td>2,591</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,068</td><td>1,447</td><td>1,120</td><td class="z">—</td><td>477</td><td class="z">—</td><td>238</td><td>3</td><td>3</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>31,526</td><td>11,105</td><td>6,330</td><td class="z">—</td><td class="z">—</td><td>3,541</td><td>2,488</td><td>964</td><td class="z">—</td><td class="z">—</td><td>2,307</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>1,665</td><td>1,356</td><td>1,131</td><td class="z">—</td><td>470</td><td class="z">—</td><td>161</td><td>4</td><td>4</td></tr>
+<tr class="latest"><th scope="row">2023年度（令和5年度）</th><td>29,155</td><td>10,418</td><td>5,099</td><td class="z">—</td><td class="z">—</td><td>3,713</td><td>2,499</td><td>862</td><td class="z">—</td><td class="z">—</td><td>2,346</td><td class="z">—</td><td class="z">—</td><td class="z">—</td><td>803</td><td>1,324</td><td>1,295</td><td class="z">—</td><td>646</td><td class="z">—</td><td>129</td><td>11</td><td>10</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit">単位——人。<b>一次資料——松江公共職業安定所</b>。「—」は、数として得られなかったことを示します。<b>この表は図に載らなかった列も持っています</b>——理由は「読むときに気をつけること」に書いています。</p>
+<h3>最初の年度と最後の年度</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="最初の年度と最後の年度"><table class="t fixed" style="--n:1"><colgroup><col class="c-name"><col class="c-num"></colgroup><caption>最初の年度と最後の年度</caption><thead><tr><th scope="col">何を</th><th scope="col">総数（人）</th></tr></thead><tbody>
+<tr><th scope="row">最初の年度</th><td>2001年度（平成13年度）</td></tr>
+<tr><th scope="row">最初の値</th><td>14,502</td></tr>
+<tr><th scope="row">最後の年度</th><td>2023年度（令和5年度）</td></tr>
+<tr><th scope="row">最後の値</th><td>29,155</td></tr>
+<tr class="latest"><th scope="row">変化</th><td>+14,653</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit"><b>変化は、この表に出ている2つの値の差です。</b>丸める前の値どうしの差ではありません。<b>産業ごとの差は出していません</b>——区分の顔ぶれが途中で替わっており、全期間の起点と終点を並べると、繋がらないものを繋いだことになるからです。</p>
+
+
+</section>
+<section class="frame" id="s-05-shisu" data-screen="05-shisu" aria-labelledby="h-s-05-shisu">
+<h2 id="h-s-05-shisu">賃金と雇用の指数</h2>
+<h3>賃金の動き</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="賃金の動き"><table class="t fixed" style="--n:4"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>賃金の動き</caption><thead><tr><th scope="col">年</th><th scope="col">医療,福祉指数（指数）</th><th scope="col">建設業指数（指数）</th><th scope="col">製造業指数（指数）</th><th scope="col">調査産業計指数（指数）</th></tr></thead><tbody>
+<tr><th scope="row">1997年（平成9年）</th><td class="z">—</td><td>100.0</td><td>100.0</td><td>100.0</td></tr>
+<tr><th scope="row">1998年（平成10年）</th><td class="z">—</td><td>103.9</td><td>98.5</td><td>99.2</td></tr>
+<tr><th scope="row">1999年（平成11年）</th><td class="z">—</td><td>108.6</td><td>98.4</td><td>100.7</td></tr>
+<tr><th scope="row">2000年（平成12年）</th><td class="z">—</td><td>107.3</td><td>102.6</td><td>101.0</td></tr>
+<tr><th scope="row">2001年（平成13年）</th><td class="z">—</td><td>106.0</td><td>101.0</td><td>98.8</td></tr>
+<tr><th scope="row">2002年（平成14年）</th><td class="z">—</td><td>98.6</td><td>101.9</td><td>98.4</td></tr>
+<tr><th scope="row">2003年（平成15年）</th><td class="z">—</td><td>102.0</td><td>103.7</td><td>100.6</td></tr>
+<tr><th scope="row">2004年（平成16年）</th><td class="z">—</td><td>110.9</td><td>107.7</td><td>99.0</td></tr>
+<tr><th scope="row">2005年（平成17年）</th><td class="z">—</td><td>105.6</td><td>108.2</td><td>95.3</td></tr>
+<tr><th scope="row">2006年（平成18年）</th><td class="z">—</td><td>112.2</td><td>107.7</td><td>95.1</td></tr>
+<tr><th scope="row">2007年（平成19年）</th><td>100.0</td><td>113.2</td><td>111.9</td><td>95.0</td></tr>
+<tr><th scope="row">2008年（平成20年）</th><td>94.8</td><td>104.0</td><td>113.9</td><td>93.3</td></tr>
+<tr><th scope="row">2009年（平成21年）</th><td>94.8</td><td>106.4</td><td>105.6</td><td>92.4</td></tr>
+<tr><th scope="row">2010年（平成22年）</th><td>104.2</td><td>118.1</td><td>116.0</td><td>97.1</td></tr>
+<tr><th scope="row">2011年（平成23年）</th><td>104.2</td><td class="z">—</td><td>115.8</td><td>95.4</td></tr>
+<tr><th scope="row">2012年（平成24年）</th><td>99.2</td><td class="z">—</td><td>113.7</td><td>93.7</td></tr>
+<tr><th scope="row">2013年（平成25年）</th><td>100.1</td><td class="z">—</td><td>117.6</td><td>95.2</td></tr>
+<tr><th scope="row">2014年（平成26年）</th><td>100.4</td><td class="z">—</td><td>119.0</td><td>96.8</td></tr>
+<tr><th scope="row">2015年（平成27年）</th><td>98.9</td><td class="z">—</td><td>123.1</td><td>96.3</td></tr>
+<tr><th scope="row">2016年（平成28年）</th><td>102.4</td><td class="z">—</td><td>121.6</td><td>100.7</td></tr>
+<tr><th scope="row">2017年（平成29年）</th><td>101.5</td><td class="z">—</td><td>124.6</td><td>99.0</td></tr>
+<tr><th scope="row">2018年（平成30年）</th><td>92.3</td><td class="z">—</td><td>134.4</td><td>98.6</td></tr>
+<tr><th scope="row">2019年（令和元年）</th><td>99.2</td><td class="z">—</td><td>125.6</td><td>97.7</td></tr>
+<tr><th scope="row">2020年（令和2年）</th><td>102.2</td><td class="z">—</td><td>123.0</td><td>97.8</td></tr>
+<tr><th scope="row">2021年（令和3年）</th><td>97.3</td><td class="z">—</td><td>135.3</td><td>98.9</td></tr>
+<tr><th scope="row">2022年（令和4年）</th><td>97.8</td><td class="z">—</td><td>135.2</td><td>97.5</td></tr>
+<tr class="latest"><th scope="row">2023年（令和5年）</th><td>95.4</td><td class="z">—</td><td>133.6</td><td>100.2</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit">単位——指数。<b>一次資料——島根県政策企画局統計調査課</b> ／ 元の統計——毎月勤労統計調査地方調査報告。「—」は、その年の数がこの列に無いことを示します。</p>
+<h3>雇用の動き</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="雇用の動き"><table class="t fixed" style="--n:4"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>雇用の動き</caption><thead><tr><th scope="col">年</th><th scope="col">医療,福祉指数（指数）</th><th scope="col">建設業指数（指数）</th><th scope="col">製造業指数（指数）</th><th scope="col">調査産業計指数（指数）</th></tr></thead><tbody>
+<tr><th scope="row">1997年（平成9年）</th><td class="z">—</td><td>100.0</td><td>100.0</td><td>100.0</td></tr>
+<tr><th scope="row">1998年（平成10年）</th><td class="z">—</td><td>101.7</td><td>97.6</td><td>100.3</td></tr>
+<tr><th scope="row">1999年（平成11年）</th><td class="z">—</td><td>105.9</td><td>90.9</td><td>98.8</td></tr>
+<tr><th scope="row">2000年（平成12年）</th><td class="z">—</td><td>103.3</td><td>87.6</td><td>98.2</td></tr>
+<tr><th scope="row">2001年（平成13年）</th><td class="z">—</td><td>96.7</td><td>83.7</td><td>96.6</td></tr>
+<tr><th scope="row">2002年（平成14年）</th><td class="z">—</td><td>91.5</td><td>76.4</td><td>96.5</td></tr>
+<tr><th scope="row">2003年（平成15年）</th><td class="z">—</td><td>87.6</td><td>73.4</td><td>97.7</td></tr>
+<tr><th scope="row">2004年（平成16年）</th><td class="z">—</td><td>91.2</td><td>69.2</td><td>97.5</td></tr>
+<tr><th scope="row">2005年（平成17年）</th><td class="z">—</td><td>83.3</td><td>69.8</td><td>97.0</td></tr>
+<tr><th scope="row">2006年（平成18年）</th><td class="z">—</td><td>79.9</td><td>70.3</td><td>97.7</td></tr>
+<tr><th scope="row">2007年（平成19年）</th><td>100.0</td><td>81.1</td><td>74.5</td><td>98.4</td></tr>
+<tr><th scope="row">2008年（平成20年）</th><td>107.7</td><td>75.2</td><td>76.7</td><td>98.9</td></tr>
+<tr><th scope="row">2009年（平成21年）</th><td>114.8</td><td>74.8</td><td>72.3</td><td>98.1</td></tr>
+<tr><th scope="row">2010年（平成22年）</th><td>122.1</td><td>74.3</td><td>70.9</td><td>98.4</td></tr>
+<tr><th scope="row">2011年（平成23年）</th><td>129.5</td><td class="z">—</td><td>71.2</td><td>99.3</td></tr>
+<tr><th scope="row">2012年（平成24年）</th><td>130.9</td><td class="z">—</td><td>69.3</td><td>97.4</td></tr>
+<tr><th scope="row">2013年（平成25年）</th><td>134.6</td><td class="z">—</td><td>65.4</td><td>96.6</td></tr>
+<tr><th scope="row">2014年（平成26年）</th><td>136.9</td><td class="z">—</td><td>64.8</td><td>96.3</td></tr>
+<tr><th scope="row">2015年（平成27年）</th><td>141.5</td><td class="z">—</td><td>65.7</td><td>97.9</td></tr>
+<tr><th scope="row">2016年（平成28年）</th><td>140.3</td><td class="z">—</td><td>66.7</td><td>98.0</td></tr>
+<tr><th scope="row">2017年（平成29年）</th><td>143.0</td><td class="z">—</td><td>70.2</td><td>99.7</td></tr>
+<tr><th scope="row">2018年（平成30年）</th><td>144.9</td><td class="z">—</td><td>72.0</td><td>101.6</td></tr>
+<tr><th scope="row">2019年（令和元年）</th><td>149.6</td><td class="z">—</td><td>73.5</td><td>102.6</td></tr>
+<tr><th scope="row">2020年（令和2年）</th><td>148.9</td><td class="z">—</td><td>72.3</td><td>100.8</td></tr>
+<tr><th scope="row">2021年（令和3年）</th><td>149.6</td><td class="z">—</td><td>72.7</td><td>101.7</td></tr>
+<tr><th scope="row">2022年（令和4年）</th><td>149.8</td><td class="z">—</td><td>72.8</td><td>102.7</td></tr>
+<tr class="latest"><th scope="row">2023年（令和5年）</th><td>150.4</td><td class="z">—</td><td>72.2</td><td>104.0</td></tr>
+</tbody></table></div></div>
+
+
+<p class="unit">単位——指数。<b>一次資料——島根県政策企画局統計調査課</b> ／ 元の統計——毎月勤労統計調査地方調査報告。「—」は、その年の数がこの列に無いことを示します。</p>
+
+
+</section>
+<section class="frame" id="s-06-chiku" data-screen="06-chiku" aria-labelledby="h-s-06-chiku">
+<h2 id="h-s-06-chiku">地区ごとの高齢化</h2>
+<div class="chooser"><div class="pick"><label for="area">地区を選ぶ</label>
+<select id="area"><option value="大野" selected>大野</option><option value="美保関">美保関</option><option value="島根">島根</option><option value="本庄">本庄</option><option value="秋鹿">秋鹿</option><option value="鹿島">鹿島</option><option value="八束">八束</option><option value="古江">古江</option><option value="宍道">宍道</option><option value="白潟">白潟</option><option value="雑賀">雑賀</option><option value="忌部">忌部</option><option value="朝酌">朝酌</option><option value="八雲">八雲</option><option value="竹矢">竹矢</option><option value="城北">城北</option><option value="大庭">大庭</option><option value="古志原">古志原</option><option value="生馬">生馬</option><option value="持田">持田</option><option value="城西">城西</option><option value="玉湯">玉湯</option><option value="朝日">朝日</option><option value="東出雲">東出雲</option><option value="乃木">乃木</option><option value="津田">津田</option><option value="城東">城東</option><option value="川津">川津</option><option value="法吉">法吉</option><option value="その他">その他</option><option value="東出雲町">東出雲町</option></select></div>
+
+<p class="hint">選ぶと、この節の地区ごとの表がその地区になります。</p>
+</div>
+
+<div id="vt-trend">
+<h3 id="v-trend">地区ごとの推移（2009〜2025年度）——<span class="vn">大野</span></h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="地区ごとの推移（選んだ地区と市全体）"><table class="t fixed" style="--n:2"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"></colgroup><caption>地区ごとの推移（選んだ地区と市全体）</caption><thead><tr><th scope="col">年度</th><th scope="col">大野（%）</th><th scope="col">市全体（%）</th></tr></thead><tbody id="vt-trend-body">
+<tr><th scope="row">2009年度（平成21年度）</th><td>32.8</td><td>24.17</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>33.6</td><td>24.59</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>33.4</td><td>24.57</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>34.4</td><td>24.93</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>36.1</td><td>25.75</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>37.7</td><td>26.53</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>39.2</td><td>27.35</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>40.1</td><td>28.05</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>41.3</td><td>28.52</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>42.3</td><td>28.83</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>43.7</td><td>29.20</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>44.7</td><td>29.59</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>46.5</td><td>29.86</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>47.5</td><td>30.20</td></tr>
+<tr><th scope="row">2023年度（令和5年度）</th><td>48.1</td><td>30.39</td></tr>
+<tr><th scope="row">2024年度（令和6年度）</th><td>48.7</td><td>30.69</td></tr>
+<tr class="latest"><th scope="row">2025年度（令和7年度）</th><td>50.2</td><td>30.88</td></tr>
+</tbody></table></div></div>
+
+</div>
+<p class="unit">単位——%。<b>一次資料——松江市健康福祉総務課</b> ／ 元の統計——人口・世帯数（公民館別町別一覧表）。表示は地区が小数第1位、市全体が小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。「—」は、その年度の数がこの列に無いことを示します。</p>
+<h3 id="v-city">市全体の推移（1983〜2025年度）</h3>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="市全体の推移の高齢化率"><table class="t fixed" style="--n:1"><colgroup><col class="c-name"><col class="c-num"></colgroup><caption>市全体の推移の高齢化率</caption><thead><tr><th scope="col">年度</th><th scope="col">市全体（%）</th></tr></thead><tbody>
+<tr><th scope="row">1983年度（昭和58年度）</th><td>10.50</td></tr>
+<tr><th scope="row">1984年度（昭和59年度）</th><td>10.70</td></tr>
+<tr><th scope="row">1985年度（昭和60年度）</th><td>11.10</td></tr>
+<tr><th scope="row">1986年度（昭和61年度）</th><td>11.40</td></tr>
+<tr><th scope="row">1987年度（昭和62年度）</th><td>11.80</td></tr>
+<tr><th scope="row">1988年度（昭和63年度）</th><td>12.20</td></tr>
+<tr><th scope="row">1989年度（平成元年度）</th><td>12.60</td></tr>
+<tr><th scope="row">1990年度（平成2年度）</th><td>13.03</td></tr>
+<tr><th scope="row">1991年度（平成3年度）</th><td>13.62</td></tr>
+<tr><th scope="row">1992年度（平成4年度）</th><td>14.13</td></tr>
+<tr><th scope="row">1993年度（平成5年度）</th><td>14.67</td></tr>
+<tr><th scope="row">1994年度（平成6年度）</th><td>15.28</td></tr>
+<tr><th scope="row">1995年度（平成7年度）</th><td>15.76</td></tr>
+<tr><th scope="row">1996年度（平成8年度）</th><td>16.25</td></tr>
+<tr><th scope="row">1997年度（平成9年度）</th><td>16.77</td></tr>
+<tr><th scope="row">1998年度（平成10年度）</th><td>17.28</td></tr>
+<tr><th scope="row">1999年度（平成11年度）</th><td>17.77</td></tr>
+<tr><th scope="row">2000年度（平成12年度）</th><td>18.24</td></tr>
+<tr><th scope="row">2001年度（平成13年度）</th><td>18.91</td></tr>
+<tr><th scope="row">2002年度（平成14年度）</th><td>19.47</td></tr>
+<tr><th scope="row">2003年度（平成15年度）</th><td>19.98</td></tr>
+<tr><th scope="row">2004年度（平成16年度）</th><td>20.28</td></tr>
+<tr><th scope="row">2005年度（平成17年度）</th><td>22.25</td></tr>
+<tr><th scope="row">2006年度（平成18年度）</th><td>22.70</td></tr>
+<tr><th scope="row">2007年度（平成19年度）</th><td>23.13</td></tr>
+<tr><th scope="row">2008年度（平成20年度）</th><td>23.66</td></tr>
+<tr><th scope="row">2009年度（平成21年度）</th><td>24.17</td></tr>
+<tr><th scope="row">2010年度（平成22年度）</th><td>24.59</td></tr>
+<tr><th scope="row">2011年度（平成23年度）</th><td>24.57</td></tr>
+<tr><th scope="row">2012年度（平成24年度）</th><td>24.93</td></tr>
+<tr><th scope="row">2013年度（平成25年度）</th><td>25.75</td></tr>
+<tr><th scope="row">2014年度（平成26年度）</th><td>26.53</td></tr>
+<tr><th scope="row">2015年度（平成27年度）</th><td>27.35</td></tr>
+<tr><th scope="row">2016年度（平成28年度）</th><td>28.05</td></tr>
+<tr><th scope="row">2017年度（平成29年度）</th><td>28.52</td></tr>
+<tr><th scope="row">2018年度（平成30年度）</th><td>28.83</td></tr>
+<tr><th scope="row">2019年度（令和元年度）</th><td>29.20</td></tr>
+<tr><th scope="row">2020年度（令和2年度）</th><td>29.59</td></tr>
+<tr><th scope="row">2021年度（令和3年度）</th><td>29.86</td></tr>
+<tr><th scope="row">2022年度（令和4年度）</th><td>30.20</td></tr>
+<tr><th scope="row">2023年度（令和5年度）</th><td>30.39</td></tr>
+<tr><th scope="row">2024年度（令和6年度）</th><td>30.69</td></tr>
+<tr class="latest"><th scope="row">2025年度（令和7年度）</th><td>30.88</td></tr>
+</tbody></table></div></div>
+
+<p class="unit">単位——%。<b>一次資料——1983年度から2013年度は松江市介護保険課 ／ 2014年度から2025年度は松江市健康福祉総務課</b> ／ 元の統計——人口・世帯数（公民館別町別一覧表）。表示は小数第2位までに丸めています（<b>丸めているのは表示だけ</b>です）。</p>
+<h3 id="s-cross">2025年度の、地区ごとの人口・世帯と高齢化率</h3>
+<p class="sub">2025年度の、地区ごとの人口・世帯数と、65歳以上の人数です。<b>いちばん下が市全体です。</b></p>
+<div class="data"><div class="scroll" tabindex="0" role="region" aria-label="地区ごとの人口・世帯と高齢化率"><table class="t fixed" style="--n:6"><colgroup><col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup><caption>地区ごとの人口・世帯と高齢化率</caption><thead><tr><th scope="col">地区</th><th scope="col">人口（人）</th><th scope="col">世帯数（世帯）</th><th scope="col">65歳以上（人）</th><th scope="col">高齢化率（%）</th><th scope="col">65歳以上のみ・独居（世帯）</th><th scope="col">65歳以上のみ・2人以上（世帯）</th></tr></thead><tbody>
+<tr><th scope="row">大野</th><td>1,018</td><td>479</td><td>511</td><td>50.2</td><td>121</td><td>91</td></tr>
+<tr><th scope="row">美保関</th><td>4,224</td><td>2,042</td><td>2,050</td><td>48.5</td><td>557</td><td>390</td></tr>
+<tr><th scope="row">島根</th><td>2,833</td><td>1,299</td><td>1,358</td><td>47.9</td><td>293</td><td>243</td></tr>
+<tr><th scope="row">本庄</th><td>2,091</td><td>983</td><td>956</td><td>45.7</td><td>209</td><td>188</td></tr>
+<tr><th scope="row">秋鹿</th><td>1,593</td><td>722</td><td>700</td><td>43.9</td><td>180</td><td>118</td></tr>
+<tr><th scope="row">鹿島</th><td>5,607</td><td>2,595</td><td>2,365</td><td>42.2</td><td>597</td><td>432</td></tr>
+<tr><th scope="row">八束</th><td>3,656</td><td>1,735</td><td>1,416</td><td>38.7</td><td>412</td><td>241</td></tr>
+<tr><th scope="row">古江</th><td>4,143</td><td>1,934</td><td>1,575</td><td>38.0</td><td>402</td><td>312</td></tr>
+<tr><th scope="row">宍道</th><td>7,967</td><td>3,277</td><td>3,012</td><td>37.8</td><td>554</td><td>516</td></tr>
+<tr><th scope="row">白潟</th><td>2,906</td><td>1,705</td><td>1,088</td><td>37.4</td><td>405</td><td>181</td></tr>
+<tr><th scope="row">雑賀</th><td>4,660</td><td>2,515</td><td>1,720</td><td>36.9</td><td>627</td><td>361</td></tr>
+<tr><th scope="row">忌部</th><td>1,997</td><td>822</td><td>733</td><td>36.7</td><td>162</td><td>145</td></tr>
+<tr><th scope="row">朝酌</th><td>1,901</td><td>837</td><td>693</td><td>36.5</td><td>174</td><td>134</td></tr>
+<tr><th scope="row">八雲</th><td>6,552</td><td>2,725</td><td>2,310</td><td>35.3</td><td>462</td><td>506</td></tr>
+<tr><th scope="row">竹矢</th><td>5,805</td><td>2,823</td><td>2,021</td><td>34.8</td><td>529</td><td>430</td></tr>
+<tr><th scope="row">城北</th><td>6,781</td><td>3,289</td><td>2,271</td><td>33.5</td><td>698</td><td>490</td></tr>
+<tr><th scope="row">大庭</th><td>8,255</td><td>4,018</td><td>2,747</td><td>33.3</td><td>841</td><td>514</td></tr>
+<tr><th scope="row">古志原</th><td>12,736</td><td>6,380</td><td>4,087</td><td>32.1</td><td>1,349</td><td>804</td></tr>
+<tr><th scope="row">生馬</th><td>3,332</td><td>1,551</td><td>1,068</td><td>32.1</td><td>267</td><td>238</td></tr>
+<tr><th scope="row">持田</th><td>4,290</td><td>1,983</td><td>1,220</td><td>28.4</td><td>334</td><td>250</td></tr>
+<tr><th scope="row">城西</th><td>8,908</td><td>4,212</td><td>2,465</td><td>27.7</td><td>805</td><td>530</td></tr>
+<tr><th scope="row">玉湯</th><td>7,398</td><td>3,176</td><td>2,004</td><td>27.1</td><td>485</td><td>368</td></tr>
+<tr><th scope="row">朝日</th><td>4,459</td><td>2,408</td><td>1,202</td><td>27.0</td><td>487</td><td>201</td></tr>
+<tr><th scope="row">東出雲</th><td>15,571</td><td>6,437</td><td>4,040</td><td>25.9</td><td>872</td><td>741</td></tr>
+<tr><th scope="row">乃木</th><td>15,632</td><td>7,489</td><td>4,016</td><td>25.7</td><td>1,199</td><td>819</td></tr>
+<tr><th scope="row">津田</th><td>13,420</td><td>6,548</td><td>3,403</td><td>25.4</td><td>1,003</td><td>693</td></tr>
+<tr><th scope="row">城東</th><td>7,555</td><td>4,080</td><td>1,877</td><td>24.8</td><td>728</td><td>350</td></tr>
+<tr><th scope="row">川津</th><td>15,627</td><td>8,128</td><td>3,845</td><td>24.6</td><td>986</td><td>876</td></tr>
+<tr><th scope="row">法吉</th><td>12,207</td><td>5,521</td><td>2,880</td><td>23.6</td><td>792</td><td>675</td></tr>
+<tr><th scope="row">その他</th><td>11</td><td>11</td><td>0</td><td>0.0</td><td>0</td><td>0</td></tr>
+<tr class="latest"><th scope="row">市全体</th><td>193,135</td><td>91,724</td><td>59,633</td><td>30.9</td><td>16,530</td><td>11,837</td></tr>
+</tbody></table></div></div>
+
+<p class="unit"><b>一次資料——松江市健康福祉総務課</b> ／ 元の統計——人口・世帯数（公民館別町別一覧表）。表示は小数第1位までに丸めています（<b>丸めているのは表示だけ</b>です）。世帯を数える列と人を数える列は、<b>同じ人を数えていません</b>——データ元の注記が「読むときに気をつけること」に出ています。</p>
+
+
+</section>
+</div>
+</main>
+<footer class="foot"><div class="in">出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工 ／ 取得時点 2026年11月12日</div></footer>
+</div>
+</div>
+<script type="application/json" id="d">{"city": {"axis": {"l": ["1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"], "t": "\u5e74\u5ea6", "x": [1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]}, "id": "cCity", "values": [10.5, 10.7, 11.1, 11.4, 11.8, 12.2, 12.6, 13.03, 13.62, 14.13, 14.67, 15.28, 15.76, 16.25, 16.77, 17.28, 17.77, 18.24, 18.91, 19.47, 19.98, 20.28, 22.25, 22.7, 23.13, 23.66, 24.17, 24.59, 24.57, 24.93, 25.754600334569787, 26.534464640174367, 27.35014771589716, 28.046923577824888, 28.518623966698737, 28.827630379622104, 29.204951284629523, 29.58756932758466, 29.860572617802884, 30.203196692381383, 30.391668530302724, 30.68927284486741, 30.8763300282186]}, "latest": {"id": "cChiku", "labels": ["\u5927\u91ce", "\u7f8e\u4fdd\u95a2", "\u5cf6\u6839", "\u672c\u5e84", "\u79cb\u9e7f", "\u9e7f\u5cf6", "\u516b\u675f", "\u53e4\u6c5f", "\u5b8d\u9053", "\u767d\u6f5f", "\u96d1\u8cc0", "\u5fcc\u90e8", "\u671d\u914c", "\u516b\u96f2", "\u7af9\u77e2", "\u57ce\u5317", "\u5927\u5ead", "\u53e4\u5fd7\u539f", "\u751f\u99ac", "\u6301\u7530", "\u57ce\u897f", "\u7389\u6e6f", "\u671d\u65e5", "\u6771\u51fa\u96f2", "\u4e43\u6728", "\u6d25\u7530", "\u57ce\u6771", "\u5ddd\u6d25", "\u6cd5\u5409"], "values": [50.19646365422397, 48.53219696969697, 47.93505118249205, 45.71975131516021, 43.94224733207784, 42.17941858391296, 38.7308533916849, 38.015930485155685, 37.80594954186017, 37.43977976600137, 36.9098712446352, 36.70505758637957, 36.454497632824825, 35.256410256410255, 34.81481481481482, 33.4906355994691, 33.276801938219265, 32.090138190954775, 32.052821128451384, 28.438228438228435, 27.671755725190838, 27.08840227088402, 26.956716752635117, 25.94566822940081, 25.690890481064482, 25.35767511177347, 24.84447385837194, 24.604850579125873, 23.593020398132218]}, "trend": {"areas": {"\u305d\u306e\u4ed6": [null, null, null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, 0.0, 0.0], "\u4e43\u6728": [18.586074595886533, 18.690528703762052, 18.533275228786653, 18.98168270723378, 19.9284304047384, 20.61810974854453, 21.452063295066708, 22.33606557377049, 22.691472868217055, 23.207382466641725, 23.496756487025948, 23.87052427669812, 24.125195618153363, 24.44220979196782, 24.727524727524727, 25.214735636571866, 25.690890481064482], "\u516b\u675f": [29.751495628163827, 30.32001868722261, 30.101919886228963, 30.86301697346402, 32.4853228962818, 32.874015748031496, 34.025717111770525, 35.17310587054692, 35.73573573573574, 36.44601057135666, 36.6658272475447, 37.912509593246355, 37.38656987295826, 38.30123977842258, 38.853503184713375, 38.766163793103445, 38.7308533916849], "\u516b\u96f2": [23.071528751753156, 23.537722520486014, 23.798659632111793, 24.86719310839914, 26.242258389745064, 27.33926521239954, 28.877624909485878, 30.33230859317816, 31.162722328384536, 31.788176617280328, 32.281374428550365, 32.92917344373799, 33.86377156454491, 34.47653429602888, 34.73937933112383, 35.270024271844655, 35.256410256410255], "\u53e4\u5fd7\u539f": [26.001842468908336, 26.470363872148905, 26.563812724356527, 27.16087357736081, 28.347005107568492, 29.285435376805935, 29.768312660893987, 29.82388382511973, 30.327552986512522, 30.96124031007752, 31.363388616366894, 31.435432643891858, 31.66782864668061, 31.68905357418558, 31.82240099009901, 32.05237468040598, 32.090138190954775], "\u53e4\u6c5f": [24.0833500300541, 24.852672221093275, 24.897792313982013, 25.668999588307944, 26.865671641791046, 27.994955863808325, 29.174664107485604, 30.310880829015545, 30.93790707772471, 31.85801928133217, 32.97754058261063, 33.817521561507036, 34.907173962869585, 35.91893780573026, 36.57733897508228, 37.338748208313426, 38.015930485155685], "\u57ce\u5317": [24.650864830237026, 25.18248175182482, 25.383800952885128, 25.719187120612297, 26.655236085465578, 27.136471206941888, 27.626202715170688, 28.426060525968015, 29.094076655052266, 28.971836679692764, 29.97932460372157, 30.576091505091362, 30.867850098619332, 31.539442005381673, 31.975996570938705, 32.54833551388283, 33.4906355994691], "\u57ce\u6771": [22.861507128309572, 23.14017730952075, 22.790816980890085, 23.100695338655676, 23.29255861365953, 23.418354588647162, 23.8510101010101, 24.22510162601626, 24.22622747047856, 23.712486105965173, 23.747061007301077, 24.178878221323902, 24.57659493187317, 24.882150592432158, 24.902419984387198, 24.736980536559706, 24.84447385837194], "\u57ce\u897f": [23.47546996790463, 23.423728813559322, 22.845114114779523, 23.23623878613357, 23.587894679340106, 23.857205050065303, 24.830230010952903, 25.390883065404097, 25.637116096710955, 25.55976203353164, 26.151333696243878, 26.019376131161504, 26.36971527178602, 26.694178974804515, 26.905437868530246, 27.369353410097432, 27.671755725190838], "\u5927\u5ead": [23.669512066603435, 24.930718396930292, 25.07183143556454, 25.824531148954517, 26.85254691689008, 27.44992461770407, 28.574542284219707, 29.23591625296784, 30.343094405594407, 30.807248764415156, 31.389687984067272, 31.969137873196914, 32.413249211356465, 32.98992938997569, 33.0936947554508, 33.33333333333333, 33.276801938219265], "\u5927\u91ce": [32.77674706246135, 33.631713554987215, 33.44327176781003, 34.43396226415094, 36.10157858613589, 37.65867418899859, 39.15881073241479, 40.117994100294986, 41.32730015082956, 42.29007633587786, 43.671875, 44.74959612277868, 46.50967199327166, 47.46503496503497, 48.09437386569873, 48.725212464589234, 50.19646365422397], "\u5b8d\u9053": [28.733439321674613, 29.274776690769883, 29.43197680661441, 30.21364277193363, 31.371904448827525, 32.61954953955398, 33.740695478280195, 34.45991466427128, 35.206461153452395, 35.53823225954373, 36.10629693818602, 36.72468169606354, 37.03049570234311, 37.47616777883699, 37.56536543840448, 37.84083898827884, 37.80594954186017], "\u5cf6\u6839": [35.53412462908012, 35.460277427490546, 35.15864892528147, 36.08570681996342, 36.79195341450503, 38.66702644360496, 39.47730398899587, 40.57272469520839, 42.11908931698774, 42.661913250148544, 44.18886198547216, 44.88091555830498, 45.422869813113714, 46.28664495114007, 46.833333333333336, 47.312564190345775, 47.93505118249205], "\u5ddd\u6d25": [15.993276876333312, 16.630055562734203, 16.760172825175726, 17.29265478784771, 17.849502957090728, 18.62388770522622, 19.40672132173478, 20.138147566718995, 20.357634112792297, 20.94303045463073, 21.2532865907099, 21.58736105907331, 21.966618741013942, 22.6040234911908, 23.050422799874724, 23.908761674820507, 24.604850579125873], "\u5fcc\u90e8": [24.730700179533212, 24.227496641289743, 24.467603081105572, 25.216203914428764, 26.768814781433075, 28.065395095367844, 29.575536284801462, 30.985915492957744, 32.21757322175732, 32.86843328684333, 33.70786516853933, 34.57723193197921, 34.85357657225156, 35.11303511303511, 35.386119257087, 36.30541871921182, 36.70505758637957], "\u6301\u7530": [19.623271340009538, 20.397890699904124, 21.015377105198926, 22.08015736415048, 23.404255319148938, 24.157723983029697, 25.1010101010101, 26.225366346639717, 27.024961793173713, 27.265803503427264, 27.56474103585657, 27.627035027133694, 27.666829030686802, 27.359389895138225, 27.64018691588785, 27.977580569827182, 28.438228438228435], "\u671d\u65e5": [22.61549069179499, 22.912801484230055, 22.837209302325583, 23.00114547537228, 23.38728060177798, 24.467353951890033, 25.143513203214695, 25.755130274383216, 26.10917537746806, 25.06625441696113, 25.349301397205586, 25.58242733525627, 25.807174887892376, 26.39077340569878, 26.656007309273637, 27.253765932792582, 26.956716752635117], "\u671d\u914c": [30.17362740497419, 30.660377358490564, 31.162566328991797, 32.146341463414636, 32.958984375, 33.87096774193548, 34.58128078817734, 35.75, 35.77564426478019, 36.30379746835443, 36.126442548921226, 36.79389312977099, 36.471193415637856, 37.21294363256785, 37.5, 36.96456901110523, 36.454497632824825], "\u672c\u5e84": [33.41753879465897, 34.61818181818182, 34.5547819714181, 34.84791588434097, 36.49468892261002, 37.605850654349496, 38.759689922480625, 39.79711275848615, 40.96337579617834, 40.86886564762671, 41.47446457990115, 42.71803556308213, 43.341815097540284, 44.55142231947484, 45.14959202175884, 45.33582089552239, 45.71975131516021], "\u6771\u51fa\u96f2": [null, null, null, 22.365678165557124, 22.925503711558854, 23.405366586146112, 24.04720448829561, 24.569269198744635, 24.969704700554882, 25.34571062740077, 25.531643957723166, 25.806451612903224, 26.03520324173737, 26.333290702135827, 26.230242528956293, 26.134324532171238, 25.94566822940081], "\u6771\u51fa\u96f2\u753a": [null, null, 21.78520480945588, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "\u6cd5\u5409": [17.117416992593824, 17.198552393485773, 17.203430975886068, 17.46507773656381, 18.24805955963884, 19.27835051546392, 19.923918212077986, 20.308825834770342, 20.5987837205676, 20.90916253052864, 21.434841592849732, 21.75581674262413, 22.00428809656158, 22.804040404040403, 23.07503276539974, 23.425568601691435, 23.593020398132218], "\u6d25\u7530": [19.66048459467544, 20.21755438859715, 20.27300682517063, 20.992395150967546, 21.518705463182897, 22.345165602257538, 22.812156719150494, 23.865819417762673, 24.1515038989974, 24.507398319577664, 24.56670845932591, 24.863428318322754, 24.811585636175558, 24.73363215519142, 24.65783664459161, 25.018493860038465, 25.35767511177347], "\u7389\u6e6f": [25.630788885340145, 26.95281679027931, 27.087608524072614, 27.52336448598131, 27.997537324919193, 28.909007211907316, 29.425147884119518, 29.728920173730717, 30.008839127872715, 29.541794759186065, 28.938628158844764, 29.160040479976868, 28.391255605381165, 28.124567474048444, 27.62190138926723, 27.591380250954717, 27.08840227088402], "\u751f\u99ac": [21.060802069857697, 20.897435897435898, 20.932028836251288, 21.699584199584198, 22.523920351693818, 23.40980187695516, 24.654255319148934, 25.006615506747814, 25.580154707922116, 26.216216216216214, 27.208287895310797, 27.70455793520044, 28.420467185761954, 28.922815945716707, 29.818925233644862, 31.277794248443524, 32.052821128451384], "\u767d\u6f5f": [34.18577307466196, 34.27812223206377, 33.96796615291629, 33.81730187537811, 34.62812405901837, 35.4598947042428, 36.50047036688618, 36.41838351822504, 36.70967741935484, 36.289798570500324, 36.34564643799472, 37.487196995561625, 37.75759692630108, 37.513098148794974, 37.39754098360656, 36.51438240270728, 37.43977976600137], "\u79cb\u9e7f": [33.30201972757163, 33.5523228531206, 33.4124347413384, 34.32692307692308, 35.44794188861985, 36.58777120315582, 37.69423558897243, 38.488843813387426, 39.195461578133056, 39.84375, 41.04477611940299, 41.789416257501365, 42.69788182831661, 43.24942791762014, 43.411764705882355, 43.75380865326021, 43.94224733207784], "\u7af9\u77e2": [24.18583114678191, 24.930619796484738, 25.104667390293066, 26.630007855459542, 27.892334330237684, 28.877599618987144, 29.86454183266932, 31.22302158273381, 32.06696716033483, 33.24013157894737, 33.355592654424036, 34.01715150496049, 34.26019548365352, 34.26549865229111, 34.45049336509017, 34.77665582748588, 34.81481481481482], "\u7f8e\u4fdd\u95a2": [36.55217109526895, 36.80567001813087, 36.81825809699614, 37.64505119453925, 38.89470013947001, 39.89295272078501, 41.11619396157365, 42.02087994034302, 43.351063829787236, 44.06017975771786, 44.74940334128878, 45.53971486761711, 46.610703043022035, 47.07926167209555, 47.94551138901295, 48.24742268041237, 48.53219696969697], "\u96d1\u8cc0": [32.57934420480449, 32.602210914195474, 33.1662788616431, 33.297413793103445, 34.10196361016033, 35.3038980232773, 36.5761689291101, 37.06173780487805, 37.00019131432944, 36.957779063042224, 37.15569447157648, 37.02970297029703, 37.18724778046812, 37.24123795859807, 37.31281198003328, 36.74234534471985, 36.9098712446352], "\u9e7f\u5cf6": [30.14534129249935, 30.497571222265986, 30.43536503683858, 31.241454744325953, 32.24683103496309, 33.093626621545404, 34.2040698513494, 35.21147373042587, 35.92609149158098, 36.44144144144144, 37.343629343629345, 38.25535289452815, 39.33526944175541, 40.08278145695364, 40.973871733966746, 41.56542867060048, 42.17941858391296]}, "axis": {"l": ["2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"], "t": "\u5e74\u5ea6", "x": [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]}, "city": [24.17, 24.59, 24.57, 24.93, 25.754600334569787, 26.534464640174367, 27.35014771589716, 28.046923577824888, 28.518623966698737, 28.827630379622104, 29.204951284629523, 29.58756932758466, 29.860572617802884, 30.203196692381383, 30.391668530302724, 30.68927284486741, 30.8763300282186], "id": "cSuii"}}</script>
+<script type="application/json" id="pick">{"defaults": {"area": "\u5927\u91ce", "screen": "01-hogo"}, "depends": {}, "keys": ["screen", "area"], "latest": [], "options": {"area": [{"label": "\u5927\u91ce", "value": "\u5927\u91ce"}, {"label": "\u7f8e\u4fdd\u95a2", "value": "\u7f8e\u4fdd\u95a2"}, {"label": "\u5cf6\u6839", "value": "\u5cf6\u6839"}, {"label": "\u672c\u5e84", "value": "\u672c\u5e84"}, {"label": "\u79cb\u9e7f", "value": "\u79cb\u9e7f"}, {"label": "\u9e7f\u5cf6", "value": "\u9e7f\u5cf6"}, {"label": "\u516b\u675f", "value": "\u516b\u675f"}, {"label": "\u53e4\u6c5f", "value": "\u53e4\u6c5f"}, {"label": "\u5b8d\u9053", "value": "\u5b8d\u9053"}, {"label": "\u767d\u6f5f", "value": "\u767d\u6f5f"}, {"label": "\u96d1\u8cc0", "value": "\u96d1\u8cc0"}, {"label": "\u5fcc\u90e8", "value": "\u5fcc\u90e8"}, {"label": "\u671d\u914c", "value": "\u671d\u914c"}, {"label": "\u516b\u96f2", "value": "\u516b\u96f2"}, {"label": "\u7af9\u77e2", "value": "\u7af9\u77e2"}, {"label": "\u57ce\u5317", "value": "\u57ce\u5317"}, {"label": "\u5927\u5ead", "value": "\u5927\u5ead"}, {"label": "\u53e4\u5fd7\u539f", "value": "\u53e4\u5fd7\u539f"}, {"label": "\u751f\u99ac", "value": "\u751f\u99ac"}, {"label": "\u6301\u7530", "value": "\u6301\u7530"}, {"label": "\u57ce\u897f", "value": "\u57ce\u897f"}, {"label": "\u7389\u6e6f", "value": "\u7389\u6e6f"}, {"label": "\u671d\u65e5", "value": "\u671d\u65e5"}, {"label": "\u6771\u51fa\u96f2", "value": "\u6771\u51fa\u96f2"}, {"label": "\u4e43\u6728", "value": "\u4e43\u6728"}, {"label": "\u6d25\u7530", "value": "\u6d25\u7530"}, {"label": "\u57ce\u6771", "value": "\u57ce\u6771"}, {"label": "\u5ddd\u6d25", "value": "\u5ddd\u6d25"}, {"label": "\u6cd5\u5409", "value": "\u6cd5\u5409"}, {"label": "\u305d\u306e\u4ed6", "value": "\u305d\u306e\u4ed6"}, {"label": "\u6771\u51fa\u96f2\u753a", "value": "\u6771\u51fa\u96f2\u753a"}], "screen": [{"label": "\u751f\u6d3b\u4fdd\u8b77\u3092\u53d7\u3051\u3066\u3044\u308b\u4eba\u3068\u4e16\u5e2f", "value": "01-hogo"}, {"label": "\u751f\u6d3b\u4fdd\u8b77\u306e\u652f\u7d66\u984d", "value": "02-shikyu"}, {"label": "\u969c\u304c\u3044\u8005\u624b\u5e33\u3068\u624b\u5f53", "value": "03-shogai"}, {"label": "\u7523\u696d\u3054\u3068\u306e\u65b0\u898f\u6c42\u4eba\u6570", "value": "04-kyujin"}, {"label": "\u8cc3\u91d1\u3068\u96c7\u7528\u306e\u6307\u6570", "value": "05-shisu"}, {"label": "\u5730\u533a\u3054\u3068\u306e\u9ad8\u9f62\u5316", "value": "06-chiku"}]}, "visible": {}}</script>
+<script>
+(function(){
+  var b=document.getElementById("menubtn"), s=document.getElementById("sidenav");
+  if(b&&s){b.addEventListener("click",function(){var o=s.classList.toggle("open"); b.setAttribute("aria-expanded",String(o));});}
+})();
+</script>
+<script>
+(function () {
+  var uid = 0;
+  var KINDS = ["k-male", "k-female", "k-city", "k-pref", "k-nation", "k-accent", "k-hue1", "k-hue2", "k-hue3", "k-other",
+    "k-o1", "k-o2", "k-o3", "k-o4", "k-o5", "k-o6", "k-o7", "k-o8", "k-o9"];
+  var LADDER = 9;
+  var SOLID_HUES = ["k-hue1", "k-hue2", "k-hue3"];
+  var REGISTRY = { "男": "k-male", "女": "k-female", "市全体": "k-city", "県": "k-pref", "国": "k-nation" };
+  var ALIASES = { "市": "市全体", "松江市": "市全体", "島根県": "県", "全国": "国" };
+  var CATCH_ALL = ["その他", "不明", "その他管外", "※その他"];
+  var HUE_ROLES = ["k-hue1", "k-hue2"];
+  var HUE_TAKEN = { "k-male": "k-hue1", "k-female": "k-hue2" };
+  var ROLE_PLACE = { "k-city": "c1" };
+  var BOOK = {};
+  var LINE_PLACE_ROLES = ["c1", "c2", "c3", "c4", "c5", "c6"];
+  function registerNames(map) {
+    BOOK = {};
+    Object.keys(map).forEach(function (name) {
+      var role = map[name];
+      if (KINDS.indexOf(role) < 0 && LINE_PLACE_ROLES.indexOf(role) < 0) { throw new RangeError("unknown role: " + role); }
+      BOOK[name] = role;
+    });
+  }
+  function roleOf(label) { return REGISTRY[ALIASES[label] || label] || (KINDS.indexOf(BOOK[label]) >= 0 ? BOOK[label] : null) || null; }
+  function lineRoleOf(label) { return REGISTRY[ALIASES[label] || label] || BOOK[label] || null; }
+  function holds(r, h) { return HUE_TAKEN[r] === h || r === h; }
+  function distinctRoles(named) {
+    var seen = {};
+    named.forEach(function (r) {
+      if (r) {
+        if (seen[r]) { throw new RangeError("two series name one division"); }
+        seen[r] = true;
+      }
+    });
+  }
+  function pairRoles(labels, values) {
+    if (labels.length !== 2) { return null; }
+    if (values && values.length === 2 && values[0].every(function (v, i) { return typeof v !== "number" || typeof values[1][i] !== "number"; })) { return null; }
+    var catches = labels.map(function (l) { return CATCH_ALL.indexOf(l) >= 0; });
+    if (catches[0] && catches[1]) { return null; }
+    if (catches[0] || catches[1]) {
+      return labels.map(function (l, i) { return catches[i] ? "k-other" : (roleOf(l) || "k-accent"); });
+    }
+    var named = labels.map(roleOf);
+    distinctRoles(named);
+    var free = HUE_ROLES.filter(function (h) { return named.every(function (r) { return !holds(r, h); }); }), j = 0;
+    return named.map(function (r) { return r || free[j++]; });
+  }
+  function orderedRoles(labels) {
+    var plain = labels.filter(function (l) { return CATCH_ALL.indexOf(l) < 0; }), n = plain.length, at = 0;
+    if (n < 2) { return null; }
+    if (n > LADDER) { throw new RangeError("ordered: more than " + LADDER + " steps"); }
+    return labels.map(function (l) {
+      if (CATCH_ALL.indexOf(l) >= 0) { return "k-other"; }
+      return "k-o" + (1 + Math.round(at++ * (LADDER - 1) / (n - 1)));
+    });
+  }
+  function nominalRoles(labels) {
+    var named = labels.map(roleOf);
+    distinctRoles(named);
+    var free = SOLID_HUES.filter(function (h) { return named.every(function (r) { return !holds(r, h); }); }), j = 0;
+    return labels.map(function (l, i) {
+      if (CATCH_ALL.indexOf(l) >= 0) { return "k-other"; }
+      return named[i] || free[j++] || null;
+    });
+  }
+  function seriesRoles(labels, values, ordered, pairable) {
+    if (labels.length < 2) { return null; }
+    if (labels.length === 2) { return !ordered && pairable ? pairRoles(labels, values) : null; }
+    return ordered ? orderedRoles(labels) : nominalRoles(labels);
+  }
+  function lineRoles(labels, places) {
+    var named = labels.map(lineRoleOf), used = {};
+    labels.forEach(function (l, i) { if (named[i] && REGISTRY[ALIASES[l] || l]) { used[named[i]] = true; } });
+    named = named.map(function (r, i) {
+      if (!r || REGISTRY[ALIASES[labels[i]] || labels[i]]) { return r; }
+      if (used[r]) { return null; }
+      used[r] = true;
+      return r;
+    });
+    if (!named.some(Boolean)) { return null; }
+    if (labels.length < 2 && !REGISTRY[ALIASES[labels[0]] || labels[0]]) { return null; }
+    distinctRoles(named);
+    var taken = named.map(function (r) { return ROLE_PLACE[r] || (places.indexOf(r) >= 0 ? r : undefined); });
+    var free = places.filter(function (c) { return taken.indexOf(c) < 0; }), j = 0;
+    return named.map(function (r) { return r || free[j++]; });
+  }
+  function kind(roles, k, place) {
+    var r = roles && roles[k];
+    if (!r) { return place; }
+    if (KINDS.indexOf(r) < 0) { throw new RangeError("unknown role: " + r); }
+    return r;
+  }
+  var MAX_STACK = 3;
+  var MAX_STACK_AREA = 12;
+
+  function nf(n, d) {
+    return n.toLocaleString("ja-JP", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
+  }
+  function sgn(n, d) {
+    return n === 0 ? "±0" : (n > 0 ? "+" : "−") + nf(Math.abs(n), d || 0);
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function nice(lo, hi, n, whole) {
+    if (hi === lo) { hi = lo + 1; }
+    var raw = (hi - lo) / n;
+    function ticks(cands, floor) {
+      var mag = Math.max(floor, Math.pow(10, Math.floor(Math.log10(raw)))), st = mag;
+      cands.some(function (m) { st = m * mag; return raw <= st; });
+      var a = Math.floor(lo / st) * st, b = Math.ceil(hi / st) * st, t = [];
+      for (var v = a; v <= b + st * 1e-9; v += st) { t.push(Math.round(v * 1e6) / 1e6); }
+      return t;
+    }
+    var t = ticks([1, 2, 2.5, 5, 10], 0);
+    return whole && !t.every(function (v) { return v === Math.round(v); }) ? ticks([1, 2, 5, 10], 1) : t;
+  }
+
+  function evenTicks(xs, labels, every, clear) {
+    var ticks = [], end = xs.length - 1;
+    for (var i = 0; i < end; i += every) {
+      if (xs[end] - xs[i] > (clear || 0)) { ticks.push([xs[i], labels[i]]); }
+    }
+    return { ticks: ticks, last: [xs[end], labels[end]] };
+  }
+
+  function svgHead(w, h, id, title, desc, readout, ordered) {
+    return '<svg viewBox="0 0 ' + w + " " + h + '"' + (ordered ? ' data-ordered="1"' : "") + (readout ? ' data-n="' + readout.n + '" data-tip="' + esc(JSON.stringify(readout.tip)) + '"' : "") +
+      ' role="img" aria-labelledby="' + id + "-t " + id + '-d"><title id="' +
+      id + '-t">' + esc(title) + '</title><desc id="' + id + '-d">' + esc(desc) + "</desc>";
+  }
+
+  var NONE = "記録なし";
+  function pos1(n) { return Math.round(n * 10) / 10; }
+  function readoutOf(axis, at, ext, heads, rows, unit, n) {
+    return { n: n, tip: { a: axis, p: at.map(pos1), e: ext.map(pos1), h: heads, s: rows, u: unit || "" } };
+  }
+  function valText(v, d) { return v === null || v === undefined ? NONE : nf(v, d || 0); }
+  function hitRect(o, x, y, w, h) {
+    o.push('<rect class="ms-hit" x="' + pos1(x) + '" y="' + pos1(y) + '" width="' + pos1(w) + '" height="' + pos1(h) + '"><title></title></rect>' +
+      '<line class="ms-cur" hidden="" x1="0" x2="0" y1="0" y2="0"/>');
+  }
+
+  function axisTicks(o, X, axis, geo) {
+    if (typeof axis === "function") { axis = axis(geo.tk === "tk-n"); }
+    var y = geo.h - geo.b + 18, ticks = axis.ticks || [];
+    ticks.forEach(function (t) {
+      var x = X(t[0]).toFixed(1);
+      o.push('<text class="' + geo.tk + '" x="' + x + '" y="' + y + '" text-anchor="middle">' + esc(t[1]) +
+        '</text><line class="axis" x1="' + x + '" x2="' + x + '" y1="' + (geo.h - geo.b) + '" y2="' + (geo.h - geo.b + 4) + '"/>');
+    });
+    (axis.marks || []).forEach(function (m) {
+      var mx = X(m).toFixed(1);
+      o.push('<line class="axis" x1="' + mx + '" x2="' + mx + '" y1="' + (geo.h - geo.b) + '" y2="' + (geo.h - geo.b + 4) + '"/>');
+    });
+    if (axis.last) {
+      o.push('<text class="' + geo.tk + '" x="' + (X(axis.last[0]) + 4).toFixed(1) + '" y="' + y +
+        '" text-anchor="end">' + esc(axis.last[1]) + "</text>");
+    }
+  }
+
+  function labelWidth(s, em) {
+    var w = 0;
+    String(s).split("").forEach(function (c) { w += /[0-9]/.test(c) ? 0.53 : /[,.]/.test(c) ? 0.28 : 0.6; });
+    return w * em;
+  }
+
+  function geometry(narrow, left, top, labels) {
+    var em = narrow ? 14 : 12.5, base = narrow ? 58 : left, need = 0;
+    (labels || []).forEach(function (s) { need = Math.max(need, labelWidth(s, em)); });
+    return { w: narrow ? 300 : 600, h: narrow ? 230 : 260, l: Math.max(base, Math.ceil(need) + 9), r: 14, t: top, b: 34,
+      tk: narrow ? "tk-n" : "tk" };
+  }
+  function axisLabels(tcks, decimals) {
+    return tcks.map(function (t) { return nf(t, decimals); });
+  }
+  function axisDec(opts) {
+    return typeof opts.axisDecimals === "number" ? opts.axisDecimals : opts.decimals;
+  }
+  function isWhole(v) { return Math.abs(v - Math.round(v)) < 1e-9; }
+  function digitsFor(ticks, from) {
+    var d = from;
+    while (d < 6 && ticks.some(function (t) { return Math.abs(t * Math.pow(10, d) - Math.round(t * Math.pow(10, d))) > 1e-9; })) { d += 1; }
+    return d;
+  }
+
+  function line(opts) {
+    var id = "m" + (++uid), xs = opts.xs, ys = opts.ys;
+    var vals = ys.filter(function (v) { return v !== null; });
+    if (!vals.length) { return ""; }
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    var pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.05 || 1, lo2 = lo - pad;
+    if (lo >= 0 && lo2 < 0) { lo2 = 0; }
+    var tcks = nice(lo2, hi + pad, 4);
+    if (lo >= 0) { tcks = tcks.filter(function (t) { return t >= 0; }); }
+    var g = geometry(opts.narrow, 62, 22, axisLabels(tcks, axisDec(opts)));
+    var ylo = tcks[0], yhi = tcks[tcks.length - 1], x0 = xs[0], x1 = xs[xs.length - 1];
+    function X(v) { return g.l + (v - x0) / (x1 - x0) * (g.w - g.l - g.r); }
+    function Y(v) { return g.t + (yhi - v) / (yhi - ylo) * (g.h - g.t - g.b); }
+    var tip = typeof opts.unit === "string"
+      ? readoutOf("x", xs.map(X), [g.t, g.h - g.b], xs.map(function (x, i) { return opts.tips ? String(opts.tips[i]) : String(x); }),
+        [{ n: "", k: 0, v: ys.map(function (v) { return valText(v, opts.decimals); }) }], opts.unit, 1)
+      : null, dk = tip ? ' data-k="0"' : "";
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc, tip, opts.ordered)];
+    tcks.forEach(function (t) {
+      var y = Y(t).toFixed(1);
+      o.push('<line class="gridl" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + y + '" y2="' + y + '"/><text class="' +
+        g.tk + '" x="' + (g.l - 8) + '" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + nf(t, axisDec(opts)) + "</text>");
+    });
+    o.push('<line class="axis" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + (g.h - g.b) + '" y2="' + (g.h - g.b) + '"/>');
+    axisTicks(o, X, opts.axis || {}, g);
+    var nod = opts.nodataTo;
+    if (nod !== null && nod !== undefined && nod > x0) {
+      var bx = X(nod);
+      o.push('<rect class="band" x="' + g.l + '" y="' + g.t + '" width="' + (bx - g.l).toFixed(1) + '" height="' +
+        (g.h - g.t - g.b) + '"/><text class="bandt ' + g.tk + '" x="' + ((g.l + bx) / 2).toFixed(1) + '" y="' +
+        (g.t + (g.h - g.t - g.b) / 2) + '" text-anchor="middle">記録なし</text>');
+    }
+    (opts.marks || []).forEach(function (m, k) {
+      if (m[0] >= x0 && m[0] <= x1) {
+        var mx = X(m[0]).toFixed(1);
+        o.push('<line class="mk" x1="' + mx + '" x2="' + mx + '" y1="' + (g.t - 4) + '" y2="' + (g.h - g.b) +
+          '"/><text class="mkn ' + g.tk + '" x="' + (X(m[0]) + (k ? 8 : -7)).toFixed(1) + '" y="' + (g.t - 7) +
+          '" text-anchor="middle">' + esc(m[1]) + "</text>");
+      }
+    });
+    var d = "", pen = false;
+    xs.forEach(function (x, i) {
+      var v = ys[i];
+      if (v === null) { pen = false; return; }
+      d += (pen ? "L" : "M") + X(x).toFixed(1) + " " + Y(v).toFixed(1) + " ";
+      pen = true;
+    });
+    o.push('<path class="ln" d="' + d.trim() + '"' + dk + "/>");
+    xs.forEach(function (x, i) {
+      if (i < xs.length - 1 && ys[i] !== null) {
+        o.push('<circle class="dot" cx="' + X(x).toFixed(1) + '" cy="' + Y(ys[i]).toFixed(1) + '" r="' + (opts.narrow ? 2.3 : 2.6) + '"' + dk + "/>");
+      }
+    });
+    var lv = ys[ys.length - 1];
+    if (lv !== null) { o.push('<circle class="last" cx="' + X(x1).toFixed(1) + '" cy="' + Y(lv).toFixed(1) + '" r="5.5"/>'); }
+    if (tip) { hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b); }
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function medianGap(xs) {
+    var g = [];
+    for (var i = 1; i < xs.length; i++) { if (xs[i] > xs[i - 1]) { g.push(xs[i] - xs[i - 1]); } }
+    g.sort(function (a, b) { return a - b; });
+    return g.length ? g[(g.length - 1) >> 1] : 1;
+  }
+
+  function nullRuns(rows) {
+    var runs = [];
+    rows.forEach(function (r, i) {
+      if (r) { return; }
+      var last = runs[runs.length - 1];
+      if (last && last[1] === i - 1) { last[1] = i; } else { runs.push([i, i]); }
+    });
+    return runs;
+  }
+
+  var BAND_WORD = "NO DATA";
+  function bandWord(word) { if (word) { BAND_WORD = String(word); } return BAND_WORD; }
+  function nodataBand(o, g, left, right) {
+    var w = right - left, cx = (left + right) / 2, cy = g.t + (g.h - g.t - g.b) / 2, h = g.h - g.t - g.b;
+    o.push('<rect class="band" x="' + left.toFixed(1) + '" y="' + g.t + '" width="' + w.toFixed(1) + '" height="' + h + '"/>' +
+      '<text class="bandt ' + g.tk + '" x="' + cx.toFixed(1) + '" y="' + cy.toFixed(1) + '" text-anchor="middle" ' +
+      'dominant-baseline="middle"' + (w < 70 ? ' transform="rotate(-90 ' + cx.toFixed(1) + " " + cy.toFixed(1) + ')"' : "") +
+      ">" + esc(BAND_WORD) + "</text>");
+  }
+
+  function stackReadout(opts, at, g) {
+    var n = opts.rows.reduce(function (a, r) { return Math.max(a, r ? r.length : 0); }, 0), rows = [];
+    for (var k = 0; k < n; k++) {
+      rows.push({ n: (opts.names && opts.names[k]) || "", k: k, v: opts.rows.map(function (r) { return valText(r ? r[k] : null, opts.decimals); }) });
+    }
+    return readoutOf("x", at, [g.t, g.h - g.b], opts.xs.map(function (x, i) { return opts.tips ? String(opts.tips[i]) : String(x); }), rows, opts.unit, n);
+  }
+
+  function stackTicks(mx, opts) {
+    var cap = typeof opts.yMax === "number" ? Math.max(opts.yMax, mx) : null;
+    var whole = typeof opts.axisDecimals === "number" ? opts.axisDecimals === 0 : opts.axisDecimals !== "auto";
+    var ts = nice(0, cap !== null ? cap : mx, 4, whole);
+    if (cap === null) { return { tcks: ts, top: ts[ts.length - 1] }; }
+    ts = ts.filter(function (v) { return v <= cap + 1e-9; });
+    return { tcks: ts.length ? ts : [0, cap], top: cap };
+  }
+
+  function stack(opts) {
+    var id = "m" + (++uid), xs = opts.xs, rows = opts.rows, mx = 0;
+    rows.forEach(function (r) {
+      if (r) {
+        if (r.length > MAX_STACK) { throw new RangeError("stack: more than " + MAX_STACK + " bands"); }
+        var s = r.reduce(function (a, b) { return a + b; }, 0);
+        if (s > mx) { mx = s; }
+      }
+    });
+    var tk0 = stackTicks(mx, opts), tcks = tk0.tcks, top = tk0.top, x0 = xs[0], x1 = xs[xs.length - 1];
+    var ad = opts.axisDecimals === "auto" ? digitsFor(tcks, 0) : (typeof opts.axisDecimals === "number" ? opts.axisDecimals : 0);
+    var g = geometry(opts.narrow, 62, opts.marks && opts.marks.length ? 22 : 14, axisLabels(tcks, ad));
+    var span = (x1 - x0) || 1, plotW = g.w - g.l - g.r, med = medianGap(xs), ratio = med / span;
+    var half = 0.31 * ratio * plotW / (1 + 0.62 * ratio);
+    function halfOf(i) {
+      var near = med;
+      if (i > 0 && xs[i] > xs[i - 1]) { near = Math.min(near, xs[i] - xs[i - 1]); }
+      if (i < xs.length - 1 && xs[i + 1] > xs[i]) { near = Math.min(near, xs[i + 1] - xs[i]); }
+      return half * near / med;
+    }
+    function X(v) { return g.l + half + (v - x0) / span * (plotW - 2 * half); }
+    function Y(v) { return g.t + (top - v) / top * (g.h - g.t - g.b); }
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc, stackReadout(opts, xs.map(X), g), opts.ordered)];
+    tcks.forEach(function (t) {
+      var y = Y(t).toFixed(1);
+      o.push('<line class="gridl" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + y + '" y2="' + y + '"/><text class="' +
+        g.tk + '" x="' + (g.l - 8) + '" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + nf(t, ad) + "</text>");
+    });
+    o.push('<line class="axis" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + (g.h - g.b) + '" y2="' + (g.h - g.b) + '"/>');
+    axisTicks(o, X, opts.axis || {}, g);
+    drawMarks(o, g, X, opts.marks, x0, x1);
+    var roles = opts.roles || (rows.every(function (r) { return !r || r.length === 1; }) ? ["k-accent"] : null);
+    nullRuns(rows).forEach(function (run) {
+      nodataBand(o, g, X(xs[run[0]]) - halfOf(run[0]), X(xs[run[1]]) + halfOf(run[1]));
+    });
+    rows.forEach(function (r, i) {
+      if (!r) { return; }
+      var base = 0, cx = X(xs[i]), hw = halfOf(i);
+      r.forEach(function (v, k) {
+        var y1 = Y(base + v), y0 = Y(base);
+        o.push('<rect class="' + kind(roles, k, "s" + (k + 1)) + '" x="' + (cx - hw).toFixed(1) + '" y="' + y1.toFixed(1) + '" width="' +
+          (hw * 2).toFixed(1) + '" height="' + Math.max(y0 - y1, 0).toFixed(1) + '" data-k="' + k + '"/>');
+        base += v;
+      });
+    });
+    hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function pairBars(opts) {
+    var narrow = opts.narrow, w = narrow ? 300 : 600, row = 26, t = 6, b = 30, lb = narrow ? 58 : 66, r = 12;
+    var n = opts.labels.length, h = t + row * n + b, id = "m" + (++uid), tk = narrow ? "tk-n" : "tk";
+    var mx = Math.max(Math.max.apply(null, opts.a), Math.max.apply(null, opts.b)), tcks = nice(0, mx, 4);
+    var top = tcks[tcks.length - 1];
+    function X(v) { return lb + v / top * (w - lb - r); }
+    var o = [svgHead(w, h, id, opts.title, opts.desc, null, opts.ordered)];
+    tcks.forEach(function (v) {
+      var x = X(v).toFixed(1);
+      o.push('<line class="gridl" x1="' + x + '" x2="' + x + '" y1="' + t + '" y2="' + (h - b) + '"/><text class="' + tk +
+        '" x="' + x + '" y="' + (h - b + 18) + '" text-anchor="middle">' + nf(v) + "</text>");
+    });
+    opts.labels.forEach(function (lab, i) {
+      var y = t + i * row;
+      o.push('<text class="' + tk + ' lab" x="' + (lb - 8) + '" y="' + (y + row / 2).toFixed(1) +
+        '" text-anchor="end" dominant-baseline="middle">' + esc(lab) + '</text><rect class="' + kind(opts.roles, 0, "b1") + '" x="' + lb + '" y="' + (y + 3) +
+        '" width="' + Math.max(X(opts.a[i]) - lb, 0).toFixed(1) + '" height="8" rx="1.5"/><rect class="' + kind(opts.roles, 1, "b2") + '" x="' + lb +
+        '" y="' + (y + 12) + '" width="' + Math.max(X(opts.b[i]) - lb, 0).toFixed(1) + '" height="8" rx="1.5"/>');
+    });
+    o.push('<line class="axis" x1="' + lb + '" x2="' + lb + '" y1="' + t + '" y2="' + (h - b) + '"/></svg>');
+    return o.join("");
+  }
+
+  function bars(items) {
+    var mx = Math.max.apply(null, items.map(function (i) { return i.value; })) || 1;
+    return '<ul class="hbars">' + items.map(function (i) {
+      var pct = Math.max(i.value, 0) / mx * 100;
+      return '<li><span class="nm">' + esc(i.label) + '</span><span class="tr"><b style="--w:' + pct.toFixed(1) +
+        '%"></b></span><span class="nu">' + esc(i.text === undefined ? nf(i.value) : i.text) + "</span></li>";
+    }).join("") + "</ul>";
+  }
+
+
+  function textWidth(s, em) {
+    var w = 0;
+    for (var i = 0; i < s.length; i++) { w += (s.charCodeAt(i) > 255 ? 1 : 0.6) * em; }
+    return w;
+  }
+
+  function autoTicks(xs, labels, narrow, text, unit) {
+    var n = xs.length, end = n - 1, plot = narrow ? 228 : 524, em = narrow ? 14 : 12.5, pad = 8;
+    var span = (xs[end] - xs[0]) || 1;
+    function px(dx) { return dx / span * plot; }
+    var shown = labels.map(function (l) { return text ? text(l) : l; });
+    var wid = shown.map(function (l) { return textWidth(l, em); });
+    var lastW = textWidth(labels[end], em);
+    var each = unit || 1, every = Math.max(1, Math.ceil(n / (narrow ? 5 : 8) / each)) * each;
+    function clear(step) {
+      for (var i = 0; i + step < end; i += step) {
+        if (px(xs[i + step] - xs[i]) < (wid[i] + wid[i + step]) / 2 + pad) { return false; }
+      }
+      return true;
+    }
+    while (every < end && !clear(every)) { every += each; }
+    var ticks = [], marks = [];
+    for (var j = 0; j < end; j += every) {
+      if (px(xs[end] - xs[j]) >= wid[j] / 2 + lastW - 4 + pad) { ticks.push([xs[j], shown[j]]); }
+      else if (every === 1) { marks.push(xs[j]); }
+    }
+    return { ticks: ticks, last: [xs[end], labels[end]], marks: marks };
+  }
+
+  function legend(items) {
+    var press = !items.some(function (i) { return i.cls === "dim"; });
+    return '<p class="legend">' + items.map(function (i, k) {
+      return "<span" + (press ? ' role="button" tabindex="0" aria-pressed="false" data-k="' + k + '"' : "") + '><i class="' + esc(i.cls) + '"></i>' + esc(i.label) + "</span>";
+    }).join("") + "</p>";
+  }
+
+  function yAxis(o, g, tcks, Y, decimals) {
+    tcks.forEach(function (t) {
+      var y = Y(t).toFixed(1);
+      o.push('<line class="gridl" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + y + '" y2="' + y + '"/><text class="' +
+        g.tk + '" x="' + (g.l - 8) + '" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + nf(t, decimals) + "</text>");
+    });
+    o.push('<line class="axis" x1="' + g.l + '" x2="' + (g.w - g.r) + '" y1="' + (g.h - g.b) + '" y2="' + (g.h - g.b) + '"/>');
+  }
+
+  function drawMarks(o, g, X, marks, x0, x1) {
+    (marks || []).forEach(function (m, k) {
+      if (m[0] >= x0 && m[0] <= x1) {
+        var mx = X(m[0]).toFixed(1);
+        o.push('<line class="mk" x1="' + mx + '" x2="' + mx + '" y1="' + (g.t - 4) + '" y2="' + (g.h - g.b) +
+          '"/><text class="mkn ' + g.tk + '" x="' + (X(m[0]) + (k ? 8 : -7)).toFixed(1) + '" y="' + (g.t - 7) +
+          '" text-anchor="middle">' + esc(m[1]) + "</text>");
+      }
+    });
+  }
+
+  function decades(lo, hi) {
+    var a = Math.floor(Math.log10(lo)), b = Math.ceil(Math.log10(hi)), t = [];
+    if (b === a) { b = a + 1; }
+    for (var e = a; e <= b; e++) { t.push(Math.pow(10, e)); }
+    return t;
+  }
+
+  function lines(opts) {
+    var id = "m" + (++uid), xs = opts.xs, all = [], lg = !!opts.log;
+    function drawn(v) { return v !== null && (!lg || v > 0); }
+    opts.series.forEach(function (s) { s.ys.forEach(function (v) { if (drawn(v)) { all.push(v); } }); });
+    if (!all.length) { return ""; }
+    var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+    var pad = (hi - lo) * 0.12 || Math.abs(hi) * 0.05 || 1, lo2 = lo - pad;
+    if (lo >= 0 && lo2 < 0) { lo2 = 0; }
+    var top = !lg && typeof opts.yMax === "number" ? Math.max(opts.yMax, hi) : null;
+    var bot = !lg && typeof opts.yMin === "number" ? Math.min(opts.yMin, lo) : null;
+    function fit(ts) {
+      if (lo >= 0 && !lg) { ts = ts.filter(function (t) { return t >= 0; }); }
+      if (top !== null) { ts = ts.filter(function (t) { return t <= top + 1e-9; }); }
+      if (bot !== null) { ts = ts.filter(function (t) { return t >= bot - 1e-9; }); }
+      return ts.length ? ts : [bot !== null ? bot : lo, top !== null ? top : hi];
+    }
+    var from = bot !== null ? bot : lo2, to = top !== null ? top : hi + pad;
+    var tcks = fit(lg ? decades(lo, hi) : nice(from, to, 4));
+    var auto = !lg && opts.axisDecimals === "auto";
+    if (auto && !opts.decimals && all.every(isWhole) && !tcks.every(isWhole)) {
+      tcks = [];
+      for (var wv = Math.floor(from + 1e-9); wv <= Math.ceil(to - 1e-9); wv++) { tcks.push(wv); }
+      tcks = fit(tcks);
+    }
+    var wholeAxis = !lg && !opts.decimals && tcks.every(function (t) { return Math.abs(t - Math.round(t)) < 1e-9; });
+    var ydec = lg ? (tcks[0] < 1 ? Math.ceil(-Math.log10(tcks[0])) : 0) : wholeAxis ? 0 : auto ? digitsFor(tcks, opts.decimals || 0) : axisDec(opts);
+    var g = geometry(opts.narrow, 62, 22, axisLabels(tcks, ydec));
+    var ylo = bot !== null ? bot : tcks[0], yhi = top !== null ? top : tcks[tcks.length - 1], x0 = xs[0], x1 = xs[xs.length - 1];
+    function T(v) { return lg ? Math.log10(v) : v; }
+    function X(v) { return g.l + (x1 === x0 ? 0.5 : (v - x0) / (x1 - x0)) * (g.w - g.l - g.r); }
+    function Y(v) { return g.t + (T(yhi) - T(v)) / (T(yhi) - T(ylo)) * (g.h - g.t - g.b); }
+    var shown = [];
+    opts.series.forEach(function (s, k) {
+      if (s.role !== "dim") {
+        shown.push({ name: s.label || "", k: k, v: xs.map(function (_x, i) { return valText(drawn(s.ys[i]) ? s.ys[i] : null, opts.decimals); }) });
+      }
+    });
+    var heads = xs.map(function (x, i) { return opts.tips ? String(opts.tips[i]) : String(x); });
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc,
+      readoutOf("x", xs.map(X), [g.t, g.h - g.b], heads, shown.map(function (r) { return { n: r.name, k: r.k, v: r.v }; }), opts.unit, opts.series.length), opts.ordered)];
+    yAxis(o, g, tcks, Y, ydec);
+    axisTicks(o, X, opts.axis || {}, g);
+    drawMarks(o, g, X, opts.marks, x0, x1);
+    var empty = xs.map(function (x, i) {
+      return opts.series.every(function (s) { return s.ys[i] === null || s.ys[i] === undefined; }) ? null : [0];
+    });
+    var step = medianGap(xs) / ((x1 - x0) || 1) * (g.w - g.l - g.r);
+    nullRuns(empty).forEach(function (run) {
+      var a = run[0] > 0 ? X(xs[run[0] - 1]) : Math.max(g.l, X(xs[run[0]]) - step / 2);
+      var b = run[1] < xs.length - 1 ? X(xs[run[1] + 1]) : Math.min(g.w - g.r, X(xs[run[1]]) + step / 2);
+      nodataBand(o, g, a, b);
+    });
+    var order = opts.series.slice().sort(function (a, b) { return (a.role === "hl") - (b.role === "hl"); });
+    order.forEach(function (s) {
+      var d = "", pen = false, role = s.role || "c1";
+      xs.forEach(function (x, i) {
+        var v = s.ys[i];
+        if (!drawn(v)) { pen = false; return; }
+        d += (pen ? "L" : "M") + X(x).toFixed(1) + " " + Y(v).toFixed(1) + " ";
+        pen = true;
+      });
+      o.push('<path class="ln ' + role + '" d="' + d.trim() + '" data-k="' + opts.series.indexOf(s) + '"/>');
+      if (role === "dim") { return; }
+      xs.forEach(function (x, i) {
+        var v = s.ys[i];
+        if (!drawn(v)) { return; }
+        o.push('<circle class="dot ' + role + '" cx="' + X(x).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="' + (opts.narrow ? 2.3 : 2.6) + '" data-k="' + opts.series.indexOf(s) + '"/>');
+      });
+    });
+    hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  var HATCH = [
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="pt" x1="0" y1="0" x2="0" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><circle class="ptf" cx="3" cy="3" r="1.25"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line class="pt" x1="0" y1="0" x2="0" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><line class="pt" x1="0" y1="3" x2="6" y2="3"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><line class="pt" x1="3" y1="0" x2="3" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse"><line class="pt" x1="0" y1="3" x2="6" y2="3"/><line class="pt" x1="3" y1="0" x2="3" y2="6"/></pattern>',
+    '<pattern id="ID" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="pt" x1="0" y1="3" x2="6" y2="3"/><line class="pt" x1="3" y1="0" x2="3" y2="6"/></pattern>',
+    '<pattern id="ID" width="10" height="10" patternUnits="userSpaceOnUse"><circle class="ptf" cx="5" cy="5" r="2.4"/></pattern>',
+    '<pattern id="ID" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="ptf" x="0" y="0" width="10" height="3.6"/></pattern>'
+  ];
+
+  function stackArea(opts) {
+    var id = "m" + (++uid), xs = opts.xs, rows = opts.rows, mx = 0;
+    rows.forEach(function (r) {
+      if (r) {
+        if (r.length > MAX_STACK_AREA) { throw new RangeError("stackArea: more than " + MAX_STACK_AREA + " bands"); }
+        var s = r.reduce(function (a, b) { return a + b; }, 0);
+        if (s > mx) { mx = s; }
+      }
+    });
+    var tk0 = stackTicks(mx, opts), tcks = tk0.tcks, top = tk0.top, x0 = xs[0], x1 = xs[xs.length - 1];
+    var g = geometry(opts.narrow, 62, opts.marks && opts.marks.length ? 22 : 14, axisLabels(tcks, axisDec(opts)));
+    function X(v) { return g.l + (x1 === x0 ? 0.5 : (v - x0) / (x1 - x0)) * (g.w - g.l - g.r); }
+    function Y(v) { return g.t + (top - v) / top * (g.h - g.t - g.b); }
+    var o = [svgHead(g.w, g.h, id, opts.title, opts.desc, stackReadout(opts, xs.map(X), g), opts.ordered)];
+    yAxis(o, g, tcks, Y, axisDec(opts));
+    axisTicks(o, X, opts.axis || {}, g);
+    drawMarks(o, g, X, opts.marks, x0, x1);
+    var step = medianGap(xs) / ((x1 - x0) || 1) * (g.w - g.l - g.r);
+    nullRuns(rows).forEach(function (run) {
+      var a = run[0] > 0 ? X(xs[run[0] - 1]) : Math.max(g.l, X(xs[run[0]]) - step / 2);
+      var b = run[1] < xs.length - 1 ? X(xs[run[1] + 1]) : Math.min(g.w - g.r, X(xs[run[1]]) + step / 2);
+      nodataBand(o, g, a, b);
+    });
+    var bands = rows.reduce(function (a, r) { return Math.max(a, r ? r.length : 0); }, 0);
+    if (bands > MAX_STACK) {
+      o.push("<defs>" + HATCH.slice(0, bands - MAX_STACK).map(function (p, j) { return p.replace("ID", id + "-h" + (j + MAX_STACK + 1)); }).join("") + "</defs>");
+    }
+    for (var k = 0; k < bands; k++) {
+      var run = [];
+      var flush = function () {
+        if (run.length > 1) {
+          var up = run.map(function (p) { return X(p.x).toFixed(1) + " " + Y(p.hi).toFixed(1); });
+          var dn = run.slice().reverse().map(function (p) { return X(p.x).toFixed(1) + " " + Y(p.lo).toFixed(1); });
+          var d = "M" + up.join(" L") + " L" + dn.join(" L") + " Z";
+          o.push('<path class="sa ' + kind(opts.roles, k, "s" + (k + 1)) + '" d="' + d + '" data-k="' + k + '"/>');
+          if (k >= MAX_STACK) { o.push('<path class="sa" fill="url(#' + id + "-h" + (k + 1) + ')" d="' + d + '" data-k="' + k + '"/>'); }
+        }
+        run = [];
+      };
+      rows.forEach(function (r, i) {
+        if (!r) { flush(); return; }
+        var lo = 0;
+        for (var j = 0; j < k; j++) { lo += r[j]; }
+        run.push({ x: xs[i], lo: lo, hi: lo + r[k] });
+      });
+      flush();
+    }
+    hitRect(o, g.l, g.t, g.w - g.l - g.r, g.h - g.t - g.b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function wrapName(name, limit) {
+    var chars = Array.from(String(name)), lines = [];
+    if (!limit || chars.length <= limit) { return [String(name)]; }
+    for (var i = 0; i < chars.length; i += limit) { lines.push(chars.slice(i, i + limit).join("")); }
+    return lines;
+  }
+
+  function groupBars(opts) {
+    var narrow = opts.narrow, w = narrow ? 300 : 600, k = opts.series.length, bar = 8, gap = 1, t = 6, b = 30;
+    var row = k * (bar + gap) + 10, lb = narrow ? 76 : 110, r = 12, n = opts.labels.length;
+    var limit = Math.max(1, Math.floor((lb - 8) / (narrow ? 14 : 12.5))), lh = 1.2 * (narrow ? 14 : 12.5);
+    var names = opts.labels.map(function (lab) { return wrapName(lab, limit); });
+    var hs = names.map(function (parts) { return parts.length > 1 ? Math.max(row, parts.length * lh + 4) : row; }), tops = [], acc = t;
+    hs.forEach(function (hh) { tops.push(acc); acc += hh; });
+    var h = acc + b, id = "m" + (++uid), tk = narrow ? "tk-n" : "tk", lo = 0, hi = 0;
+    opts.series.forEach(function (s) {
+      s.values.forEach(function (v) { if (v !== null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } });
+    });
+    var tcks = nice(lo, hi || 1, 4, !opts.decimals), a = tcks[0], z = tcks[tcks.length - 1];
+    var half = Math.ceil(labelWidth(nf(z, opts.decimals), narrow ? 14 : 12.5) / 2);
+    if (half > r) { r = half + 1; }
+    function X(v) { return lb + (v - a) / (z - a) * (w - lb - r); }
+    var rows = opts.series.map(function (s, j) {
+      return { n: (opts.names && opts.names[j]) || s.label || "", k: j, v: s.values.map(function (v) { return valText(v, opts.decimals); }) };
+    });
+    var o = [svgHead(w, h, id, opts.title, opts.desc,
+      readoutOf("y", opts.labels.map(function (_l, i) { return tops[i] + hs[i] / 2; }), [lb, w - r], opts.labels.map(String), rows, opts.unit, k), opts.ordered)];
+    var cls = (k === 1 ? ["b2"] : ["b1", "b2", "b3"]).map(function (c, j) { return kind(opts.roles, j, c); });
+    tcks.forEach(function (v) {
+      var x = X(v).toFixed(1);
+      o.push('<line class="gridl" x1="' + x + '" x2="' + x + '" y1="' + t + '" y2="' + (h - b) + '"/><text class="' + tk +
+        '" x="' + x + '" y="' + (h - b + 18) + '" text-anchor="middle">' + nf(v, opts.decimals) + "</text>");
+    });
+    opts.labels.forEach(function (lab, i) {
+      var y = tops[i], parts = names[i];
+      o.push('<text class="' + tk + ' lab" x="' + (lb - 8) + '" y="' + (y + hs[i] / 2).toFixed(1) +
+        '" text-anchor="end" dominant-baseline="middle">' + (parts.length === 1 ? esc(parts[0]) : parts.map(function (line, n) {
+          return '<tspan x="' + (lb - 8) + '" dy="' + (n === 0 ? (-0.6 * (parts.length - 1)).toFixed(1) : "1.2") + 'em">' + esc(line) + "</tspan>";
+        }).join("")) + "</text>");
+      opts.series.forEach(function (s, j) {
+        var v = s.values[i];
+        if (v === null || v === undefined) { return; }
+        var x0 = Math.min(X(0), X(v)), wd = Math.abs(X(v) - X(0));
+        o.push('<rect class="' + cls[j] + '" x="' + x0.toFixed(1) + '" y="' + (y + 5 + (hs[i] - row) / 2 + j * (bar + gap)) + '" width="' +
+          wd.toFixed(1) + '" height="' + bar + '" rx="1.5" data-k="' + j + '"/>');
+      });
+    });
+    o.push('<line class="axis" x1="' + X(0).toFixed(1) + '" x2="' + X(0).toFixed(1) + '" y1="' + t + '" y2="' + (h - b) + '"/>');
+    hitRect(o, lb, t, w - lb - r, h - t - b);
+    o.push("</svg>");
+    return o.join("");
+  }
+
+  function dual(fn, opts) {
+    var wide = {}, narrow = {};
+    Object.keys(opts).forEach(function (k) { wide[k] = narrow[k] = opts[k]; });
+    wide.narrow = false;
+    narrow.narrow = true;
+    return '<div class="chart"><div class="w">' + fn(wide) + '</div><div class="n">' + fn(narrow) + "</div></div>";
+  }
+
+  function mount(id, html) {
+    var e = document.getElementById(id);
+    if (e) {
+      clearEmphasis(e.closest ? e.closest(".data") : null);
+      e.innerHTML = html;
+    }
+  }
+
+  var ROLES = ["c1", "c2", "c3", "c4", "c5", "c6"], SWATCH = ["l1", "l2", "l3", "l4", "l5", "l6"];
+  function barFig(id, axis, sets, o) {
+    var rows = axis.x.map(function (_x, i) { return sets[0].values[i] === null || sets[0].values[i] === undefined ? null : [sets[0].values[i]]; });
+    var h = document.querySelector("#box-" + id + " h3"), names = o.title || (h ? h.textContent : id);
+    MS.mount("l-" + id, "");
+    MS.mount("f-" + id, MS.dual(MS.stack, { xs: axis.x, rows: rows, names: [sets[0].label], decimals: o.decimals || 0, axisDecimals: o.axisDecimals, unit: o.unit, tips: axis.l, yMax: o.yMax,
+      axis: function (narrow) { return MS.autoTicks(axis.x, axis.l, narrow, o.tick); },
+      title: names + "（" + o.unit + "）の推移", desc: names + "の" + axis.t + "ごとの推移。" }));
+  }
+  function lineFig(id, axis, sets, o) {
+    if (o.bars && sets.length === 1) { barFig(id, axis, sets, o); return; }
+    if (sets.length > ROLES.length) { throw new RangeError("a figure holds at most " + ROLES.length + " lines: " + id); }
+    var labels = sets.map(function (s) { return s.label; });
+    var roles = o.roles || (o.ordered ? orderedRoles(labels) : null) || lineRoles(labels, ROLES) || ROLES;
+    var series = sets.map(function (s, k) { return { label: s.label, ys: s.values, role: roles[k] }; });
+    MS.mount("l-" + id, sets.length > 1 ? MS.legend(sets.map(function (s, k) { return { cls: KINDS.indexOf(roles[k]) >= 0 ? roles[k] : SWATCH[ROLES.indexOf(roles[k])], label: s.label }; })) : "");
+    var h = document.querySelector("#box-" + id + " h3"), names = o.title || (h ? h.textContent : id);
+    MS.mount("f-" + id, MS.dual(MS.lines, { xs: axis.x, series: series, log: !!o.log, decimals: o.decimals || 0, unit: o.unit, axisDecimals: o.axisDecimals, yMax: o.yMax, yMin: o.yMin, tips: axis.l, ordered: o.ordered,
+      axis: function (narrow) { return MS.autoTicks(axis.x, axis.l, narrow, o.tick); },
+      title: names + "（" + o.unit + "）の推移", desc: names + "の" + axis.t + "ごとの推移。" }));
+  }
+
+
+  function clearEmphasis(box) {
+    if (!box || !box.querySelectorAll || !box.removeAttribute) { return; }
+    box.removeAttribute("data-em");
+    [].forEach.call(box.querySelectorAll("[data-k]"), function (n) {
+      n.classList.remove("ms-on");
+      n.classList.remove("ms-off");
+      if (n.getAttribute("aria-pressed") !== null) { n.setAttribute("aria-pressed", "false"); }
+    });
+  }
+  function pressLegend(button) {
+    var legend = button.closest(".legend"), box = legend && legend.parentNode;
+    while (box && box.querySelector && !box.querySelector(".chart")) { box = box.parentNode; }
+    if (!box || !box.querySelector) { return; }
+    var figure = box.querySelector(".chart svg[data-n]"), items = legend.querySelectorAll("[data-k]");
+    if (!figure || +figure.getAttribute("data-n") !== items.length) { return; }
+    var k = button.getAttribute("data-k"), again = box.getAttribute("data-em") === k;
+    clearEmphasis(box);
+    if (again) { return; }
+    box.setAttribute("data-em", k);
+    [].forEach.call(box.querySelectorAll("[data-k]"), function (n) {
+      var on = n.getAttribute("data-k") === k;
+      n.classList.add(on ? "ms-on" : "ms-off");
+      if (n.getAttribute("aria-pressed") !== null) { n.setAttribute("aria-pressed", on ? "true" : "false"); }
+    });
+  }
+
+  function readout() {
+    var box = null, held = null;
+    function data(svg) {
+      if (svg.__ms === undefined) {
+        try { svg.__ms = JSON.parse(svg.getAttribute("data-tip")); } catch (e) { svg.__ms = null; }
+      }
+      return svg.__ms;
+    }
+    function hide() {
+      if (box) { box.hidden = true; }
+      var shown = held && held.querySelector(".ms-cur");
+      if (shown) { shown.setAttribute("hidden", ""); }
+      held = null;
+    }
+    function text(t, at) {
+      var out = '<b class="ms-h">' + esc(t.h[at]) + "</b>";
+      t.s.forEach(function (r) {
+        var v = r.v[at];
+        out += '<span class="ms-r"><span class="ms-n">' + esc(r.n) + '</span><span class="ms-v">' + esc(v) + (v === NONE || !t.u ? "" : " " + esc(t.u)) + "</span></span>";
+      });
+      return out;
+    }
+    function show(svg, e) {
+      var t = data(svg);
+      if (!t || !t.p || !t.p.length) { return hide(); }
+      var r = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+      if (!r.width || !r.height) { return hide(); }
+      var at = t.a === "y" ? (e.clientY - r.top) * vb.height / r.height : (e.clientX - r.left) * vb.width / r.width, best = 0;
+      t.p.forEach(function (p, i) { if (Math.abs(p - at) < Math.abs(t.p[best] - at)) { best = i; } });
+      if (!box) {
+        box = document.createElement("div");
+        box.className = "ms-tip";
+        box.setAttribute("role", "status");
+        document.body.appendChild(box);
+      }
+      box.innerHTML = text(t, best);
+      box.hidden = false;
+      var w = box.offsetWidth, h = box.offsetHeight, vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+      var left = e.clientX + 14, top = e.clientY + 14;
+      if (left + w > vw - 4) { left = e.clientX - w - 14; }
+      if (top + h > vh - 4) { top = e.clientY - h - 14; }
+      box.style.left = Math.max(4, left) + "px";
+      box.style.top = Math.max(4, top) + "px";
+      if (held && held !== svg) { hide(); box.hidden = false; }
+      var guide = svg.querySelector(".ms-cur");
+      if (!guide) { held = svg; return; }
+      guide.removeAttribute("hidden");
+      if (t.a === "y") {
+        guide.setAttribute("x1", t.e[0]); guide.setAttribute("x2", t.e[1]);
+        guide.setAttribute("y1", t.p[best]); guide.setAttribute("y2", t.p[best]);
+      } else {
+        guide.setAttribute("y1", t.e[0]); guide.setAttribute("y2", t.e[1]);
+        guide.setAttribute("x1", t.p[best]); guide.setAttribute("x2", t.p[best]);
+      }
+      held = svg;
+    }
+    function figureOf(target) {
+      return target && target.closest ? target.closest("svg[data-tip]") : null;
+    }
+    document.addEventListener("pointermove", function (e) {
+      var svg = figureOf(e.target);
+      if (svg) { if (e.pointerType !== "touch" || e.buttons) { show(svg, e); } } else if (held && e.pointerType !== "touch") { hide(); }
+    });
+    document.addEventListener("pointerdown", function (e) {
+      var svg = figureOf(e.target);
+      if (svg) { show(svg, e); } else { hide(); }
+    });
+    document.addEventListener("scroll", hide, true);
+  }
+
+  function legendPress() {
+    document.addEventListener("click", function (e) {
+      var b = e.target && e.target.closest ? e.target.closest(".legend [data-k]") : null;
+      if (b) { pressLegend(b); }
+    });
+    document.addEventListener("keydown", function (e) {
+      var b = e.target && e.target.closest ? e.target.closest(".legend [data-k]") : null;
+      if (b && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pressLegend(b); }
+    });
+  }
+  if (typeof document !== "undefined" && document.addEventListener) { readout(); legendPress(); }
+
+  var pickCore = {
+    offered: function (config, state, key) {
+      var o = config.options[key];
+      return config.depends && Object.prototype.hasOwnProperty.call(config.depends, key) ? (o[state[config.depends[key]]] || []) : o;
+    },
+    initial: function (config) {
+      var state = {};
+      config.keys.forEach(function (k) { state[k] = config.defaults[k]; });
+      return state;
+    },
+    settle: function (config, state) {
+      config.keys.forEach(function (k) {
+        var values = pickCore.offered(config, state, k).map(function (o) { return o.value; });
+        if (values.indexOf(state[k]) < 0) { state[k] = values[0]; }
+      });
+      return state;
+    },
+    toHash: function (config, state) {
+      if (config.keys.length === 1) { return "#" + encodeURIComponent(state[config.keys[0]]); }
+      return "#" + config.keys.map(function (k) { return k + "=" + encodeURIComponent(state[k]); }).join("&");
+    },
+    fromHash: function (config, hash, state) {
+      var text = String(hash || "").replace(/^#/, "");
+      if (!text) { return state; }
+      if (config.keys.length === 1 && text.indexOf("=") < 0) { text = config.keys[0] + "=" + text; }
+      text.split("&").forEach(function (part) {
+        var at = part.indexOf("=");
+        if (at < 0) { return; }
+        var key = part.slice(0, at), value;
+        try { value = decodeURIComponent(part.slice(at + 1)); } catch (e) { return; }
+        if (config.keys.indexOf(key) >= 0) { state[key] = value; }
+      });
+      return state;
+    }
+  };
+
+  function pick(config, render) {
+    var state = pickCore.initial(config);
+    pickCore.fromHash(config, location.hash, state);
+
+    function sync() {
+      pickCore.settle(config, state);
+      config.keys.forEach(function (k) {
+        var sel = document.getElementById(k);
+        if (!sel) { return; }
+        if (config.depends && Object.prototype.hasOwnProperty.call(config.depends, k)) {
+          sel.innerHTML = pickCore.offered(config, state, k).map(function (o) {
+            return '<option value="' + esc(o.value) + '"' + (o.value === state[k] ? " selected" : "") + ">" + esc(o.label) + "</option>";
+          }).join("");
+        }
+        sel.value = state[k];
+        var wrap = document.getElementById("p-" + k), vis = config.visible || {};
+        if (wrap && Object.prototype.hasOwnProperty.call(vis, k)) { wrap.hidden = state[vis[k][0]] !== vis[k][1]; }
+      });
+      [].forEach.call(document.querySelectorAll("[data-pick-scope] *"), function (node) {
+        var named = config.keys.filter(function (k) { return node.getAttribute("data-" + k) !== null; });
+        if (!named.length) { return; }
+        node.hidden = named.some(function (k) { return node.getAttribute("data-" + k) !== state[k]; });
+      });
+    }
+    function draw() {
+      sync();
+      try { history.replaceState(null, "", pickCore.toHash(config, state)); } catch (e) {  }
+      if (render) { render(state); }
+    }
+    config.keys.forEach(function (k) {
+      var sel = document.getElementById(k);
+      if (sel) { sel.addEventListener("change", function () { state[k] = sel.value; draw(); }); }
+    });
+    draw();
+    return { state: state, set: function (k, v) { state[k] = v; draw(); } };
+  }
+
+  window.MS = { nf: nf, sgn: sgn, esc: esc, nice: nice, evenTicks: evenTicks, line: line, stack: stack,
+    pairBars: pairBars, kinds: KINDS, pairRoles: pairRoles, registerNames: registerNames, orderedRoles: orderedRoles, nominalRoles: nominalRoles, seriesRoles: seriesRoles, lineRoles: function (labels) { return lineRoles(labels, ROLES); },
+    registry: { roles: REGISTRY, aliases: ALIASES, catchAll: CATCH_ALL, hues: HUE_ROLES, rolePlace: ROLE_PLACE, ladder: LADDER, solidHues: SOLID_HUES }, bars: bars, lines: lines, stackArea: stackArea, groupBars: groupBars,
+    bandWord: bandWord, autoTicks: autoTicks, legend: legend, dual: dual, mount: mount, lineFig: lineFig, pickCore: pickCore, pick: pick };
+})();
+</script>
+<script>MS.registerNames({"\u30b5\u30fc\u30d3\u30b9\u696d": "c1", "\u4ecb\u8b77\u6276\u52a9": "c4", "\u4f4f\u5b85\u6276\u52a9": "c2", "\u516c\u52d9\u305d\u306e\u4ed6": "c5", "\u533b\u7642\u6276\u52a9": "c3", "\u533b\u7642\u798f\u7949": "c2", "\u5378\u58f2\u5c0f\u58f2\u696d": "c3", "\u5378\u58f2\u5c0f\u58f2\u696d\u98f2\u98df\u5e97": "c3", "\u5c31\u52b4\u81ea\u7acb\u7d66\u4ed8\u91d1": "c2", "\u5efa\u8a2d\u696d": "c6", "\u60c5\u5831\u901a\u4fe1\u696d": "c5", "\u6559\u80b2\u6276\u52a9": "c5", "\u751f\u696d\u6276\u52a9": "c6", "\u751f\u6d3b\u6276\u52a9": "c1", "\u846c\u796d\u6276\u52a9": "c1", "\u88fd\u9020\u696d": "c2", "\u8fb2\u6797\u6f01\u696d": "c2", "\u901a\u4fe1\u904b\u642c\u696d": "c5", "\u9032\u5b66\u6e96\u5099\u7d66\u4ed8\u91d1": "c3", "\u904b\u8f38\u696d": "c4", "\u904b\u8f38\u901a\u4fe1\u696d": "c4", "\u91d1\u878d\u4fdd\u967a\u4e0d\u52d5\u7523\u696d": "c1", "\u9271\u696d": "c1", "\u96fb\u6c17\u30ac\u30b9\u71b1\u4f9b\u7d66\u6c34\u9053\u696d": "c2", "\u98f2\u98df\u696d\u5bbf\u6cca\u696d": "c4"});</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById("d").textContent);
+  var PICK = JSON.parse(document.getElementById("pick").textContent);
+  var DIGITS = 1, CDIG = 2, UNIT = "%", CITY = "\u5e02\u5168\u4f53";
+  function cell(v, d) { return v === null || v === undefined ? '<td class="z">—</td>' : "<td>" + MS.nf(v, d) + "</td>"; }
+  /* The trend table of the chosen area beside the city's, one row per period; the digits are each column's own. */
+  function trend(name) {
+    var rows = D.trend.axis.l.map(function (label, i) {
+      return "<tr" + (i === D.trend.axis.l.length - 1 ? ' class="latest"' : "") + '><th scope="row">' + MS.esc(label) + "</th>" +
+        cell(D.trend.areas[name][i], DIGITS) + cell(D.trend.city[i], CDIG) + "</tr>";
+    }).join("");
+    document.getElementById("vt-trend-body").innerHTML = rows;
+    var head = document.querySelector("#vt-trend thead tr");
+    if (head && head.children.length === 3) { head.children[1].textContent = name + "（" + UNIT + "）"; }
+    [].forEach.call(document.querySelectorAll("#vt-trend .vn"), function (e) { e.textContent = name; });
+  }
+  MS.pick(PICK, function (state) { trend(state.area); });
+})();
+</script>
+</body>
+</html>
