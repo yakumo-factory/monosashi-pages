@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>最新の一覧 — 松江市の統計を読む</title>
+<style>
+
+:root{
+  --bg:#f6f7fb; --panel:#ffffff;
+  --ink:#1b1e27; --ink-2:#444b5e; --ink-3:#5d6477;
+  --line:#d9dde8; --line-soft:#ebeef4;
+  --accent:#3a4a8c; --accent-deep:#27336a; --accent-soft:#eceff9; --accent-mid:#8591c4;
+  --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px; --sp5:24px; --sp6:40px; --sp7:64px;
+  --radius:12px; --radius-s:8px;
+  --font:"Yu Gothic UI","游ゴシック体",YuGothic,"游ゴシック","Yu Gothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  --col-name:13em; --col-val:9em; --col-when:9em; --col-chg:11em; --col-link:8em; --col-values:8em;
+  --fs:16px; --lh:1.8; --cap:45em; --page:58rem;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13151c; --panel:#1b1e28; --ink:#eceef5; --ink-2:#c3c8d8; --ink-3:#a0a7bb;
+    --line:#343949; --line-soft:#272b38;
+    --accent:#9fb0f0; --accent-deep:#c9d3ff; --accent-soft:#252b45; --accent-mid:#6f7fc4;
+    color-scheme:dark;
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:var(--fs); line-height:var(--lh);
+  font-feature-settings:"palt" 1; overflow-wrap:anywhere}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+.wrap{max-width:var(--page); margin:0 auto; padding:var(--sp6) var(--sp5) var(--sp7)}
+.crumb{font-size:13px; color:var(--ink-3); margin:0 0 var(--sp2)}
+.crumb a{color:inherit}
+h1{font-size:30px; line-height:1.4; margin:0 0 var(--sp3); letter-spacing:.01em}
+.lede{max-width:var(--cap); color:var(--ink-2); margin:0 0 var(--sp5)}
+
+.notes{display:grid; gap:var(--sp3); margin:0 0 var(--sp5); padding:0; list-style:none}
+.notes li{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:var(--sp3) var(--sp4); color:var(--ink-2); font-size:15px; line-height:1.75; max-width:var(--cap)}
+.notes li b{display:block; font-size:15px; margin-bottom:2px}
+
+.chips{display:flex; flex-wrap:wrap; gap:var(--sp2); margin:0 0 var(--sp6); padding:0; list-style:none}
+.chips a{display:inline-block; padding:6px 14px; min-height:36px; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink-2); font-size:14px; text-decoration:none}
+.chips a:hover{border-color:var(--accent-mid); color:var(--accent-deep); background:var(--accent-soft)}
+
+.area{margin:var(--sp6) 0 var(--sp2); font-size:13px; font-weight:700; letter-spacing:.08em; color:var(--accent-deep)}
+.chips+.area{margin-top:0}
+.rep-block{margin:0 0 var(--sp5); scroll-margin-top:var(--sp4)}
+.rep-block>header{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:2px var(--sp4); margin:0 0 var(--sp2)}
+.rep-block h3{font-size:19px; margin:0; padding-left:var(--sp3); border-left:5px solid var(--accent); line-height:1.45}
+.rep-block .meta{font-size:13px; color:var(--ink-3)}
+.rep-block .lead{margin:0 0 var(--sp2); font-size:14px; color:var(--ink-2); max-width:var(--cap)}
+
+.listbox{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto}
+.list{width:100%; min-width:46em; table-layout:fixed; border-collapse:collapse; font-size:14.5px; font-variant-numeric:tabular-nums}
+.list thead th{font-size:13px; color:var(--ink-3); font-weight:600; border-bottom:1.5px solid var(--line); white-space:normal; vertical-align:bottom}
+.list thead th:nth-child(1){width:var(--col-name)}
+.list thead th:nth-child(2){width:var(--col-val)}
+.list thead th:nth-child(3){width:var(--col-when)}
+.list thead th:nth-child(4){width:var(--col-chg)}
+.list thead th:nth-child(5){width:var(--col-link)}
+.list thead th:nth-child(6){width:var(--col-values)}
+.list th,.list td{text-align:left; padding:12px 12px; vertical-align:top; overflow-wrap:anywhere}
+.list tbody tr+tr>*{border-top:1px solid var(--line-soft)}
+.list tbody th{font-weight:600}
+.list td.val{font-size:19px; font-weight:700}
+.list td.val small{display:inline; margin-left:4px; font-size:12.5px; font-weight:600; color:var(--ink-3)}
+.list td.chg small{display:block; font-size:12.5px; font-weight:400; color:var(--ink-3)}
+.list td.chg .ar{display:inline-block; width:1.1em; color:var(--ink-3); font-size:12px}
+.list td.go a{white-space:nowrap}
+
+.rn{display:block; margin:2px 0 0; font-weight:400; font-size:13px; line-height:1.6; color:var(--ink-3)}
+
+.reason-box{padding:var(--sp3) var(--sp4)}
+.reason{margin:0 0 var(--sp2); color:var(--ink-2); max-width:var(--cap)}
+.reason-go{margin:0}
+
+footer{background:var(--panel); border-top:1px solid var(--line); color:var(--ink-3); font-size:13px; line-height:1.7; padding:var(--sp4) var(--sp5)}
+footer .in{max-width:var(--page); margin:0 auto}
+
+@media (max-width:800px){
+  .wrap{padding:var(--sp5) var(--sp4) var(--sp6)}
+  h1{font-size:25px}
+  .listbox{overflow-x:visible}
+  .list{min-width:0; table-layout:auto}
+  .list thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+  .list,.list tbody,.list tr,.list th,.list td{display:block}
+  .list tbody tr{padding:12px 4px}
+  .list tbody tr+tr{border-top:1px solid var(--line-soft)}
+  .list tbody tr+tr>*{border-top:0}
+  .list th,.list td{padding:2px 12px}
+  .list tbody th{font-size:15.5px}
+  .list td.val{font-size:22px}
+  .list td[data-l]::before{content:attr(data-l) "　"; font-size:12.5px; font-weight:600; color:var(--ink-3)}
+  .list td.val::before{display:none}
+  .list td.go{padding-top:6px}
+  footer{padding:var(--sp4)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<main>
+<p class="crumb"><a href="index.html">松江市の統計を読む</a></p>
+<h1>最新の一覧</h1>
+<p class="lede">各レポートの代表の指標について、いちばん新しい値を並べます。指標は、データ元が更新を続けている表から、元の表の数か、元の表の数から計算した数（計算した数は、その行の注に書きます）を、各レポートから2〜3個選んでいます。数は、各レポートの「値の一覧」で確かめられます（足した行は、足す前の2つの値。値の一覧に無い数は、その行の注に書きます）。元の頁では、その指標を図で詳しく読めます。</p>
+<ul class="notes">
+<li><b>この一覧を読むときに</b>時点は行ごとに違います。前回は、各行の1つ前の時点です（町丁別人口レポートは、1年前の同じ月と比べます）。増減は、前回との差で、表示している値どうしを引いて計算しています。▲は増えた、▼は減った、－は変わらなかったことを表します。数えるものと単位が行ごとに違うので、行どうしの大小は比べません。</li>
+</ul>
+<nav aria-label="レポートへ移動"><ul class="chips">
+<li><a href="#r-chocho">町丁別人口</a></li>
+<li><a href="#r-kokusei">国勢調査</a></li>
+<li><a href="#r-fukushi">福祉・労働</a></li>
+<li><a href="#r-hoken">保健・環境</a></li>
+<li><a href="#r-anzen">安全</a></li>
+<li><a href="#r-kyoiku">教育</a></li>
+<li><a href="#r-kensetsu">建設・住宅</a></li>
+<li><a href="#r-unyu">運輸・通信</a></li>
+<li><a href="#r-toshikeikaku">都市計画</a></li>
+<li><a href="#r-lifeline">ライフライン</a></li>
+<li><a href="#r-kanko">観光</a></li>
+<li><a href="#r-keizai">市民所得・物価・消費</a></li>
+<li><a href="#r-finance">金融</a></li>
+<li><a href="#r-zaisei">財政</a></li>
+<li><a href="#r-gikai">議会・行政・選挙</a></li>
+</ul></nav>
+<h2 class="area">人とくらし</h2>
+<section class="rep-block" id="r-chocho" aria-labelledby="h-chocho">
+<header><h3 id="h-chocho">町丁別人口レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">人口<span class="rn">前回は1年前の同じ月です。前回の値は、元の頁にも値の一覧にも載っていません（データ元の月ごとの表から取りました）。</span></th><td class="val" data-l="最新の値">191,148<small>人</small></td><td data-l="最新の時点">2026年9月</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−1,651 人<small>2025年9月（192,799）から</small></td><td class="go"><a href="chocho/02-town-change.html" aria-label="人口の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="chocho/07-values.html#screen=town-change" aria-label="人口の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">世帯数<span class="rn">前回は1年前の同じ月です。前回の値は、元の頁にも値の一覧にも載っていません（データ元の月ごとの表から取りました）。</span></th><td class="val" data-l="最新の値">92,626<small>世帯</small></td><td data-l="最新の時点">2026年9月</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+420 世帯<small>2025年9月（92,206）から</small></td><td class="go"><a href="chocho/02-town-change.html" aria-label="世帯数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="chocho/07-values.html#screen=town-change" aria-label="世帯数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">外国人住民<span class="rn">総人口から「うち日本人」を差し引いた、こちらで計算した数です。前回は1年前の同じ月です。前回の値は、元の頁にも値の一覧にも載っていません（データ元の月ごとの表から取りました）。</span></th><td class="val" data-l="最新の値">2,364<small>人</small></td><td data-l="最新の時点">2026年9月</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+110 人<small>2025年9月（2,254）から</small></td><td class="go"><a href="chocho/06-foreign.html" aria-label="外国人住民の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="chocho/07-values.html#screen=foreign" aria-label="外国人住民の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-kokusei" aria-labelledby="h-kokusei">
+<header><h3 id="h-kokusei">国勢調査レポート</h3><span class="meta">取得時点 2026年11月26日</span></header>
+<div class="listbox reason-box"><p class="reason">国勢調査は5年ごとの調査で、このレポートの最新は2025年（令和7年）の数です。最新の一覧には、住民基本台帳の毎月の人口・世帯数と同じ表に並べないよう、このレポートの数を載せていません。</p><p class="reason-go"><a href="kokusei/index.html">国勢調査レポートへ<span aria-hidden="true"> →</span></a></p></div>
+</section>
+<section class="rep-block" id="r-fukushi" aria-labelledby="h-fukushi">
+<header><h3 id="h-fukushi">福祉・労働レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">生活保護を受けている世帯（延べ）<span class="rn">延べの数です。受けている世帯の数（実数）ではありません。</span></th><td class="val" data-l="最新の値">25,793<small>世帯</small></td><td data-l="最新の時点">2024年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+257 世帯<small>2023年度（25,536）から</small></td><td class="go"><a href="fukushi/01-hogo.html" aria-label="生活保護を受けている世帯（延べ）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="fukushi/07-values.html#screen=01-hogo" aria-label="生活保護を受けている世帯（延べ）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">新規求人数（総数）<span class="rn">松江公共職業安定所の数です。その管轄の範囲は、松江市の市域と同じとは限りません。</span></th><td class="val" data-l="最新の値">29,155<small>人</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−2,371 人<small>2022年度（31,526）から</small></td><td class="go"><a href="fukushi/04-kyujin.html" aria-label="新規求人数（総数）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="fukushi/07-values.html#screen=04-kyujin" aria-label="新規求人数（総数）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-hoken" aria-labelledby="h-hoken">
+<header><h3 id="h-hoken">保健・環境レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">ごみの収集量（総量）</th><td class="val" data-l="最新の値">65,664<small>t</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−1,966 t<small>2022年度（67,630）から</small></td><td class="go"><a href="hoken/03-gomi.html" aria-label="ごみの収集量（総量）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="hoken/08-values.html#screen=03-gomi" aria-label="ごみの収集量（総量）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">後期高齢者医療の被保険者数<span class="rn">各年度の月平均です。</span></th><td class="val" data-l="最新の値">33,139<small>人</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+901 人<small>2022年度（32,238）から</small></td><td class="go"><a href="hoken/07-hoken.html" aria-label="後期高齢者医療の被保険者数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="hoken/08-values.html#screen=07-hoken" aria-label="後期高齢者医療の被保険者数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-anzen" aria-labelledby="h-anzen">
+<header><h3 id="h-anzen">安全レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">火災の件数（市全体）</th><td class="val" data-l="最新の値">40<small>件</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−17 件<small>2023年（57）から</small></td><td class="go"><a href="anzen/01-kasai.html" aria-label="火災の件数（市全体）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="anzen/06-values.html#screen=01-kasai" aria-label="火災の件数（市全体）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">交通事故の件数（総数）<span class="rn">松江警察署管内の数です。管内の範囲は、松江市の市域と同じとは限りません。</span></th><td class="val" data-l="最新の値">291<small>件</small></td><td data-l="最新の時点">2023年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+1 件<small>2022年（290）から</small></td><td class="go"><a href="anzen/04-kotsu.html" aria-label="交通事故の件数（総数）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="anzen/06-values.html#screen=04-kotsu" aria-label="交通事故の件数（総数）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">刑法犯の件数（発生・総数）<span class="rn">松江警察署管内の数です。管内の範囲は、松江市の市域と同じとは限りません。2023年は、データ元の表で罪種を足した数が総数と合いません（総数のまま載せています）。</span></th><td class="val" data-l="最新の値">800<small>件</small></td><td data-l="最新の時点">2023年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+152 件<small>2022年（648）から</small></td><td class="go"><a href="anzen/05-hanzai.html" aria-label="刑法犯の件数（発生・総数）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="anzen/06-values.html#screen=05-hanzai" aria-label="刑法犯の件数（発生・総数）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-kyoiku" aria-labelledby="h-kyoiku">
+<header><h3 id="h-kyoiku">教育レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">小学校の児童数<span class="rn">5月1日現在の数です。</span></th><td class="val" data-l="最新の値">9,433<small>人</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−285 人<small>2023年（9,718）から</small></td><td class="go"><a href="kyoiku/01-gakko.html" aria-label="小学校の児童数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="kyoiku/06-values.html#screen=01-gakko" aria-label="小学校の児童数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">中学校の生徒数<span class="rn">5月1日現在の数です。</span></th><td class="val" data-l="最新の値">4,881<small>人</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">－</span>±0 人<small>2023年（4,881）から</small></td><td class="go"><a href="kyoiku/01-gakko.html" aria-label="中学校の生徒数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="kyoiku/06-values.html#screen=01-gakko" aria-label="中学校の生徒数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<h2 class="area">まち・交通・住まい</h2>
+<section class="rep-block" id="r-kensetsu" aria-labelledby="h-kensetsu">
+<header><h3 id="h-kensetsu">建設・住宅レポート</h3><span class="meta">取得時点 2026年9月22日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">着工建築物の棟数</th><td class="val" data-l="最新の値">782<small>棟</small></td><td data-l="最新の時点">2024年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−131 棟<small>2023年度（913）から</small></td><td class="go"><a href="kensetsu/01-chakko.html" aria-label="着工建築物の棟数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="kensetsu/06-values.html#screen=01-chakko" aria-label="着工建築物の棟数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">新設住宅の戸数</th><td class="val" data-l="最新の値">1,239<small>戸</small></td><td data-l="最新の時点">2024年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−26 戸<small>2023年度（1,265）から</small></td><td class="go"><a href="kensetsu/01-chakko.html" aria-label="新設住宅の戸数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="kensetsu/06-values.html#screen=01-chakko" aria-label="新設住宅の戸数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-unyu" aria-labelledby="h-unyu">
+<header><h3 id="h-unyu">運輸・通信レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<p class="lead">行ごとに単位が違います（万人・千人・人）。数の大きさをそのまま比べないでください。</p>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">市営バスの乗車人員</th><td class="val" data-l="最新の値">248<small>万人</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+2 万人<small>2022年度（246）から</small></td><td class="go"><a href="unyu/01-bus.html" aria-label="市営バスの乗車人員の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="unyu/06-values.html#screen=01-bus" aria-label="市営バスの乗車人員の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">一畑電車の乗車人員（市内の駅）<span class="rn">普通と定期を足した数です。元の頁は2つを分けて載せています。千人に丸めた値どうしの和です。</span></th><td class="val" data-l="最新の値">409<small>千人</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+16 千人<small>2022年度（393）から</small></td><td class="go"><a href="unyu/02-ichibata.html" aria-label="一畑電車の乗車人員（市内の駅）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="unyu/06-values.html#screen=02-ichibata" aria-label="一畑電車の乗車人員（市内の駅）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">JR の乗車人員（市内の駅）<span class="rn">乗車のみ。普通と定期を足した数です。元の頁は2つを分けて載せています。</span></th><td class="val" data-l="最新の値">2,256,801<small>人</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+127,726 人<small>2022年度（2,129,075）から</small></td><td class="go"><a href="unyu/03-jr.html" aria-label="JR の乗車人員（市内の駅）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="unyu/06-values.html#screen=03-jr" aria-label="JR の乗車人員（市内の駅）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-toshikeikaku" aria-labelledby="h-toshikeikaku">
+<header><h3 id="h-toshikeikaku">都市計画レポート</h3><span class="meta">取得時点 2026年11月4日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">用途地域の面積（松江圏・計）<span class="rn">松江圏（松江市の部分）の数です。宍道の用途地域は入っていません。2025年4月1日は、データ元の表で種類の面積を足した数が計と合いません（計のまま載せています）。</span></th><td class="val" data-l="最新の値">3,326<small>ha</small></td><td data-l="最新の時点">2025年4月1日</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+33 ha<small>2024年4月1日（3,293）から</small></td><td class="go"><a href="toshikeikaku/01-yoto.html" aria-label="用途地域の面積（松江圏・計）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="toshikeikaku/06-values.html#screen=01-yoto" aria-label="用途地域の面積（松江圏・計）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">都市公園の数（総数・開設）</th><td class="val" data-l="最新の値">157<small>か所</small></td><td data-l="最新の時点">2024年3月31日</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">－</span>±0 か所<small>2023年3月31日（157）から</small></td><td class="go"><a href="toshikeikaku/04-koen.html" aria-label="都市公園の数（総数・開設）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="toshikeikaku/06-values.html#screen=04-koen" aria-label="都市公園の数（総数・開設）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-lifeline" aria-labelledby="h-lifeline">
+<header><h3 id="h-lifeline">ライフラインレポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">上水道の一日平均有収水量<span class="rn">市上下水道局の分です。斐川宍道水道企業団の分は入っていません（別の画面にあります）。</span></th><td class="val" data-l="最新の値">53,608<small>㎥</small></td><td data-l="最新の時点">2023年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−542 ㎥<small>2022年度（54,150）から</small></td><td class="go"><a href="lifeline/02-josuido.html" aria-label="上水道の一日平均有収水量の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="lifeline/06-values.html#screen=02-josuido" aria-label="上水道の一日平均有収水量の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">都市ガスの契約戸数（総数）<span class="rn">年度末（3月末）現在の数です。</span></th><td class="val" data-l="最新の値">11,824<small>戸</small></td><td data-l="最新の時点">2024年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−249 戸<small>2023年度（12,073）から</small></td><td class="go"><a href="lifeline/01-gas.html" aria-label="都市ガスの契約戸数（総数）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="lifeline/06-values.html#screen=01-gas" aria-label="都市ガスの契約戸数（総数）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">汚水処理人口（合計）</th><td class="val" data-l="最新の値">190,995<small>人</small></td><td data-l="最新の時点">2024年3月末</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−1,889 人<small>2023年3月末（192,884）から</small></td><td class="go"><a href="lifeline/04-osui.html" aria-label="汚水処理人口（合計）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="lifeline/06-values.html#screen=04-osui" aria-label="汚水処理人口（合計）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<h2 class="area">しごと・経済・お金</h2>
+<section class="rep-block" id="r-kanko" aria-labelledby="h-kanko">
+<header><h3 id="h-kanko">観光レポート</h3><span class="meta">取得時点 2026年8月23日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">観光客数</th><td class="val" data-l="最新の値">8,735<small>千人</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+165 千人<small>2023年（8,570）から</small></td><td class="go"><a href="kanko/01-visits.html" aria-label="観光客数の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="kanko/06-values.html#screen=01-visits" aria-label="観光客数の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">宿泊客</th><td class="val" data-l="最新の値">1,783<small>千人</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−44 千人<small>2023年（1,827）から</small></td><td class="go"><a href="kanko/02-stay.html" aria-label="宿泊客の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="kanko/06-values.html#screen=02-stay" aria-label="宿泊客の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-keizai" aria-labelledby="h-keizai">
+<header><h3 id="h-keizai">市民所得・物価・消費レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">市町村民所得</th><td class="val" data-l="最新の値">617,111<small>百万円</small></td><td data-l="最新の時点">2022年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+14,397 百万円<small>2021年度（602,714）から</small></td><td class="go"><a href="keizai/02-shotoku.html" aria-label="市町村民所得の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="keizai/06-values.html#screen=02-shotoku" aria-label="市町村民所得の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">消費者物価指数（総合）<span class="rn">増減は指数の差（ポイント）で、率ではありません。データ元の注に「基準年R2年に変更されたため、遡って全ての値が変化している。」とあります。</span></th><td class="val" data-l="最新の値">108.1<small>指数（R2＝100）</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+2.8 指数（R2＝100）<small>2023年（105.3）から</small></td><td class="go"><a href="keizai/03-bukka.html" aria-label="消費者物価指数（総合）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="keizai/06-values.html#screen=03-bukka" aria-label="消費者物価指数（総合）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<section class="rep-block" id="r-finance" aria-labelledby="h-finance">
+<header><h3 id="h-finance">金融レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox reason-box"><p class="reason">2019〜2023年度の、銀行・第二地方銀行・信用金庫の預金と貸出は、データ元が「x」と書いているため出せません。農業協同組合・漁業協同組合JFしまね・労働金庫の預金と貸出（2023年度まで）や、店舗の数、手形交換は、金融レポートで読めます。データ元は「x」が何を表すかを書いていません。</p><p class="reason-go"><a href="finance/index.html">金融レポートへ<span aria-hidden="true"> →</span></a></p></div>
+</section>
+<section class="rep-block" id="r-zaisei" aria-labelledby="h-zaisei">
+<header><h3 id="h-zaisei">財政レポート</h3><span class="meta">取得時点 2026年10月4日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">歳入の総額<span class="rn">一般会計と特別会計を足した決算額です。水道・ガス・病院などの企業会計は入っていません。</span></th><td class="val" data-l="最新の値">163,683<small>百万円</small></td><td data-l="最新の時点">2024年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+1,672 百万円<small>2023年度（162,011）から</small></td><td class="go"><a href="zaisei/01-kessan.html" aria-label="歳入の総額の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="zaisei/06-values.html#screen=01-kessan" aria-label="歳入の総額の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">歳出の総額<span class="rn">一般会計と特別会計を足した決算額です。水道・ガス・病院などの企業会計は入っていません。</span></th><td class="val" data-l="最新の値">160,310<small>百万円</small></td><td data-l="最新の時点">2024年度</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+2,736 百万円<small>2023年度（157,574）から</small></td><td class="go"><a href="zaisei/01-kessan.html" aria-label="歳出の総額の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="zaisei/06-values.html#screen=01-kessan" aria-label="歳出の総額の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+<h2 class="area">議会と行政</h2>
+<section class="rep-block" id="r-gikai" aria-labelledby="h-gikai">
+<header><h3 id="h-gikai">議会・行政・選挙レポート</h3><span class="meta">取得時点 2026年11月12日</span></header>
+<div class="listbox"><table class="t list">
+<thead><tr><th scope="col">名称</th><th scope="col">最新の値</th><th scope="col">最新の時点</th><th scope="col">前回からの増減</th><th scope="col">元の頁</th><th scope="col">値の一覧</th></tr></thead>
+<tbody>
+<tr><th scope="row">登録者数（市全体・定時登録）<span class="rn">定時登録の月は、9月が2006〜2009年・2011年、12月が2010年・2012〜2013年、3月が2014〜2026年です。データ元は、時点の違う数を「定時登録者数」と同じ名前で載せています。</span></th><td class="val" data-l="最新の値">161,309<small>人</small></td><td data-l="最新の時点">2026年3月</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▼</span>−1,160 人<small>2025年3月（162,469）から</small></td><td class="go"><a href="gikai/01-toroku.html" aria-label="登録者数（市全体・定時登録）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="gikai/07-values.html#screen=01-toroku" aria-label="登録者数（市全体・定時登録）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+<tr><th scope="row">市職員数（総計）<span class="rn">表の題は「各年4月1日現在（単位：人）」です。</span></th><td class="val" data-l="最新の値">2,527<small>人</small></td><td data-l="最新の時点">2024年</td><td class="chg" data-l="前回からの増減"><span class="ar" aria-hidden="true">▲</span>+38 人<small>2023年（2,489）から</small></td><td class="go"><a href="gikai/04-shokuin.html" aria-label="市職員数（総計）の元の頁">元の頁<span aria-hidden="true"> →</span></a></td><td class="go"><a href="gikai/07-values.html#screen=04-shokuin" aria-label="市職員数（総計）の値の一覧">値の一覧<span aria-hidden="true"> →</span></a></td></tr>
+</tbody>
+</table></div>
+</section>
+</main>
+</div>
+<footer><div class="in">各行の出典は、元の頁の末尾に書いてあります。取得時点はレポートごとに違います。<br>出典：松江市統計情報データベース（クリエイティブ・コモンズ 表示 2.1 日本（CC BY 2.1 JP））を編集・加工</div></footer>
+</body>
+</html>
